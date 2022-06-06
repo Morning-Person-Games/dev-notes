@@ -1,0 +1,100 @@
+{
+  "topicsFormatted": [
+    {
+      "category": "Category Name (fields.title)",
+      "id": "ID (sys.id)",
+      "topics": [
+        {
+          "id": "ID (topic.sys.id)",
+          "title": "Title (topic.field.title)",
+          "slug": "Simple-Formatted Title for /topic/:id references (topic.field.title)",
+          "tags": ["metadata.tags"],
+          "solutions": [
+            {
+              "sys_id": "ID (solution.sys.id)",
+              "id": "ID Field for simple reference (solution.field.id)",
+              "title": "Title (solution.field.title)",
+              "description": "Rich Text (gotta check the format here)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "5pIpLFdYOLANGiCxIaMS1N",
+        "type": "Entry",
+        "createdAt": "2022-06-04T16:34:30.632Z",
+        "updatedAt": "2022-06-04T16:34:30.632Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 1,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "topic"
+          }
+        },
+        "locale": "en-US"
+      },
+      "fields": {
+        "title": "Test Topic",
+        "category": {
+          "metadata": {
+            "tags": []
+          },
+          "sys": {
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "73ald6l92kz4"
+              }
+            },
+            "id": "4HO6PbO1jbRzkdL1W8PFWM",
+            "type": "Entry",
+            "createdAt": "2022-06-04T16:34:18.801Z",
+            "updatedAt": "2022-06-04T16:34:18.801Z",
+            "environment": {
+              "sys": {
+                "id": "master",
+                "type": "Link",
+                "linkType": "Environment"
+              }
+            },
+            "revision": 1,
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "category"
+              }
+            },
+            "locale": "en-US"
+          },
+          "fields": {
+            "title": "C#"
+          }
+        }
+      }
+    }
+  ]
+}

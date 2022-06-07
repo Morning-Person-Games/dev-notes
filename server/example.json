@@ -1,63 +1,238 @@
-{
-  "topicsFormatted": [
-    {
-      "category": "Category Name (fields.title)",
-      "id": "ID (sys.id)",
-      "topics": [
+[
+  {
+    "metadata": {
+      "tags": [
         {
-          "id": "ID (topic.sys.id)",
-          "title": "Title (topic.field.title)",
-          "slug": "Simple-Formatted Title for /topic/:id references (topic.field.title)",
-          "tags": ["metadata.tags"],
-          "solutions": [
-            {
-              "sys_id": "ID (solution.sys.id)",
-              "id": "ID Field for simple reference (solution.field.id)",
-              "title": "Title (solution.field.title)",
-              "description": "Rich Text (gotta check the format here)"
-            }
-          ]
+          "sys": {
+            "type": "Link",
+            "linkType": "Tag",
+            "id": "unity"
+          }
         }
       ]
+    },
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "73ald6l92kz4"
+        }
+      },
+      "id": "73fRKlmY3KEIvnAs0JYIpG",
+      "type": "Entry",
+      "createdAt": "2022-06-06T23:30:28.869Z",
+      "updatedAt": "2022-06-06T23:30:28.869Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
+      },
+      "revision": 1,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "topic"
+        }
+      },
+      "locale": "en-US"
+    },
+    "fields": {
+      "title": "Editor GUI",
+      "slug": "editor-gui",
+      "category": {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "73ald6l92kz4"
+            }
+          },
+          "id": "4HO6PbO1jbRzkdL1W8PFWM",
+          "type": "Entry",
+          "createdAt": "2022-06-04T16:34:18.801Z",
+          "updatedAt": "2022-06-06T15:55:36.689Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 3,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "category"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Game-Dev"
+        }
+      }
     }
-  ],
-  "topics": [
-    {
-      "metadata": {
-        "tags": []
+  },
+  {},
+  {
+    "metadata": {
+      "tags": []
+    },
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "73ald6l92kz4"
+        }
       },
-      "sys": {
-        "space": {
-          "sys": {
-            "type": "Link",
-            "linkType": "Space",
-            "id": "73ald6l92kz4"
-          }
-        },
-        "id": "5pIpLFdYOLANGiCxIaMS1N",
-        "type": "Entry",
-        "createdAt": "2022-06-04T16:34:30.632Z",
-        "updatedAt": "2022-06-04T16:34:30.632Z",
-        "environment": {
-          "sys": {
-            "id": "master",
-            "type": "Link",
-            "linkType": "Environment"
-          }
-        },
-        "revision": 1,
-        "contentType": {
-          "sys": {
-            "type": "Link",
-            "linkType": "ContentType",
-            "id": "topic"
-          }
-        },
-        "locale": "en-US"
+      "id": "gr0wnzD8ZrsEilL0z0Ymn",
+      "type": "Entry",
+      "createdAt": "2022-06-06T23:29:02.335Z",
+      "updatedAt": "2022-06-06T23:29:02.335Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
       },
-      "fields": {
-        "title": "Test Topic",
-        "category": {
+      "revision": 1,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "topic"
+        }
+      },
+      "locale": "en-US"
+    },
+    "fields": {
+      "title": "Another Shortcut",
+      "slug": "another-shortcut",
+      "category": {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "73ald6l92kz4"
+            }
+          },
+          "id": "34BySrtdAqWcWjH10v1Uay",
+          "type": "Entry",
+          "createdAt": "2022-06-06T15:54:01.511Z",
+          "updatedAt": "2022-06-06T15:54:01.511Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 1,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "category"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "General-Shortcuts"
+        }
+      }
+    }
+  },
+  {
+    "metadata": {
+      "tags": []
+    },
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "73ald6l92kz4"
+        }
+      },
+      "id": "3Ofaj2yCev5AtMB2USCVn9",
+      "type": "Entry",
+      "createdAt": "2022-06-06T16:06:13.935Z",
+      "updatedAt": "2022-06-06T21:10:45.363Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
+      },
+      "revision": 3,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "topic"
+        }
+      },
+      "locale": "en-US"
+    },
+    "fields": {
+      "title": "A nice shortcut",
+      "slug": "a-nice-shortcut",
+      "category": {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "73ald6l92kz4"
+            }
+          },
+          "id": "34BySrtdAqWcWjH10v1Uay",
+          "type": "Entry",
+          "createdAt": "2022-06-06T15:54:01.511Z",
+          "updatedAt": "2022-06-06T15:54:01.511Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 1,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "category"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "General-Shortcuts"
+        }
+      },
+      "solutions": [
+        {
           "metadata": {
             "tags": []
           },
@@ -69,10 +244,10 @@
                 "id": "73ald6l92kz4"
               }
             },
-            "id": "4HO6PbO1jbRzkdL1W8PFWM",
+            "id": "5NdUBYe8GBMYoo3DHMwB1J",
             "type": "Entry",
-            "createdAt": "2022-06-04T16:34:18.801Z",
-            "updatedAt": "2022-06-04T16:34:18.801Z",
+            "createdAt": "2022-06-04T16:37:56.411Z",
+            "updatedAt": "2022-06-04T16:37:56.411Z",
             "environment": {
               "sys": {
                 "id": "master",
@@ -85,16 +260,301 @@
               "sys": {
                 "type": "Link",
                 "linkType": "ContentType",
-                "id": "category"
+                "id": "solution"
               }
             },
             "locale": "en-US"
           },
           "fields": {
-            "title": "C#"
+            "id": 0,
+            "title": "Test solution",
+            "description": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Test solution",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
           }
         }
-      }
+      ]
     }
-  ]
-}
+  },
+  {
+    "metadata": {
+      "tags": []
+    },
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "73ald6l92kz4"
+        }
+      },
+      "id": "2SA3hLbsDa6H5yttIvebCP",
+      "type": "Entry",
+      "createdAt": "2022-06-06T16:05:31.727Z",
+      "updatedAt": "2022-06-06T20:41:53.904Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
+      },
+      "revision": 3,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "topic"
+        }
+      },
+      "locale": "en-US"
+    },
+    "fields": {
+      "title": "Web related topic",
+      "slug": "web-related-topic",
+      "category": {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "73ald6l92kz4"
+            }
+          },
+          "id": "780g8WpkgB3zgd5BKZ1QMu",
+          "type": "Entry",
+          "createdAt": "2022-06-06T15:55:51.160Z",
+          "updatedAt": "2022-06-06T15:56:00.918Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 2,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "category"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Web-Dev"
+        }
+      },
+      "solutions": [
+        {
+          "metadata": {
+            "tags": []
+          },
+          "sys": {
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "73ald6l92kz4"
+              }
+            },
+            "id": "5NdUBYe8GBMYoo3DHMwB1J",
+            "type": "Entry",
+            "createdAt": "2022-06-04T16:37:56.411Z",
+            "updatedAt": "2022-06-04T16:37:56.411Z",
+            "environment": {
+              "sys": {
+                "id": "master",
+                "type": "Link",
+                "linkType": "Environment"
+              }
+            },
+            "revision": 1,
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "solution"
+              }
+            },
+            "locale": "en-US"
+          },
+          "fields": {
+            "id": 0,
+            "title": "Test solution",
+            "description": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Test solution",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "tags": []
+    },
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "73ald6l92kz4"
+        }
+      },
+      "id": "5pIpLFdYOLANGiCxIaMS1N",
+      "type": "Entry",
+      "createdAt": "2022-06-04T16:34:30.632Z",
+      "updatedAt": "2022-06-06T20:41:34.877Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
+      },
+      "revision": 5,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "topic"
+        }
+      },
+      "locale": "en-US"
+    },
+    "fields": {
+      "title": "Game related Topic",
+      "slug": "game-related-topic",
+      "category": {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "73ald6l92kz4"
+            }
+          },
+          "id": "4HO6PbO1jbRzkdL1W8PFWM",
+          "type": "Entry",
+          "createdAt": "2022-06-04T16:34:18.801Z",
+          "updatedAt": "2022-06-06T15:55:36.689Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 3,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "category"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Game-Dev"
+        }
+      },
+      "solutions": [
+        {
+          "metadata": {
+            "tags": []
+          },
+          "sys": {
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "73ald6l92kz4"
+              }
+            },
+            "id": "5NdUBYe8GBMYoo3DHMwB1J",
+            "type": "Entry",
+            "createdAt": "2022-06-04T16:37:56.411Z",
+            "updatedAt": "2022-06-04T16:37:56.411Z",
+            "environment": {
+              "sys": {
+                "id": "master",
+                "type": "Link",
+                "linkType": "Environment"
+              }
+            },
+            "revision": 1,
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "solution"
+              }
+            },
+            "locale": "en-US"
+          },
+          "fields": {
+            "id": 0,
+            "title": "Test solution",
+            "description": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Test solution",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

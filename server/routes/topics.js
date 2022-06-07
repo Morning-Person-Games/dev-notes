@@ -53,7 +53,7 @@ router.use(function (req, res, next) {
         })
         .catch(function (err) {
           console.log(
-            "index.js - getTopics (router.use()) error:",
+            "topics.js - getTopics (router.use()) error:",
             JSON.stringify(err, null, 2)
           );
           next();
@@ -61,7 +61,7 @@ router.use(function (req, res, next) {
     })
     .catch(function (err) {
       console.log(
-        "index.js - getCategories (router.use()) error:",
+        "topics.js - getCategories (router.use()) error:",
         JSON.stringify(err, null, 2)
       );
       next();

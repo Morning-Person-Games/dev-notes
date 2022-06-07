@@ -11,10 +11,22 @@ function formatTopics(topics) {
     createdAt: topic.sys.createdAt,
     title: topic.fields.title,
     slug: topic.fields.slug,
-    tags: topic.metadata.tags,
+    tags: formatTags(topic.metadata.tags),
     category: formatCategory(topic.fields.category),
-    solutions: formatSolutions(topic.fields.solutions),
+    solutions: Array.isArray(topic.fields.solutions)
+      ? formatSolutions(topic.fields.solutions)
+      : [],
   }));
+}
+
+function formatTags(tags) {
+  var result = [];
+  if (tags.length > 0) {
+    for (const key of Object.keys(tags)) {
+      result.push(tags[key].sys.id);
+    }
+  }
+  return result;
 }
 
 function formatSolution(solution) {
@@ -35,6 +47,9 @@ function formatMainTopicsList(categories, topics) {
   return categories.map((category) => ({
     id: category.sys.id,
     category: category.fields.title,
+    path: encodeURIComponent(
+      category.fields.title.replace(/\s+/g, "-").toLowerCase()
+    ),
     topics: formatTopicsFromCategory(topics, category),
   }));
 }

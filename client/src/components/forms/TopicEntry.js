@@ -7,8 +7,15 @@ import { EditorState, convertToRaw } from "draft-js";
 
 const TopicForm = (props) => {
   const [formActive, setFormActive] = useState(false);
-  const { values, touched, errors, handleBlur, setFieldValue, handleSubmit } =
-    props;
+  const {
+    values,
+    touched,
+    errors,
+    handleBlur,
+    setFieldValue,
+    handleSubmit,
+    handleReset,
+  } = props;
 
   const openForm = function () {
     if (!formActive) {
@@ -63,6 +70,9 @@ const TopicForm = (props) => {
       />
       <div>
         <button type="submit">Submit</button>
+        <button type="button" onClick={handleReset}>
+          X
+        </button>
       </div>
     </form>
   );

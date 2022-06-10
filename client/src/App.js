@@ -9,7 +9,6 @@ import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/tools/Modal";
-//import "codemirror/lib/codemirror.css";
 
 function App() {
   const allCategory = { title: "all" };

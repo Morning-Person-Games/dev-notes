@@ -1,0 +1,391 @@
+{
+  "id": "73fRKlmY3KEIvnAs0JYIpG",
+  "createdAt": "2022-06-06T23:30:28.869Z",
+  "title": "Editor GUI",
+  "slug": "editor-gui",
+  "tags": ["unity"],
+  "category": {
+    "id": "4HO6PbO1jbRzkdL1W8PFWM",
+    "title": "Game Dev",
+    "path": "game-dev"
+  },
+  "solutions": [
+    {
+      "sysID": "GnjNpB7Nem9k6kXBGl1A1",
+      "createdAt": "2022-06-09T13:43:23.891Z",
+      "id": 1,
+      "title": "Solution Examples",
+      "description": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Text",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-1",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "H1",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-2",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "h2",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-3",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "h3",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-4",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "h4",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-5",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "h5",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "heading-6",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "h6",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Bold",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Italiscs",
+                "marks": [
+                  {
+                    "type": "italic"
+                  }
+                ],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Underline",
+                "marks": [
+                  {
+                    "type": "underline"
+                  }
+                ],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Code block here",
+                "marks": [
+                  {
+                    "type": "code"
+                  }
+                ],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "",
+                "marks": [
+                  {
+                    "type": "code"
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "hyperlink",
+                "data": {
+                  "uri": "https://twitter.com/home"
+                },
+                "content": [
+                  {
+                    "nodeType": "text",
+                    "value": "Twitter",
+                    "marks": [],
+                    "data": {}
+                  }
+                ]
+              },
+              {
+                "nodeType": "text",
+                "value": "",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "unordered-list",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "List",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "two",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "three",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ordered-list",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "ol",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "two",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "blockquote",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "paragraph",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "text",
+                    "value": "Block quooooote",
+                    "marks": [],
+                    "data": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "embedded-asset-block",
+            "data": {
+              "target": {
+                "metadata": {
+                  "tags": []
+                },
+                "sys": {
+                  "space": {
+                    "sys": {
+                      "type": "Link",
+                      "linkType": "Space",
+                      "id": "73ald6l92kz4"
+                    }
+                  },
+                  "id": "2wzPCsCsFPsEsh5AXnMuN",
+                  "type": "Asset",
+                  "createdAt": "2022-06-09T13:43:10.241Z",
+                  "updatedAt": "2022-06-09T13:43:10.241Z",
+                  "environment": {
+                    "sys": {
+                      "id": "master",
+                      "type": "Link",
+                      "linkType": "Environment"
+                    }
+                  },
+                  "revision": 1,
+                  "locale": "en-US"
+                },
+                "fields": {
+                  "title": "Me",
+                  "description": "Image of me",
+                  "file": {
+                    "url": "//images.ctfassets.net/73ald6l92kz4/2wzPCsCsFPsEsh5AXnMuN/d405deaf32271c88090060627511a47d/me.jpg",
+                    "details": {
+                      "size": 1066829,
+                      "image": {
+                        "width": 1920,
+                        "height": 1080
+                      }
+                    },
+                    "fileName": "me.jpg",
+                    "contentType": "image/jpeg"
+                  }
+                }
+              }
+            },
+            "content": []
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

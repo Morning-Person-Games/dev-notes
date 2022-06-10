@@ -34,7 +34,6 @@ class Thumbnail extends React.Component {
     let { file } = this.props;
     const { loading, thumb } = this.state;
     const thumbMaxWidth = this.props.thumbMaxWidth || 300;
-
     if (!file) {
       const { block, contentState } = this.props;
       const data = contentState?.getEntity(block.getEntityAt(0)).getData();
@@ -46,17 +45,28 @@ class Thumbnail extends React.Component {
     if (loading) {
       return <p>loading...</p>;
     }
-
-    return (
-      <div>
+    //console.log(this.props.blockProps?.inEditor);
+    if (this.props.blockProps?.inEditor) {
+      return (
         <img
           src={thumb}
           alt={file.name}
           className="img-thumbnail mt-2"
           style={{ maxWidth: thumbMaxWidth }}
         />
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <img
+            src={thumb}
+            alt={file.name}
+            className="img-thumbnail mt-2"
+            style={{ maxWidth: thumbMaxWidth }}
+          />
+        </div>
+      );
+    }
   }
 }
 

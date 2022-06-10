@@ -29,13 +29,20 @@ export default class SolutionEntry extends Component {
     this.onChange = (editorState) =>
       this.props.onChange("editorState", editorState);
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-    //this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
     this.openImageUpload = this.openImageUpload.bind(this);
   }
   _handleKeyCommand(command) {
-    const { editorState } = this.props;
+    const editorState = this.props.editorState;
+    let startKey = editorState.getSelection().getStartKey();
+    let selectedBlockType = editorState
+      .getCurrentContent()
+      .getBlockForKey(startKey)
+      .getType();
+    if (selectedBlockType === "atomic") {
+      return true;
+    }
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -110,11 +117,6 @@ export default class SolutionEntry extends Component {
     return getDefaultKeyBinding(event);
   };
 
-  // _onTab(e) {
-  //   const maxDepth = 4;
-  //   this.onChange(RichUtils.onTab(e, this.props.editorState, maxDepth));
-  // }
-
   _toggleBlockType(blockType) {
     this.onChange(RichUtils.toggleBlockType(this.props.editorState, blockType));
   }
@@ -167,7 +169,7 @@ export default class SolutionEntry extends Component {
               onToggle={this.toggleInlineStyle}
             />
             <span className="separator" />
-            <button onClick={this.openImageUpload}>
+            <button type="button" onClick={this.openImageUpload}>
               <MdImage />
             </button>
           </div>
@@ -204,6 +206,9 @@ function mediaBlockRenderer(block) {
     return {
       component: Thumbnail,
       editable: false,
+      props: {
+        inEditor: true,
+      },
     };
   }
 }

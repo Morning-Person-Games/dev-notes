@@ -1,2 +1,6 @@
 .env
 dev-notes.code-workspace
+cert.pem
+key.pem
+keytmp.pem
+server/local.js

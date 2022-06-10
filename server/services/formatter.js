@@ -2,6 +2,9 @@ function formatCategory(category) {
   return {
     id: category.sys.id,
     title: category.fields.title,
+    path: encodeURIComponent(
+      category.fields.title.replace(/\s+/g, "-").toLowerCase()
+    ),
   };
 }
 

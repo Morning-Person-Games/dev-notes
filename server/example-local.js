@@ -1,9 +1,17 @@
 const path = require("path");
 const express = require("express");
+const https = require("https");
 //const axios = require("axios");
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+const fs = require("fs");
+const options = {
+  key: fs.readFileSync("./KEYFILELOCATION.pem"),
+  cert: fs.readFileSync("./CERTFILELOCATION.pem"),
+};
+
 const clientID = process.env.CONTENTFUL_OAUTH_ID;
 const redirect_uri = process.env.CONTENTFUL_OAUTH_REDIRECT_URI;
 
@@ -32,6 +40,8 @@ app.get("/api", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
+
+https.createServer(options, app).listen(3080);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

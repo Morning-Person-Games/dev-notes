@@ -1,5 +1,5 @@
 import React from "react";
-import Solution from "./Solution";
+import { Solution } from "./Solution";
 
 function Topic({ topic }) {
   const solutions = topic.solutions.map((solution) => {
@@ -13,4 +13,6 @@ function Topic({ topic }) {
   );
 }
 
-export default Topic;
+function TopicExpanded({ topic }) {}
+
+export { Topic, TopicExpanded };

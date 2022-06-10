@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
 import TopicEntry from "./components/forms/TopicEntry";
 import TopicsView from "./components/tools/TopicsView";
-import LoginForm from "./components/forms/LoginForm";
 import CategoriesHeader from "./components/tools/Categories";
+import Login from "./components/tools/Login";
+import Logout from "./components/tools/Logout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import Modal from "./components/tools/Modal";
+//import "codemirror/lib/codemirror.css";
 
 function App() {
-  const { token, setToken } = useToken();
-  const [content, setContent] = React.useState(null);
-  //const [category, setCategory] = React.useState(null);
+  const allCategory = { title: "all" };
+  const { token, setToken, resetToken } = useToken();
+  const [content, setContent] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState(allCategory);
+  const [modalContent, setModalContent] = useState(null);
 
-  React.useEffect(() => {
+  const createModal = function (title, component) {
+    if (title === null && component === null) {
+      setModalContent(null);
+    } else {
+      setModalContent({ title, component });
+    }
+  };
+
+  useEffect(() => {
     fetch("/api/topics")
       .then((res) => {
         return res.json();
@@ -23,10 +38,30 @@ function App() {
   }, [setContent]);
 
   const allTopics = [];
-  const categoryRoutes = [
-    <Route key={"all"} path="/" element={<TopicsView topics={allTopics} />} />,
+  const allRoutes = [
+    <Route
+      key={"oauth"}
+      path="/oauth/redirect"
+      element={<Login setToken={setToken} />}
+    />,
+    <Route
+      key={"logout"}
+      path="/logout"
+      element={<Logout resetToken={resetToken} />}
+    />,
+    <Route
+      key={allCategory.title}
+      path="/"
+      element={
+        <TopicsView
+          topics={allTopics}
+          currentCategory={allCategory}
+          setCurrentCategory={setCurrentCategory}
+        />
+      }
+    />,
   ];
-  //const categories = [];
+  const categories = [];
   if (content !== null) {
     for (var i = 0; i < content.length; i++) {
       content[i].topics.forEach(function (topic) {
@@ -35,20 +70,48 @@ function App() {
     }
 
     content.forEach(function (category) {
-      categoryRoutes.push(
+      var categoryObj = { id: category.id, title: category.category };
+      categories.push(categoryObj);
+      allRoutes.push(
         <Route
           key={category.id}
           path={category.path}
-          element={<TopicsView topics={category.topics} />}
+          element={
+            <TopicsView
+              topics={category.topics}
+              currentCategory={categoryObj}
+              setCurrentCategory={setCurrentCategory}
+            />
+          }
         />
       );
     });
   }
   return (
     <BrowserRouter>
+      <Modal modalContent={modalContent} setModalContent={setModalContent} />
       <CategoriesHeader content={content} />
-      {token ? <TopicEntry /> : <LoginForm setToken={setToken} />}
-      <Routes>{categoryRoutes}</Routes>
+      {token ? (
+        <TopicEntry
+          currentCategory={currentCategory}
+          categories={categories}
+          createModal={createModal}
+        />
+      ) : (
+        <a href="/oauth/authenticate">authenticate</a>
+      )}
+      <ToastContainer
+        position="top-center"
+        autoClose={7000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Routes>{allRoutes}</Routes>
     </BrowserRouter>
   );
 }

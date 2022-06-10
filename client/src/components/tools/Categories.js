@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 function CategoriesHeader({ content }) {
   const links = [
     <li key="all">
-      <Link to="/">All Topics</Link>
+      <Link to="/">All</Link>
     </li>,
   ];
   if (content !== null) {
     content.forEach(function (category) {
-      console.log(category);
       links.push(
         <li key={category.id}>
           <Link to={category.path}>{category.category}</Link>

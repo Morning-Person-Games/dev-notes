@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
 import TopicEntry from "./components/forms/TopicEntry";
-import TopicsView from "./components/tools/TopicsView";
-import CategoriesHeader from "./components/tools/Categories";
+import TopicsView from "./components/displays/TopicsView";
+import CategoriesHeader from "./components/displays/Categories";
 import Login from "./components/tools/Login";
 import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import Modal from "./components/tools/Modal";
+import Modal from "./components/displays/Modal";
 
 function App() {
   const allCategory = { title: "all" };
@@ -16,6 +16,7 @@ function App() {
   const [content, setContent] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(allCategory);
   const [modalContent, setModalContent] = useState(null);
+  const [solutionCount, setSolutionCount] = useState(null);
 
   const createModal = function (title, component) {
     if (title === null && component === null) {
@@ -23,6 +24,10 @@ function App() {
     } else {
       setModalContent({ title, component });
     }
+  };
+
+  const addTopicToContentList = function (topicToAdd) {
+    //! get correct solution IDs and add them here. (if id === -1)
   };
 
   useEffect(() => {
@@ -95,6 +100,9 @@ function App() {
           currentCategory={currentCategory}
           categories={categories}
           createModal={createModal}
+          content={content}
+          setContent={setContent}
+          addTopicToContentList={addTopicToContentList}
         />
       ) : (
         <a href="/oauth/authenticate">authenticate</a>

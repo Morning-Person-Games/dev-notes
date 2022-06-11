@@ -20,7 +20,7 @@ import {
   MdImage,
 } from "react-icons/md";
 import ImageEntry from "./ImageEntry";
-import Thumbnail from "../fields/Thumbnail";
+import Thumbnail from "../displays/Thumbnail";
 
 export default class SolutionEntry extends Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
-import Thumbnail from "../fields/Thumbnail";
+import Thumbnail from "../displays/Thumbnail";
 import { EditorState, AtomicBlockUtils } from "draft-js";
 
 function ImageEntry(props) {

@@ -19,16 +19,66 @@ function GetCategoryObjectFromID(topicsList, categoryID, withTopics = false) {
   });
 }
 
+function getContentfulTextTypeFromDraftJs(typeString) {
+  switch (typeString) {
+    default:
+      return "paragraph";
+    case "BOLD":
+      return "bold";
+    case "ITALIC":
+      return "italic";
+    case "UNDERLINE":
+      return "underline";
+    case "CODE":
+      return "code";
+    case "header-one":
+      return "heading-1";
+    case "header-two":
+      return "heading-2";
+    case "header-three":
+      return "heading-3";
+    case "header-four":
+      return "heading-4";
+    case "header-five":
+      return "heading-5";
+    case "header-six":
+      return "heading-6";
+    case "blockquote":
+      return "blockquote";
+    case "unordered-list-item":
+      return "unordered-list";
+    case "ordered-list-item":
+      return "ordered-list";
+  }
+}
+
 function truncate(str, n) {
-  return str.length > n ? str.substr(0, n - 1) + "&hellip;" : str;
+  return str.length > n ? str.substr(0, n - 1) : str;
 }
 
 function generateTempID(title) {
-  return "tempID" + truncate(title, 24);
+  const text = title.replace(/\s/g, "");
+  const max = text.length > 23 ? 23 : text.length;
+  let id = "tempID_";
+  for (let i = 0; i < max; i++) {
+    id += text[i];
+  }
+  return id;
 }
 
 function generateSolutionTitle(title) {
   return truncate(title, 80);
+}
+
+function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length !== b.length) return false;
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
 }
 
 export {
@@ -36,4 +86,6 @@ export {
   truncate,
   generateTempID,
   generateSolutionTitle,
+  getContentfulTextTypeFromDraftJs,
+  arraysEqual,
 };

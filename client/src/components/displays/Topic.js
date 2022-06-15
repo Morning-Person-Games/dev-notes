@@ -1,9 +1,10 @@
 import React from "react";
-import { Solution } from "./Solution";
+import { ExpandedSolution } from "./Solution";
 
 function Topic({ topic }) {
+  // ! remember to switch back to non expanded solution:
   const solutions = topic.solutions.map((solution) => {
-    return <Solution key={solution.id} solution={solution} />;
+    return <ExpandedSolution key={solution.id} solution={solution} />;
   });
   return (
     <li>

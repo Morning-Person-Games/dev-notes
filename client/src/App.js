@@ -16,7 +16,7 @@ function App() {
   const [content, setContent] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(allCategory);
   const [modalContent, setModalContent] = useState(null);
-  const [solutionCount, setSolutionCount] = useState(null);
+  //const [solutionCount, setSolutionCount] = useState(null);
 
   const createModal = function (title, component) {
     if (title === null && component === null) {
@@ -30,6 +30,7 @@ function App() {
     //! get correct solution IDs and add them here. (if id === -1)
   };
 
+  // pull and set content list
   useEffect(() => {
     fetch("/api/topics")
       .then((res) => {
@@ -42,6 +43,7 @@ function App() {
   }, [setContent]);
 
   const allTopics = [];
+  // set initial utility routes
   const allRoutes = [
     <Route
       key={"oauth"}
@@ -65,6 +67,7 @@ function App() {
       }
     />,
   ];
+  // add primary page routes from categories
   const categories = [];
   if (content !== null) {
     for (var i = 0; i < content.length; i++) {

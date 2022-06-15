@@ -6,6 +6,7 @@ function TopicsView(props) {
     props.setCurrentCategory(props.category);
   }, [props]);
   const topics = props.topics.map((topic) => {
+    //console.log(topic);
     return <Topic key={topic.id} topic={topic} />;
   });
   return <ul>{topics}</ul>;

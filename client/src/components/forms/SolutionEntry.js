@@ -22,6 +22,7 @@ import {
 import ImageEntry from "./ImageEntry";
 import Thumbnail from "../displays/Thumbnail";
 
+// Draft js its own beast to understand so not spending too much time commenting on this one atm, sorry.
 export default class SolutionEntry extends Component {
   constructor(props) {
     super(props);
@@ -68,7 +69,17 @@ export default class SolutionEntry extends Component {
         selectedBlockType === "unordered-list-item" ||
         selectedBlockType === "ordered-list-item"
       ) {
-        newEditorState = RichUtils.onTab(event, editorState, 4);
+        var previousDepth = editorState
+          .getCurrentContent()
+          .getBlockBefore(startKey)
+          ?.getDepth();
+        if (previousDepth >= 0) {
+          var maxDepth =
+            previousDepth === 4 ? previousDepth : previousDepth + 1;
+          newEditorState = RichUtils.onTab(event, editorState, maxDepth);
+        } else {
+          newEditorState = RichUtils.onTab(event, editorState, 0);
+        }
       } else {
         const plainText = editorState.getCurrentContent().getPlainText();
         if (shiftTabEvent) {

@@ -33,6 +33,11 @@ function formatTags(tags) {
 }
 
 function formatSolution(solution) {
+  // if (
+  //   solution.fields.description &&
+  //   solution.fields.title === "Solution Examples"
+  // )
+  //   console.log(JSON.stringify(solution.fields.description.content, null, 2));
   return {
     sysID: solution.sys.id,
     createdAt: solution.sys.createdAt,

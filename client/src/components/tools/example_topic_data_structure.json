@@ -238,6 +238,18 @@
                         "value": "two",
                         "marks": [],
                         "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "two",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "two",
+                        "marks": [],
+                        "data": {}
                       }
                     ]
                   }
@@ -256,6 +268,30 @@
                         "value": "three",
                         "marks": [],
                         "data": {}
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "unordered-list",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "list-item",
+                        "data": {},
+                        "content": [
+                          {
+                            "nodeType": "paragraph",
+                            "data": {},
+                            "content": [
+                              {
+                                "nodeType": "text",
+                                "value": "three p2",
+                                "marks": [],
+                                "data": {}
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
@@ -322,6 +358,23 @@
                 ]
               }
             ]
+          },
+          {
+            "nodeType": "image",
+            "title": "title",
+            "description": "des",
+            "file": {
+              "url": "//images.ctfassets.net/73ald6l92kz4/2wzPCsCsFPsEsh5AXnMuN/d405deaf32271c88090060627511a47d/me.jpg",
+              "details": {
+                "size": 1066829,
+                "image": {
+                  "width": 1920,
+                  "height": 1080
+                }
+              },
+              "fileName": "me.jpg",
+              "contentType": "image/jpeg"
+            }
           },
           {
             "nodeType": "embedded-asset-block",

@@ -1,5 +1,6 @@
 import React from "react";
 
+// basic image thumbnail used while uploading images.
 class Thumbnail extends React.Component {
   constructor(props) {
     super(props);
@@ -9,12 +10,13 @@ class Thumbnail extends React.Component {
     };
   }
 
+  // on mount create a FileReader to render the image
   componentDidMount() {
     let file;
     if (!this.props.file) {
       const { block, contentState } = this.props;
       const data = contentState?.getEntity(block.getEntityAt(0)).getData();
-      file = data;
+      file = data.file;
     } else {
       file = this.props.file;
     }
@@ -29,9 +31,9 @@ class Thumbnail extends React.Component {
       reader.readAsDataURL(file);
     });
   }
-
+  // gets a little messy here adding the correct values depending on if its in the draftjs editor or not:
   render() {
-    let { file } = this.props;
+    let { file, description } = this.props;
     const { loading, thumb } = this.state;
     const thumbMaxWidth = this.props.thumbMaxWidth || 300;
     if (!file) {
@@ -40,17 +42,18 @@ class Thumbnail extends React.Component {
       if (!data) {
         return null;
       }
-      file = data;
+      file = data.file;
+      description = data.description;
     }
     if (loading) {
       return <p>loading...</p>;
     }
-    //console.log(this.props.blockProps?.inEditor);
+    const altText = description ? description : file.name;
     if (this.props.blockProps?.inEditor) {
       return (
         <img
           src={thumb}
-          alt={file.name}
+          alt={altText}
           className="img-thumbnail mt-2"
           style={{ maxWidth: thumbMaxWidth }}
         />
@@ -60,7 +63,7 @@ class Thumbnail extends React.Component {
         <div>
           <img
             src={thumb}
-            alt={file.name}
+            alt={altText}
             className="img-thumbnail mt-2"
             style={{ maxWidth: thumbMaxWidth }}
           />

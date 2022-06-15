@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import Thumbnail from "../displays/Thumbnail";
 import { EditorState, AtomicBlockUtils } from "draft-js";
 
+// This creates a modal popup with standard image fields.
+// To understand additional details checkout Formik forms and Yup
 function ImageEntry(props) {
   const FILE_SIZE = 10000000;
   const SUPPORTED_FORMATS = [
@@ -45,15 +47,18 @@ function ImageEntry(props) {
               2
             )
           );
-          // e.preventDefault();
-          // const {editorState, urlValue, urlType} = this.state
+          // create a block in the editor to preview the image.
           if (props.changeEditorState !== null && props.editorState !== null) {
             const editorState = props.editorState;
             const contentState = editorState.getCurrentContent();
             const contentStateWithEntity = contentState.createEntity(
               "image",
               "IMMUTABLE",
-              values.file
+              {
+                title: values.title,
+                description: values.description,
+                file: values.file,
+              }
             );
             const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
             const newEditorState = EditorState.set(editorState, {
@@ -63,6 +68,7 @@ function ImageEntry(props) {
               AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
             );
           }
+          // close the modal on completion
           if (props.createModal !== null) {
             props.createModal(null, null);
           }
@@ -89,7 +95,9 @@ function ImageEntry(props) {
               }}
               className="form-control"
             />
-            {values.file && <Thumbnail file={values.file} />}
+            {values.file && (
+              <Thumbnail file={values.file} description={values.description} />
+            )}
             <button type="submit" className="btn btn-primary">
               Add Image
             </button>

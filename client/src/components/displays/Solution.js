@@ -7,6 +7,7 @@ function Solution({ solution }) {
 }
 
 function ExpandedSolution({ solution }) {
+  // check for images. Then check If its a temp image or and contentful that can be rendered through documentToReactComponents()
   const renderOptions = {
     renderNode: {
       [BLOCKS.EMBEDDED_ASSET]: (node, children) => {

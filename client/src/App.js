@@ -14,6 +14,7 @@ function App() {
   const allCategory = { title: "all" };
   const { token, setToken, resetToken } = useToken();
   const [content, setContent] = useState(null);
+  const [tags, setTags] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(allCategory);
   const [modalContent, setModalContent] = useState(null);
   //const [solutionCount, setSolutionCount] = useState(null);
@@ -32,15 +33,28 @@ function App() {
 
   // pull and set content list
   useEffect(() => {
-    fetch("/api/topics")
-      .then((res) => {
-        return res.json();
-      })
-      .then((topics) => {
-        //console.log(topics);
-        setContent(topics);
-      });
-  }, [setContent]);
+    const fetchAndSetTopics = async () => {
+      return await fetch("/api/topics")
+        .then((res) => {
+          return res.json();
+        })
+        .then((topics) => {
+          setContent(topics);
+        });
+    };
+    const fetchAndSetTags = async () => {
+      return await fetch("/api/tags")
+        .then((res) => {
+          return res.json();
+        })
+        .then((tags) => {
+          //console.log(tags);
+          setTags(tags);
+        });
+    };
+    fetchAndSetTopics();
+    fetchAndSetTags();
+  }, []);
 
   const allTopics = [];
   // set initial utility routes
@@ -61,6 +75,7 @@ function App() {
       element={
         <TopicsView
           topics={allTopics}
+          tags={tags}
           currentCategory={allCategory}
           setCurrentCategory={setCurrentCategory}
         />
@@ -85,6 +100,7 @@ function App() {
           path={category.path}
           element={
             <TopicsView
+              tags={tags}
               topics={category.topics}
               currentCategory={categoryObj}
               setCurrentCategory={setCurrentCategory}
@@ -104,6 +120,7 @@ function App() {
           categories={categories}
           createModal={createModal}
           content={content}
+          tags={tags}
           setContent={setContent}
           addTopicToContentList={addTopicToContentList}
         />

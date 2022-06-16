@@ -30,7 +30,7 @@ function ImageEntry(props) {
         (value) => value && SUPPORTED_FORMATS.includes(value.type)
       ),
   });
-  //const handleSubmit = (values) => {};
+
   return (
     <div>
       <Formik
@@ -99,7 +99,7 @@ function ImageEntry(props) {
               <Thumbnail file={values.file} description={values.description} />
             )}
             <button type="submit" className="btn btn-primary">
-              Add Image
+              Add Image To Solution
             </button>
           </Form>
         )}

@@ -10,6 +10,7 @@ import {
   generateSolutionTitle,
   getContentfulTextTypeFromDraftJs,
 } from "../tools/HelperFunctions";
+import TagsField from "./TagsField";
 
 const TopicForm = (props) => {
   //const [formActive, setFormActive] = useState(false);
@@ -46,9 +47,14 @@ const TopicForm = (props) => {
         </option>
       );
     });
-    //setFieldValue("category", categoryOptions[0]);
   }
 
+  const tagOptions = [];
+  if (props.tags?.length > 0) {
+    props.tags.forEach((tag) => {
+      tagOptions.push({ value: tag.id, label: tag.name });
+    });
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -65,6 +71,14 @@ const TopicForm = (props) => {
         {errors.category && touched.title && (
           <div style={{ color: "red", marginTop: ".5rem" }}>{errors.title}</div>
         )}
+      </div>
+      <div>
+        <Field
+          name="tags"
+          component={TagsField}
+          placeholder="Select tags..."
+          options={tagOptions}
+        />
       </div>
       <SolutionEntry
         editorState={values.editorState}
@@ -91,20 +105,27 @@ const TopicEntry = withFormik({
   validationSchema: Yup.object().shape({
     title: Yup.string()
       .min(3, "Too Short!")
-      .max(256, "Too Long!")
+      .max(255, "Too Long!")
       .required("Topic title required"),
     category: Yup.string()
       .min(4, "Too Short!")
-      .max(256, "Too Long!")
+      .max(255, "Too Long!")
       .required("Category title required"),
+    tags: Yup.array().of(
+      Yup.object().shape({
+        label: Yup.string().max(255, "Too Long!").required(),
+        value: Yup.string().required(),
+      })
+    ),
   }),
   enableReinitialize: true,
   handleSubmit: (values, { props, setSubmitting, resetForm }) => {
     setTimeout(() => {
       // you probably want to transform draftjs state to something else, but I'll leave that to you.
       //console.log(formatTopicEntry(values, props.content));
+      //__isNew__ for new tags
       console.log(
-        JSON.stringify(formatTopicEntry(values, props.content), null, 2)
+        JSON.stringify(FormattedTopicEntry(values, props.content), null, 2)
       );
       toast.info("Submitted!");
       resetForm({
@@ -123,11 +144,12 @@ const TopicEntry = withFormik({
 export default TopicEntry;
 
 // formats draft js form into the contentful data structure
-function formatTopicEntry(values, content) {
+function FormattedTopicEntry(values, content) {
   const contentState = values.editorState.getCurrentContent();
   const solutionValue = convertToRaw(contentState);
   const solutions = [];
   const formattedRichTextContent = [];
+  const newImages = [];
   let solutionTitle = "";
   let currentListItems = [];
   let previousType = "";
@@ -139,17 +161,13 @@ function formatTopicEntry(values, content) {
       const imageKey = blockState.getEntityAt(0);
       const imageInstance = contentState.getEntity(imageKey);
       const data = imageInstance.getData();
-      // send image data to be formatted
-      //   title: image.title,
-      // description: image.description,
-      // file: image.file,
-      formattedRichTextContent.push(
-        FormattedContentObjectFromImage({
-          title: data.title,
-          description: data.description,
-          file: data.file,
-        })
-      );
+      const image = FormattedContentObjectFromImage({
+        title: data.title,
+        description: data.description,
+        file: data.file,
+      });
+      formattedRichTextContent.push(image);
+      newImages.push(image);
     } else {
       // Create title from aggregated characters
       if (solutionTitle.length < 80) {
@@ -224,6 +242,14 @@ function formatTopicEntry(values, content) {
       content: formattedRichTextContent,
     },
   });
+  const newSolutions = solutions;
+  const tags = formatTagsFromValues(values.tags);
+  const newTags = tags.map((tag) => {
+    if (tag.__isNew__) {
+      return tag;
+    }
+    return [];
+  });
   // TODO "additional solutions" go here
   const category = GetCategoryObjectFromID(content, values.category);
   const topicToAdd = {
@@ -231,12 +257,46 @@ function formatTopicEntry(values, content) {
     createdAt: new Date().toISOString(),
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
-    tags: "",
+    tags: tags,
     category: category,
     solutions: solutions,
   };
 
   return topicToAdd;
+}
+
+function formatTagsFromValues(tags) {
+  if (tags.length <= 0) {
+    return;
+  }
+  return tags.map(function (tag) {
+    return { id: tag.value, name: tag.label };
+  });
+}
+
+function sendNewTopicDataToContentful(topicToAdd) {
+  // create tags
+  // .then apply tags topicToAdd
+  // if new images, create images before solutions
+  // then create new solution
+  // ! to scan for images replace their data with the image reponses
+  // then create new topic with all the updated data
+}
+
+// each of these createNew functions send their respective data to contentful to be added. If any of these fail, the user is notified with a useful link on contentful to fix the issue.
+function createNewTag(tag) {
+  console.log("create tag");
+  console.log(tag);
+}
+
+function createNewSolution(solution) {
+  console.log("create solutions");
+  console.log(solution);
+}
+
+function createNewImage(image) {
+  console.log("image");
+  console.log(image);
 }
 
 /*

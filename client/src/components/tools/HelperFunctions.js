@@ -81,6 +81,32 @@ function arraysEqual(a, b) {
   return true;
 }
 
+function replaceCharactersWithWords(str) {
+  return str
+    .replaceAll("&", "and")
+    .replaceAll("#", "sharp")
+    .replaceAll("@", "at")
+    .replaceAll("%", "percent")
+    .replaceAll("+", "plus")
+    .replaceAll("-", "minus")
+    .replaceAll("*", "asterisk")
+    .replaceAll(".", "dot")
+    .replace(/[/\\,()$~!'":?<>{}]/g, "");
+}
+
+function createTagID(label) {
+  var formatted = replaceCharactersWithWords(label);
+  return truncate(formatted, 64);
+}
+
+function getTagNameFromID(id, tagsList) {
+  for (let i = 0; i < tagsList.length; i++) {
+    if (tagsList[i].id === id) {
+      return tagsList[i].name;
+    }
+  }
+}
+
 export {
   GetCategoryObjectFromID,
   truncate,
@@ -88,4 +114,7 @@ export {
   generateSolutionTitle,
   getContentfulTextTypeFromDraftJs,
   arraysEqual,
+  replaceCharactersWithWords,
+  createTagID,
+  getTagNameFromID,
 };

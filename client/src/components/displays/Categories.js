@@ -1,17 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-function CategoriesHeader({ content }) {
-  const links = [
-    <li key="all">
-      <Link to="/">All</Link>
-    </li>,
-  ];
-  if (content !== null) {
-    content.forEach(function (category) {
+function CategoriesHeader({ topics, setCurrentCategory }) {
+  const links = [];
+  if (topics && topics.length > 0) {
+    topics.forEach(function (category) {
       links.push(
         <li key={category.id}>
-          <Link to={category.path}>{category.category}</Link>
+          <button type="button" onClick={() => setCurrentCategory(category)}>
+            {category.category}
+          </button>
         </li>
       );
     });
@@ -20,3 +17,7 @@ function CategoriesHeader({ content }) {
 }
 
 export default CategoriesHeader;
+
+CategoriesHeader.defaultProps = {
+  topics: [<li key="loading">Loading Categories...</li>],
+};

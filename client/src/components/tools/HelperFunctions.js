@@ -107,6 +107,15 @@ function getTagNameFromID(id, tagsList) {
   }
 }
 
+function idIsUnique(id, list) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].id === id) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export {
   GetCategoryObjectFromID,
   truncate,
@@ -117,4 +126,5 @@ export {
   replaceCharactersWithWords,
   createTagID,
   getTagNameFromID,
+  idIsUnique,
 };

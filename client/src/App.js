@@ -9,15 +9,43 @@ import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/displays/Modal";
+import { idIsUnique } from "./components/tools/HelperFunctions";
 
 function App() {
-  const allCategory = { title: "all" };
   const { token, setToken, resetToken } = useToken();
-  const [content, setContent] = useState(null);
-  const [tags, setTags] = useState(null);
-  const [currentCategory, setCurrentCategory] = useState(allCategory);
+  const [topics, setTopics] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [solutions, setSolutions] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [modalContent, setModalContent] = useState(null);
-  //const [solutionCount, setSolutionCount] = useState(null);
+
+  const setTopicsAndCategories = (topicsList) => {
+    setTopics(topicsList);
+    if (topicsList.length > 0) {
+      // TODO if localstorage of preffered order, put order here
+      setCurrentCategory(topicsList[0]);
+    }
+  };
+
+  useEffect(() => {
+    // TODO Caching? Optimization? I don't know a lot about API based optimization atm.
+    // pull and set content list
+    const fetchAndSetContent = async () => {
+      return await fetch("/api/content")
+        .then((res) => {
+          return res.json();
+        })
+        .then((content) => {
+          setTopicsAndCategories(content.topics);
+          setTags(content.tags);
+
+          //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
+          setSolutions(content.solutions);
+          console.log("fetched");
+        });
+    };
+    fetchAndSetContent();
+  }, []);
 
   const createModal = function (title, component) {
     if (title === null && component === null) {
@@ -27,36 +55,56 @@ function App() {
     }
   };
 
-  const addTopicToContentList = function (topicToAdd) {
-    //! get correct solution IDs and add them here. (if id === -1)
+  // find the first available uniqueID for a new solution:
+  const getSolutionUniqueID = () => {
+    const idList = [];
+    solutions.forEach((solution) => {
+      idList.push(solution.id);
+    });
+    idList.sort(function (a, b) {
+      return a - b;
+    });
+    if (idList.length <= 0) {
+      return 0;
+    }
+    for (let i = 0; i <= idList.length; i++) {
+      if (i !== idList[i]) {
+        return i;
+      }
+    }
   };
 
-  // pull and set content list
-  useEffect(() => {
-    const fetchAndSetTopics = async () => {
-      return await fetch("/api/topics")
-        .then((res) => {
-          return res.json();
-        })
-        .then((topics) => {
-          setContent(topics);
-        });
-    };
-    const fetchAndSetTags = async () => {
-      return await fetch("/api/tags")
-        .then((res) => {
-          return res.json();
-        })
-        .then((tags) => {
-          //console.log(tags);
-          setTags(tags);
-        });
-    };
-    fetchAndSetTopics();
-    fetchAndSetTags();
-  }, []);
+  /*
+    contentToAdd = {
+      newTags: newTags[],
+      newImages: newImages[],
+      newSolutions: newSolutions[],
+      newTopic: topicToAdd{},
+    }
+  */
+  const addToContentList = ({ newTags, newSolutions, newTopic }) => {
+    console.log(newTags);
+    if (newTags.length > 0) {
+      var newTagsList = tags.concat(newTags);
+      setTags(newTagsList);
+    }
+    if (newSolutions.length > 0) {
+      var newSolutionsList = solutions.concat(newSolutions);
+      setSolutions(newSolutionsList);
+    }
+    if (newTopic) {
+      for (let i = 0; i < topics.length; i++) {
+        if (topics[i].id === newTopic.category.id) {
+          var newTopicsList = topics;
+          newTopicsList[i].topics = topics[i].topics.concat([newTopic]);
+          setTopics(newTopicsList);
+          setCurrentCategory(newTopicsList[i]);
+          break;
+        }
+      }
+    }
+  };
 
-  const allTopics = [];
   // set initial utility routes
   const allRoutes = [
     <Route
@@ -70,63 +118,14 @@ function App() {
       element={<Logout resetToken={resetToken} />}
     />,
     <Route
-      key={allCategory.title}
+      key={"home"}
       path="/"
-      element={
-        <TopicsView
-          topics={allTopics}
-          tags={tags}
-          currentCategory={allCategory}
-          setCurrentCategory={setCurrentCategory}
-        />
-      }
+      element={<TopicsView topics={currentCategory.topics} tags={tags} />}
     />,
+    <Route key="wildcard" from="*" element={<TopicsView />} />,
   ];
-  // add primary page routes from categories
-  const categories = [];
-  if (content !== null) {
-    for (var i = 0; i < content.length; i++) {
-      content[i].topics.forEach(function (topic) {
-        allTopics.push(topic);
-      });
-    }
-
-    content.forEach(function (category) {
-      var categoryObj = { id: category.id, title: category.category };
-      categories.push(categoryObj);
-      allRoutes.push(
-        <Route
-          key={category.id}
-          path={category.path}
-          element={
-            <TopicsView
-              tags={tags}
-              topics={category.topics}
-              currentCategory={categoryObj}
-              setCurrentCategory={setCurrentCategory}
-            />
-          }
-        />
-      );
-    });
-  }
   return (
     <BrowserRouter>
-      <Modal modalContent={modalContent} setModalContent={setModalContent} />
-      <CategoriesHeader content={content} />
-      {token ? (
-        <TopicEntry
-          currentCategory={currentCategory}
-          categories={categories}
-          createModal={createModal}
-          content={content}
-          tags={tags}
-          setContent={setContent}
-          addTopicToContentList={addTopicToContentList}
-        />
-      ) : (
-        <a href="/oauth/authenticate">authenticate</a>
-      )}
       <ToastContainer
         position="top-center"
         autoClose={7000}
@@ -138,6 +137,23 @@ function App() {
         draggable
         pauseOnHover
       />
+      <Modal modalContent={modalContent} setModalContent={setModalContent} />
+      <CategoriesHeader
+        topics={topics}
+        setCurrentCategory={setCurrentCategory}
+      />
+      {token ? (
+        <TopicEntry
+          currentCategory={currentCategory}
+          createModal={createModal}
+          tags={tags}
+          getSolutionUniqueID={getSolutionUniqueID}
+          setTopics={setTopics}
+          addToContentList={addToContentList}
+        />
+      ) : (
+        <a href="/oauth/authenticate">authenticate</a>
+      )}
       <Routes>{allRoutes}</Routes>
     </BrowserRouter>
   );

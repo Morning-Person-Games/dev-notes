@@ -7,7 +7,7 @@ const app = express();
 const clientID = process.env.CONTENTFUL_OAUTH_ID;
 const redirect_uri = process.env.CONTENTFUL_OAUTH_REDIRECT_URI;
 
-const topics = require("./routes/topics.js");
+const content = require("./routes/content.js");
 
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(express.json());
@@ -15,7 +15,7 @@ app.use(express.json());
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-app.use("/api/topics", topics);
+app.use("/api/content", content);
 
 app.get("/oauth/authenticate", (req, res) => {
   res.redirect(

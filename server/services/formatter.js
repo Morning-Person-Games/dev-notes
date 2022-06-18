@@ -23,21 +23,16 @@ function formatTopics(topics) {
 }
 
 function formatTags(tags) {
-  var result = [];
-  if (tags.length > 0) {
-    for (const key of Object.keys(tags)) {
-      result.push(tags[key].sys.id);
-    }
+  if (tags.length <= 0) {
+    return [];
   }
-  return result;
+  return tags.map((tag) => ({
+    id: tag.id ? tag.id : tag.sys.id,
+    name: tag.name ? tag.name : "",
+  }));
 }
 
 function formatSolution(solution) {
-  // if (
-  //   solution.fields.description &&
-  //   solution.fields.title === "Solution Examples"
-  // )
-  //   console.log(JSON.stringify(solution.fields.description.content, null, 2));
   return {
     sysID: solution.sys.id,
     createdAt: solution.sys.createdAt,
@@ -69,19 +64,10 @@ function formatTopicsFromCategory(topics, category) {
   return formatTopics(filtered);
 }
 
-// function formatSlugFromTitle(title) {
-//   return encodeURIComponent(
-//     title
-//       .toLowerCase()
-//       .replace(/[^a-z0-9 _-]+/gi, "-")
-//       .slice(40)
-//   );
-// }
-//^[a-z0-9_-]*$
-
 module.exports = {
   formatCategory,
   formatSolutions,
   formatTopics,
   formatMainTopicsList,
+  formatTags,
 };

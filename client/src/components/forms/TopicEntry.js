@@ -1,16 +1,15 @@
 import React from "react";
 import { Field, withFormik } from "formik";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import SolutionEntry from "./SolutionEntry";
 import { EditorState, convertToRaw } from "draft-js";
 import {
-  GetCategoryObjectFromID,
   generateTempID,
   generateSolutionTitle,
   getContentfulTextTypeFromDraftJs,
 } from "../tools/HelperFunctions";
-import TagsField from "./TagsField";
+import { TagsField } from "./SelectFields";
+//import { toast } from "react-toastify";
 
 const TopicForm = (props) => {
   //const [formActive, setFormActive] = useState(false);
@@ -22,6 +21,7 @@ const TopicForm = (props) => {
     setFieldValue,
     handleSubmit,
     handleReset,
+    tags,
   } = props;
 
   // keeping these around in case I decide it feels better to have the form show/hide
@@ -37,55 +37,48 @@ const TopicForm = (props) => {
   //   }
   // };
 
-  // get category options and create a select list
-  const categoryOptions = [];
-  if (props.categories?.length > 0) {
-    props.categories.forEach(function (category) {
-      categoryOptions.push(
-        <option key={category.id} value={category.id}>
-          {category.title}
-        </option>
-      );
-    });
-  }
-
+  // get tag options and create a select list for react-select
   const tagOptions = [];
-  if (props.tags?.length > 0) {
-    props.tags.forEach((tag) => {
+  if (tags?.length > 0) {
+    tags.forEach((tag) => {
       tagOptions.push({ value: tag.id, label: tag.name });
     });
   }
   return (
     <form onSubmit={handleSubmit}>
+      {errors.category && touched.title && (
+        <div style={{ color: "red", marginTop: ".5rem" }}>
+          {errors.category}
+        </div>
+      )}
       <div>
+        {/* <label htmlFor="tags">Topic Title: </label> */}
         <Field type="text" name="title" placeholder="+ Add a note" />
         {errors.title && touched.title && (
           <div style={{ color: "red", marginTop: ".5rem" }}>{errors.title}</div>
         )}
       </div>
       <div>
-        <label htmlFor="category">Category: </label>
-        <Field as="select" name="category">
-          {categoryOptions}
-        </Field>
-        {errors.category && touched.title && (
-          <div style={{ color: "red", marginTop: ".5rem" }}>{errors.title}</div>
-        )}
-      </div>
-      <div>
+        {/* <label htmlFor="tags">Tags: </label> */}
         <Field
           name="tags"
           component={TagsField}
-          placeholder="Select tags..."
+          placeholder="Type to select Tags..."
           options={tagOptions}
         />
+        {errors.tags && touched.title && (
+          <div style={{ color: "red", marginTop: ".5rem" }}>{errors.tags}</div>
+        )}
       </div>
-      <SolutionEntry
-        editorState={values.editorState}
-        onChange={setFieldValue}
-        onBlur={handleBlur}
-        createModal={props.createModal}
-      />
+      <div>
+        <label htmlFor="tags">Solution: </label>
+        <SolutionEntry
+          editorState={values.editorState}
+          onChange={setFieldValue}
+          onBlur={handleBlur}
+          createModal={props.createModal}
+        />
+      </div>
       <div>
         <button type="submit">Submit</button>
         <button type="button" onClick={handleReset}>
@@ -99,21 +92,26 @@ const TopicForm = (props) => {
 const TopicEntry = withFormik({
   mapPropsToValues: (props) => ({
     title: "",
-    category: props.categories[0]?.id,
+    category: {
+      id: props.currentCategory.id,
+      category: props.currentCategory.category,
+      path: props.currentCategory.path,
+    },
     editorState: EditorState.createEmpty(),
   }),
   validationSchema: Yup.object().shape({
     title: Yup.string()
-      .min(3, "Too Short!")
-      .max(255, "Too Long!")
+      .min(3, "Topic title too short!")
+      .max(255, "Topic title too long!")
       .required("Topic title required"),
-    category: Yup.string()
-      .min(4, "Too Short!")
-      .max(255, "Too Long!")
-      .required("Category title required"),
+    category: Yup.object().required(
+      "Please create or select a category above to add new topics."
+    ),
     tags: Yup.array().of(
       Yup.object().shape({
-        label: Yup.string().max(255, "Too Long!").required(),
+        label: Yup.string()
+          .max(255, "Tags can be no longer than 255 characters")
+          .required(),
         value: Yup.string().required(),
       })
     ),
@@ -121,17 +119,16 @@ const TopicEntry = withFormik({
   enableReinitialize: true,
   handleSubmit: (values, { props, setSubmitting, resetForm }) => {
     setTimeout(() => {
-      // you probably want to transform draftjs state to something else, but I'll leave that to you.
-      //console.log(formatTopicEntry(values, props.content));
-      //__isNew__ for new tags
-      console.log(
-        JSON.stringify(FormattedTopicEntry(values, props.content), null, 2)
+      const contentToAdd = FormattedTopicEntry(
+        values,
+        props.getSolutionUniqueID
       );
-      toast.info("Submitted!");
+      props.addToContentList(contentToAdd);
+      sendNewTopicDataToContentful(contentToAdd);
       resetForm({
         values: {
           title: "",
-          category: values.category,
+          tags: "",
           editorState: EditorState.createEmpty(),
         },
       });
@@ -144,7 +141,7 @@ const TopicEntry = withFormik({
 export default TopicEntry;
 
 // formats draft js form into the contentful data structure
-function FormattedTopicEntry(values, content) {
+function FormattedTopicEntry(values, getSolutionUniqueID) {
   const contentState = values.editorState.getCurrentContent();
   const solutionValue = convertToRaw(contentState);
   const solutions = [];
@@ -234,7 +231,7 @@ function FormattedTopicEntry(values, content) {
   solutions.push({
     sysID: generateTempID(solutionTitle),
     createdAt: new Date().toISOString(),
-    id: -1,
+    id: getSolutionUniqueID(),
     title: generateSolutionTitle(solutionTitle),
     description: {
       nodeType: "document",
@@ -245,59 +242,78 @@ function FormattedTopicEntry(values, content) {
   const newSolutions = solutions;
   const tags = formatTagsFromValues(values.tags);
   const newTags = tags.map((tag) => {
-    if (tag.__isNew__) {
+    if (tag.isNew) {
       return tag;
     }
     return [];
   });
   // TODO "additional solutions" go here
-  const category = GetCategoryObjectFromID(content, values.category);
   const topicToAdd = {
     id: generateTempID(values.title),
     createdAt: new Date().toISOString(),
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
     tags: tags,
-    category: category,
+    category: values.category,
     solutions: solutions,
   };
 
-  return topicToAdd;
+  const contentToAdd = {
+    newTags: newTags,
+    newImages: newImages,
+    newSolutions: newSolutions,
+    newTopic: topicToAdd,
+  };
+  return contentToAdd;
 }
 
 function formatTagsFromValues(tags) {
-  if (tags.length <= 0) {
-    return;
+  if (!tags || tags.length <= 0) {
+    return [];
   }
   return tags.map(function (tag) {
-    return { id: tag.value, name: tag.label };
+    return {
+      id: tag.value,
+      name: tag.label,
+      isNew: tag.__isNew__ ? true : false,
+    };
   });
 }
 
-function sendNewTopicDataToContentful(topicToAdd) {
+/*
+  contentToAdd = {
+    newTags,
+    newImages,
+    newSolutions,
+    newTopic,
+  }; 
+*/
+function sendNewTopicDataToContentful(contentToAdd) {
+  // toast promise notif here, then toash notif detailing successful posts, or in cases of issues link to the location that the issue can be fixed in contentful
   // create tags
   // .then apply tags topicToAdd
   // if new images, create images before solutions
   // then create new solution
   // ! to scan for images replace their data with the image reponses
   // then create new topic with all the updated data
+  //
 }
 
 // each of these createNew functions send their respective data to contentful to be added. If any of these fail, the user is notified with a useful link on contentful to fix the issue.
-function createNewTag(tag) {
-  console.log("create tag");
-  console.log(tag);
-}
+// function createNewTag(tag) {
+//   console.log("create tag");
+//   console.log(tag);
+// }
 
-function createNewSolution(solution) {
-  console.log("create solutions");
-  console.log(solution);
-}
+// function createNewSolution(solution) {
+//   console.log("create solutions");
+//   console.log(solution);
+// }
 
-function createNewImage(image) {
-  console.log("image");
-  console.log(image);
-}
+// function createNewImage(image) {
+//   console.log("image");
+//   console.log(image);
+// }
 
 /*
   This mess formats draftjs lists which are separate objects with depth, into the tiered tree structure of contentful

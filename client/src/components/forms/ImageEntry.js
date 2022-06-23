@@ -3,10 +3,14 @@ import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import Thumbnail from "../displays/Thumbnail";
 import { EditorState, AtomicBlockUtils } from "draft-js";
+import { createNewImage } from "../tools/contentfulManagement";
 
 // This creates a modal popup with standard image fields.
 // To understand additional details checkout Formik forms and Yup
 function ImageEntry(props) {
+  if (!props.token) {
+    return null;
+  }
   const FILE_SIZE = 10000000;
   const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -15,7 +19,7 @@ function ImageEntry(props) {
     "image/png",
   ];
   const validationSchema = Yup.object().shape({
-    title: Yup.string().max(256, "Too Long!").required("Required"),
+    title: Yup.string().max(256, "Too Long!").required("Image title required."),
     description: Yup.string().max(5000, "Too Long!"),
     file: Yup.mixed()
       .required()
@@ -35,47 +39,58 @@ function ImageEntry(props) {
     <div>
       <Formik
         initialValues={{ file: null, title: "", description: "" }}
-        onSubmit={(values) => {
-          alert(
-            JSON.stringify(
-              {
-                fileName: values.file.name,
-                type: values.file.type,
-                size: `${values.file.size} bytes`,
-              },
-              null,
-              2
-            )
-          );
-          // create a block in the editor to preview the image.
-          if (props.changeEditorState !== null && props.editorState !== null) {
-            const editorState = props.editorState;
-            const contentState = editorState.getCurrentContent();
-            const contentStateWithEntity = contentState.createEntity(
-              "image",
-              "IMMUTABLE",
+        onSubmit={async (values, { setSubmitting }) => {
+          if (props.token !== null) {
+            const result = await createNewImage(
+              props.token,
               {
                 title: values.title,
                 description: values.description,
                 file: values.file,
-              }
+              },
+              true
             );
-            const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-            const newEditorState = EditorState.set(editorState, {
-              currentContent: contentStateWithEntity,
-            });
-            props.changeEditorState(
-              AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
-            );
-          }
-          // close the modal on completion
-          if (props.createModal !== null) {
-            props.createModal(null, null);
+            // create a block in the editor to preview the image.
+            if (
+              result &&
+              props.changeEditorState !== null &&
+              props.editorState !== null
+            ) {
+              const editorState = props.editorState;
+              const contentState = editorState.getCurrentContent();
+              const contentStateWithEntity = contentState.createEntity(
+                "image",
+                "IMMUTABLE",
+                {
+                  title: values.title,
+                  description: values.description,
+                  file: values.file,
+                  result: result,
+                }
+              );
+              const entityKey =
+                contentStateWithEntity.getLastCreatedEntityKey();
+              const newEditorState = EditorState.set(editorState, {
+                currentContent: contentStateWithEntity,
+              });
+              props.changeEditorState(
+                AtomicBlockUtils.insertAtomicBlock(
+                  newEditorState,
+                  entityKey,
+                  " "
+                )
+              );
+            }
+            setSubmitting(false);
+            // close the modal on completion
+            if (props.createModal !== null) {
+              props.createModal(null, null);
+            }
           }
         }}
         validationSchema={validationSchema}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, isSubmitting }) => (
           <Form>
             <div>
               <label htmlFor="title">Title</label>
@@ -98,8 +113,12 @@ function ImageEntry(props) {
             {values.file && (
               <Thumbnail file={values.file} description={values.description} />
             )}
-            <button type="submit" className="btn btn-primary">
-              Add Image To Solution
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              Upload Image
             </button>
           </Form>
         )}

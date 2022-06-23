@@ -4,38 +4,38 @@ import { Navigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Login({ setToken }) {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [message, setMessage] = useState(null);
+  const host = window.location.host;
+  let redirect = host === "localhost:3080" ? false : true;
   useEffect(() => {
     if (window.location.hash) {
       var search = new URLSearchParams(window.location.hash.substring(1));
       var token = search.get("access_token");
       if (token !== null) {
         setToken(token);
-        setAuthenticated(true);
+        setMessage({
+          text: "Succesfully logged in!",
+          options: { type: toast.TYPE.SUCCESS },
+        });
       } else {
         const NoTokenError = () => (
           <div>
-            No token was found. Try again{" "}
-            <Link to="/oauth/authenticate">here.</Link>
+            No token was found. Try again <Link to="/login">here.</Link>
           </div>
         );
-        toast.error(NoTokenError);
+        setMessage({
+          text: NoTokenError,
+          options: { type: toast.TYPE.ERROR, autoClose: false },
+        });
       }
-    } else {
-      const NoHashError = () => (
-        <div>
-          No hash was found to get access token from. Try again{" "}
-          <Link to="/oauth/authenticate">here.</Link>
-        </div>
-      );
-      toast.error(NoHashError, { autoClose: false });
     }
-  }, [setToken, setAuthenticated]);
-  if (authenticated) {
-    toast.success("Login successful!");
-    return <Navigate to="/" />;
-  } else {
-    return <h3>Logging in...</h3>;
+  }, [setToken, setMessage]);
+  if (message) {
+    toast(message.text, message.options);
+    if (redirect) {
+      return <Navigate to="/" />;
+    }
+    setMessage(null);
   }
 }
 
@@ -44,13 +44,3 @@ export default Login;
 Login.propTypes = {
   setToken: PropTypes.func.isRequired,
 };
-
-// async function loginUser(credentials) {
-//   return fetch("/api/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }

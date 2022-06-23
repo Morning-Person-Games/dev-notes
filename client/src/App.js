@@ -9,7 +9,6 @@ import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/displays/Modal";
-import { idIsUnique } from "./components/tools/HelperFunctions";
 
 function App() {
   const { token, setToken, resetToken } = useToken();
@@ -83,7 +82,10 @@ function App() {
     }
   */
   const addToContentList = ({ newTags, newSolutions, newTopic }) => {
-    console.log(newTags);
+    // stop duplicates:
+    if (newTopic.id === topics[topics.length - 1].id) {
+      return;
+    }
     if (newTags.length > 0) {
       var newTagsList = tags.concat(newTags);
       setTags(newTagsList);
@@ -108,7 +110,7 @@ function App() {
   // set initial utility routes
   const allRoutes = [
     <Route
-      key={"oauth"}
+      key={"login"}
       path="/oauth/redirect"
       element={<Login setToken={setToken} />}
     />,
@@ -127,10 +129,11 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer
+        theme="dark"
         position="top-center"
         autoClose={7000}
         hideProgressBar={false}
-        newestOnTop={false}
+        newestOnTop={true}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
@@ -144,6 +147,7 @@ function App() {
       />
       {token ? (
         <TopicEntry
+          token={token}
           currentCategory={currentCategory}
           createModal={createModal}
           tags={tags}
@@ -152,7 +156,7 @@ function App() {
           addToContentList={addToContentList}
         />
       ) : (
-        <a href="/oauth/authenticate">authenticate</a>
+        <a href="/login">Login</a>
       )}
       <Routes>{allRoutes}</Routes>
     </BrowserRouter>

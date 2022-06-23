@@ -1,10 +1,10 @@
 var contentfulManagement = require("contentful-management");
 require("dotenv").config();
 
-function management(token, res) {
-  console.log(token);
+// TODO use this to minimize code in create.js. I'm personally missing syntax knowledge atm and need to move on:
+function getEnvironment(token) {
   var client = contentfulManagement.createClient({
-    accessToken: token || process.env.TESTING_MANAGEMENT_KEY,
+    accessToken: token,
   });
   if (client !== null) {
     client
@@ -13,28 +13,29 @@ function management(token, res) {
         // This API call will request an environment with the specified ID
         space
           .getEnvironment("master")
-          .then((environment) => {
-            return environment;
-          })
+          .then((environment) => environment)
           .catch(function (err) {
             console.log(
-              "managementContentfulClient - getEnvironment (line 15) error:",
+              "managementContentfulClient - getEnvironment (line 21) error:",
               JSON.stringify(err, null, 2)
             );
+            return res.status(401).json({ error: "environment" });
           });
       })
       .catch(function (err) {
         console.log(
-          "managementContentfulClient - getSpace (line 11) error:",
+          "managementContentfulClient - getSpace (line 28) error:",
           JSON.stringify(err, null, 2)
         );
+        return res.status(401).json({ error: "environment" });
       });
   } else {
     console.log(
-      "managementContentfulClient - client is null. Probably missing access token. Resetting token"
+      "managementContentfulClient - client is null. Probably missing access token. Try Resetting token"
     );
-    res.redirect("/logout");
   }
 }
 
-exports.management = management;
+module.exports = {
+  getEnvironment,
+};

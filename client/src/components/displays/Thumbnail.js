@@ -9,7 +9,6 @@ class Thumbnail extends React.Component {
       thumb: undefined,
     };
   }
-
   // on mount create a FileReader to render the image
   componentDidMount() {
     let file;
@@ -20,14 +19,12 @@ class Thumbnail extends React.Component {
     } else {
       file = this.props.file;
     }
-
     this.setState({ loading: true }, () => {
       let reader = new FileReader();
 
       reader.onloadend = () => {
         this.setState({ loading: false, thumb: reader.result });
       };
-
       reader.readAsDataURL(file);
     });
   }
@@ -39,9 +36,6 @@ class Thumbnail extends React.Component {
     if (!file) {
       const { block, contentState } = this.props;
       const data = contentState?.getEntity(block.getEntityAt(0)).getData();
-      if (!data) {
-        return null;
-      }
       file = data.file;
       description = data.description;
     }

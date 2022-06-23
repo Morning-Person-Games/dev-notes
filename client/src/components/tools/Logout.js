@@ -12,12 +12,8 @@ function Logout({ resetToken }) {
   }, [resetToken]);
 
   if (reset) {
-    toast.info(
-      "Reset login token. Please Autheneticate again to create more notes."
-    );
+    toast.info("Reset login token. Please Login again to create more notes.");
     return <Navigate to="/" />;
-  } else {
-    return <h3>Resetting login token...</h3>;
   }
 }
 

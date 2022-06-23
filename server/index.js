@@ -36,11 +36,3 @@ app.get("*", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
-
-app.post("/api/login", (req, res) => {
-  if (req.body.password !== process.env.DEVNOTES_PASS) {
-    return res.status(422).json({ errors: "Incorrect Password" });
-  } else {
-    res.send("loggedInBB");
-  }
-});

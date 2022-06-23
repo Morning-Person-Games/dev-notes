@@ -42,7 +42,6 @@ function CategoriesField({ form, field, onBlur, categories, placeholder }) {
       />
     );
   }
-  //console.log(categories);
   return (
     <Select
       value={field.value}

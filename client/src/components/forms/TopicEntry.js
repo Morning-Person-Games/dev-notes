@@ -9,7 +9,7 @@ import {
   getContentfulTextTypeFromDraftJs,
 } from "../tools/HelperFunctions";
 import { TagsField } from "./SelectFields";
-//import { toast } from "react-toastify";
+import { createNewTopic } from "../tools/contentfulManagement";
 
 const TopicForm = (props) => {
   //const [formActive, setFormActive] = useState(false);
@@ -22,20 +22,34 @@ const TopicForm = (props) => {
     handleSubmit,
     handleReset,
     tags,
+    isSubmitting,
   } = props;
 
-  // keeping these around in case I decide it feels better to have the form show/hide
-  // const openForm = function () {
-  //   if (!formActive) {
-  //     setFormActive(true);
-  //   }
-  // };
+  if (!props.token) {
+    return;
+  }
+
+  // sometimes current category doesnt get set on refresh, this is a fix for that:
+  const handleTitleField = (e) => {
+    if (!values.category || !values.category.category) {
+      if (props.currentCategory.category) {
+        setFieldValue("category", {
+          id: props.currentCategory.id,
+          category: props.currentCategory.category,
+          path: props.currentCategory.path,
+        });
+      }
+    }
+    setFieldValue("title", e.target.value);
+  };
 
   // const closeForm = function () {
   //   if (formActive) {
   //     setFormActive(false);
   //   }
   // };
+
+  //console.log(props.currentCategory.category);
 
   // get tag options and create a select list for react-select
   const tagOptions = [];
@@ -53,7 +67,12 @@ const TopicForm = (props) => {
       )}
       <div>
         {/* <label htmlFor="tags">Topic Title: </label> */}
-        <Field type="text" name="title" placeholder="+ Add a note" />
+        <Field
+          type="text"
+          name="title"
+          placeholder="+ Add a note"
+          onChange={handleTitleField}
+        />
         {errors.title && touched.title && (
           <div style={{ color: "red", marginTop: ".5rem" }}>{errors.title}</div>
         )}
@@ -71,16 +90,19 @@ const TopicForm = (props) => {
         )}
       </div>
       <div>
-        <label htmlFor="tags">Solution: </label>
+        <label htmlFor="tags">Add a Solution: </label>
         <SolutionEntry
           editorState={values.editorState}
           onChange={setFieldValue}
           onBlur={handleBlur}
           createModal={props.createModal}
+          token={props.token}
         />
       </div>
       <div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          Submit
+        </button>
         <button type="button" onClick={handleReset}>
           X
         </button>
@@ -116,15 +138,26 @@ const TopicEntry = withFormik({
       })
     ),
   }),
-  enableReinitialize: true,
   handleSubmit: (values, { props, setSubmitting, resetForm }) => {
     setTimeout(() => {
       const contentToAdd = FormattedTopicEntry(
         values,
         props.getSolutionUniqueID
       );
+      createNewTopic(props.token, JSON.parse(JSON.stringify(contentToAdd)));
+      // add details for immediate usage of new content that contentful will generate later:
+      contentToAdd.newTopic.id = generateTempID(contentToAdd.newTopic.title);
+      contentToAdd.newTopic.createdAt = new Date().toISOString();
+      contentToAdd.newSolutions.forEach((newSolution) => {
+        newSolution.sysID = generateTempID(newSolution.title);
+        newSolution.createdAt = new Date().toISOString();
+        contentToAdd.newTopic.solutions.push(newSolution);
+      });
+      contentToAdd.newTopic.tags.concat(contentToAdd.newTags);
+      contentToAdd.newTags.forEach((newTag) => {
+        contentToAdd.newTopic.tags.push(newTag);
+      });
       props.addToContentList(contentToAdd);
-      sendNewTopicDataToContentful(contentToAdd);
       resetForm({
         values: {
           title: "",
@@ -151,7 +184,7 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
   let currentListItems = [];
   let previousType = "";
   // get each draftjs block and add them to a solutionContent list
-  solutionValue?.blocks.forEach(function (block, index, array) {
+  solutionValue?.blocks.forEach((block, index, array) => {
     if (block.type === "atomic") {
       // first get image data from draftjs state
       const blockState = contentState.getBlockForKey(block.key);
@@ -159,9 +192,7 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
       const imageInstance = contentState.getEntity(imageKey);
       const data = imageInstance.getData();
       const image = FormattedContentObjectFromImage({
-        title: data.title,
-        description: data.description,
-        file: data.file,
+        result: data.result,
       });
       formattedRichTextContent.push(image);
       newImages.push(image);
@@ -189,7 +220,7 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
         // Check if theres an ongoing list and that the current type does not match the prvious or this is the last iteration. Then push() to solutions and reset any ongoing list.
         if (currentListItems.length > 0 && block.type !== previousType) {
           formattedRichTextContent.push(
-            FormattedContentObjectFromList(currentListItems, block.type)
+            FormattedContentObjectFromList(currentListItems, previousType)
           );
           currentListItems = [];
         }
@@ -228,9 +259,8 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
     }
     previousType = block.type;
   });
-  solutions.push({
-    sysID: generateTempID(solutionTitle),
-    createdAt: new Date().toISOString(),
+  const newSolutions = [];
+  newSolutions.push({
     id: getSolutionUniqueID(),
     title: generateSolutionTitle(solutionTitle),
     description: {
@@ -239,18 +269,10 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
       content: formattedRichTextContent,
     },
   });
-  const newSolutions = solutions;
   const tags = formatTagsFromValues(values.tags);
-  const newTags = tags.map((tag) => {
-    if (tag.isNew) {
-      return tag;
-    }
-    return [];
-  });
+  const newTags = formatTagsFromValues(values.tags, true);
   // TODO "additional solutions" go here
   const topicToAdd = {
-    id: generateTempID(values.title),
-    createdAt: new Date().toISOString(),
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
     tags: tags,
@@ -260,60 +282,42 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
 
   const contentToAdd = {
     newTags: newTags,
-    newImages: newImages,
     newSolutions: newSolutions,
     newTopic: topicToAdd,
   };
+
   return contentToAdd;
 }
 
-function formatTagsFromValues(tags) {
+function formatTagsFromValues(tags, onlyNew) {
   if (!tags || tags.length <= 0) {
     return [];
   }
-  return tags.map(function (tag) {
-    return {
-      id: tag.value,
-      name: tag.label,
-      isNew: tag.__isNew__ ? true : false,
-    };
-  });
+  let filtered = [];
+  if (onlyNew) {
+    filtered = tags.filter((tag) => tag.__isNew__);
+    if (filtered.length > 0) {
+      return filtered.map((tag) => {
+        return {
+          id: tag.value,
+          name: tag.label,
+          visibility: "public",
+        };
+      });
+    }
+  } else {
+    filtered = tags.filter((tag) => !tag.__isNew__);
+    if (filtered.length > 0) {
+      return filtered.map((tag) => {
+        return {
+          id: tag.value,
+          name: tag.label,
+        };
+      });
+    }
+  }
+  return [];
 }
-
-/*
-  contentToAdd = {
-    newTags,
-    newImages,
-    newSolutions,
-    newTopic,
-  }; 
-*/
-function sendNewTopicDataToContentful(contentToAdd) {
-  // toast promise notif here, then toash notif detailing successful posts, or in cases of issues link to the location that the issue can be fixed in contentful
-  // create tags
-  // .then apply tags topicToAdd
-  // if new images, create images before solutions
-  // then create new solution
-  // ! to scan for images replace their data with the image reponses
-  // then create new topic with all the updated data
-  //
-}
-
-// each of these createNew functions send their respective data to contentful to be added. If any of these fail, the user is notified with a useful link on contentful to fix the issue.
-// function createNewTag(tag) {
-//   console.log("create tag");
-//   console.log(tag);
-// }
-
-// function createNewSolution(solution) {
-//   console.log("create solutions");
-//   console.log(solution);
-// }
-
-// function createNewImage(image) {
-//   console.log("image");
-//   console.log(image);
-// }
 
 /*
   This mess formats draftjs lists which are separate objects with depth, into the tiered tree structure of contentful
@@ -325,7 +329,7 @@ function sendNewTopicDataToContentful(contentToAdd) {
   type = block.type - string
 */
 function FormattedContentObjectFromList(textList, type) {
-  const nodeType = getContentfulTextTypeFromDraftJs(type);
+  let nodeType = getContentfulTextTypeFromDraftJs(type);
   let list = [];
   if (nodeType === "blockquote") {
     // blockquotes dont have depth so this is a quick push()
@@ -442,21 +446,24 @@ function FormattedContentObjectFromList(textList, type) {
     }
   }
 
-  return [
-    {
-      nodeType: nodeType,
-      data: {},
-      content: list,
-    },
-  ];
+  return {
+    nodeType: nodeType,
+    data: {},
+    content: list,
+  };
 }
 
-function FormattedContentObjectFromImage(image) {
+function FormattedContentObjectFromImage({ result }) {
   return {
-    nodeType: "image",
-    title: image.title,
-    description: image.description,
-    file: image.file,
+    nodeType: "embedded-asset-block",
+    data: {
+      target: {
+        metadata: result.metadata,
+        sys: result.sys,
+        fields: result.fields,
+      },
+    },
+    content: [],
   };
 }
 

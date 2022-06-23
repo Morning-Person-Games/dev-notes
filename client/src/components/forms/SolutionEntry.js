@@ -144,6 +144,7 @@ export default class SolutionEntry extends Component {
       <ImageEntry
         editorState={this.props.editorState}
         changeEditorState={this.onChange}
+        token={this.props.token}
         createModal={this.props.createModal}
       />
     );

@@ -11,16 +11,13 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
     position: toast.POSITION.TOP_RIGHT,
   });
   const messages = [];
-  console.log(newTopic);
   const tagResults =
     newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
   console.log("tagResults", tagResults);
   const filteredTags = [];
   if (tagResults.length > 0) {
     tagResults.forEach((result) => {
-      console.log("result.status", result.status);
       if (result.status === "fulfilled") {
-        console.log("result.value", result.value);
         filteredTags.push(result.value);
       } else {
         messages.push(result);
@@ -45,28 +42,23 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       },
     });
   });
-  console.log("tags", tags);
-  console.log("newSolutions", newSolutions);
+
   const solutionsResults =
     newSolutions.length > 0
       ? await createNewSolutions(token, newSolutions, false)
       : [];
   const filteredSolutions = [];
-  console.log("solutionsResults", solutionsResults);
-  if (solutionsResults > 0) {
+  if (solutionsResults.length > 0) {
+    console.log("preFor");
     solutionsResults.forEach((result) => {
-      console.log("result.status", result.status);
       if (result.status === "fulfilled") {
-        console.log("result.value", result.value);
         filteredSolutions.push(result.value);
       } else {
         messages.push(result);
       }
     });
   }
-  console.log("filteredSolutions", filteredSolutions);
   const solutions = filteredSolutions.map((solution) => {
-    console.log("solution map", solution);
     return {
       sys: {
         type: "Link",
@@ -84,7 +76,8 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       },
     });
   });
-  console.log("solutions", solutions);
+  console.log("all tags:", tags);
+  console.log("all solutions:", solutions);
   const topic = {
     tags: tags,
     title: newTopic.title,
@@ -98,7 +91,6 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
     },
     solutions: solutions,
   };
-  console.log("topic", topic);
   return fetch("/api/create/topic", {
     method: "POST",
     headers: {
@@ -110,11 +102,10 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
     }),
   })
     .then((data) => {
-      console.log(data);
       return data.json();
     })
     .then((topic) => {
-      console.log(topic);
+      console.log("Created topic: ", topic);
       if (messages.length > 0) {
         messages.forEach((message) => {
           console.log(message);
@@ -251,7 +242,6 @@ async function createNewSolutions(token, solutions, notify) {
       position: toast.POSITION.TOP_RIGHT,
     });
   }
-  console.log("createNewSolutions", solutions);
   solutions.forEach((solution) => {
     var content = solution.description.content;
     for (let i = 0; i < content.length; i++) {
@@ -280,7 +270,6 @@ async function createNewSolutions(token, solutions, notify) {
       return data.json();
     })
     .then((solutions) => {
-      console.log("solutions res:", solutions);
       if (notifID) {
         toast.update(notifID, {
           render: "solutions created!",

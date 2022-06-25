@@ -71,9 +71,9 @@ router.use(function (req, res, next) {
 
 router.get("/", function (req, res, next) {
   res.json({
-    topics: req.content.topics,
-    tags: req.content.tags,
-    solutions: req.content.solutions,
+    topics: req.content.topics ? req.content.topics : [],
+    tags: req.content.tags ? req.content.tags : [],
+    solutions: req.content.solutions ? req.content.solutions : [],
   });
 });
 

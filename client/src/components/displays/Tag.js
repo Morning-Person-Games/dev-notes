@@ -7,4 +7,17 @@ function Tag({ tag, allTags }) {
   return <li>{name}</li>;
 }
 
-export default Tag;
+function TagField({ tag, allTags, handleTags }) {
+  if (!allTags) return;
+  const name = getTagNameFromID(tag.id, allTags);
+  const handleClick = () => {
+    handleTags(tag.id);
+  };
+  return (
+    <li>
+      <button onClick={handleClick}>{name}</button>
+    </li>
+  );
+}
+
+export { Tag, TagField };

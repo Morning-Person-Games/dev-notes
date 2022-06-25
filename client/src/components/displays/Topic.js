@@ -1,6 +1,6 @@
 import React from "react";
 import { Solution } from "./Solution";
-import Tag from "./Tag";
+import { Tag } from "./Tag";
 
 function Topic(props) {
   const solutions = props.topic.solutions.map((solution) => {

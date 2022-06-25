@@ -122,7 +122,9 @@ function App() {
     <Route
       key={"home"}
       path="/"
-      element={<TopicsView topics={currentCategory.topics} tags={tags} />}
+      element={
+        <TopicsView currentTopics={currentCategory.topics} tags={tags} />
+      }
     />,
     <Route key="wildcard" from="*" element={<TopicsView />} />,
   ];

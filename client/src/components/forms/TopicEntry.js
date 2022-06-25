@@ -260,15 +260,22 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
     previousType = block.type;
   });
   const newSolutions = [];
-  newSolutions.push({
-    id: getSolutionUniqueID(),
-    title: generateSolutionTitle(solutionTitle),
-    description: {
-      nodeType: "document",
-      data: {},
-      content: formattedRichTextContent,
-    },
-  });
+  if (
+    !(
+      formattedRichTextContent.length === 1 &&
+      formattedRichTextContent[0].content.length === 0
+    )
+  ) {
+    newSolutions.push({
+      id: getSolutionUniqueID(),
+      title: generateSolutionTitle(solutionTitle),
+      description: {
+        nodeType: "document",
+        data: {},
+        content: formattedRichTextContent,
+      },
+    });
+  }
   const tags = formatTagsFromValues(values.tags);
   const newTags = formatTagsFromValues(values.tags, true);
   // TODO "additional solutions" go here

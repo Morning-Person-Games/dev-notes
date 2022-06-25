@@ -165,39 +165,37 @@ export default class SolutionEntry extends Component {
       }
     }
     return (
-      <div>
-        <div className="RichEditor-root">
-          <div className="RichEditor-controls">
-            <TextStyleControls
-              editorState={editorState}
-              onToggle={this.toggleBlockType}
-            />
-            <BlockStyleControls
-              editorState={editorState}
-              onToggle={this.toggleBlockType}
-            />
-            <InlineStyleControls
-              editorState={editorState}
-              onToggle={this.toggleInlineStyle}
-            />
-            <span className="separator" />
-            <button type="button" onClick={this.openImageUpload}>
-              <MdImage />
-            </button>
-          </div>
-          <div className={className} onClick={this.focus}>
-            <Editor
-              blockStyleFn={getBlockStyle}
-              blockRendererFn={mediaBlockRenderer}
-              customStyleMap={styleMap}
-              editorState={editorState}
-              handleKeyCommand={this.handleKeyCommand}
-              onChange={this.onChange}
-              keyBindingFn={this.keyBindingFn}
-              ref={this.focus}
-              spellCheck={true}
-            />
-          </div>
+      <div className="RichEditor-root">
+        <div className="RichEditor-controls">
+          <TextStyleControls
+            editorState={editorState}
+            onToggle={this.toggleBlockType}
+          />
+          <BlockStyleControls
+            editorState={editorState}
+            onToggle={this.toggleBlockType}
+          />
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+          <span className="separator" />
+          <button type="button" onClick={this.openImageUpload}>
+            <MdImage />
+          </button>
+        </div>
+        <div className={className} onClick={this.focus}>
+          <Editor
+            blockStyleFn={getBlockStyle}
+            blockRendererFn={mediaBlockRenderer}
+            customStyleMap={styleMap}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={this.onChange}
+            keyBindingFn={this.keyBindingFn}
+            ref={this.focus}
+            spellCheck={true}
+          />
         </div>
       </div>
     );

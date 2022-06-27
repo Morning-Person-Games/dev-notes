@@ -67,7 +67,7 @@ function generateTempID(title) {
 }
 
 function generateSolutionTitle(title) {
-  return truncate(title, 80);
+  return truncate(title, 500);
 }
 
 function arraysEqual(a, b) {

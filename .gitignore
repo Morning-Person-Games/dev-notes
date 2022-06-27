@@ -5,4 +5,4 @@ key.pem
 keytmp.pem
 server/local.js
 .vscode
-client/src/components/forms/deprecated_LoginForm.js
+client/src/hidden/

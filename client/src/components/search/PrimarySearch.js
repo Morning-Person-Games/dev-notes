@@ -1,5 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import * as JsSearch from "js-search";
-import React, { Component } from "react";
+import { Component } from "react";
+import { theme } from "../../globalStyles";
+import { MdSearch } from "react-icons/md";
 
 class PrimarySearch extends Component {
   constructor(props) {
@@ -41,7 +45,6 @@ class PrimarySearch extends Component {
     dataToSearch.addIndex(["indexableSolutions"]);
     dataToSearch.addDocuments(topics); // adds the data to be searched
     this.setState({ search: dataToSearch, isLoading: false });
-    console.log("dataToSearch", dataToSearch);
   };
 
   /**
@@ -64,14 +67,45 @@ class PrimarySearch extends Component {
   render() {
     const { searchQuery } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          id="Search"
-          value={searchQuery}
-          onChange={this.searchData}
-          placeholder="Search for a topic or solution"
-          style={{ margin: "0 auto", width: "300px" }}
-        />
+      <form
+        css={css`
+          display: flex;
+          background: ${theme.colors.black};
+          border-radius: ${theme.sizes.radius};
+          margin-bottom: 10px;
+        `}
+        onSubmit={this.handleSubmit}
+      >
+        <div
+          css={css`
+            display: flex;
+            ${theme.sizes.colWidth};
+            position: relative;
+          `}
+        >
+          <input
+            value={searchQuery}
+            onChange={this.searchData}
+            placeholder="Search for a topic or solution"
+            css={css`
+              ${theme.baseTypes.baseInput}
+              background: none;
+              font-size: 1.1em;
+              padding: 12px;
+              padding-left: 38px;
+            `}
+          />
+          <MdSearch
+            css={css`
+              display: block;
+              position: absolute;
+              left: 8px;
+              top: 10px;
+              font-size: 1.5em;
+              color: ${theme.colors.gray};
+            `}
+          />
+        </div>
       </form>
     );
   }

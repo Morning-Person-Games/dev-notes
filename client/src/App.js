@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
-import TopicEntry from "./components/forms/TopicEntry";
+import SimpleTopicForm from "./components/forms/SimpleTopicEntry";
 import TopicsView from "./components/displays/TopicsView";
 import CategoriesHeader from "./components/displays/Categories";
 import Login from "./components/tools/Login";
@@ -9,6 +9,8 @@ import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/displays/Modal";
+import styled from "@emotion/styled";
+import { globals, theme } from "./globalStyles";
 
 function App() {
   const { token, setToken, resetToken } = useToken();
@@ -128,10 +130,32 @@ function App() {
     />,
     <Route key="wildcard" from="*" element={<TopicsView />} />,
   ];
+
+  // styling
+  const { colWidth } = theme.sizes;
+
+  const InputSection = styled.div`
+    display: block;
+    ${colWidth};
+  `;
+
+  const TopicSection = styled.div`
+    display: block;
+    ${colWidth};
+  `;
+  const MainContent = styled.div`
+    display: flex;
+    column-gap: 10px;
+    flex-flow: column wrap;
+    justify-contnent: flex-start;
+    margin: 0 10px;
+  `;
   return (
     <BrowserRouter>
+      {globals}
       <ToastContainer
         theme="dark"
+        toastStyle={{ backgroundColor: theme.colors.primary }}
         position="top-center"
         autoClose={7000}
         hideProgressBar={false}
@@ -146,21 +170,28 @@ function App() {
       <CategoriesHeader
         topics={topics}
         setCurrentCategory={setCurrentCategory}
+        activeCategory={currentCategory.category}
       />
-      {token ? (
-        <TopicEntry
-          token={token}
-          currentCategory={currentCategory}
-          createModal={createModal}
-          tags={tags}
-          getSolutionUniqueID={getSolutionUniqueID}
-          setTopics={setTopics}
-          addToContentList={addToContentList}
-        />
-      ) : (
-        <a href="/login">Login</a>
-      )}
-      <Routes>{allRoutes}</Routes>
+      <MainContent>
+        <InputSection>
+          {token ? (
+            <SimpleTopicForm
+              token={token}
+              currentCategory={currentCategory}
+              createModal={createModal}
+              tags={tags}
+              getSolutionUniqueID={getSolutionUniqueID}
+              setTopics={setTopics}
+              addToContentList={addToContentList}
+            />
+          ) : (
+            <a href="/login">Login</a>
+          )}
+        </InputSection>
+        <TopicSection>
+          <Routes>{allRoutes}</Routes>
+        </TopicSection>
+      </MainContent>
     </BrowserRouter>
   );
 }

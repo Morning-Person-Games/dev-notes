@@ -49,7 +49,6 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       : [];
   const filteredSolutions = [];
   if (solutionsResults.length > 0) {
-    console.log("preFor");
     solutionsResults.forEach((result) => {
       if (result.status === "fulfilled") {
         filteredSolutions.push(result.value);

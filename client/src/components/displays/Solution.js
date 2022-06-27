@@ -1,9 +1,15 @@
 import React from "react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS } from "@contentful/rich-text-types";
+import styled from "@emotion/styled";
 
 function Solution({ solution }) {
-  return <li>{solution.title}</li>;
+  const Li = styled.li`
+    margin: 0;
+    padding: 10px;
+    overflow-wrap: break-word;
+  `;
+  return <Li>{solution.title}</Li>;
 }
 
 function ExpandedSolution({ solution }) {

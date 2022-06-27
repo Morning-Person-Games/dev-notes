@@ -1,6 +1,5 @@
 const path = require("path");
 const express = require("express");
-//const axios = require("axios");
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -8,6 +7,9 @@ const clientID = process.env.CONTENTFUL_OAUTH_ID;
 const redirect_uri = process.env.CONTENTFUL_OAUTH_REDIRECT_URI;
 
 const content = require("./routes/content.js");
+const create = require("./routes/create");
+const upload = require("./routes/mediaUpload.js");
+const topicsService = require("./services/topics.js");
 
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(express.json());
@@ -16,16 +18,24 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.use("/api/content", content);
+app.use("/api/create", create);
+app.use("/api/upload", upload);
 
-app.get("/oauth/authenticate", (req, res) => {
-  res.redirect(
-    `https://be.contentful.com/oauth/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirect_uri}&scope=content_management_manage`
-  );
+app.get("/login", (req, res) => {
+  if (clientID && redirect_uri) {
+    res.redirect(
+      `https://be.contentful.com/oauth/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirect_uri}&scope=content_management_manage`
+    );
+  } else {
+    res.redirect("/oauth/redirect");
+  }
 });
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+  topicsService.getTopics().then((topicsCollection) => {
+    res.json(topicsCollection.items);
+  });
 });
 
 // All other GET requests not handled before will return our React app

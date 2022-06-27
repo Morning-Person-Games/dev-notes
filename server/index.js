@@ -22,13 +22,9 @@ app.use("/api/create", create);
 app.use("/api/upload", upload);
 
 app.get("/login", (req, res) => {
-  if (clientID && redirect_uri) {
-    res.redirect(
-      `https://be.contentful.com/oauth/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirect_uri}&scope=content_management_manage`
-    );
-  } else {
-    res.redirect("/oauth/redirect");
-  }
+  res.redirect(
+    `https://be.contentful.com/oauth/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirect_uri}&scope=content_management_manage`
+  );
 });
 
 // Handle GET requests to /api route

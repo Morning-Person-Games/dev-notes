@@ -153,6 +153,7 @@ function App() {
   const LoginButton = styled.button`
     ${theme.baseTypes.baseBtn};
     ${theme.sizes.colWidth};
+    margin-bottom: 10px;
   `;
   return (
     <BrowserRouter>

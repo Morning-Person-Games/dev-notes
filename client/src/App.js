@@ -42,7 +42,7 @@ function App() {
 
           //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
           setSolutions(content.solutions);
-          console.log("fetched");
+          console.log("Content fetched");
         });
     };
     fetchAndSetContent();
@@ -150,7 +150,7 @@ function App() {
     justify-contnent: flex-start;
     margin: 0 10px;
   `;
-  const LoginButton = styled.button`
+  const LoginButton = styled.a`
     ${theme.baseTypes.baseBtn};
     ${theme.sizes.colWidth};
     margin-bottom: 10px;

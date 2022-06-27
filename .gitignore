@@ -6,3 +6,4 @@ keytmp.pem
 server/local.js
 .vscode
 client/src/hidden/
+node_modules

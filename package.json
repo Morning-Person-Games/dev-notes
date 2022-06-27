@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "local": "node server/local.js",
-    "build": "npm install && cd client && npm install && npm run build"
+    "build": "npm install && cd client/ && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
     "node": "16.15.0"

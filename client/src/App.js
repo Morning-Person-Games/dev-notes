@@ -150,6 +150,10 @@ function App() {
     justify-contnent: flex-start;
     margin: 0 10px;
   `;
+  const LoginButton = styled.button`
+    ${theme.baseTypes.baseBtn};
+    ${theme.sizes.colWidth};
+  `;
   return (
     <BrowserRouter>
       {globals}
@@ -185,7 +189,7 @@ function App() {
               addToContentList={addToContentList}
             />
           ) : (
-            <a href="/login">Login</a>
+            <LoginButton href="/login">Login</LoginButton>
           )}
         </InputSection>
         <TopicSection>

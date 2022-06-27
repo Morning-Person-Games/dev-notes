@@ -46,7 +46,7 @@ const SimpleTopicForm = (props) => {
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
   const { primary, white, black } = theme.colors;
-  const { radius } = theme.sizes;
+  const { radius, colWidth } = theme.sizes;
   const Errors = styled.div`
     color: ${theme.colors.error};
     margin: 5px 0;
@@ -97,6 +97,7 @@ const SimpleTopicForm = (props) => {
   `;
   const TopicForm = css`
     padding-bottom: 0;
+    ${colWidth};
   `;
 
   const TopicFieldWrapper = css`

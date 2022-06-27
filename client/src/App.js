@@ -134,11 +134,6 @@ function App() {
   // styling
   const { colWidth } = theme.sizes;
 
-  const InputSection = styled.div`
-    display: block;
-    ${colWidth};
-  `;
-
   const TopicSection = styled.div`
     display: block;
     ${colWidth};
@@ -154,6 +149,9 @@ function App() {
     ${theme.baseTypes.baseBtn};
     ${theme.sizes.colWidth};
     margin-bottom: 10px;
+    padding: 8px 0;
+    text-align: center;
+    text-decoration: none;
   `;
   return (
     <BrowserRouter>
@@ -178,21 +176,19 @@ function App() {
         activeCategory={currentCategory.category}
       />
       <MainContent>
-        <InputSection>
-          {token ? (
-            <SimpleTopicForm
-              token={token}
-              currentCategory={currentCategory}
-              createModal={createModal}
-              tags={tags}
-              getSolutionUniqueID={getSolutionUniqueID}
-              setTopics={setTopics}
-              addToContentList={addToContentList}
-            />
-          ) : (
-            <LoginButton href="/login">Login</LoginButton>
-          )}
-        </InputSection>
+        {token ? (
+          <SimpleTopicForm
+            token={token}
+            currentCategory={currentCategory}
+            createModal={createModal}
+            tags={tags}
+            getSolutionUniqueID={getSolutionUniqueID}
+            setTopics={setTopics}
+            addToContentList={addToContentList}
+          />
+        ) : (
+          <LoginButton href="/login">Login</LoginButton>
+        )}
         <TopicSection>
           <Routes>{allRoutes}</Routes>
         </TopicSection>

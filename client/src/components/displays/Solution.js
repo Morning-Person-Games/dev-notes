@@ -2,14 +2,28 @@ import React from "react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS } from "@contentful/rich-text-types";
 import styled from "@emotion/styled";
+import Linkify from "linkify-react";
 
 function Solution({ solution }) {
   const Li = styled.li`
     margin: 0;
-    padding: 10px;
+    padding: 0 10px;
     overflow-wrap: break-word;
+    min-width: 25px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* number of lines to show */
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
   `;
-  return <Li>{solution.title}</Li>;
+  const renderedSolution = documentToReactComponents(solution.description);
+  return (
+    <Li className="richText">
+      <Linkify>{renderedSolution}</Linkify>
+    </Li>
+  );
 }
 
 function ExpandedSolution({ solution }) {

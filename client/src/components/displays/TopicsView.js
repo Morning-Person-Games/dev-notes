@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 // import { theme } from "../../globalStyles";
 
 //! Lots of comments here after I built all the functionality for tags, but decided to remove them. Too much regret to delete the code.
-function TopicsView({ currentTopics, tags }) {
+function TopicsView({ currentTopics, tags, spaceID, token }) {
   const [topics, setTopics] = useState([]);
   const [queryResult, setQueryResult] = useState([]);
   // const [activeTagFilters, setActiveTagFilters] = useState([]);
@@ -83,7 +83,15 @@ function TopicsView({ currentTopics, tags }) {
     // };
 
     topicsList = filteredTopics.map((topic) => {
-      return <Topic key={topic.id} topic={topic} tags={tags} />;
+      return (
+        <Topic
+          key={topic.id}
+          topic={topic}
+          tags={tags}
+          spaceID={spaceID}
+          token={token}
+        />
+      );
     });
   }
 

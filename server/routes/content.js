@@ -5,6 +5,7 @@ const categories = require("../services/categories.js");
 const tags = require("../services/tags.js");
 const solutions = require("../services/solutions.js");
 const formatter = require("../services/formatter.js");
+require("dotenv").config();
 
 // get categories and topics together to correctly format them for react/client
 router.use(function (req, res, next) {
@@ -74,6 +75,7 @@ router.get("/", function (req, res, next) {
     topics: req.content.topics ? req.content.topics : [],
     tags: req.content.tags ? req.content.tags : [],
     solutions: req.content.solutions ? req.content.solutions : [],
+    spaceID: process.env.CONTENTFUL_SPACE_ID,
   });
 });
 

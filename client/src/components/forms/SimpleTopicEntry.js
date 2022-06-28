@@ -7,7 +7,7 @@ import { createNewTopic } from "../tools/contentfulManagement";
 import { SimpleFormattedTopicEntry } from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
-import { MdOpenInFull } from "react-icons/md";
+import { MdFullscreen } from "react-icons/md";
 
 const SimpleTopicForm = (props) => {
   //const [formActive, setFormActive] = useState(false);
@@ -64,12 +64,12 @@ const SimpleTopicForm = (props) => {
   `;
   const Expand = styled.button`
     ${baseBtn}
-    padding: 5px;
+    padding: 0;
     border-radius: 0 0 ${radius} 0;
-    font-size: 1.2em;
+    font-size: 1.5em;
     width: 36px;
     svg {
-      margin-top: 3px;
+      margin-top: 5px;
     }
   `;
   const Buttons = styled.div`
@@ -134,7 +134,7 @@ const SimpleTopicForm = (props) => {
           Add topic
         </Submit>
         <Expand type="button" disabled={true}>
-          <MdOpenInFull />
+          <MdFullscreen />
         </Expand>
       </Buttons>
       <Errors>{errors.title}</Errors>
@@ -163,10 +163,7 @@ const SimpleTopicEntry = withFormik({
   }),
   handleSubmit: (values, { props, setSubmitting, resetForm }) => {
     setTimeout(() => {
-      const contentToAdd = SimpleFormattedTopicEntry(
-        values,
-        props.getSolutionUniqueID
-      );
+      const contentToAdd = SimpleFormattedTopicEntry(values);
       const { newSolutions, newTopic } = contentToAdd;
       const createdTopic = createNewTopic(
         props.token,

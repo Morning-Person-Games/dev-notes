@@ -4,10 +4,9 @@ import {
   getContentfulTextTypeFromDraftJs,
 } from "./HelperFunctions.js";
 
-function SimpleFormattedTopicEntry(values, getSolutionUniqueID) {
+function SimpleFormattedTopicEntry(values) {
   const newSolutions = [
     {
-      id: getSolutionUniqueID(),
       title: generateSolutionTitle(values.solution),
       description: {
         nodeType: "document",
@@ -71,9 +70,9 @@ function FormattedTopicEntry(values, getSolutionUniqueID) {
       newImages.push(image);
     } else {
       // Create title from aggregated characters
-      if (solutionTitle.length < 500) {
+      if (solutionTitle.length < 255) {
         for (let i = 0; i < block.text.length; i++) {
-          if (solutionTitle.length < 500) {
+          if (solutionTitle.length < 255) {
             // add a space in between additional blocks of text
             if (solutionTitle.length > 0 && i === 0) {
               solutionTitle += " ";

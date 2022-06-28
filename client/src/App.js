@@ -15,6 +15,7 @@ import { globals, theme } from "./globalStyles";
 function App() {
   const { token, setToken, resetToken } = useToken();
   const [topics, setTopics] = useState([]);
+  const [spaceID, setSpaceID] = useState("");
   const [tags, setTags] = useState([]);
   const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
@@ -42,7 +43,8 @@ function App() {
 
           //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
           setSolutions(content.solutions);
-          console.log("Content fetched");
+          setSpaceID(content.spaceID);
+          console.log("Fetched content");
         });
     };
     fetchAndSetContent();
@@ -53,25 +55,6 @@ function App() {
       setModalContent(null);
     } else {
       setModalContent({ title, component });
-    }
-  };
-
-  // find the first available uniqueID for a new solution:
-  const getSolutionUniqueID = () => {
-    const idList = [];
-    solutions.forEach((solution) => {
-      idList.push(solution.id);
-    });
-    idList.sort(function (a, b) {
-      return a - b;
-    });
-    if (idList.length <= 0) {
-      return 0;
-    }
-    for (let i = 0; i <= idList.length; i++) {
-      if (i !== idList[i]) {
-        return i;
-      }
     }
   };
 
@@ -125,7 +108,12 @@ function App() {
       key={"home"}
       path="/"
       element={
-        <TopicsView currentTopics={currentCategory.topics} tags={tags} />
+        <TopicsView
+          currentTopics={currentCategory.topics}
+          tags={tags}
+          spaceID={spaceID}
+          token={token}
+        />
       }
     />,
     <Route key="wildcard" from="*" element={<TopicsView />} />,
@@ -182,7 +170,6 @@ function App() {
             currentCategory={currentCategory}
             createModal={createModal}
             tags={tags}
-            getSolutionUniqueID={getSolutionUniqueID}
             setTopics={setTopics}
             addToContentList={addToContentList}
           />

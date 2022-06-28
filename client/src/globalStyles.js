@@ -75,6 +75,25 @@ const globals = (
       :focus-visible{
         outline: none;
       }
+      .richText{
+        p{
+          margin-bottom: 5px;
+        }
+        a{
+          &:link{
+            color: ${theme.colors.highlight};
+          }
+          &:visited{
+            color: ${theme.colors.highlight};
+          }
+          &:hover {
+            color: ${theme.colors.highlightHover};
+          }
+          &:active{
+            color: ${theme.colors.highlightHover};
+          }
+        }
+      }
     `}
   />
 );

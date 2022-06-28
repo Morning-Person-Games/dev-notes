@@ -36,7 +36,6 @@ function formatSolution(solution) {
   return {
     sysID: solution.sys.id,
     createdAt: solution.sys.createdAt,
-    id: solution.fields.id,
     title: solution.fields.title,
     description: solution.fields.description,
   };

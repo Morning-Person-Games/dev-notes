@@ -97,6 +97,12 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
 
   // styling
   const Ul = styled.ul`
+    display: flex;
+    column-count: 2;
+    gap: 10px;
+    flex-flow: row wrap;
+    align-items: baseline;
+    justify-content: flex-start;
     list-style-type: none;
     padding: 0;
     margin: 0;

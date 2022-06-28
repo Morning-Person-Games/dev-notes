@@ -56,20 +56,26 @@ const SimpleTopicForm = (props) => {
   const Submit = styled.button`
     ${baseBtn}
     padding:10px;
-    margin-right: 2px;
     color: ${white};
     font-size: 1.1em;
     flex-grow: 1;
+    border-right: 3px solid ${secondary};
     border-radius: 0 0 0 ${radius};
   `;
   const Expand = styled.button`
     ${baseBtn}
     padding: 0;
     border-radius: 0 0 ${radius} 0;
-    font-size: 1.5em;
-    width: 36px;
+    font-size: 2em;
     svg {
       margin-top: 5px;
+      margin-right: 6px;
+      padding-left: 6px;
+    }
+    &:disabled {
+      svg {
+        color: transparent;
+      }
     }
   `;
   const Buttons = styled.div`
@@ -93,7 +99,6 @@ const SimpleTopicForm = (props) => {
     word-wrap: break-word;
     resize: none;
     font-family: arial;
-    text-wrap: unrestricted;
   `;
   const TopicForm = css`
     padding-bottom: 0;

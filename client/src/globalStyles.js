@@ -1,6 +1,7 @@
 import { Global, css } from "@emotion/react";
-import { lighten } from "polished";
+import { lighten, math, darken } from "polished";
 
+// empty strings are set below just so I can hack intellisense a bit
 const theme = {
   colors: {
     background: "rgb(16, 18, 38)",
@@ -22,9 +23,14 @@ const theme = {
   },
   sizes: {
     radius: "5px",
+    minHeight: "45px",
     smMaxHeight: "150px",
-    smCol: "300px",
-    smColText: "290px",
+    screenSm: "320px",
+    screenMd: "",
+    screenLg: "",
+    smCol: "",
+    mdCol: "",
+    maxWidth: "",
     colWidth: "",
   },
   baseTypes: {
@@ -34,10 +40,91 @@ const theme = {
     baseRichText: "",
   },
 };
-const { colors } = theme;
-colors.primary = lighten("0.11", colors.background);
+const { colors, sizes, baseTypes } = theme;
+// colors:
+colors.primary = lighten("0.13", colors.background);
 colors.secondary = lighten("0.06", colors.background);
+colors.black = darken("0.05", colors.background);
 
+// sizes:
+const { screenSm } = sizes;
+sizes.smCol = math(screenSm + "- 20px");
+sizes.mdCol = math(screenSm + "* 1.5");
+sizes.screenMd = math(sizes.mdCol + "+ 20px");
+sizes.screenLg = math("(" + sizes.mdCol + "* 2) + 50px");
+sizes.maxWidth = math(sizes.screenLg + " - 40px");
+
+sizes.colWidth = css`
+  margin: 0 auto;
+  padding: 0 10px;
+  @media screen and (min-width: ${sizes.screenMd}) {
+    width: ${sizes.mdCol};
+  }
+  @media screen and (min-width: ${sizes.screenLg}) {
+    padding: 0 20px;
+    width: ${sizes.maxWidth};
+  }
+`;
+
+// baseTypes:
+baseTypes.baseInput = css`
+  display: block;
+  padding: 10px;
+  background: ${colors.primary};
+  border: none;
+  color: ${colors.white};
+  width: 100%;
+  &::placeholder {
+    color: ${colors.gray};
+  }
+`;
+
+baseTypes.baseBtn = css`
+  transition: all 100ms ease-in;
+  -webkit-transition: all 100ms ease-in;
+  border: 0;
+  background-color: ${colors.blue};
+  padding: 8px;
+  font-size: 1em;
+  color: ${colors.white};
+  border-radius: ${sizes.radius};
+  &:hover {
+    background-color: ${colors.hover};
+  }
+  &:disabled {
+    color: ${colors.gray};
+    background-color: ${colors.primary};
+    cursor: default;
+  }
+`;
+baseTypes.baseLink = css`
+  color: ${colors.highlight};
+  &:link {
+    color: ${colors.highlight};
+  }
+  &:visited {
+    color: ${colors.highlight};
+  }
+  &:hover {
+    color: ${colors.highlightHover};
+  }
+  &:active {
+    color: ${colors.highlightHover};
+  }
+`;
+
+baseTypes.baseRichText = css`
+  p {
+    margin: 0;
+    padding: 10px;
+    padding-bottom: 0;
+  }
+  a {
+    ${baseTypes.baseLink};
+  }
+`;
+
+// globals:
 const globals = (
   <Global
     styles={css`
@@ -64,7 +151,7 @@ const globals = (
       h5,
       h6,
       li {
-        color: ${theme.colors.white};
+        color: ${colors.white};
       }
 
       button {
@@ -72,8 +159,8 @@ const globals = (
       }
 
       ::-webkit-scrollbar-track {
-        border-radius: ${theme.sizes.radius};
-        background-color: ${theme.colors.secondary};
+        border-radius: ${sizes.radius};
+        background-color: ${colors.secondary};
       }
 
       ::-webkit-scrollbar {
@@ -82,8 +169,8 @@ const globals = (
       }
 
       ::-webkit-scrollbar-thumb {
-        border-radius: ${theme.sizes.radius};
-        background-color: ${theme.colors.primary};
+        border-radius: ${sizes.radius};
+        background-color: ${colors.primary};
       }
       :focus-visible {
         outline: none;
@@ -91,59 +178,5 @@ const globals = (
     `}
   />
 );
-
-theme.baseTypes.baseInput = `display: block;
-padding: 10px;
-background: ${theme.colors.primary};
-border: none;
-color: ${theme.colors.white};
-flex-grow: 1;
-&::placeholder {
-  color: ${theme.colors.gray};
-}`;
-
-theme.baseTypes.baseBtn = `
-transition: all 100ms ease-in;
--webkit-transition: all 100ms ease-in;
-border: 0;
-background-color: ${theme.colors.blue};
-padding: 8px;
-font-size: 1em;
-color: ${theme.colors.white};
-border-radius: ${theme.sizes.radius};
-&:hover{
-  background-color: ${theme.colors.hover};
-}
-&:disabled {
-  color: ${theme.colors.gray};
-  background-color: ${theme.colors.primary};
-  cursor: default;
-}`;
-theme.baseTypes.baseLink = `
-color: ${theme.colors.highlight};
-&:link {
-  color: ${theme.colors.highlight};
-}
-&:visited {
-  color: ${theme.colors.highlight};
-}
-&:hover {
-  color: ${theme.colors.highlightHover};
-}
-&:active {
-  color: ${theme.colors.highlightHover};
-}`;
-
-theme.baseTypes.baseRichText = `
-  p {
-    margin: 0;
-    padding: 10px;
-    padding-bottom: 0;
-  }
-  a {
-    ${theme.baseTypes.baseLink};
-  }`;
-
-theme.sizes.colWidth = `width: ${theme.sizes.smCol}`;
 
 export { theme, globals };

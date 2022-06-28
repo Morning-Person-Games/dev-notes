@@ -120,22 +120,21 @@ function App() {
   ];
 
   // styling
-  const { colWidth } = theme.sizes;
-
+  const { sizes } = theme;
   const TopicSection = styled.div`
     display: block;
-    ${colWidth};
+    ${sizes.colWidth};
   `;
   const MainContent = styled.div`
     display: flex;
     column-gap: 10px;
     flex-flow: column wrap;
-    justify-contnent: flex-start;
+    justify-content: center;
     margin: 0 10px;
   `;
   const LoginButton = styled.a`
     ${theme.baseTypes.baseBtn};
-    ${theme.sizes.colWidth};
+    ${sizes.colWidth};
     margin-bottom: 10px;
     padding: 8px 0;
     text-align: center;

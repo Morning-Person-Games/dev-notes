@@ -8,7 +8,7 @@ function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
   const { highlight, white, highlightHover } = theme.colors;
   const ScrollCon = css`
     ${theme.sizes.colWidth};
-    margin: 0 10px 15px 10px;
+    margin-bottom: 15px;
   `;
   const Ul = styled.ul`
     list-style-type: none;

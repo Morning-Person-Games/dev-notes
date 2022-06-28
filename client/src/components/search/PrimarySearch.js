@@ -92,7 +92,10 @@ class PrimarySearch extends Component {
               background: none;
               font-size: 1.1em;
               padding: 12px;
-              padding-left: 38px;
+              padding-left: 28px;
+              @media screen and (min-width: ${theme.sizes.screenLg}) {
+                padding-left: 18px;
+              }
             `}
           />
           <MdSearch

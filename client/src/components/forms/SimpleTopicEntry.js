@@ -102,7 +102,6 @@ const SimpleTopicForm = (props) => {
   `;
   const TopicForm = css`
     padding-bottom: 0;
-    ${colWidth};
   `;
 
   const TopicFieldWrapper = css`

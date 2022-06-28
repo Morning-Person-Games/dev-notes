@@ -128,9 +128,6 @@ baseTypes.baseRichText = css`
 const globals = (
   <Global
     styles={css`
-      html {
-        width: 100vw;
-      }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
           "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
@@ -139,8 +136,7 @@ const globals = (
         -moz-osx-font-smoothing: grayscale;
         font-size: 16px;
         background-color: ${colors.background};
-        margin: 5px auto;
-        padding: 0;
+        margin: 0;
       }
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

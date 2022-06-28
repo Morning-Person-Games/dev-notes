@@ -17,7 +17,6 @@ function Solution({ solution, expanded, setCanExpand }) {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
   `;
@@ -34,6 +33,9 @@ function Solution({ solution, expanded, setCanExpand }) {
     &:not(:last-child) {
       padding-bottom: 10px;
       border-bottom: 2px solid ${primary};
+    }
+    a {
+      overflow-wrap: anywhere;
     }
   `;
   const Cover = styled.div`

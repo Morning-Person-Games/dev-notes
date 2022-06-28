@@ -126,15 +126,12 @@ function App() {
     ${sizes.colWidth};
   `;
   const MainContent = styled.div`
-    display: flex;
-    column-gap: 10px;
-    flex-flow: column wrap;
-    justify-content: center;
-    margin: 0 10px;
+    ${sizes.colWidth};
+    display: block;
   `;
   const LoginButton = styled.a`
     ${theme.baseTypes.baseBtn};
-    ${sizes.colWidth};
+    ${sizes.smCol};
     margin-bottom: 10px;
     padding: 8px 0;
     text-align: center;

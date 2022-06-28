@@ -45,7 +45,7 @@ const SimpleTopicForm = (props) => {
   // console.log('validate', validate);
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
-  const { primary, white, black } = theme.colors;
+  const { primary, white, secondary } = theme.colors;
   const { radius, colWidth } = theme.sizes;
   const Errors = styled.div`
     color: ${theme.colors.error};
@@ -103,7 +103,7 @@ const SimpleTopicForm = (props) => {
   const TopicFieldWrapper = css`
     display: flex;
     flex-wrap: wrap;
-    background: ${black};
+    background: ${secondary};
     border-radius: ${radius} ${radius} 0 0;
   `;
 

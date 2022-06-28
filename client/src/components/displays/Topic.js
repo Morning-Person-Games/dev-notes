@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Solution } from "./Solution";
 // import { Tag } from "./Tag";
 import styled from "@emotion/styled";
 import { theme } from "../../globalStyles";
-import { MdFullscreen, MdEditNote } from "react-icons/md";
+import {
+  MdFullscreen,
+  MdEditNote,
+  MdExpandMore,
+  MdExpandLess,
+} from "react-icons/md";
 
 function Topic(props) {
+  const [expanded, setExpanded] = useState(false);
+  const [inactive, setInactive] = useState(false);
+
   const solutions = props.topic.solutions.map((solution) => {
-    return <Solution key={solution.sysID} solution={solution} />;
+    return (
+      <Solution key={solution.sysID} solution={solution} expanded={expanded} />
+    );
   });
   // const tags = props.topic.tags.map((tag) => {
   //   return <Tag key={tag.id} tag={tag} allTags={props.allTags} />;
@@ -19,7 +29,7 @@ function Topic(props) {
     props.topic.id;
   const canEdit = props.token && props.spaceID ? true : false;
   //styling
-  const { primary, background, black, gray, inactive } = theme.colors;
+  const { primary, background, secondary, gray } = theme.colors;
   const { radius } = theme.sizes;
   const { baseBtn } = theme.baseTypes;
   const Card = styled.li`
@@ -27,79 +37,89 @@ function Topic(props) {
     border-radius: ${radius};
     padding: 0;
     margin-bottom: 8px;
-    box-shadow: 0 2px 0 ${black};
+    box-shadow: 0 2px 0 ${background};
   `;
-  const H3 = styled.h3`
+  const TopicTitle = styled.h3`
     margin: 0;
     padding: 10px;
-    border-bottom: 2px solid ${background};
+    border-radius: ${radius} ${radius} 0 0;
+    background-color: ${primary};
     overflow-wrap: break-word;
   `;
-  const Ul = styled.ul`
+  const SolutionsList = styled.ul`
     margin: 0;
     padding: 0;
+    background-color: ${secondary};
     list-style-type: none;
   `;
   const Actions = styled.div`
     display: flex;
     flex-wrap: none;
     height: 30px;
+    background-color: ${primary};
+    border-radius: 0 0 ${radius} ${radius};
   `;
   const alternateBtn = `
-  ${baseBtn}
+  ${baseBtn};
   color: ${gray};
-  background-color: ${background};
-  font-size: 1.5em;
+  border-radius: 0;
+  background-color: transparent;
   &:hover{
-    background-color: ${black};
+    background-color: ${secondary};
   }
   &:disabled {
-    color: ${inactive};
-    background-color: ${gray};
+    color: ${gray};
+    background-color: transparent;
     cursor: default;
   }`;
   const Expand = styled.button`
-    ${alternateBtn}
-    padding: 0;
-    border-radius: 0 0 ${radius} 0;
+    ${alternateBtn};
+    padding: 0 5px 0 3px;
+    font-size: 1.5em;
     width: 30px;
     svg {
       margin-top: 3px;
     }
   `;
   const Edit = styled.a`
-    ${alternateBtn}
+    ${alternateBtn};
     text-decoration: none;
-    padding: 0;
-    flex-grow: 1;
-    border-radius: 0 0 0 ${radius};
+    font-size: 1.5em;
+    padding: 0 3px 0 6px;
     cursor: pointer;
     text-align: center;
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
     svg {
-      margin-top: 5px;
+      margin-top: 4px;
     }
   `;
-  const EditText = styled.div`
-    font-size: 16px;
-    padding-top: 5px;
-    margin-right: 5px;
-    cursor: pointer;
+  const ReadMore = styled.button`
+    ${alternateBtn};
+    flex-grow: 1;
+    border: solid ${secondary};
+    border-width: 0 3px;
+    font-size: 2em;
+    padding: 0;
   `;
   return (
     <Card>
-      <H3>{props.topic.title}</H3>
+      <TopicTitle>{props.topic.title}</TopicTitle>
       {/* {tags.length > 0 && <ul>{tags}</ul>} */}
       {solutions.length > 0 && (
         <div>
-          <Ul>{solutions}</Ul>
+          <SolutionsList>{solutions}</SolutionsList>
           <Actions>
-            <Edit href={edit} disabled={canEdit}>
-              <EditText>Edit</EditText>
+            <Edit href={edit} target="_blank" disabled={canEdit}>
               <MdEditNote />
             </Edit>
+            <ReadMore
+              onClick={() => setExpanded((prev) => !prev)}
+              disabled={inactive}
+            >
+              {expanded ? <MdExpandLess /> : <MdExpandMore />}
+            </ReadMore>
             <Expand disabled>
               <MdFullscreen />
             </Expand>

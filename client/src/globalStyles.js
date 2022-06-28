@@ -1,10 +1,11 @@
 import { Global, css } from "@emotion/react";
+import { lighten } from "polished";
 
 const theme = {
   colors: {
-    primary: "#20243e",
-    background: "#171A2B",
-    black: "#131523",
+    background: "rgb(16, 18, 38)",
+    primary: "",
+    secondary: "",
     dark: "#141624",
     white: "#f2f2f2",
     gray: "#b0b0b6",
@@ -21,9 +22,21 @@ const theme = {
   },
   sizes: {
     radius: "5px",
+    smMaxHeight: "150px",
+    smCol: "300px",
+    smColText: "290px",
+    colWidth: "",
   },
-  baseTypes: {},
+  baseTypes: {
+    baseInput: "",
+    baseBtn: "",
+    baseLink: "",
+    baseRichText: "",
+  },
 };
+const { colors } = theme;
+colors.primary = lighten("0.11", colors.background);
+colors.secondary = lighten("0.06", colors.background);
 
 const globals = (
   <Global
@@ -35,7 +48,7 @@ const globals = (
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-size: 16px;
-        background: ${theme.colors.background};
+        background-color: ${colors.background};
         margin: 5px auto;
         padding: 0;
       }
@@ -59,8 +72,8 @@ const globals = (
       }
 
       ::-webkit-scrollbar-track {
-        border-radius: ${theme.sizes.radius}
-        background-color: ${theme.colors.black};
+        border-radius: ${theme.sizes.radius};
+        background-color: ${theme.colors.secondary};
       }
 
       ::-webkit-scrollbar {
@@ -70,29 +83,10 @@ const globals = (
 
       ::-webkit-scrollbar-thumb {
         border-radius: ${theme.sizes.radius};
-        background-color: ${theme.colors.black};
+        background-color: ${theme.colors.primary};
       }
-      :focus-visible{
+      :focus-visible {
         outline: none;
-      }
-      .richText{
-        p{
-          margin-bottom: 5px;
-        }
-        a{
-          &:link{
-            color: ${theme.colors.highlight};
-          }
-          &:visited{
-            color: ${theme.colors.highlight};
-          }
-          &:hover {
-            color: ${theme.colors.highlightHover};
-          }
-          &:active{
-            color: ${theme.colors.highlightHover};
-          }
-        }
       }
     `}
   />
@@ -125,7 +119,31 @@ border-radius: ${theme.sizes.radius};
   background-color: ${theme.colors.primary};
   cursor: default;
 }`;
+theme.baseTypes.baseLink = `
+color: ${theme.colors.highlight};
+&:link {
+  color: ${theme.colors.highlight};
+}
+&:visited {
+  color: ${theme.colors.highlight};
+}
+&:hover {
+  color: ${theme.colors.highlightHover};
+}
+&:active {
+  color: ${theme.colors.highlightHover};
+}`;
 
-theme.sizes.colWidth = `width: 300px;`;
+theme.baseTypes.baseRichText = `
+  p {
+    margin: 0;
+    padding: 10px;
+    padding-bottom: 0;
+  }
+  a {
+    ${theme.baseTypes.baseLink};
+  }`;
+
+theme.sizes.colWidth = `width: ${theme.sizes.smCol}`;
 
 export { theme, globals };

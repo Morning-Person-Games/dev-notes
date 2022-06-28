@@ -70,7 +70,7 @@ class PrimarySearch extends Component {
       <form
         css={css`
           display: flex;
-          background: ${theme.colors.black};
+          background: ${theme.colors.secondary};
           border-radius: ${theme.sizes.radius};
           margin-bottom: 10px;
         `}

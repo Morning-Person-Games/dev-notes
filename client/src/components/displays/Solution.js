@@ -3,24 +3,33 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS } from "@contentful/rich-text-types";
 import styled from "@emotion/styled";
 import Linkify from "linkify-react";
+import { ellipsis } from "polished";
+import { theme } from "../../globalStyles";
 
-function Solution({ solution }) {
+function Solution({ solution, expanded }) {
+  //styling
+  const { smColText } = theme.sizes;
+  const { primary } = theme.colors;
+  const { baseRichText } = theme.baseTypes;
+  const eliped = expanded
+    ? `overflow-wrap: break-word;`
+    : ellipsis(smColText, 6);
   const Li = styled.li`
+    ${baseRichText};
     margin: 0;
-    padding: 0 10px;
-    overflow-wrap: break-word;
-    min-width: 25px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 6; /* number of lines to show */
-    line-clamp: 6;
-    -webkit-box-orient: vertical;
+    padding: 0;
+    padding-bottom: 12px;
+    margin-bottom: 0;
+    position: relative;
+    ${eliped};
+    &:not(:last-child) {
+      padding-bottom: 10px;
+      border-bottom: 2px solid ${primary};
+    }
   `;
   const renderedSolution = documentToReactComponents(solution.description);
   return (
-    <Li className="richText">
+    <Li>
       <Linkify>{renderedSolution}</Linkify>
     </Li>
   );

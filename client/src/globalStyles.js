@@ -128,6 +128,9 @@ baseTypes.baseRichText = css`
 const globals = (
   <Global
     styles={css`
+      html {
+        width: 100vw;
+      }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
           "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
@@ -152,10 +155,6 @@ const globals = (
       h6,
       li {
         color: ${colors.white};
-      }
-
-      button {
-        cursor: pointer;
       }
 
       ::-webkit-scrollbar-track {

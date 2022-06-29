@@ -22,14 +22,14 @@ function TagField({ tag, allTags, handleTags }) {
     display: inline-block;
   `;
 
-  const { blue, hoverBlue, gray, white } = theme.colors;
+  const { blue, hoverBlue, inactiveColor, white } = theme.colors;
 
   const Button = styled.button`
-    color: ${active ? white : gray};
+    color: ${active ? white : inactiveColor};
     font-size: 1em;
     background: ${active ? blue : "none"};
     padding: 5px;
-    border: 1px solid ${active ? "transparent" : gray};
+    border: 1px solid ${active ? "transparent" : inactiveColor};
     margin-right: 5px;
     transition: all 50ms ease-in;
     -webkit-transition: all 50ms ease-in;

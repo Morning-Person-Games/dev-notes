@@ -123,7 +123,6 @@ function App() {
   const { sizes } = theme;
   const TopicSection = styled.div`
     display: block;
-    ${sizes.colWidth};
   `;
   const MainContent = styled.div`
     ${sizes.colWidth};

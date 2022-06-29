@@ -21,6 +21,7 @@ function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
     display: inline-block;
   `;
   const Button = styled.button`
+    cursor: pointer;
     margin: 0;
     padding: 12px;
     color: ${white};

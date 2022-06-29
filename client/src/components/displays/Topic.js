@@ -69,7 +69,7 @@ function Topic(props) {
     </p>
   );
   //styling
-  const { primary, black, secondary, gray, highlight } = theme.colors;
+  const { primary, black, secondary, inactiveColor, highlight } = theme.colors;
   const { sizes } = theme;
   const { baseBtn } = theme.baseTypes;
   const Card = styled.li`
@@ -109,11 +109,11 @@ function Topic(props) {
       background-color: ${secondary};
     }
     &:disabled {
-      color: ${gray};
+      color: ${inactiveColor};
       background-color: transparent;
       cursor: default;
       svg {
-        //color: transparent;
+        color: transparent;
       }
     }
   `;

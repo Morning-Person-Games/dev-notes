@@ -7,19 +7,15 @@ const theme = {
     background: "rgb(16, 18, 38)",
     primary: "",
     secondary: "",
-    dark: "#141624",
     white: "#f2f2f2",
-    gray: "#b0b0b6",
-    inactive: "#6A6D7A",
+    highlight: "rgb(75, 90, 205)",
+    highlightHover: "",
+    inactiveColor: "#6A6D7A",
+    dark: "#141624",
     error: "#d93434",
+    gray: "#b0b0b6",
     border: "#2b315f",
-    highlight: "#6C7BCC",
-    highlightHover: "#444D80",
     yellow: "#EFFF54",
-    highlightYellow: "#77802A",
-    blue: "#323080",
-    purple: "#2f2e6b",
-    hover: "#37367d",
   },
   sizes: {
     radius: "5px",
@@ -41,10 +37,10 @@ const theme = {
   },
 };
 const { colors, sizes, baseTypes } = theme;
-// colors:
 colors.primary = lighten("0.13", colors.background);
 colors.secondary = lighten("0.06", colors.background);
 colors.black = darken("0.05", colors.background);
+colors.highlightHover = darken("0.15", colors.highlight);
 
 // sizes:
 const { screenSm } = sizes;
@@ -80,16 +76,17 @@ baseTypes.baseInput = css`
 `;
 
 baseTypes.baseBtn = css`
+  cursor: pointer;
   transition: all 100ms ease-in;
   -webkit-transition: all 100ms ease-in;
   border: 0;
-  background-color: ${colors.blue};
+  background-color: ${colors.highlight};
   padding: 8px;
   font-size: 1em;
   color: ${colors.white};
   border-radius: ${sizes.radius};
   &:hover {
-    background-color: ${colors.hover};
+    background-color: ${colors.highlightHover};
   }
   &:disabled {
     color: ${colors.gray};

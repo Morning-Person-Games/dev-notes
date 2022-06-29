@@ -46,7 +46,7 @@ const SimpleTopicForm = (props) => {
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
   const { primary, white, secondary } = theme.colors;
-  const { radius, colWidth } = theme.sizes;
+  const { radius } = theme.sizes;
   const Errors = styled.div`
     color: ${theme.colors.error};
     margin: 5px 0;
@@ -89,16 +89,18 @@ const SimpleTopicForm = (props) => {
     padding: 5px 10px;
     border-bottom: 2px solid ${primary};
     min-height: 2em;
+    font-size: 1em;
   `;
   const TextareaCSS = css`
     ${baseInput}
     background: none;
     padding: 5px 10px;
     padding-top: 10px;
-    min-height: 4em;
+    min-height: 5em;
     word-wrap: break-word;
     resize: none;
     font-family: arial;
+    font-size: 1em;
   `;
   const TopicForm = css`
     padding-bottom: 0;

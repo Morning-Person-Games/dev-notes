@@ -105,7 +105,7 @@ class PrimarySearch extends Component {
               left: 8px;
               top: 10px;
               font-size: 1.5em;
-              color: ${theme.colors.gray};
+              color: ${theme.colors.inactiveColor};
             `}
           />
         </div>

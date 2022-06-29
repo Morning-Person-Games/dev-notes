@@ -77,9 +77,6 @@ router.post("/solutions", (req, res, next) => {
             solutions.forEach((solution) => {
               var fields = {
                 fields: {
-                  id: {
-                    "en-US": solution.id,
-                  },
                   title: {
                     "en-US": solution.title,
                   },
@@ -148,9 +145,6 @@ router.post("/topic", (req, res, next) => {
           .getEnvironment("master")
           .then((environment) => {
             var fields = {
-              metadata: {
-                tags: topic.tags,
-              },
               fields: {
                 title: {
                   "en-US": topic.title,

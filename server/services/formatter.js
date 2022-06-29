@@ -38,6 +38,7 @@ function formatSolution(solution) {
     createdAt: solution.sys.createdAt,
     title: solution.fields.title,
     description: solution.fields.description,
+    tempDes: solution.fields.tempDes ? solution.fields.tempDes : "",
   };
 }
 

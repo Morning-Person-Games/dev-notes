@@ -78,6 +78,7 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
   // console.log("all tags:", tags);
   console.log("all solutions:", solutions);
   const topic = {
+    tags: [],
     title: newTopic.title,
     slug: newTopic.slug,
     category: {

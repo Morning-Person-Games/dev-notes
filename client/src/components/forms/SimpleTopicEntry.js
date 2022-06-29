@@ -42,7 +42,6 @@ const SimpleTopicForm = (props) => {
   };
 
   const cantSubmit = isSubmitting || !isValid || !touched.title;
-  // console.log('validate', validate);
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
   const { primary, white, secondary } = theme.colors;
@@ -53,7 +52,7 @@ const SimpleTopicForm = (props) => {
     height: 1.4em;
     font-size: 0.8em;
   `;
-  const Submit = styled.button`
+  const Submit = css`
     ${baseBtn}
     padding:10px;
     color: ${white};
@@ -62,7 +61,7 @@ const SimpleTopicForm = (props) => {
     border-right: 3px solid ${secondary};
     border-radius: 0 0 0 ${radius};
   `;
-  const Expand = styled.button`
+  const Expand = css`
     ${baseBtn}
     padding: 0;
     border-radius: 0 0 ${radius} 0;
@@ -78,7 +77,7 @@ const SimpleTopicForm = (props) => {
       }
     }
   `;
-  const Buttons = styled.div`
+  const Buttons = css`
     display: flex;
     flex-wrap: none;
   `;
@@ -135,14 +134,14 @@ const SimpleTopicForm = (props) => {
           css={TextareaCSS}
         />
       </div>
-      <Buttons>
-        <Submit type="submit" disabled={cantSubmit}>
+      <div css={Buttons}>
+        <button css={Submit} type="submit" disabled={cantSubmit}>
           Add topic
-        </Submit>
-        <Expand type="button" disabled={true}>
+        </button>
+        <button css={Expand} type="button" disabled={true}>
           <MdFullscreen />
-        </Expand>
-      </Buttons>
+        </button>
+      </div>
       <Errors>{errors.title}</Errors>
     </form>
   );

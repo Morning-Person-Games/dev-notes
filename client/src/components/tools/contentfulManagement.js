@@ -11,37 +11,37 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
     position: toast.POSITION.TOP_RIGHT,
   });
   const messages = [];
-  const tagResults =
-    newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
-  console.log("tagResults", tagResults);
-  const filteredTags = [];
-  if (tagResults.length > 0) {
-    tagResults.forEach((result) => {
-      if (result.status === "fulfilled") {
-        filteredTags.push(result.value);
-      } else {
-        messages.push(result);
-      }
-    });
-  }
-  const tags = filteredTags.map((tag) => {
-    return {
-      sys: {
-        type: "Link",
-        linkType: "Tag",
-        id: tag.sys.id,
-      },
-    };
-  });
-  newTopic.tags.forEach((tag) => {
-    tags.push({
-      sys: {
-        type: "Link",
-        linkType: "Tag",
-        id: tag.id,
-      },
-    });
-  });
+  // const tagResults =
+  //   newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
+  // console.log("tagResults", tagResults);
+  // const filteredTags = [];
+  // if (tagResults.length > 0) {
+  //   tagResults.forEach((result) => {
+  //     if (result.status === "fulfilled") {
+  //       filteredTags.push(result.value);
+  //     } else {
+  //       messages.push(result);
+  //     }
+  //   });
+  // }
+  // const tags = filteredTags.map((tag) => {
+  //   return {
+  //     sys: {
+  //       type: "Link",
+  //       linkType: "Tag",
+  //       id: tag.sys.id,
+  //     },
+  //   };
+  // });
+  // newTopic.tags.forEach((tag) => {
+  //   tags.push({
+  //     sys: {
+  //       type: "Link",
+  //       linkType: "Tag",
+  //       id: tag.id,
+  //     },
+  //   });
+  // });
 
   const solutionsResults =
     newSolutions.length > 0
@@ -75,10 +75,9 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       },
     });
   });
-  console.log("all tags:", tags);
+  // console.log("all tags:", tags);
   console.log("all solutions:", solutions);
   const topic = {
-    tags: tags,
     title: newTopic.title,
     slug: newTopic.slug,
     category: {

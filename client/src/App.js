@@ -39,7 +39,7 @@ function App() {
         })
         .then((content) => {
           setTopicsAndCategories(content.topics);
-          setTags(content.tags);
+          //setTags(content.tags);
 
           //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
           setSolutions(content.solutions);
@@ -130,11 +130,16 @@ function App() {
   `;
   const LoginButton = styled.a`
     ${theme.baseTypes.baseBtn};
-    ${sizes.smCol};
+    width: ${sizes.smCol};
     margin-bottom: 10px;
     padding: 8px 0;
     text-align: center;
     text-decoration: none;
+  `;
+  const LoginButtonWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
   `;
   return (
     <BrowserRouter>
@@ -169,7 +174,9 @@ function App() {
             addToContentList={addToContentList}
           />
         ) : (
-          <LoginButton href="/login">Login</LoginButton>
+          <LoginButtonWrapper>
+            <LoginButton href="/login">Login</LoginButton>
+          </LoginButtonWrapper>
         )}
         <TopicSection>
           <Routes>{allRoutes}</Routes>

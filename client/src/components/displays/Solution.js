@@ -22,8 +22,15 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
   const { baseRichText, baseFontSize } = theme.baseTypes;
   const minLines = 2;
   // line height + default padding:
-  const defaultLineHeight = baseFontSize * 1.5 + 10 + "px";
-  const lines = 6;
+  const defaultLineHeight = baseFontSize * 1.5 + 10;
+  const defaultMaxHeight = defaultLineHeight * 6;
+  const pickyTooTall =
+    overflow &&
+    ref.current &&
+    ref.current.clientHeight > defaultMaxHeight + defaultLineHeight
+      ? true
+      : false;
+  const lines = pickyTooTall ? 5 : 6;
   const ell = css`
     overflow: hidden;
     text-overflow: ellipsis;
@@ -40,7 +47,7 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
     display: -webkit-box;
     position: relative;
     overflow-wrap: break-word;
-    min-height: ${overflow ? "6.5em" : defaultLineHeight};
+    min-height: ${overflow ? "6.5em" : defaultLineHeight + "px"};
     ${eliped};
   `;
   const Cover = styled.div`

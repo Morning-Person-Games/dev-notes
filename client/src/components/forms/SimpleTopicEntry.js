@@ -5,7 +5,7 @@ import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
 import { createNewTopic } from "../tools/contentfulManagement";
-import { SimpleFormattedTopicEntry } from "../tools/EntryFormatters";
+import SimpleFormattedTopicEntry from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";

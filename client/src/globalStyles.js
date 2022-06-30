@@ -1,21 +1,18 @@
 import { Global, css } from "@emotion/react";
-import { lighten, math, darken } from "polished";
+import { math, darken } from "polished";
 
 // empty strings are set below just so I can hack intellisense a bit
 const theme = {
   colors: {
-    background: "rgb(16, 18, 38)",
-    primary: "",
-    secondary: "",
-    white: "#f2f2f2",
+    primary: "rgb(36, 40, 85)",
+    white: "rgb(242, 242, 242)",
+    inactiveColor: "rgb(176, 176, 182)",
     highlight: "rgb(75, 90, 205)",
+    error: "rgb(217, 52, 52)",
+    background: "rgb(16, 18, 38)",
+    secondary: "",
     highlightHover: "",
-    inactiveColor: "#6A6D7A",
-    dark: "#141624",
-    error: "#d93434",
-    gray: "#b0b0b6",
-    border: "#2b315f",
-    yellow: "#EFFF54",
+    dark: "",
   },
   sizes: {
     radius: "5px",
@@ -37,9 +34,9 @@ const theme = {
   },
 };
 const { colors, sizes, baseTypes } = theme;
-colors.primary = lighten("0.13", colors.background);
-colors.secondary = lighten("0.06", colors.background);
-colors.black = darken("0.05", colors.background);
+colors.background = darken("0.13", colors.primary);
+colors.secondary = darken("0.07", colors.primary);
+colors.dark = darken("0.02", colors.background);
 colors.highlightHover = darken("0.15", colors.highlight);
 
 // sizes:
@@ -71,7 +68,7 @@ baseTypes.baseInput = css`
   color: ${colors.white};
   width: 100%;
   &::placeholder {
-    color: ${colors.gray};
+    color: ${colors.inactiveColor};
   }
 `;
 
@@ -89,7 +86,7 @@ baseTypes.baseBtn = css`
     background-color: ${colors.highlightHover};
   }
   &:disabled {
-    color: ${colors.gray};
+    color: ${colors.inactiveColor};
     background-color: ${colors.primary};
     cursor: default;
   }
@@ -125,6 +122,11 @@ baseTypes.baseRichText = css`
 const globals = (
   <Global
     styles={css`
+      html {
+        width: 100vw;
+        overflow-x: hidden;
+        font-size: 100%;
+      }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
           "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",

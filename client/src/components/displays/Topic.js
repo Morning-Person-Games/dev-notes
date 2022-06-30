@@ -34,7 +34,9 @@ function Topic(props) {
         key={solution.sysID}
         solution={solution}
         expanded={expanded}
+        canExpand={canExpand}
         setCanExpand={setCanExpand}
+        count={props.topic.solutions.length}
       />
     );
   });
@@ -69,17 +71,19 @@ function Topic(props) {
     </p>
   );
   //styling
-  const { primary, black, secondary, inactiveColor, highlight } = theme.colors;
+  const { primary, secondary, inactiveColor, highlight, dark } = theme.colors;
   const { sizes } = theme;
   const { baseBtn } = theme.baseTypes;
   const Card = styled.li`
-    background-color: ${primary};
+    background-color: ${secondary};
     border-radius: ${sizes.radius};
     padding: 0;
     margin-bottom: 0;
-    box-shadow: 0 2px 0 ${black};
+    box-shadow: 0 3px 0 ${dark};
+    flex-grow: 1;
     @media screen and (min-width: ${sizes.screenMd}) {
       width: ${sizes.mdCol};
+      max-width: ${sizes.mdCol};
     }
   `;
   const TopicTitle = styled.h3`
@@ -96,9 +100,11 @@ function Topic(props) {
     list-style-type: none;
   `;
   const Actions = styled.div`
+    background-color: ${primary};
     display: flex;
     flex-wrap: none;
-    height: 45px;
+    height: ${sizes.minHeight};
+    border-radius: 0 0 ${sizes.radius} ${sizes.radius};
   `;
   const alternateBtn = css`
     ${baseBtn};
@@ -119,16 +125,18 @@ function Topic(props) {
   `;
   const Expand = styled.button`
     ${alternateBtn};
+    height: ${sizes.minHeight};
     padding: 0 8px 0 0;
     margin-left: 8px;
     font-size: 2em;
-    border-radius: 0 0 0 ${sizes.radius};
+    border-radius: 0 0 ${sizes.radius} 0;
     svg {
       margin-top: 6px;
     }
   `;
   const Edit = styled.a`
     ${alternateBtn};
+    height: ${sizes.minHeight};
     text-decoration: none;
     font-size: 2em;
     padding: 0 6px 0 13px;
@@ -137,28 +145,25 @@ function Topic(props) {
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
-    border-radius: 0 0 ${sizes.radius} 0;
+    border-radius: 0 0 0 ${sizes.radius};
     svg {
       margin-top: 6px;
     }
   `;
   const ReadMore = styled.button`
     ${alternateBtn};
+    height: ${sizes.minHeight};
     flex-grow: 1;
     border: solid ${secondary};
     border-width: 0 3px;
     font-size: 2.5em;
     padding: 0;
     svg {
+      color: ${!canExpand && "transparent"};
       margin-top: 3px;
     }
   `;
-  //   <Solution
-  //   key={solution.sysID}
-  //   solution={solution}
-  //   expanded={expanded}
-  //   setCanExpand={setCanExpand}
-  // />
+
   return (
     <Card>
       <TopicTitle>{props.topic.title}</TopicTitle>

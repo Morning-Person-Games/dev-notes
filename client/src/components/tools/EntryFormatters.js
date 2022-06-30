@@ -8,24 +8,7 @@ function SimpleFormattedTopicEntry(values) {
   const newSolutions = [
     {
       title: generateSolutionTitle(values.solution),
-      description: {
-        nodeType: "document",
-        data: {},
-        content: [
-          {
-            nodeType: "paragraph",
-            data: {},
-            content: [
-              {
-                nodeType: "text",
-                value: values.solution,
-                marks: [],
-                data: {},
-              },
-            ],
-          },
-        ],
-      },
+      description: values.solution,
     },
   ];
   const topicToAdd = {

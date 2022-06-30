@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { css } from "@emotion/react";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS } from "@contentful/rich-text-types";
 import styled from "@emotion/styled";
 import Linkify from "linkify-react";
 import { theme } from "../../globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
+import MDEditor from "@uiw/react-md-editor";
 
-function Solution({ solution, expanded, setCanExpand }) {
-  const ref = React.useRef();
-  useIsOverflow(ref, setCanExpand);
+function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
+  const ref = useRef();
+  const overflow = useIsOverflow(ref);
+  useEffect(() => {
+    setCanExpand((prev) => {
+      if (prev || (!prev && overflow)) {
+        return true;
+      }
+      return false;
+    });
+  }, [overflow, setCanExpand]);
   //styling
   const { primary, secondary } = theme.colors;
   const { baseRichText } = theme.baseTypes;
@@ -18,13 +25,13 @@ function Solution({ solution, expanded, setCanExpand }) {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: ${Math.max(6 - count, 2)};
   `;
   const eliped = expanded ? "" : ell;
   const Li = styled.li`
     ${baseRichText};
     margin: 0;
-    padding: 0 0 15px 0;
+    padding: 0 0 14px 0;
     margin-bottom: 0;
     display: -webkit-box;
     position: relative;
@@ -49,37 +56,18 @@ function Solution({ solution, expanded, setCanExpand }) {
   `;
   const renderedSolution = solution.missing
     ? solution.missing
-    : documentToReactComponents(solution.description);
+    : solution.description;
   return (
     <Li ref={ref}>
-      <Linkify>{renderedSolution}</Linkify>
+      <Linkify>
+        <MDEditor.Markdown
+          source={renderedSolution}
+          style={{ backgroundColor: "transparent" }}
+        />
+      </Linkify>
       <Cover />
     </Li>
   );
 }
 
-function ExpandedSolution({ solution }) {
-  // check for images. Then check If its a temp image or and contentful that can be rendered through documentToReactComponents()
-  const renderOptions = {
-    renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
-        // render the EMBEDDED_ASSET as you need
-        return (
-          <img
-            src={`https://${node.data.target.fields.file.url}`}
-            height={node.data.target.fields.file.details.image.height}
-            width={node.data.target.fields.file.details.image.width}
-            alt={node.data.target.fields.description}
-          />
-        );
-      },
-    },
-  };
-  const renderedSolution = documentToReactComponents(
-    solution.description,
-    renderOptions
-  );
-  return <li>{renderedSolution}</li>;
-}
-
-export { Solution, ExpandedSolution };
+export { Solution };

@@ -83,7 +83,7 @@ function App() {
       for (let i = 0; i < topics.length; i++) {
         if (topics[i].id === newTopic.category.id) {
           var newTopicsList = topics;
-          newTopicsList[i].topics = topics[i].topics.concat([newTopic]);
+          newTopicsList[i].topics = newTopic.concat(topics[i].topics);
           setTopics(newTopicsList);
           setCurrentCategory(newTopicsList[i]);
           break;

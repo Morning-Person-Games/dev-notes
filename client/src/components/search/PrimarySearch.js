@@ -79,7 +79,7 @@ class PrimarySearch extends Component {
         <div
           css={css`
             display: flex;
-            ${theme.sizes.colWidth};
+            width: 100%;
             position: relative;
           `}
         >
@@ -91,11 +91,9 @@ class PrimarySearch extends Component {
               ${theme.baseTypes.baseInput}
               background: none;
               font-size: 1.1em;
+              width: 100%;
               padding: 12px;
-              padding-left: 28px;
-              @media screen and (min-width: ${theme.sizes.screenLg}) {
-                padding-left: 18px;
-              }
+              margin-left: 28px;
             `}
           />
           <MdSearch

@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useState } from "react";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
@@ -7,10 +8,10 @@ import { createNewTopic } from "../tools/contentfulManagement";
 import { SimpleFormattedTopicEntry } from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
-import { MdFullscreen } from "react-icons/md";
+import SolutionMd from "./SolutionMd";
 
 const SimpleTopicForm = (props) => {
-  //const [formActive, setFormActive] = useState(false);
+  const [hasValue, setHasValue] = useState(false);
   const {
     values,
     touched,
@@ -19,6 +20,7 @@ const SimpleTopicForm = (props) => {
     handleSubmit,
     isSubmitting,
     handleBlur,
+    resetForm,
     isValid,
     handleChange,
   } = props;
@@ -26,7 +28,6 @@ const SimpleTopicForm = (props) => {
   if (!props.token) {
     return;
   }
-
   // sometimes current category doesnt get set on refresh, this is a fix for that:
   const handleTitleField = (e) => {
     if (!values.category || !values.category.category) {
@@ -39,9 +40,9 @@ const SimpleTopicForm = (props) => {
       }
     }
     setFieldValue("title", e.target.value);
+    // this may not look like it matches the validator but it will
+    setHasValue(values.title.length > 1);
   };
-
-  const cantSubmit = isSubmitting || !isValid || !touched.title;
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
   const { primary, white, secondary } = theme.colors;
@@ -58,24 +59,7 @@ const SimpleTopicForm = (props) => {
     color: ${white};
     font-size: 1.1em;
     flex-grow: 1;
-    border-right: 3px solid ${secondary};
-    border-radius: 0 0 0 ${radius};
-  `;
-  const Expand = css`
-    ${baseBtn}
-    padding: 0;
-    border-radius: 0 0 ${radius} 0;
-    font-size: 2em;
-    svg {
-      margin-top: 5px;
-      margin-right: 6px;
-      padding-left: 6px;
-    }
-    &:disabled {
-      svg {
-        color: transparent;
-      }
-    }
+    border-radius: 0 0 ${radius} ${radius};
   `;
   const Buttons = css`
     display: flex;
@@ -90,17 +74,6 @@ const SimpleTopicForm = (props) => {
     min-height: 2em;
     font-size: 1em;
   `;
-  const TextareaCSS = css`
-    ${baseInput}
-    background: none;
-    padding: 5px 10px;
-    padding-top: 10px;
-    min-height: 5em;
-    word-wrap: break-word;
-    resize: none;
-    font-family: arial;
-    font-size: 1em;
-  `;
   const TopicForm = css`
     padding-bottom: 0;
   `;
@@ -111,6 +84,12 @@ const SimpleTopicForm = (props) => {
     background: ${secondary};
     border-radius: ${radius} ${radius} 0 0;
   `;
+
+  const handleEmptyBlur = (e) => {
+    if (!e.target.value && !values.solution) {
+      resetForm();
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} css={TopicForm}>
@@ -123,23 +102,25 @@ const SimpleTopicForm = (props) => {
           onChange={handleTitleField}
           css={TitleCSS}
           maxLength="255"
+          tabIndex="1"
+          onBlur={handleEmptyBlur}
+          autoFocus
         />
-        <textarea
+        <SolutionMd
           type="textarea"
           name="solution"
-          placeholder="Describe a solution to the topic."
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.name}
-          css={TextareaCSS}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          value={values.solution}
         />
       </div>
       <div css={Buttons}>
-        <button css={Submit} type="submit" disabled={cantSubmit}>
+        <button
+          css={Submit}
+          type="submit"
+          disabled={!isValid || isSubmitting || !hasValue}
+        >
           Add topic
-        </button>
-        <button css={Expand} type="button" disabled={true}>
-          <MdFullscreen />
         </button>
       </div>
       <Errors>{errors.title}</Errors>

@@ -241,20 +241,6 @@ async function createNewSolutions(token, solutions, notify) {
       position: toast.POSITION.TOP_RIGHT,
     });
   }
-  solutions.forEach((solution) => {
-    var content = solution.description.content;
-    for (let i = 0; i < content.length; i++) {
-      if (content[i].nodeType === "embedded-asset-block") {
-        solution.description.content[i].data.target = {
-          sys: {
-            type: "Link",
-            linkType: "Asset",
-            id: content[i].data.target.sys.id,
-          },
-        };
-      }
-    }
-  });
   return fetch("/api/create/solutions", {
     method: "POST",
     headers: {

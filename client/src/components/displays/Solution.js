@@ -6,7 +6,7 @@ import { theme } from "../../globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
 import MDEditor from "@uiw/react-md-editor";
 
-function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
+function Solution({ solution, expanded, setCanExpand, solutionCount }) {
   const ref = useRef();
   const overflow = useIsOverflow(ref);
   useEffect(() => {
@@ -18,15 +18,17 @@ function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
     });
   }, [overflow, setCanExpand]);
   //styling
-  const { primary, secondary } = theme.colors;
-  const { baseRichText } = theme.baseTypes;
+  const { secondary } = theme.colors;
+  const { baseRichText, baseFontSize } = theme.baseTypes;
+  const minLines = 2;
+  // line height + default padding:
+  const defaultLineHeight = baseFontSize * 1.5 + 10 + "px";
+  const lines = 6;
   const ell = css`
-    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    //${Math.max(6 - count, 2)}
+    -webkit-line-clamp: ${Math.max(lines - solutionCount, minLines)};
   `;
   const eliped = expanded ? "" : ell;
   const Li = styled.li`
@@ -34,21 +36,12 @@ function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
     margin: 0;
     padding: 0 0 14px 0;
     margin-bottom: 0;
+    max-width: 99%;
     display: -webkit-box;
     position: relative;
     overflow-wrap: break-word;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    a {
-      overflow-wrap: anywhere;
-    }
-    &:not(:last-child) {
-      padding-bottom: 10px;
-      border-bottom: 2px solid ${primary};
-    }
+    min-height: ${overflow ? "6.5em" : defaultLineHeight};
+    ${eliped};
   `;
   const Cover = styled.div`
     display: block;

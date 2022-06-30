@@ -39,11 +39,8 @@ function SolutionMd(props) {
 
   const commandList = [
     // Custom Toolbars
-    commands.group([commands.title1, commands.title2, commands.title3], {
-      name: "title",
-      groupName: "title",
-      buttonProps: { "aria-label": "Insert title" },
-    }),
+    commands.title2,
+    commands.title3,
     commands.bold,
     commands.italic,
     commands.strikethrough,

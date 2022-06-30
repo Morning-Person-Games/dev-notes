@@ -13,12 +13,17 @@ const theme = {
     secondary: "",
     highlightHover: "",
     dark: "",
+    codeLine: "",
+    codeBlock: "",
   },
   sizes: {
     radius: "5px",
     minHeight: "45px",
     smMaxHeight: "150px",
     screenSm: "320px",
+    rtPadding: css`
+      padding: 10px 10px 0 10px;
+    `,
     screenMd: "",
     screenXl: "",
     smCol: "",
@@ -27,6 +32,7 @@ const theme = {
     colWidth: "",
   },
   baseTypes: {
+    baseFontSize: "16",
     baseInput: "",
     baseBtn: "",
     baseLink: "",
@@ -105,15 +111,59 @@ baseTypes.baseLink = css`
     color: ${colors.highlightHover};
   }
 `;
-
 baseTypes.baseRichText = css`
   p {
     margin: 0;
-    padding: 10px;
-    padding-bottom: 0;
+    ${sizes.rtPadding};
+  }
+  font-size: 1rem;
+  .wmde-markdown {
+    width: 100%;
+    font-size: 1rem;
+    p {
+      font-size: 1em;
+    }
+    h1,
+    h2 {
+      border: 0;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.5rem;
+      margin: 5px 0 10px 0;
+      ${sizes.rtPadding};
+    }
+    a.anchor {
+      margin-left: -27px;
+    }
+    ul {
+      list-style-type: disc;
+      padding-top: 10px;
+    }
+    li {
+      padding-top: 10px;
+    }
+    pre {
+      margin: 10px 0 0 0;
+    }
+    hr {
+      border: none;
+      height: 3px;
+      margin: 1em 0;
+      background-color: ${colors.primary};
+    }
   }
   a {
+    overflow-wrap: anywhere;
     ${baseTypes.baseLink};
+  }
+  &:not(:last-child) {
+    padding-bottom: 10px;
+    border-bottom: 2px solid ${colors.primary};
   }
 `;
 
@@ -132,7 +182,8 @@ const globals = (
           "Helvetica Neue", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        font-size: 16px;
+        font-size: ${baseTypes.baseFontSize} + "px";
+        line-height: 1.5;
         background-color: ${colors.background};
         margin: 0;
       }

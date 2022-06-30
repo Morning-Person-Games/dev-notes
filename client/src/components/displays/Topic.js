@@ -36,7 +36,7 @@ function Topic(props) {
         expanded={expanded}
         canExpand={canExpand}
         setCanExpand={setCanExpand}
-        count={props.topic.solutions.length}
+        solutionCount={props.topic.solutions.length - 1}
       />
     );
   });
@@ -88,7 +88,7 @@ function Topic(props) {
       width: ${sizes.mdCol};
     }
   `;
-  const TopicTitle = styled.h3`
+  const TopicTitle = styled.h2`
     margin: 0;
     padding: 10px;
     border-radius: ${sizes.radius} ${sizes.radius} 0 0;

@@ -20,7 +20,7 @@ const theme = {
     smMaxHeight: "150px",
     screenSm: "320px",
     screenMd: "",
-    screenLg: "",
+    screenXl: "",
     smCol: "",
     mdCol: "",
     maxWidth: "",
@@ -42,17 +42,16 @@ colors.highlightHover = darken("0.15", colors.highlight);
 // sizes:
 const { screenSm } = sizes;
 sizes.smCol = math(screenSm + "- 20px");
-sizes.mdCol = math(screenSm + "* 1.5");
-sizes.screenMd = math(sizes.mdCol + "+ 20px");
+sizes.mdCol = math(sizes.smCol + "* 1.5");
+sizes.LgCol = math(sizes.smCol + "* 2");
+sizes.screenMd = math(sizes.smCol + "* 2 + 30px");
 sizes.screenLg = math("(" + sizes.mdCol + "* 2) + 50px");
+sizes.screenXl = math("(" + sizes.LgCol + "* 2) + 50px");
 sizes.maxWidth = math(sizes.screenLg + " - 40px");
 
 sizes.colWidth = css`
   margin: 0 auto;
   padding: 0 10px;
-  @media screen and (min-width: ${sizes.screenMd}) {
-    width: ${sizes.mdCol};
-  }
   @media screen and (min-width: ${sizes.screenLg}) {
     padding: 0 20px;
     width: ${sizes.maxWidth};

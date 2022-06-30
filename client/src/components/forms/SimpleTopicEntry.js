@@ -55,9 +55,9 @@ const SimpleTopicForm = (props) => {
   `;
   const Submit = css`
     ${baseBtn}
-    padding:10px;
+    padding:12px;
     color: ${white};
-    font-size: 1.1em;
+    font-size: 1.2em;
     flex-grow: 1;
     border-radius: 0 0 ${radius} ${radius};
   `;

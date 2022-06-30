@@ -25,7 +25,6 @@ function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: ${Math.max(6 - count, 2)};
   `;
   const eliped = expanded ? "" : ell;
   const Li = styled.li`
@@ -37,12 +36,12 @@ function Solution({ solution, expanded, setCanExpand, canExpand, count }) {
     position: relative;
     overflow-wrap: break-word;
     ${eliped};
+    a {
+      overflow-wrap: anywhere;
+    }
     &:not(:last-child) {
       padding-bottom: 10px;
       border-bottom: 2px solid ${primary};
-    }
-    a {
-      overflow-wrap: anywhere;
     }
   `;
   const Cover = styled.div`

@@ -82,8 +82,10 @@ function Topic(props) {
     box-shadow: 0 3px 0 ${dark};
     flex-grow: 1;
     @media screen and (min-width: ${sizes.screenMd}) {
+      max-width: calc(50% - 5px);
+    }
+    @media screen and (min-width: ${sizes.screenLg}) {
       width: ${sizes.mdCol};
-      max-width: ${sizes.mdCol};
     }
   `;
   const TopicTitle = styled.h3`

@@ -90,7 +90,7 @@ class PrimarySearch extends Component {
             css={css`
               ${theme.baseTypes.baseInput}
               background: none;
-              font-size: 1.1em;
+              font-size: 1.2em;
               width: 100%;
               padding: 12px;
               margin-left: 28px;

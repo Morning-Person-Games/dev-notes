@@ -2,7 +2,6 @@ import React from "react";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 import Thumbnail from "../displays/Thumbnail";
-import { EditorState, AtomicBlockUtils } from "draft-js";
 import { createNewImage } from "../tools/contentfulManagement";
 
 // This creates a modal popup with standard image fields.
@@ -56,30 +55,30 @@ function ImageEntry(props) {
               props.changeEditorState !== null &&
               props.editorState !== null
             ) {
-              const editorState = props.editorState;
-              const contentState = editorState.getCurrentContent();
-              const contentStateWithEntity = contentState.createEntity(
-                "image",
-                "IMMUTABLE",
-                {
-                  title: values.title,
-                  description: values.description,
-                  file: values.file,
-                  result: result,
-                }
-              );
-              const entityKey =
-                contentStateWithEntity.getLastCreatedEntityKey();
-              const newEditorState = EditorState.set(editorState, {
-                currentContent: contentStateWithEntity,
-              });
-              props.changeEditorState(
-                AtomicBlockUtils.insertAtomicBlock(
-                  newEditorState,
-                  entityKey,
-                  " "
-                )
-              );
+              // const editorState = props.editorState;
+              // const contentState = editorState.getCurrentContent();
+              // const contentStateWithEntity = contentState.createEntity(
+              //   "image",
+              //   "IMMUTABLE",
+              //   {
+              //     title: values.title,
+              //     description: values.description,
+              //     file: values.file,
+              //     result: result,
+              //   }
+              // );
+              // const entityKey =
+              //   contentStateWithEntity.getLastCreatedEntityKey();
+              // const newEditorState = EditorState.set(editorState, {
+              //   currentContent: contentStateWithEntity,
+              // });
+              // props.changeEditorState(
+              //   AtomicBlockUtils.insertAtomicBlock(
+              //     newEditorState,
+              //     entityKey,
+              //     " "
+              //   )
+              // );
             }
             setSubmitting(false);
             // close the modal on completion

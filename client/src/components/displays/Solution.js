@@ -55,7 +55,8 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
     position: absolute;
     background-color: ${secondary};
     width: 100%;
-    height: 10px;
+    box-shadow: 0 0 1.4em 1.5em ${overflow ? secondary : "transparent"};
+    height: 0;
     content: "";
     bottom: 0;
   `;

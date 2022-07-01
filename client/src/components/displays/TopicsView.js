@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+/** @jsxImportSource @emotion/react */
+import { useState, useEffect } from "react";
 import { Topic } from "../displays/Topic";
 import PrimarySearch from "../search/PrimarySearch";
 import styled from "@emotion/styled";
 import SortOptions from "../tools/SortOptions";
+import { css } from "@emotion/react";
 
 function TopicsView({ currentTopics, tags, spaceID, token }) {
   const [topics, setTopics] = useState([]);
   const [queryResult, setQueryResult] = useState([]);
-  const [sortDateReverse, setSortDateReverse] = useState(false);
-  const [sortAlphaReverse, setSortAlphaReverse] = useState(null);
 
   useEffect(() => {
     const indexableTopics = currentTopics;
@@ -24,44 +24,6 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
     setTopics(indexableTopics);
   }, [currentTopics]);
 
-  useEffect(() => {
-    // if (prev === null) {
-    //   // standard sort by most recent
-    //   setTopicsList((prevTopics) => {
-    //     var sort = prevTopics.sort((a, b) => a.createdAt - b.createdAt);
-    //     console.log("sort", sort);
-    //     return prevTopics.sort((a, b) => a.createdAt - b.createdAt);
-    //   });
-    //   return false;
-    // } else {
-    //   // toggle between recent and earliest
-    //   setTopicsList((prevTopics) => {
-    //     //createdAt
-    //     return prevTopics.reverse();
-    //   });
-    //   return !prev;
-    // }
-    // if (prev === null) {
-    //   // sort a-z topic title
-    //   setTopicsList((prevTopics) => {
-    //     //createdAt
-    //     return prevTopics.sort((a, b) =>
-    //       a.title.localeCompare(b.title.toLowerCase())
-    //     );
-    //   });
-    //   return false;
-    // } else {
-    //   // toggle bettween a-z, z-a
-    //   setTopicsList((prevTopics) => {
-    //     //createdAt
-    //     return prevTopics.reverse();
-    //   });
-    //   return !prev;
-    // }
-    console.log("sortDateReverse", sortDateReverse);
-    console.log("sortAlphaReverse", sortAlphaReverse);
-  }, [sortDateReverse, sortAlphaReverse]);
-
   const NotFound = (
     <div>
       <h2>No topics found!</h2>
@@ -75,11 +37,12 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
   }
 
   const emptySearch = <p>No topics or solutions found</p>;
-  let topicsList = [];
+  const topicsList = [];
   if (queryResult !== null) {
     const filteredTopics = queryResult.length > 0 ? queryResult : topics;
-    topicsList = filteredTopics.map((topic) => {
-      return (
+    // sort here
+    filteredTopics.forEach((topic) => {
+      topicsList.push(
         <Topic
           key={topic.id}
           topic={topic}
@@ -104,21 +67,16 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
     margin: 0;
   `;
 
-  const Controls = styled.div`
+  const Controls = css`
     display: block;
     width: 100%;
   `;
   return (
     <div>
-      <Controls>
+      <div css={Controls}>
         <PrimarySearch topics={topics} setQueryResult={setQueryResult} />
-        <SortOptions
-          setSortDateReverse={setSortDateReverse}
-          setSortAlphaReverse={setSortAlphaReverse}
-          sortDateReverse={sortDateReverse}
-          sortAlphaReverse={sortAlphaReverse}
-        />
-      </Controls>
+        <SortOptions setTopics={setTopics} />
+      </div>
       {topicsList.length > 0 ? <Ul>{topicsList}</Ul> : <h3>{emptySearch}</h3>}
     </div>
   );

@@ -11,7 +11,7 @@ import {
   MdExpandLess,
 } from "react-icons/md";
 
-function Topic(props) {
+function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
   const [inactive, setInactive] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
@@ -28,7 +28,7 @@ function Topic(props) {
     }
   }, [expanded, canExpand]);
 
-  const solutions = props.topic.solutions.map((solution) => {
+  const solutions = topic.solutions.map((solution) => {
     return (
       <Solution
         key={solution.sysID}
@@ -36,7 +36,7 @@ function Topic(props) {
         expanded={expanded}
         canExpand={canExpand}
         setCanExpand={setCanExpand}
-        solutionCount={props.topic.solutions.length - 1}
+        solutionCount={topic.solutions.length - 1}
       />
     );
   });
@@ -44,11 +44,8 @@ function Topic(props) {
   //   return <Tag key={tag.id} tag={tag} allTags={props.allTags} />;
   // });
   const edit =
-    "https://app.contentful.com/spaces/" +
-    props.spaceID +
-    "/entries/" +
-    props.topic.id;
-  const canEdit = props.token && props.spaceID ? true : false;
+    "https://app.contentful.com/spaces/" + spaceID + "/entries/" + topic.id;
+  const canEdit = token && spaceID ? true : false;
   const noSolutionMsg = canEdit ? (
     <p>
       This topic currently has no solutions.{" "}
@@ -152,6 +149,20 @@ function Topic(props) {
       margin-top: 6px;
     }
   `;
+  // const ReadMore = styled.button`
+  //   ${alternateBtn};
+  //   height: ${sizes.minHeight};
+  //   flex-grow: 1;
+  //   border: solid ${secondary};
+  //   border-width: 0 3px;
+  //   font-size: 2.5em;
+  //   padding: 0;
+  //   svg {
+  //     color: ${!canExpand && "transparent"};
+  //     margin-top: 3px;
+  //   }
+  // `;
+
   const ReadMore = styled.button`
     ${alternateBtn};
     height: ${sizes.minHeight};
@@ -168,7 +179,7 @@ function Topic(props) {
 
   return (
     <Card>
-      <TopicTitle>{props.topic.title}</TopicTitle>
+      <TopicTitle>{topic.title}</TopicTitle>
       {/* {tags.length > 0 && <ul>{tags}</ul>} */}
       {solutions.length > 0 ? (
         <SolutionsList>{solutions}</SolutionsList>

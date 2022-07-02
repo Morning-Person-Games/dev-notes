@@ -9,6 +9,53 @@ import SimpleFormattedTopicEntry from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
+// styling
+const { baseInput, baseBtn } = theme.baseTypes;
+const { primary, white, secondary, inactiveColor } = theme.colors;
+const { radius } = theme.sizes;
+const { font } = theme.sizes;
+const Errors = styled.div`
+  color: ${theme.colors.error};
+  margin: 5px 0;
+  height: 1.4em;
+  font-size: 0.8em;
+`;
+const Submit = styled.button`
+  ${baseBtn}
+  padding:12px;
+  color: ${white};
+  font-size: ${font.lg};
+  flex-grow: 1;
+  border-radius: 0 0 ${radius} ${radius};
+  &:disabled {
+    color: ${(props) => (props.error ? theme.colors.error : inactiveColor)};
+  }
+`;
+
+const Buttons = css`
+  display: flex;
+  flex-wrap: none;
+`;
+// issue with styled and formik work around
+const TitleCSS = css`
+  ${baseInput}
+  background: none;
+  padding: 5px 10px;
+  border-bottom: 2px solid ${primary};
+  min-height: 2em;
+  font-size: 1em;
+`;
+const TopicForm = css`
+  padding-bottom: 0;
+  margin-bottom: 10px;
+`;
+
+const TopicFieldWrapper = css`
+  display: flex;
+  flex-wrap: wrap;
+  background: ${secondary};
+  border-radius: ${radius} ${radius} 0 0;
+`;
 
 const SimpleTopicForm = (props) => {
   const [hasValue, setHasValue] = useState(false);
@@ -43,53 +90,6 @@ const SimpleTopicForm = (props) => {
     // this may not look like it matches the validator but it will
     setHasValue(e.target.value.length > 0);
   };
-  // styling
-  const { baseInput, baseBtn } = theme.baseTypes;
-  const { primary, white, secondary, inactiveColor } = theme.colors;
-  const { radius } = theme.sizes;
-  const { font } = theme.sizes;
-  const Errors = styled.div`
-    color: ${theme.colors.error};
-    margin: 5px 0;
-    height: 1.4em;
-    font-size: 0.8em;
-  `;
-  const Submit = css`
-    ${baseBtn}
-    padding:12px;
-    color: ${white};
-    font-size: ${font.lg};
-    flex-grow: 1;
-    border-radius: 0 0 ${radius} ${radius};
-    &:disabled {
-      color: ${!isValid ? theme.colors.error : inactiveColor};
-    }
-  `;
-  const Buttons = css`
-    display: flex;
-    flex-wrap: none;
-  `;
-  // issue with styled and formik work around
-  const TitleCSS = css`
-    ${baseInput}
-    background: none;
-    padding: 5px 10px;
-    border-bottom: 2px solid ${primary};
-    min-height: 2em;
-    font-size: 1em;
-  `;
-  const TopicForm = css`
-    padding-bottom: 0;
-    margin-bottom: 10px;
-  `;
-
-  const TopicFieldWrapper = css`
-    display: flex;
-    flex-wrap: wrap;
-    background: ${secondary};
-    border-radius: ${radius} ${radius} 0 0;
-  `;
-
   const handleEmptyBlur = (e) => {
     if (!e.target.value && !values.solution) {
       resetForm();
@@ -121,13 +121,13 @@ const SimpleTopicForm = (props) => {
         />
       </div>
       <div css={Buttons}>
-        <button
-          css={Submit}
+        <Submit
           type="submit"
+          error={errors.title ? 1 : 0}
           disabled={!isValid || isSubmitting || !hasValue}
         >
           {submitText}
-        </button>
+        </Submit>
       </div>
     </form>
   );

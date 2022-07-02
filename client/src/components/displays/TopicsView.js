@@ -9,6 +9,50 @@ import { theme } from "../../globalStyles";
 import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
 //import Highlighter from "react-highlight-words";
 
+// styling
+const { baseTypes, sizes, colors } = theme;
+const Ul = styled.ul`
+  display: flex;
+  column-count: 2;
+  gap: 10px;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+const Controls = css`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  @media screen and (min-width: ${sizes.screenLg}) {
+    flex-wrap: nowrap;
+  }
+  margin-bottom: 10px;
+`;
+const SecondaryControls = styled.div`
+  display: flex;
+`;
+const TagsToggle = styled.button`
+  ${baseTypes.baseControl};
+  font-size: ${sizes.font.lg};
+  margin-left: 10px;
+  padding: 5px 10px;
+  padding-right: 2em;
+  background-color: ${(props) =>
+    props.active ? colors.highlight : colors.secondary};
+  color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
+  ${baseTypes.hover} {
+    background-color: ${(props) =>
+      props.active ? colors.highlightHover : colors.primary};
+  }
+  svg {
+    margin-top: 2px;
+    right: 0.7em;
+  }
+`;
+
 function TopicsView({ currentTopics, tags, spaceID, token }) {
   const [topics, setTopics] = useState([]);
   const [queryResult, setQueryResult] = useState([]);
@@ -64,50 +108,6 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
       );
     });
   }
-
-  // styling
-  const { baseTypes, sizes, colors } = theme;
-  const Ul = styled.ul`
-    display: flex;
-    column-count: 2;
-    gap: 10px;
-    flex-flow: row wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  `;
-  const Controls = css`
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    @media screen and (min-width: ${sizes.screenLg}) {
-      flex-wrap: nowrap;
-    }
-    margin-bottom: 10px;
-  `;
-  const SecondaryControls = styled.div`
-    display: flex;
-  `;
-  const TagsToggle = styled.button`
-    ${baseTypes.baseControl};
-    font-size: ${sizes.font.lg};
-    margin-left: 10px;
-    padding: 5px 10px;
-    padding-right: 2em;
-    background-color: ${(props) =>
-      props.active ? colors.highlight : colors.secondary};
-    color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
-    ${baseTypes.hover} {
-      background-color: ${(props) =>
-        props.active ? colors.highlightHover : colors.primary};
-    }
-    svg {
-      margin-top: 2px;
-      right: 0.7em;
-    }
-  `;
   const TagIcon = !tagsVisible ? <BsEyeSlashFill /> : <BsEyeFill />;
   return (
     <div>

@@ -11,6 +11,119 @@ import {
   MdExpandLess,
 } from "react-icons/md";
 
+//styling
+const { primary, secondary, inactiveColor, highlight, dark, highlightHover } =
+  theme.colors;
+const { sizes, baseTypes, colors } = theme;
+const Card = styled.li`
+  background-color: ${secondary};
+  border-radius: ${sizes.radius};
+  padding: 0;
+  margin-bottom: 0;
+  box-shadow: 0 3px 0 ${dark};
+  flex-grow: 1;
+  @media screen and (min-width: ${sizes.screenMd}) {
+    max-width: calc(50% - 5px);
+  }
+  @media screen and (min-width: ${sizes.screenLg}) {
+    width: ${sizes.mdCol};
+  }
+`;
+const SolutionsList = styled.ul`
+  margin: 0;
+  padding: 0;
+  background-color: ${secondary};
+  list-style-type: none;
+`;
+const Actions = styled.div`
+  background-color: ${primary};
+  display: flex;
+  flex-wrap: none;
+  height: ${sizes.minHeight};
+  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
+`;
+const alternateBtn = css`
+  ${baseTypes.clickable};
+  color: ${highlightHover};
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  font-size: ${sizes.font.fixedEm(sizes.font.h1n)};
+  svg {
+    height: 100%;
+  }
+  &:hover {
+    color: ${highlight};
+    background-color: ${secondary};
+  }
+  &:disabled {
+    color: ${inactiveColor};
+    background-color: transparent;
+    cursor: default;
+    svg {
+      color: transparent;
+    }
+  }
+`;
+const Expand = styled.button`
+  ${alternateBtn};
+  height: ${sizes.minHeight};
+  width: ${sizes.minHeight};
+  border-radius: 0 0 ${sizes.radius} 0;
+  svg {
+    margin-right: 1px;
+  }
+`;
+const Edit = styled.a`
+  ${alternateBtn};
+  height: ${sizes.minHeight};
+  text-decoration: none;
+  width: ${sizes.minHeight};
+  cursor: pointer;
+  border-radius: 0 0 0 ${sizes.radius};
+  svg {
+    margin-left: 2px;
+  }
+`;
+
+const ReadMore = styled.button`
+  ${alternateBtn};
+  height: ${sizes.minHeight};
+  flex-grow: 1;
+  border: solid ${secondary};
+  border-width: 0 3px;
+  font-size: ${sizes.font.fixedEm(2.5)};
+  padding: 0;
+`;
+const TopicHeader = styled.div`
+  display: block;
+  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
+  background-color: ${primary};
+  position: relative;
+`;
+const TopicTitle = styled.h2`
+  overflow-wrap: break-word;
+  margin: 0;
+  padding: 10px;
+`;
+const TopicDate = styled.span`
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2em 0.5em 0 0;
+  border-radius: 0 ${sizes.radius} 0 ${sizes.radius};
+  color: ${colors.placeholder};
+  background-color: ${colors.primary};
+  box-shadow: -3px 3px 5px 1px ${primary};
+  font-size: ${sizes.font.sm};
+  font-weight: 600;
+`;
+
 function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
@@ -54,118 +167,6 @@ function Topic({ topic, tags, spaceID, token }) {
       to add a solution!
     </p>
   );
-  //styling
-  const { primary, secondary, inactiveColor, highlight, dark, highlightHover } =
-    theme.colors;
-  const { sizes, baseTypes, colors } = theme;
-  const Card = styled.li`
-    background-color: ${secondary};
-    border-radius: ${sizes.radius};
-    padding: 0;
-    margin-bottom: 0;
-    box-shadow: 0 3px 0 ${dark};
-    flex-grow: 1;
-    @media screen and (min-width: ${sizes.screenMd}) {
-      max-width: calc(50% - 5px);
-    }
-    @media screen and (min-width: ${sizes.screenLg}) {
-      width: ${sizes.mdCol};
-    }
-  `;
-  const SolutionsList = styled.ul`
-    margin: 0;
-    padding: 0;
-    background-color: ${secondary};
-    list-style-type: none;
-  `;
-  const Actions = styled.div`
-    background-color: ${primary};
-    display: flex;
-    flex-wrap: none;
-    height: ${sizes.minHeight};
-    border-radius: 0 0 ${sizes.radius} ${sizes.radius};
-  `;
-  const alternateBtn = css`
-    ${baseTypes.clickable};
-    color: ${highlightHover};
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    font-size: ${sizes.font.fixedEm(sizes.font.h1n)};
-    svg {
-      height: 100%;
-    }
-    &:hover {
-      color: ${highlight};
-      background-color: ${secondary};
-    }
-    &:disabled {
-      color: ${inactiveColor};
-      background-color: transparent;
-      cursor: default;
-      svg {
-        color: transparent;
-      }
-    }
-  `;
-  const Expand = styled.button`
-    ${alternateBtn};
-    height: ${sizes.minHeight};
-    width: ${sizes.minHeight};
-    border-radius: 0 0 ${sizes.radius} 0;
-    svg {
-      margin-right: 1px;
-    }
-  `;
-  const Edit = styled.a`
-    ${alternateBtn};
-    height: ${sizes.minHeight};
-    text-decoration: none;
-    width: ${sizes.minHeight};
-    cursor: pointer;
-    border-radius: 0 0 0 ${sizes.radius};
-    svg {
-      margin-left: 2px;
-    }
-  `;
-
-  const ReadMore = styled.button`
-    ${alternateBtn};
-    height: ${sizes.minHeight};
-    flex-grow: 1;
-    border: solid ${secondary};
-    border-width: 0 3px;
-    font-size: ${sizes.font.fixedEm(2.5)};
-    padding: 0;
-  `;
-  const TopicHeader = styled.div`
-    display: block;
-    border-radius: ${sizes.radius} ${sizes.radius} 0 0;
-    background-color: ${primary};
-    position: relative;
-  `;
-  const TopicTitle = styled.h2`
-    overflow-wrap: break-word;
-    margin: 0;
-    padding: 10px;
-  `;
-  const TopicDate = styled.span`
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0.2em 0.5em 0 0;
-    border-radius: 0 ${sizes.radius} 0 ${sizes.radius};
-    color: ${colors.placeholder};
-    background-color: ${colors.primary};
-    box-shadow: -3px 3px 5px 1px ${primary};
-    font-size: ${sizes.font.sm};
-    font-weight: 600;
-  `;
   const date = new Date(topic.createdAt);
   const year = date.getFullYear().toString().substring(2);
   const dateString = date.getMonth() + "/" + date.getDay() + "/" + year;

@@ -7,6 +7,32 @@ import {
 } from "react-icons/bs";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
+
+//styling
+const { baseTypes, sizes, colors } = theme;
+const Options = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+`;
+const SortBtn = styled.button`
+  ${baseTypes.baseControl};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${sizes.font.xxl};
+  padding: 0;
+  background-color: ${(props) =>
+    props.active ? colors.highlight : colors.secondary};
+  color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
+  ${baseTypes.hover} {
+    background-color: ${(props) =>
+      props.active ? colors.highlightHover : colors.primary};
+  }
+  margin-left: 10px;
+  width: 1.5em;
+`;
+
 function SortOptions({
   topics,
   setTopics,
@@ -37,30 +63,6 @@ function SortOptions({
       setSorting(false);
     }
   }, [whichSort, topics, setTopics, sorting, setSorting]);
-  //styling
-  const { baseTypes, sizes, colors } = theme;
-  const Options = styled.div`
-    display: flex;
-    flex-flow: row nowrap;
-    height: 100%;
-  `;
-  const SortBtn = styled.button`
-    ${baseTypes.baseControl};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: ${sizes.font.xxl};
-    padding: 0;
-    background-color: ${(props) =>
-      props.active ? colors.highlight : colors.secondary};
-    color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
-    ${baseTypes.hover} {
-      background-color: ${(props) =>
-        props.active ? colors.highlightHover : colors.primary};
-    }
-    margin-left: 10px;
-    width: 1.5em;
-  `;
 
   const DateIcon = whichSort.dateReversed ? <BsSortUpAlt /> : <BsSortDownAlt />;
   const AlphaIcon = whichSort.alphaReversed ? (

@@ -12,6 +12,29 @@ import Modal from "./components/displays/Modal";
 import styled from "@emotion/styled";
 import { globals, theme } from "./globalStyles";
 
+// styling
+const { sizes } = theme;
+const TopicSection = styled.div`
+  display: block;
+`;
+const MainContent = styled.div`
+  ${sizes.colWidth};
+  display: block;
+`;
+const LoginButton = styled.a`
+  ${theme.baseTypes.baseBtn};
+  width: ${sizes.smCol};
+  margin-bottom: 10px;
+  padding: 8px 0;
+  text-align: center;
+  text-decoration: none;
+`;
+const LoginButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 function App() {
   const { token, setToken, resetToken } = useToken();
   const [topics, setTopics] = useState([]);
@@ -119,28 +142,6 @@ function App() {
     <Route key="wildcard" from="*" element={<TopicsView />} />,
   ];
 
-  // styling
-  const { sizes } = theme;
-  const TopicSection = styled.div`
-    display: block;
-  `;
-  const MainContent = styled.div`
-    ${sizes.colWidth};
-    display: block;
-  `;
-  const LoginButton = styled.a`
-    ${theme.baseTypes.baseBtn};
-    width: ${sizes.smCol};
-    margin-bottom: 10px;
-    padding: 8px 0;
-    text-align: center;
-    text-decoration: none;
-  `;
-  const LoginButtonWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  `;
   return (
     <BrowserRouter>
       {globals}

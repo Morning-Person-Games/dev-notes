@@ -7,6 +7,7 @@ import SortOptions from "../tools/SortOptions";
 import { css } from "@emotion/react";
 import { theme } from "../../globalStyles";
 import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
+//import Highlighter from "react-highlight-words";
 
 function TopicsView({ currentTopics, tags, spaceID, token }) {
   const [topics, setTopics] = useState([]);
@@ -23,10 +24,10 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
   useEffect(() => {
     const indexableTopics = currentTopics;
     for (let i = 0; i < indexableTopics.length; i++) {
-      const indexableSolutions = [];
+      let indexableSolutions = " ";
       if (indexableTopics[i].solutions?.length > 0) {
         indexableTopics[i].solutions.forEach((solution) => {
-          indexableSolutions.push(solution.description);
+          indexableSolutions += " " + solution.description;
         });
       }
       indexableTopics[i].indexableSolutions = indexableSolutions;
@@ -113,13 +114,6 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
       <div css={Controls}>
         <PrimarySearch topics={topics} setQueryResult={setQueryResult} />
         <SecondaryControls>
-          <TagsToggle
-            type="button"
-            active={tagsVisible}
-            onClick={() => setTagsVisible((prev) => !prev)}
-          >
-            Tags {TagIcon}
-          </TagsToggle>
           <SortOptions
             topics={topics}
             setTopics={setTopics}
@@ -128,6 +122,13 @@ function TopicsView({ currentTopics, tags, spaceID, token }) {
             sorting={sorting}
             setSorting={setSorting}
           />
+          <TagsToggle
+            type="button"
+            active={tagsVisible}
+            onClick={() => setTagsVisible((prev) => !prev)}
+          >
+            Tags {TagIcon}
+          </TagsToggle>
         </SecondaryControls>
       </div>
       {topicsList.length > 0 ? <Ul>{topicsList}</Ul> : <h3>{emptySearch}</h3>}

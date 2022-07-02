@@ -168,9 +168,9 @@ baseTypes.baseRichText = css`
     margin: 0;
     ${sizes.rtPadding};
   }
-  font-size: 1rem;
+  font-size: 0.9rem;
   p {
-    font-size: 1em;
+    font-size: 1.1em;
   }
   h1,
   h2 {
@@ -182,16 +182,17 @@ baseTypes.baseRichText = css`
   h4,
   h5,
   h6 {
-    line-height: 1.5rem;
-    margin: 5px 0 10px 0;
+    line-height: 1.2em;
+    margin: 0;
     ${sizes.rtPadding};
   }
+
   a.anchor {
     margin-left: -27px;
   }
   ul {
     list-style-type: disc;
-    padding-top: 10px;
+    padding-top: 0;
   }
   li {
     padding-top: 10px;

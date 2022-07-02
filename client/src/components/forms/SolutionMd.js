@@ -32,7 +32,7 @@ function SolutionMd(props) {
     pre {
       border: 0;
       &::placeholder {
-        color: ${colors.inactiveColor};
+        color: ${colors.placeholder};
       }
     }
   `;

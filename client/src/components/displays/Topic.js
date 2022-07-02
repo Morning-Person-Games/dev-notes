@@ -87,7 +87,7 @@ function Topic({ topic, tags, spaceID, token }) {
   `;
   const alternateBtn = css`
     ${baseTypes.clickable};
-    color: ${highlight};
+    color: ${highlightHover};
     margin: 0;
     padding: 0;
     border-radius: 0;
@@ -100,7 +100,7 @@ function Topic({ topic, tags, spaceID, token }) {
       height: 100%;
     }
     &:hover {
-      color: ${highlightHover};
+      color: ${highlight};
       background-color: ${secondary};
     }
     &:disabled {

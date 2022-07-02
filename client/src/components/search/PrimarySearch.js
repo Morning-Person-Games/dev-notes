@@ -40,12 +40,10 @@ class PrimarySearch extends Component {
      * defines the search index
      * read more in here https://github.com/bvaughn/js-search#configuring-the-search-index
      */
-    dataToSearch.tokenizer = new JsSearch.StopWordsTokenizer(
-      new JsSearch.SimpleTokenizer()
-    );
-    dataToSearch.searchIndex = new JsSearch.TfIdfSearchIndex("topics");
-    dataToSearch.addIndex(["title"]); // sets the index attribute for the data
-    dataToSearch.addIndex(["indexableSolutions"]);
+    dataToSearch.searchIndex = new JsSearch.TfIdfSearchIndex();
+
+    dataToSearch.addIndex("topic"); // sets the index attribute for the data
+    dataToSearch.addIndex("indexableSolutions");
     dataToSearch.addDocuments(topics); // adds the data to be searched
     this.setState({ search: dataToSearch, isLoading: false });
   };

@@ -8,7 +8,7 @@ function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
   const { highlight, white, highlightHover } = theme.colors;
   const ScrollCon = css`
     ${theme.sizes.colWidth};
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   `;
   const Ul = styled.ul`
     list-style-type: none;
@@ -16,6 +16,7 @@ function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
     margin: 0;
     white-space: nowrap;
     width: fit-content;
+    margin: 5px 0 3px 0;
   `;
   const Li = styled.li`
     display: inline-block;
@@ -23,27 +24,27 @@ function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
   const Button = styled.button`
     cursor: pointer;
     margin: 0;
-    padding: 12px;
+    padding: 10px;
     color: ${white};
     background: none;
     border-style: solid;
     border-color: transparent;
-    border-width: 0 0 4px 0;
+    border-width: 0 0 3px 0;
     transition: border 150ms ease-in;
     -webkit-transition: border 150ms ease-in;
-    &:hover {
+    ${theme.baseTypes.hover} {
       &:enabled {
-        border-bottom-color: ${highlightHover};
+        border-bottom-color: ${highlight};
       }
     }
     &:disabled {
       cursor: default;
-      border-bottom-color: ${highlight};
+      border-bottom-color: ${highlightHover};
     }
   `;
   const H2 = styled.h2`
     margin: 0;
-    color: ${highlight};
+    color: ${highlightHover};
   `;
   const links = [];
   if (topics && topics.length > 0) {

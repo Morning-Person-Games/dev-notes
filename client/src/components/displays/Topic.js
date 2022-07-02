@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { Solution } from "./Solution";
 // import { Tag } from "./Tag";
@@ -13,20 +13,7 @@ import {
 
 function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
-  const [inactive, setInactive] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
-
-  useEffect(() => {
-    if (expanded) {
-      setInactive(false);
-    } else {
-      if (canExpand) {
-        setInactive(false);
-      } else {
-        setInactive(true);
-      }
-    }
-  }, [expanded, canExpand]);
 
   const solutions = topic.solutions.map((solution) => {
     return (
@@ -68,9 +55,9 @@ function Topic({ topic, tags, spaceID, token }) {
     </p>
   );
   //styling
-  const { primary, secondary, inactiveColor, highlight, dark } = theme.colors;
-  const { sizes } = theme;
-  const { baseBtn } = theme.baseTypes;
+  const { primary, secondary, inactiveColor, highlight, dark, highlightHover } =
+    theme.colors;
+  const { sizes, baseTypes, colors } = theme;
   const Card = styled.li`
     background-color: ${secondary};
     border-radius: ${sizes.radius};
@@ -84,13 +71,6 @@ function Topic({ topic, tags, spaceID, token }) {
     @media screen and (min-width: ${sizes.screenLg}) {
       width: ${sizes.mdCol};
     }
-  `;
-  const TopicTitle = styled.h2`
-    margin: 0;
-    padding: 10px;
-    border-radius: ${sizes.radius} ${sizes.radius} 0 0;
-    background-color: ${primary};
-    overflow-wrap: break-word;
   `;
   const SolutionsList = styled.ul`
     margin: 0;
@@ -106,11 +86,21 @@ function Topic({ topic, tags, spaceID, token }) {
     border-radius: 0 0 ${sizes.radius} ${sizes.radius};
   `;
   const alternateBtn = css`
-    ${baseBtn};
+    ${baseTypes.clickable};
     color: ${highlight};
+    margin: 0;
+    padding: 0;
     border-radius: 0;
     background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    font-size: ${sizes.font.fixedEm(sizes.font.h1n)};
+    svg {
+      height: 100%;
+    }
     &:hover {
+      color: ${highlightHover};
       background-color: ${secondary};
     }
     &:disabled {
@@ -125,43 +115,23 @@ function Topic({ topic, tags, spaceID, token }) {
   const Expand = styled.button`
     ${alternateBtn};
     height: ${sizes.minHeight};
-    padding: 0 8px 0 0;
-    margin-left: 8px;
-    font-size: 2em;
+    width: ${sizes.minHeight};
     border-radius: 0 0 ${sizes.radius} 0;
     svg {
-      margin-top: 6px;
+      margin-right: 1px;
     }
   `;
   const Edit = styled.a`
     ${alternateBtn};
     height: ${sizes.minHeight};
     text-decoration: none;
-    font-size: 2em;
-    padding: 0 6px 0 13px;
+    width: ${sizes.minHeight};
     cursor: pointer;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
     border-radius: 0 0 0 ${sizes.radius};
     svg {
-      margin-top: 6px;
+      margin-left: 2px;
     }
   `;
-  // const ReadMore = styled.button`
-  //   ${alternateBtn};
-  //   height: ${sizes.minHeight};
-  //   flex-grow: 1;
-  //   border: solid ${secondary};
-  //   border-width: 0 3px;
-  //   font-size: 2.5em;
-  //   padding: 0;
-  //   svg {
-  //     color: ${!canExpand && "transparent"};
-  //     margin-top: 3px;
-  //   }
-  // `;
 
   const ReadMore = styled.button`
     ${alternateBtn};
@@ -169,17 +139,42 @@ function Topic({ topic, tags, spaceID, token }) {
     flex-grow: 1;
     border: solid ${secondary};
     border-width: 0 3px;
-    font-size: 2.5em;
+    font-size: ${sizes.font.fixedEm(2.5)};
     padding: 0;
-    svg {
-      color: ${!canExpand && "transparent"};
-      margin-top: 3px;
-    }
   `;
-
+  const TopicHeader = styled.div`
+    display: block;
+    border-radius: ${sizes.radius} ${sizes.radius} 0 0;
+    background-color: ${primary};
+    position: relative;
+  `;
+  const TopicTitle = styled.h2`
+    overflow-wrap: break-word;
+    margin: 0;
+    padding: 10px;
+  `;
+  const TopicDate = styled.span`
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.2em 0.5em 0 0;
+    border-radius: 0 ${sizes.radius} 0 ${sizes.radius};
+    color: ${colors.placeholder};
+    background-color: ${colors.primary};
+    box-shadow: -3px 3px 5px 1px ${primary};
+    font-size: ${sizes.font.sm};
+    font-weight: 600;
+  `;
+  const date = new Date(topic.createdAt);
+  const year = date.getFullYear().toString().substring(2);
+  const dateString = date.getMonth() + "/" + date.getDay() + "/" + year;
   return (
     <Card>
-      <TopicTitle>{topic.title}</TopicTitle>
+      <TopicHeader>
+        <TopicTitle>{topic.title}</TopicTitle>
+        <TopicDate>{dateString}</TopicDate>
+      </TopicHeader>
       {/* {tags.length > 0 && <ul>{tags}</ul>} */}
       {solutions.length > 0 ? (
         <SolutionsList>{solutions}</SolutionsList>
@@ -197,13 +192,10 @@ function Topic({ topic, tags, spaceID, token }) {
         <Edit href={edit} target="_blank" rel="noreferrer" disabled={canEdit}>
           <MdEditNote />
         </Edit>
-        <ReadMore
-          onClick={() => setExpanded((prev) => !prev)}
-          disabled={inactive}
-        >
+        <ReadMore onClick={() => setExpanded((prev) => !prev)}>
           {expanded ? <MdExpandLess /> : <MdExpandMore />}
         </ReadMore>
-        <Expand disabled>
+        <Expand>
           <MdFullscreen />
         </Expand>
       </Actions>

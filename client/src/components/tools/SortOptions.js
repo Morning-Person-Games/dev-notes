@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   BsSortAlphaDown,
   BsSortAlphaUp,
@@ -7,94 +7,106 @@ import {
 } from "react-icons/bs";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
-function SortOptions({ setTopics }) {
-  const [whichSort, setWhichSort] = useState({
-    type: "date",
-    previous: "date",
-    dateReversed: false,
-    alphaReversed: false,
-  });
-  const [sorting, setSorting] = useState(false);
+function SortOptions({
+  topics,
+  setTopics,
+  whichSort,
+  setWhichSort,
+  sorting,
+  setSorting,
+}) {
   useEffect(() => {
     if (sorting) {
       if (whichSort.type === whichSort.previous) {
-        setTopics((prev) => {
-          var reversed = [].concat(prev).reverse();
-          return reversed;
-        });
+        var reversed = [].concat(topics).reverse();
+        setTopics(reversed);
       } else {
         if (whichSort.type === "date") {
-          setTopics((prev) => {
-            var sorted = []
-              .concat(prev)
-              .sort(
-                (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-              );
-            return sorted;
-          });
+          var sorted = []
+            .concat(topics)
+            .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+          setTopics(sorted);
         } else {
           // sort alpha
-          setTopics((prev) => {
-            var alpha = []
-              .concat(prev)
-              .sort((a, b) => a.title.localeCompare(b.title));
-            return alpha;
-          });
+          var alpha = []
+            .concat(topics)
+            .sort((a, b) => a.title.localeCompare(b.title));
+          setTopics(alpha);
         }
       }
+      setSorting(false);
     }
-  }, [whichSort, setTopics, sorting]);
+  }, [whichSort, topics, setTopics, sorting, setSorting]);
   //styling
-  const { baseTypes } = theme;
+  const { baseTypes, sizes, colors } = theme;
   const Options = styled.div`
-    display: block;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
   `;
   const SortBtn = styled.button`
-    ${baseTypes.baseBtn};
-    display: inline-block;
-    background: none;
-    &:hover {
-      background: none;
+    ${baseTypes.baseControl};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: ${sizes.font.xxl};
+    padding: 0;
+    background-color: ${(props) =>
+      props.active ? colors.highlight : colors.secondary};
+    color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
+    ${baseTypes.hover} {
+      background-color: ${(props) =>
+        props.active ? colors.highlightHover : colors.primary};
     }
+    margin-left: 10px;
+    width: 1.5em;
   `;
 
+  const DateIcon = whichSort.dateReversed ? <BsSortUpAlt /> : <BsSortDownAlt />;
+  const AlphaIcon = whichSort.alphaReversed ? (
+    <BsSortAlphaUp />
+  ) : (
+    <BsSortAlphaDown />
+  );
   return (
     <Options>
       <SortBtn
         type="button"
         onClick={() => {
-          setWhichSort((prev) => {
+          setWhichSort((prevState) => {
             const type = "date";
-            return {
-              type: type,
-              previous: prev.type,
-              dateReversed: prev.type === type ? !prev.dateReversed : false,
-              alphaReversed: false,
-            };
+            var prev = {};
+            prev.previous = prevState.type;
+            prev.dateReversed =
+              prevState.type === type ? !prevState.dateReversed : false;
+            prev.type = type;
+            prev.alphaReversed = false;
+            return prev;
           });
           setSorting(true);
         }}
         active={whichSort.type === "date" ? true : false}
       >
-        {whichSort.dateReversed ? <BsSortUpAlt /> : <BsSortDownAlt />}
+        {DateIcon}
       </SortBtn>
       <SortBtn
         type="button"
         onClick={() => {
-          setWhichSort((prev) => {
+          setWhichSort((prevState) => {
             const type = "alpha";
-            return {
-              type: type,
-              previous: prev.type,
-              dateReversed: false,
-              alphaReversed: prev.type === type ? !prev.alphaReversed : false,
-            };
+            var prev = {};
+            prev.previous = prevState.type;
+            prev.alphaReversed =
+              prevState.type === type ? !prevState.alphaReversed : false;
+            prev.type = type;
+            prev.dateReversed = false;
+            return prev;
           });
           setSorting(true);
         }}
         active={whichSort.type === "alpha" ? true : false}
       >
-        {whichSort.alphaReversed ? <BsSortAlphaUp /> : <BsSortAlphaDown />}
+        {AlphaIcon}
       </SortBtn>
     </Options>
   );

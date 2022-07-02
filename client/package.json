@@ -19,10 +19,13 @@
     "react-dom": "^18.1.0",
     "react-icons": "^4.4.0",
     "react-indiana-drag-scroll": "^2.2.0",
+    "react-linkify": "^1.0.0-alpha",
+    "react-markdown": "^8.0.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.4",
     "rehype-sanitize": "^5.0.1",
+    "remark-gfm": "^3.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

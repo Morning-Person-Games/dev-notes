@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import Linkify from "linkify-react";
 import { theme } from "../../globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
-import MDEditor from "@uiw/react-md-editor";
+import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 
 function Solution({ solution, expanded, setCanExpand, solutionCount }) {
   const ref = useRef();
@@ -43,7 +43,7 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
     margin: 0;
     padding: 0 0 14px 0;
     margin-bottom: 0;
-    max-width: 99%;
+    max-width: 100%;
     display: -webkit-box;
     position: relative;
     overflow-wrap: break-word;
@@ -65,12 +65,9 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
     : solution.description;
   return (
     <Li ref={ref}>
-      <Linkify>
-        <MDEditor.Markdown
-          source={renderedSolution}
-          style={{ backgroundColor: "transparent" }}
-        />
-      </Linkify>
+      <div style={{ width: "100%" }}>
+        <ReactMarkdown children={renderedSolution} remarkPlugins={[gfm]} />
+      </div>
       <Cover />
     </Li>
   );

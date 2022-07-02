@@ -40,6 +40,9 @@ class PrimarySearch extends Component {
      * defines the search index
      * read more in here https://github.com/bvaughn/js-search#configuring-the-search-index
      */
+    dataToSearch.tokenizer = new JsSearch.StopWordsTokenizer(
+      new JsSearch.SimpleTokenizer()
+    );
     dataToSearch.searchIndex = new JsSearch.TfIdfSearchIndex("topics");
     dataToSearch.addIndex(["title"]); // sets the index attribute for the data
     dataToSearch.addIndex(["indexableSolutions"]);
@@ -69,10 +72,15 @@ class PrimarySearch extends Component {
     return (
       <form
         css={css`
+          flex-grow: 1;
+          transition: all 150ms ease-in;
+          -webkit-transition: all 150ms ease-in;
           display: flex;
           background: ${theme.colors.secondary};
           border-radius: ${theme.sizes.radius};
-          margin-bottom: 10px;
+          ${theme.baseTypes.hover} {
+            background-color: ${theme.colors.primary};
+          }
         `}
         onSubmit={this.handleSubmit}
       >
@@ -90,10 +98,15 @@ class PrimarySearch extends Component {
             css={css`
               ${theme.baseTypes.baseInput}
               background: none;
-              font-size: 1.2em;
+              font-size: ${theme.sizes.font.lg};
               width: 100%;
+              flex-grow: 1;
               padding: 12px;
               margin-left: 28px;
+              min-width: ${theme.sizes.smCol};
+              @media screen and (min-width: ${theme.sizes.screenMd}) {
+                min-width: 13em;
+              }
             `}
           />
           <MdSearch
@@ -102,8 +115,8 @@ class PrimarySearch extends Component {
               position: absolute;
               left: 8px;
               top: 10px;
-              font-size: 1.5em;
-              color: ${theme.colors.inactiveColor};
+              font-size: ${theme.sizes.font.xl};
+              color: ${theme.colors.white};
             `}
           />
         </div>

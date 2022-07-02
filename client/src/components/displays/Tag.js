@@ -33,7 +33,7 @@ function TagField({ tag, allTags, handleTags }) {
     margin-right: 5px;
     transition: all 50ms ease-in;
     -webkit-transition: all 50ms ease-in;
-    &:hover {
+    ${theme.baseTypes.hover} {
       border-color: ${active ? "transparent" : white};
       color: ${!active && white};
       background: ${active && hoverBlue};

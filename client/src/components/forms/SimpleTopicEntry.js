@@ -41,12 +41,13 @@ const SimpleTopicForm = (props) => {
     }
     setFieldValue("title", e.target.value);
     // this may not look like it matches the validator but it will
-    setHasValue(values.title.length > 1);
+    setHasValue(e.target.value.length > 0);
   };
   // styling
   const { baseInput, baseBtn } = theme.baseTypes;
-  const { primary, white, secondary } = theme.colors;
+  const { primary, white, secondary, inactiveColor } = theme.colors;
   const { radius } = theme.sizes;
+  const { font } = theme.sizes;
   const Errors = styled.div`
     color: ${theme.colors.error};
     margin: 5px 0;
@@ -57,9 +58,12 @@ const SimpleTopicForm = (props) => {
     ${baseBtn}
     padding:12px;
     color: ${white};
-    font-size: 1.2em;
+    font-size: ${font.lg};
     flex-grow: 1;
     border-radius: 0 0 ${radius} ${radius};
+    &:disabled {
+      color: ${!isValid ? theme.colors.error : inactiveColor};
+    }
   `;
   const Buttons = css`
     display: flex;
@@ -76,6 +80,7 @@ const SimpleTopicForm = (props) => {
   `;
   const TopicForm = css`
     padding-bottom: 0;
+    margin-bottom: 10px;
   `;
 
   const TopicFieldWrapper = css`
@@ -91,6 +96,7 @@ const SimpleTopicForm = (props) => {
     }
   };
 
+  const submitText = errors.title ? errors.title : "Add topic";
   return (
     <form onSubmit={handleSubmit} css={TopicForm}>
       {errors.category && touched.title && <Errors>{errors.category}</Errors>}
@@ -120,10 +126,9 @@ const SimpleTopicForm = (props) => {
           type="submit"
           disabled={!isValid || isSubmitting || !hasValue}
         >
-          Add topic
+          {submitText}
         </button>
       </div>
-      <Errors>{errors.title}</Errors>
     </form>
   );
 };

@@ -16,23 +16,38 @@ router.use(function (req, res, next) {
       topics
         .getTopics()
         .then(function (topicsCollection) {
-          // get solutions
-          solutions
-            .getSolutions()
-            .then(function (solutionCollection) {
-              req.content = {
-                topics: formatter.formatMainTopicsList(
-                  categoryCollection.items,
-                  topicsCollection.items
-                ),
-                solutions: formatter.formatSolutions(solutionCollection.items),
-              };
-              // finish fetching
-              next();
+          // get tags
+          tags
+            .getTags()
+            .then(function (tagCollection) {
+              // get solutions
+              solutions
+                .getSolutions()
+                .then(function (solutionCollection) {
+                  req.content = {
+                    topics: formatter.formatMainTopicsList(
+                      categoryCollection.items,
+                      topicsCollection.items
+                    ),
+                    tags: formatter.formatTags(tagCollection.items),
+                    solutions: formatter.formatSolutions(
+                      solutionCollection.items
+                    ),
+                  };
+                  // finish fetching
+                  next();
+                })
+                .catch(function (err) {
+                  console.log(
+                    "content.js - getSolutions (router.use()) error:",
+                    JSON.stringify(err, null, 2)
+                  );
+                  next();
+                });
             })
             .catch(function (err) {
               console.log(
-                "content.js - getSolutions (router.use()) error:",
+                "content.js - getTag (router.use()) error:",
                 JSON.stringify(err, null, 2)
               );
               next();
@@ -58,6 +73,7 @@ router.use(function (req, res, next) {
 router.get("/", function (req, res, next) {
   res.json({
     topics: req.content.topics ? req.content.topics : [],
+    tags: req.content.tags ? req.content.tags : [],
     solutions: req.content.solutions ? req.content.solutions : [],
     spaceID: process.env.CONTENTFUL_SPACE_ID,
   });

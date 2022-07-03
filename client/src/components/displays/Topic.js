@@ -109,18 +109,18 @@ const TopicTitle = styled.h2`
   overflow-wrap: break-word;
   margin: 0;
   padding: 10px;
+  padding-top: 8px;
 `;
 const TopicDate = styled.span`
   display: block;
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
-  padding: 0.2em 0.5em 0 0;
-  border-radius: 0 ${sizes.radius} 0 ${sizes.radius};
+  padding: 1px 2px 0 1px;
+  border-radius: 0 0 0 ${sizes.radius};
   color: ${colors.placeholder};
   background-color: ${colors.primary};
-  box-shadow: -3px 3px 5px 1px ${primary};
-  font-size: ${sizes.font.sm};
+  font-size: ${sizes.font.xs};
   font-weight: 600;
 `;
 
@@ -128,6 +128,7 @@ function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
 
+  //TODO optimize - this could be rendered less?
   const solutions = topic.solutions.map((solution) => {
     return (
       <Solution

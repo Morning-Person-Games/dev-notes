@@ -4,15 +4,14 @@ import { math, darken, lighten, transparentize } from "polished";
 // empty strings are set below just so I can hack intellisense a bit
 const theme = {
   colors: {
-    // Primary
+    // Core   colors
     primary: "rgb(36, 40, 85)",
-    // calculated
     white: "rgb(242, 242, 242)",
     gray: "rgb(136, 136, 142)",
     highlight: "rgb(49, 62, 164)",
     error: "rgb(255, 90, 85)",
+    // calculated
     background: "rgb(16, 18, 38)",
-    // special
     secondary: "",
     codeLine: "",
     codeBlock: "",
@@ -47,6 +46,7 @@ const theme = {
       h3n: "1.17",
       h2n: "1.5",
       h1n: "2",
+      xs: "0.67em",
       sm: "0.83em",
       md: "1em",
       lg: "1.17em",

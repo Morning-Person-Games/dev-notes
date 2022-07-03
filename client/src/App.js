@@ -43,6 +43,7 @@ function App() {
   const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [modalContent, setModalContent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const setTopicsAndCategories = (topicsList) => {
     setTopics(topicsList);
@@ -62,7 +63,7 @@ function App() {
         })
         .then((content) => {
           setTopicsAndCategories(content.topics);
-          //setTags(content.tags);
+          setTags(content.tags);
 
           //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
           setSolutions(content.solutions);
@@ -71,6 +72,7 @@ function App() {
         });
     };
     fetchAndSetContent();
+    setLoading(false);
   }, []);
 
   const createModal = function (title, component) {
@@ -116,6 +118,7 @@ function App() {
   };
 
   // set initial utility routes
+  // TODO - optimize
   const allRoutes = [
     <Route
       key={"login"}
@@ -136,7 +139,8 @@ function App() {
           tags={tags}
           spaceID={spaceID}
           token={token}
-        />
+          loading={loading}
+        ></TopicsView>
       }
     />,
     <Route key="wildcard" from="*" element={<TopicsView />} />,

@@ -24,12 +24,15 @@ class PrimarySearch extends Component {
   }
   rebuildIndex = () => {
     const { topics } = this.props;
-    const dataToSearch = new JsSearch.Search("topics");
+    const dataToSearch = new JsSearch.Search("id");
+    dataToSearch.tokenizer = new JsSearch.StopWordsTokenizer(
+      new JsSearch.SimpleTokenizer()
+    );
     /**
      * defines an indexing strategy for the data
      * more about it in here https://github.com/bvaughn/js-search#configuring-the-index-strategy
      */
-    dataToSearch.indexStrategy = new JsSearch.AllSubstringsIndexStrategy();
+    dataToSearch.indexStrategy = new JsSearch.PrefixIndexStrategy();
     /**
      * defines the sanitizer for the search
      * to prevent some of the words from being excluded
@@ -42,10 +45,11 @@ class PrimarySearch extends Component {
      */
     dataToSearch.searchIndex = new JsSearch.TfIdfSearchIndex();
 
-    dataToSearch.addIndex("topic"); // sets the index attribute for the data
-    dataToSearch.addIndex("indexableSolutions");
+    dataToSearch.addIndex("title"); // sets the index attribute for the data
+    dataToSearch.addIndex("indexableSolutions"); // sets the index attribute for the data
     dataToSearch.addDocuments(topics); // adds the data to be searched
     this.setState({ search: dataToSearch, isLoading: false });
+    this.props.setQueryResult(topics);
   };
 
   /**
@@ -56,10 +60,14 @@ class PrimarySearch extends Component {
     const { search } = this.state;
     const value = e.target.value;
     const queryResult = search.search(value);
+    console.log("value", value);
     this.setState({ searchQuery: value });
-    this.props.setQueryResult(
-      value && queryResult.length === 0 ? null : queryResult
-    );
+    console.log("queryResult", queryResult);
+    if (value.length === 0) {
+      this.props.setQueryResult(this.props.topics);
+    } else {
+      this.props.setQueryResult(queryResult.length === 0 ? null : queryResult);
+    }
   };
   handleSubmit = (e) => {
     e.preventDefault();

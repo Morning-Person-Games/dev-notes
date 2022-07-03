@@ -145,6 +145,9 @@ router.post("/topic", (req, res, next) => {
           .getEnvironment("master")
           .then((environment) => {
             var fields = {
+              metadata: {
+                tags: topic.tags,
+              },
               fields: {
                 title: {
                   "en-US": topic.title,

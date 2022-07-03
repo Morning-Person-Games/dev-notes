@@ -13,6 +13,7 @@ const { baseTypes, sizes, colors } = theme;
 const Options = styled.div`
   display: flex;
   flex-flow: row nowrap;
+  gap: 10px;
   height: 100%;
 `;
 const SortBtn = styled.button`
@@ -29,7 +30,6 @@ const SortBtn = styled.button`
     background-color: ${(props) =>
       props.active ? colors.highlightHover : colors.primary};
   }
-  margin-left: 10px;
   width: 1.5em;
 `;
 

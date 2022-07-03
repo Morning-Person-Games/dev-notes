@@ -1,3 +1,5 @@
+const removeMd = require("remove-markdown");
+
 function formatCategory(category) {
   return {
     id: category.sys.id,
@@ -19,6 +21,9 @@ function formatTopics(topics) {
     solutions: Array.isArray(topic.fields.solutions)
       ? formatSolutions(topic.fields.solutions)
       : [],
+    indexableSolutions: Array.isArray(topic.fields.solutions)
+      ? formatIndexableSolutions(topic.fields.solutions)
+      : "",
   }));
 }
 
@@ -30,6 +35,15 @@ function formatTags(tags) {
     id: tag.id ? tag.id : tag.sys.id,
     name: tag.name ? tag.name : "",
   }));
+}
+
+function formatIndexableSolutions(solutions) {
+  var indexableSolutions = "";
+  solutions.map((solution) => {
+    var mdRemoved = removeMd(solution.fields.description);
+    indexableSolutions += " " + mdRemoved;
+  });
+  return indexableSolutions;
 }
 
 function formatSolution(solution) {

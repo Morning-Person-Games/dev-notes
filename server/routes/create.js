@@ -77,7 +77,7 @@ router.post("/solutions", (req, res, next) => {
             solutions.forEach((solution) => {
               var fields = {
                 fields: {
-                  title: {
+                  strippedDescription: {
                     "en-US": solution.title,
                   },
                   description: {

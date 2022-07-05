@@ -1,5 +1,3 @@
-const removeMd = require("remove-markdown");
-
 function formatCategory(category) {
   return {
     id: category.sys.id,
@@ -40,8 +38,7 @@ function formatTags(tags) {
 function formatIndexableSolutions(solutions) {
   var indexableSolutions = "";
   solutions.map((solution) => {
-    var mdRemoved = removeMd(solution.fields.description);
-    indexableSolutions += " " + mdRemoved;
+    indexableSolutions += " " + solution.fields.strippedDescription;
   });
   return indexableSolutions;
 }
@@ -50,7 +47,7 @@ function formatSolution(solution) {
   return {
     sysID: solution.sys.id,
     createdAt: solution.sys.createdAt,
-    title: solution.fields.title,
+    title: solution.fields.strippedDescription,
     description: solution.fields.description,
     tempDes: solution.fields.tempDes ? solution.fields.tempDes : "",
   };

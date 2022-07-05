@@ -8,7 +8,7 @@ const redirect_uri = process.env.CONTENTFUL_OAUTH_REDIRECT_URI;
 
 const content = require("./routes/content.js");
 const create = require("./routes/create");
-const upload = require("./routes/mediaUpload.js");
+const strip = require("./routes/strip");
 const topicsService = require("./services/topics.js");
 
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
@@ -19,7 +19,7 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.use("/api/content", content);
 app.use("/api/create", create);
-app.use("/api/upload", upload);
+app.use("/api/strip", strip);
 
 app.get("/login", (req, res) => {
   res.redirect(
@@ -29,6 +29,7 @@ app.get("/login", (req, res) => {
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
+  res.write("<h1>Publically Available Content</h1>");
   topicsService.getTopics().then((topicsCollection) => {
     res.json(topicsCollection.items);
   });

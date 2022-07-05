@@ -76,13 +76,13 @@ function App() {
     setLoading(false);
   }, []);
 
-  // const createModal = function (title, component) {
-  //   if (title === null && component === null) {
-  //     setModalContent(null);
-  //   } else {
-  //     setModalContent({ title, component });
-  //   }
-  // };
+  const createModal = function (title, component) {
+    if (title === null && component === null) {
+      setModalContent(null);
+    } else {
+      setModalContent({ title, component });
+    }
+  };
 
   /*
     contentToAdd = {

@@ -15,9 +15,11 @@ const Options = styled.div`
   flex-flow: row nowrap;
   gap: 10px;
   height: 100%;
+  width: 100%;
 `;
 const SortBtn = styled.button`
   ${baseTypes.baseControl};
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;

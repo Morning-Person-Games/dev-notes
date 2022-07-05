@@ -23,7 +23,9 @@ const MainContent = styled.div`
 `;
 const LoginButton = styled.a`
   ${theme.baseTypes.baseBtn};
-  width: ${sizes.smCol};
+  width: 100%;
+  max-width: ${theme.sizes.mdCol};
+  font-size: 2em;
   margin-bottom: 10px;
   padding: 8px 0;
   text-align: center;
@@ -32,7 +34,6 @@ const LoginButton = styled.a`
 const LoginButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
 `;
 
 function App() {
@@ -75,13 +76,13 @@ function App() {
     setLoading(false);
   }, []);
 
-  const createModal = function (title, component) {
-    if (title === null && component === null) {
-      setModalContent(null);
-    } else {
-      setModalContent({ title, component });
-    }
-  };
+  // const createModal = function (title, component) {
+  //   if (title === null && component === null) {
+  //     setModalContent(null);
+  //   } else {
+  //     setModalContent({ title, component });
+  //   }
+  // };
 
   /*
     contentToAdd = {
@@ -108,7 +109,8 @@ function App() {
       for (let i = 0; i < topics.length; i++) {
         if (topics[i].id === newTopic.category.id) {
           var newTopicsList = topics;
-          newTopicsList[i].topics = newTopic.concat(topics[i].topics);
+          newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
+          console.log("newTopicsList", newTopicsList);
           setTopics(newTopicsList);
           setCurrentCategory(newTopicsList[i]);
           break;
@@ -173,7 +175,6 @@ function App() {
           <SimpleTopicForm
             token={token}
             currentCategory={currentCategory}
-            createModal={createModal}
             tags={tags}
             setTopics={setTopics}
             addToContentList={addToContentList}

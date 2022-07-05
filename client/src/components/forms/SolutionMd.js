@@ -17,13 +17,13 @@ function SolutionMd(props) {
     width: 100%;
     border-radius: 0;
     border: 0;
-
+    box-shadow: inset 0 -2px 5px ${theme.colors.shadow};
     div {
       --color-border-default: ${colors.primary};
     }
     .wmde-markdown {
       --color-canvas-default: ${colors.dark};
-      --color-border-default: ${colors.secondary};
+      --color-border-default: ${colors.background};
       --color-accent-fg: ${colors.highlight};
       --color-neutral-muted: ${colors.primary};
       border-radius: 0;

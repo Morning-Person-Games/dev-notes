@@ -34,38 +34,48 @@ const Controls = styled.div`
 `;
 const SecondaryControls = styled.div`
   display: flex;
+  flex-grow: 2;
+  @media screen and (min-width: ${sizes.screenMd}) {
+    flex-grow: initial;
+  }
 `;
 const TagsToggle = styled.button`
   ${baseTypes.clickable};
   position: relative;
   font-size: ${sizes.font.lg};
-  padding: 5px 10px;
+  padding: 12px;
   padding-right: 2em;
-  background-color: ${(props) =>
-    props.active ? colors.primary : colors.secondary};
+  flex-grow: 3;
+  @media screen and (min-width: ${sizes.screenMd}) {
+    flex-grow: initial;
+    order: -1;
+  }
   color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
+  background-color: ${colors.secondary};
   &:hover {
-    background-color: ${(props) =>
-      props.active ? colors.secondary : colors.primary};
+    background-color: ${colors.primary};
   }
   svg {
     margin-top: 2px;
-    right: 0.7em;
+    margin-left: 0.3em;
   }
 `;
 const TagsUl = styled.ul`
-  display: flex;
-  flex-flow: row wrap;
-  row-gap: 10px;
-  width: 100%;
+  ${baseTypes.baseTagsList};
   margin: 0;
   padding: 0;
 `;
 
-function GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token) {
-  console.log("activeTagFilters", activeTagFilters);
+function GetTopicsList(
+  queryResult,
+  activeTagFilters,
+  tags,
+  spaceID,
+  token,
+  loading
+) {
   if (queryResult && queryResult.length > 0) {
-    const filteredTopics = queryResult.splice();
+    const filteredTopics = queryResult.slice();
     if (activeTagFilters.length > 0) {
       const taggedTopics = filteredTopics.filter((topic) =>
         activeTagFilters.every((tagID) => {
@@ -84,6 +94,7 @@ function GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token) {
           tags={tags}
           spaceID={spaceID}
           token={token}
+          loading={loading}
         />
       ));
     }
@@ -118,45 +129,48 @@ function TopicsView(props) {
   });
 
   useEffect(() => {
-    setSortedTopics(queryResult);
-    if (queryResult !== null) {
-      setTopicsList(
-        GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token)
-      );
+    if (!loading) {
+      setSortedTopics(queryResult);
+      if (queryResult !== null) {
+        setTopicsList(
+          GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token)
+        );
+      }
     }
-  }, [queryResult, tags, spaceID, token, activeTagFilters]);
+  }, [queryResult, tags, spaceID, token, activeTagFilters, loading]);
 
   useEffect(() => {
-    const newTagsList = [];
-    tags.forEach((tag) => {
-      newTagsList.push(
-        <TagField
-          key={tag.id}
-          tag={tag}
-          allTags={tags}
-          handleTags={(tagID, add) => {
-            console.log("tagID", tagID);
-            setActiveTagFilters((prev) => {
-              console.log("prev", prev);
-              if (add) {
-                const newFilters = [].concat(prev);
-                return newFilters.push(tagID);
-              } else {
-                // check if id exists in array, if not add, if so remove.
-                const newFilters = [].concat(prev);
-                for (let i = 0; i < newFilters.length; i++) {
-                  if (newFilters[i] === tagID) {
-                    return newFilters[i].splice(i);
+    if (!loading) {
+      const newTagsList = [];
+      tags.forEach((tag) => {
+        newTagsList.push(
+          <TagField
+            key={tag.id}
+            tag={tag}
+            allTags={tags}
+            handleTags={(tagID, add) => {
+              setActiveTagFilters((prev) => {
+                if (add) {
+                  const newFilters = [tagID].concat(prev);
+                  return newFilters;
+                } else {
+                  // check if id exists in array, if not add, if so remove.
+                  let newFilters = [].concat(prev);
+                  for (let i = prev.length - 1; i >= 0; i--) {
+                    if (prev[i] === tagID) {
+                      newFilters.splice(i, 1);
+                      return newFilters;
+                    }
                   }
                 }
-              }
-            });
-          }}
-        />
-      );
-    });
-    setTagsList(newTagsList);
-  }, [tags, setActiveTagFilters]);
+              });
+            }}
+          />
+        );
+      });
+      setTagsList(newTagsList);
+    }
+  }, [tags, setActiveTagFilters, loading]);
 
   const NotFound = (
     <div>
@@ -175,6 +189,7 @@ function TopicsView(props) {
   return (
     <div>
       <Controls tagsvisible={tagsVisible ? 1 : 0}>
+        <PrimarySearch topics={currentTopics} setQueryResult={setQueryResult} />
         <TagsToggle
           type="button"
           active={tagsVisible}
@@ -182,7 +197,6 @@ function TopicsView(props) {
         >
           Tags {TagIcon}
         </TagsToggle>
-        <PrimarySearch topics={currentTopics} setQueryResult={setQueryResult} />
         <SecondaryControls>
           <SortOptions
             topics={sortedTopics}

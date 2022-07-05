@@ -19,6 +19,7 @@ const theme = {
     // hidden
     placeholder: "",
     dark: "",
+    shadow: "",
     linkHover: "",
     highlightHover: "",
     inactiveColor: "",
@@ -65,6 +66,7 @@ const theme = {
     baseRichText: "",
     baseIconControl: "",
     hover: "",
+    baseTagsList: "",
   },
 };
 const { colors, sizes, baseTypes } = theme;
@@ -78,15 +80,16 @@ colors.link = lighten(0.2, colors.highlight);
 colors.linkHover = darken(0.1, colors.link);
 colors.codeBlock = colors.background;
 colors.codeLine = transparentize(0.3, lighten(0.1, colors.primary));
+colors.shadow = transparentize(0.4, theme.colors.background);
 // sizes:
-sizes.screenSm = math(baseTypes.baseFontSize + "* 20px");
-sizes.smCol = math(sizes.screenSm + "- 20px");
-sizes.mdCol = math(sizes.smCol + "* 1.5");
-sizes.LgCol = math(sizes.smCol + "* 2");
-sizes.screenMd = math(sizes.smCol + "* 2 + 30px");
-sizes.screenLg = math("(" + sizes.mdCol + "* 2) + 50px");
-sizes.screenXl = math("(" + sizes.LgCol + "* 2) + 50px");
-sizes.maxWidth = math(sizes.screenLg + " - 40px");
+sizes.screenSm = math(baseTypes.baseFontSize + "* 20px"); // 320px - Each at default fontsize:
+sizes.smCol = math(sizes.screenSm + "- 20px"); // 300px
+sizes.mdCol = math(sizes.smCol + "* 1.5"); // 450px
+sizes.LgCol = math(sizes.smCol + "* 2"); // 600px
+sizes.screenMd = math(sizes.smCol + "* 2 + 30px"); // 630px
+sizes.screenLg = math("(" + sizes.mdCol + "* 2) + 50px"); // 950px
+sizes.screenXl = math("(" + sizes.LgCol + "* 2) + 50px"); // 1250px
+sizes.maxWidth = math(sizes.screenLg + " - 40px"); // 910px
 sizes.colWidth = css`
   margin: 0 auto;
   padding: 0 10px;
@@ -161,6 +164,11 @@ baseTypes.baseLink = css`
   ${baseTypes.hover} {
     color: ${colors.linkHover};
   }
+`;
+baseTypes.baseTagsList = css`
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 10px;
 `;
 baseTypes.baseRichText = css`
   word-wrap: break-word;

@@ -40,10 +40,11 @@ const Buttons = css`
 const TitleCSS = css`
   ${baseInput}
   background: none;
-  padding: 5px 10px;
+  padding: 7px 10px 5px 10px;
   border-bottom: 2px solid ${primary};
   min-height: 2em;
   font-size: 1em;
+  box-shadow: inset -1px 2px 4px ${theme.colors.shadow};
 `;
 const TopicForm = css`
   padding-bottom: 0;
@@ -152,33 +153,33 @@ const SimpleTopicEntry = withFormik({
       "Please create or select a category above to add new topics."
     ),
   }),
-  handleSubmit: (values, { props, setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      const contentToAdd = SimpleFormattedTopicEntry(values);
-      const { newSolutions, newTopic } = contentToAdd;
-      const createdTopic = createNewTopic(
-        props.token,
-        JSON.parse(JSON.stringify(contentToAdd))
-      );
-      // TODO disable submission until promise complete
-      console.log("createdTopic", createdTopic);
-      // add details for immediate usage of new content that contentful will generate later:
-      newTopic.id = generateTempID(contentToAdd.newTopic.title);
-      newTopic.createdAt = new Date().toISOString();
-      if (newSolutions && newSolutions.length > 0) {
-        newSolutions[0].sysID = generateTempID(newSolutions[0].title);
-        newSolutions[0].createdAt = new Date().toISOString();
-        contentToAdd.newTopic.solutions.push(newSolutions[0]);
-      }
-      props.addToContentList(contentToAdd);
-      resetForm({
-        values: {
-          title: "",
-          solution: "",
-        },
-      });
-      setSubmitting(false);
-    }, 1000);
+  handleSubmit: async (values, { props, resetForm }) => {
+    const contentToAdd = await SimpleFormattedTopicEntry(values);
+    const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
+    const { newSolutions, newTopic } = contentToAdd;
+    // add details for immediate usage of new content that contentful will generate later:
+    newTopic.id = generateTempID(contentToAdd.newTopic.title);
+    newTopic.createdAt = new Date().toISOString();
+
+    //TODO multiple solutions for loop:
+    if (newSolutions && newSolutions.length > 0) {
+      newSolutions[0].sysID = generateTempID(newSolutions[0].title);
+      newSolutions[0].createdAt = new Date().toISOString();
+      contentToAdd.newTopic.solutions.push(newSolutions[0]);
+      // technically it might be better to get md removed to help out search but thatll happen on any refresh so I'm not too worried about it
+      contentToAdd.newTopic.indexableSolutions = newSolutions[0].title;
+    }
+    props.addToContentList(contentToAdd);
+
+    // Send content to contentful
+    const createdTopic = await createNewTopic(props.token, contentToSend);
+    console.log("createdTopic", createdTopic);
+    resetForm({
+      values: {
+        title: "",
+        solution: "",
+      },
+    });
   },
   displayName: "SimpleTopicForm",
 })(SimpleTopicForm);

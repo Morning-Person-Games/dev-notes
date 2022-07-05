@@ -78,7 +78,9 @@ class PrimarySearch extends Component {
     return (
       <form
         css={css`
+          box-shadow: inset -1px 2px 3px ${theme.colors.shadow};
           flex-grow: 1;
+          flex-basis: 100%;
           transition: all 150ms ease-in;
           -webkit-transition: all 150ms ease-in;
           display: flex;
@@ -86,6 +88,9 @@ class PrimarySearch extends Component {
           border-radius: ${theme.sizes.radius};
           ${theme.baseTypes.hover} {
             background-color: ${theme.colors.primary};
+          }
+          @media screen and (min-width: ${theme.sizes.screenMd}) {
+            flex-basis: auto;
           }
         `}
         onSubmit={this.handleSubmit}
@@ -105,11 +110,10 @@ class PrimarySearch extends Component {
               ${theme.baseTypes.baseInput}
               background: none;
               font-size: ${theme.sizes.font.lg};
-              width: 100%;
+              min-width: 12em;
               flex-grow: 1;
               padding: 12px;
               margin-left: 28px;
-              min-width: ${theme.sizes.smCol};
               @media screen and (min-width: ${theme.sizes.screenMd}) {
                 min-width: 13em;
               }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import { Solution } from "./Solution";
-// import { Tag } from "./Tag";
+import { TagString } from "./Tag";
 import styled from "@emotion/styled";
 import { theme } from "../../globalStyles";
 import {
@@ -10,6 +10,7 @@ import {
   MdExpandMore,
   MdExpandLess,
 } from "react-icons/md";
+import { BsTagsFill } from "react-icons/bs";
 
 //styling
 const { primary, secondary, inactiveColor, highlight, dark, highlightHover } =
@@ -108,8 +109,8 @@ const TopicHeader = styled.div`
 const TopicTitle = styled.h2`
   overflow-wrap: break-word;
   margin: 0;
-  padding: 10px;
-  padding-top: 8px;
+  padding: 8px 10px 10px 10px;
+  ${(props) => props.tagged && "padding-bottom: 0px"};
 `;
 const TopicDate = styled.span`
   display: block;
@@ -123,6 +124,32 @@ const TopicDate = styled.span`
   font-size: ${sizes.font.xs};
   font-weight: 600;
 `;
+
+const TagsDiv = styled.div`
+  ${baseTypes.baseTagsList};
+  background-color: ${colors.primary};
+  padding: 2px 10px 10px 10px;
+  gap: 5px;
+  margin: 0;
+  list-style-type: none;
+  color: ${colors.placeholder};
+  svg {
+    margin-top: 4px;
+    font-size: ${sizes.font.sm};
+  }
+`;
+
+function TagsList({ tagged, allTags }) {
+  if (!tagged || !tagged.length === 0) {
+    return;
+  }  
+  return (
+    <TagsDiv>
+      <BsTagsFill />
+      <TagString tagged={tagged} allTags={allTags} />
+    </TagsDiv>
+  );
+}
 
 function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
@@ -141,9 +168,6 @@ function Topic({ topic, tags, spaceID, token }) {
       />
     );
   });
-  // const tags = props.topic.tags.map((tag) => {
-  //   return <Tag key={tag.id} tag={tag} allTags={props.allTags} />;
-  // });
   const edit =
     "https://app.contentful.com/spaces/" + spaceID + "/entries/" + topic.id;
   const canEdit = token && spaceID ? true : false;
@@ -174,10 +198,14 @@ function Topic({ topic, tags, spaceID, token }) {
   return (
     <Card>
       <TopicHeader>
-        <TopicTitle>{topic.title}</TopicTitle>
+        <TopicTitle tagged={topic.tags.length > 0 ? 1 : 0}>
+          {topic.title}
+        </TopicTitle>
+        {tags.length > 0 && topic.tags.length > 0 && (
+          <TagsList tagged={topic.tags} allTags={tags} expanded={expanded} />
+        )}
         <TopicDate>{dateString}</TopicDate>
       </TopicHeader>
-      {/* {tags.length > 0 && <ul>{tags}</ul>} */}
       {solutions.length > 0 ? (
         <SolutionsList>{solutions}</SolutionsList>
       ) : (

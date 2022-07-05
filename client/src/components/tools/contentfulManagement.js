@@ -187,53 +187,6 @@ async function createNewTags(token, tags, notify) {
     });
 }
 
-async function createNewImage(token, image, notify) {
-  let notifID = null;
-  if (notify) {
-    notifID = toast.loading("Creating content...", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  }
-  let formData = new FormData();
-  formData.append("file", image.file);
-  formData.append("token", token);
-  formData.append("title", image.title);
-  formData.append("description", image.description);
-  return fetch("/api/upload/image", {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((image) => {
-      if (notifID) {
-        toast.update(notifID, {
-          render: "Image uploaded!",
-          type: "success",
-          isLoading: false,
-          autoClose: 3000,
-        });
-      }
-      return image;
-    })
-    .catch((err) => {
-      if (notifID) {
-        toast.update(notifID, {
-          render:
-            "Image upload failed. Try again and if the issue persists, try adding it directly in contentful after the solution has been added.",
-          type: "error",
-          isLoading: false,
-          autoClose: 3000,
-        });
-      }
-      console.log(
-        "TopicEntry - createNewTag error: " + JSON.stringify(err, null, 2)
-      );
-      return null;
-    });
-}
-
 async function createNewSolutions(token, solutions, notify) {
   let notifID = null;
   if (notify) {
@@ -282,4 +235,4 @@ async function createNewSolutions(token, solutions, notify) {
     });
 }
 
-export { createNewTopic, createNewImage, createNewTags, createNewSolutions };
+export { createNewTopic, createNewTags, createNewSolutions };

@@ -66,9 +66,9 @@ function generateTempID(title) {
   return id;
 }
 
-function generateSolutionTitle(title) {
-  return truncate(title, 255);
-}
+// function generateSolutionTitle(title) {
+//   return truncate(title, 255);
+// }
 
 function arraysEqual(a, b) {
   if (a === b) return true;
@@ -120,7 +120,6 @@ export {
   GetCategoryObjectFromID,
   truncate,
   generateTempID,
-  generateSolutionTitle,
   getContentfulTextTypeFromDraftJs,
   arraysEqual,
   replaceCharactersWithWords,

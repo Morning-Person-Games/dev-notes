@@ -98,7 +98,7 @@ const editor = css`
     --color-border-default: ${colors.primary};
   }
   .wmde-markdown {
-    --color-canvas-default: ${colors.dark};
+    --color-canvas-default: ${colors.shadow};
     --color-border-default: ${colors.secondary};
     --color-accent-fg: ${colors.link};
     --color-neutral-muted: ${colors.secondary};

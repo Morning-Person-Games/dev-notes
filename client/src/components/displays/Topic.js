@@ -13,7 +13,7 @@ import {
 import { BsTagsFill } from "react-icons/bs";
 
 //styling
-const { primary, secondary, inactiveColor, highlight, dark, highlightHover } =
+const { primary, secondary, inactiveColor, highlight, shadow, highlightHover } =
   theme.colors;
 const { sizes, baseTypes, colors } = theme;
 const Card = styled.li`
@@ -21,7 +21,7 @@ const Card = styled.li`
   border-radius: ${sizes.radius};
   padding: 0;
   margin-bottom: 0;
-  box-shadow: 0 3px 0 ${dark};
+  box-shadow: 0 3px 0 ${shadow};
   flex-grow: 1;
   @media screen and (min-width: ${sizes.screenMd}) {
     max-width: calc(50% - 5px);

@@ -6,7 +6,7 @@ const theme = {
   colors: {
     // Core   colors
     primary: "rgb(36, 40, 85)",
-    white: "rgb(242, 242, 242)",
+    text: "rgb(242, 242, 242)",
     gray: "rgb(136, 136, 142)",
     highlight: "rgb(49, 62, 164)",
     error: "rgb(255, 90, 85)",
@@ -23,6 +23,7 @@ const theme = {
     linkHover: "",
     highlightHover: "",
     inactiveColor: "",
+    white: "",
   },
   sizes: {
     radius: "5px",
@@ -76,6 +77,7 @@ const theme = {
   `,
 };
 const { colors, sizes, baseTypes } = theme;
+colors.white = colors.text;
 colors.inactiveColor = colors.gray;
 colors.background = darken("0.13", colors.primary);
 colors.secondary = darken("0.07", colors.primary);

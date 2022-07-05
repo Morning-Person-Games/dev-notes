@@ -5,10 +5,12 @@ import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
 import { createNewTopic } from "../tools/contentfulManagement";
-import SimpleFormattedTopicEntry from "../tools/EntryFormatters";
+import FormattedTopicEntry from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
+import TagsField from "./TagsField";
+
 // styling
 const { baseInput, baseBtn } = theme.baseTypes;
 const { primary, white, secondary, inactiveColor } = theme.colors;
@@ -40,13 +42,13 @@ const Buttons = css`
 const TitleCSS = css`
   ${baseInput}
   background: none;
-  padding: 7px 10px 5px 10px;
-  border-bottom: 2px solid ${primary};
+  padding: 7px 10px 5px 12px;
+  border-bottom: 3px solid ${primary};
   min-height: 2em;
-  font-size: 1em;
-  box-shadow: inset -1px 2px 4px ${theme.colors.shadow};
+  font-size: ${theme.sizes.font.lg};
+  ${theme.font};
 `;
-const TopicForm = css`
+const FormWrapper = css`
   padding-bottom: 0;
   margin-bottom: 10px;
 `;
@@ -58,7 +60,17 @@ const TopicFieldWrapper = css`
   border-radius: ${radius} ${radius} 0 0;
 `;
 
-const SimpleTopicForm = (props) => {
+const TagErrors = styled.div`
+  display: block;
+  background-color: ${secondary};
+  border-top: 1px solid ${primary};
+  color: ${theme.colors.error};
+  padding: 5px 5px 5px 12px;
+  font-size: ${theme.sizes.font.sm};
+  width: 100%;
+`;
+
+const TopicForm = (props) => {
   const [hasValue, setHasValue] = useState(false);
   const {
     values,
@@ -71,11 +83,19 @@ const SimpleTopicForm = (props) => {
     resetForm,
     isValid,
     handleChange,
+    tags,
   } = props;
 
   if (!props.token) {
     return;
   }
+  const tagOptions = [];
+  if (tags?.length > 0) {
+    tags.forEach((tag) => {
+      tagOptions.push({ value: tag.id, label: tag.name });
+    });
+  }
+
   // sometimes current category doesnt get set on refresh, this is a fix for that:
   const handleTitleField = (e) => {
     if (!values.category || !values.category.category) {
@@ -99,7 +119,7 @@ const SimpleTopicForm = (props) => {
 
   const submitText = errors.title ? errors.title : "Add topic";
   return (
-    <form onSubmit={handleSubmit} css={TopicForm}>
+    <form onSubmit={handleSubmit} css={FormWrapper}>
       {errors.category && touched.title && <Errors>{errors.category}</Errors>}
       <div css={TopicFieldWrapper}>
         <Field
@@ -113,6 +133,13 @@ const SimpleTopicForm = (props) => {
           onBlur={handleEmptyBlur}
           autoFocus
         />
+        <Field
+          name="tags"
+          component={TagsField}
+          placeholder="Type to select Tags..."
+          options={tagOptions}
+        />
+        {errors.tags && touched.title && <TagErrors>{errors.tags}</TagErrors>}
         <SolutionMd
           type="textarea"
           name="solution"
@@ -134,7 +161,7 @@ const SimpleTopicForm = (props) => {
   );
 };
 
-const SimpleTopicEntry = withFormik({
+const TopicEntry = withFormik({
   mapPropsToValues: (props) => ({
     title: "",
     category: {
@@ -152,9 +179,17 @@ const SimpleTopicEntry = withFormik({
     category: Yup.object().required(
       "Please create or select a category above to add new topics."
     ),
+    tags: Yup.array().of(
+      Yup.object().shape({
+        label: Yup.string()
+          .max(255, "Tags can be no longer than 255 characters")
+          .required(),
+        value: Yup.string().required(),
+      })
+    ),
   }),
   handleSubmit: async (values, { props, resetForm }) => {
-    const contentToAdd = await SimpleFormattedTopicEntry(values);
+    const contentToAdd = await FormattedTopicEntry(values);
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
     const { newSolutions, newTopic } = contentToAdd;
     // add details for immediate usage of new content that contentful will generate later:
@@ -178,10 +213,11 @@ const SimpleTopicEntry = withFormik({
       values: {
         title: "",
         solution: "",
+        tags: "",
       },
     });
   },
-  displayName: "SimpleTopicForm",
-})(SimpleTopicForm);
+  displayName: "TopicForm",
+})(TopicForm);
 
-export default SimpleTopicEntry;
+export default TopicEntry;

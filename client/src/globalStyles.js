@@ -68,6 +68,12 @@ const theme = {
     hover: "",
     baseTagsList: "",
   },
+  font: css`
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
+      "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  `,
 };
 const { colors, sizes, baseTypes } = theme;
 colors.inactiveColor = colors.gray;
@@ -221,8 +227,8 @@ baseTypes.baseRichText = css`
     padding: 0.2em 0.4em;
   }
   pre {
+    box-shadow: inset 0 1px 6px -1px ${transparentize(0.4, colors.primary)};
     background-color: ${colors.codeBlock};
-    border-radius: 6px;
     line-height: 1.45;
     margin-top: 10px;
     border-radius: 0;
@@ -247,17 +253,16 @@ baseTypes.baseRichText = css`
 const globals = (
   <Global
     styles={css`
+      html,
+      body {
+        ${theme.font};
+      }
       html {
         width: 100vw;
         overflow-x: hidden;
         font-size: 100%;
       }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-          "Helvetica Neue", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         font-size: ${baseTypes.baseFontSize}px;
         line-height: 1.5;
         background-color: ${colors.background};

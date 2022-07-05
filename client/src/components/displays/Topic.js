@@ -142,7 +142,7 @@ const TagsDiv = styled.div`
 function TagsList({ tagged, allTags }) {
   if (!tagged || !tagged.length === 0) {
     return;
-  }  
+  }
   return (
     <TagsDiv>
       <BsTagsFill />
@@ -154,7 +154,9 @@ function TagsList({ tagged, allTags }) {
 function Topic({ topic, tags, spaceID, token }) {
   const [expanded, setExpanded] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
-
+  const edit =
+    "https://app.contentful.com/spaces/" + spaceID + "/entries/" + topic.id;
+  const canEdit = token && spaceID ? true : false;
   //TODO optimize - this could be rendered less?
   const solutions = topic.solutions.map((solution) => {
     return (
@@ -163,35 +165,12 @@ function Topic({ topic, tags, spaceID, token }) {
         solution={solution}
         expanded={expanded}
         canExpand={canExpand}
+        edit={edit}
         setCanExpand={setCanExpand}
         solutionCount={topic.solutions.length - 1}
       />
     );
   });
-  const edit =
-    "https://app.contentful.com/spaces/" + spaceID + "/entries/" + topic.id;
-  const canEdit = token && spaceID ? true : false;
-  const noSolutionMsg = canEdit ? (
-    <p>
-      This topic currently has no solutions.{" "}
-      <a href={edit} target="_blank" rel="noreferrer">
-        Add a solution here
-      </a>
-      !
-    </p>
-  ) : (
-    <p>
-      This topic currently has no solutions.{" "}
-      <a
-        href="https://be.contentful.com/login"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Login to contentful
-      </a>{" "}
-      to add a solution!
-    </p>
-  );
   const date = new Date(topic.createdAt);
   const year = date.getFullYear().toString().substring(2);
   const dateString = date.getMonth() + "/" + date.getDay() + "/" + year;
@@ -212,8 +191,9 @@ function Topic({ topic, tags, spaceID, token }) {
         <SolutionsList>
           <Solution
             key={"no solution"}
-            solution={{ missing: noSolutionMsg }}
+            solution={[]}
             expanded={expanded}
+            edit={edit}
             setCanExpand={setCanExpand}
           />
         </SolutionsList>

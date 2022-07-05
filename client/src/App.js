@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
-import SimpleTopicForm from "./components/forms/SimpleTopicEntry";
+import TopicForm from "./components/forms/TopicEntry";
 import TopicsView from "./components/displays/TopicsView";
 import CategoriesHeader from "./components/displays/Categories";
 import Login from "./components/tools/Login";
@@ -110,7 +110,6 @@ function App() {
         if (topics[i].id === newTopic.category.id) {
           var newTopicsList = topics;
           newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
-          console.log("newTopicsList", newTopicsList);
           setTopics(newTopicsList);
           setCurrentCategory(newTopicsList[i]);
           break;
@@ -172,7 +171,7 @@ function App() {
       />
       <MainContent>
         {token ? (
-          <SimpleTopicForm
+          <TopicForm
             token={token}
             currentCategory={currentCategory}
             tags={tags}

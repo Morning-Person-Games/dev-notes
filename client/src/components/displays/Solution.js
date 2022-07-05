@@ -6,7 +6,7 @@ import { useIsOverflow } from "../tools/useIsOverflow";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 //styling
-const { secondary } = theme.colors;
+const { colors } = theme;
 const { baseRichText, baseFontSize } = theme.baseTypes;
 const minLines = 2;
 // line height + default padding:
@@ -29,17 +29,21 @@ const Li = styled.li`
 const Cover = styled.div`
   display: block;
   position: absolute;
-  background-color: ${secondary};
+  background-color: ${colors.secondary};
   width: 100%;
   box-shadow: 0 0 1.4em 1.5em
     ${(props) =>
-      props.overflow && !props.expanded ? secondary : "transparent"};
+      props.overflow && !props.expanded ? colors.secondary : "transparent"};
   height: 0;
   content: "";
   bottom: 0;
 `;
 
-function Solution({ solution, expanded, setCanExpand, solutionCount }) {
+const ErrorP = styled.p`
+  color: ${colors.inactiveColor};
+`;
+
+function Solution({ solution, expanded, setCanExpand, solutionCount, edit }) {
   const ref = useRef();
   const overflow = useIsOverflow(ref);
   useEffect(() => {
@@ -65,9 +69,22 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
   `;
   const eliped = expanded ? "" : ell;
 
-  const renderedSolution = solution.missing
-    ? solution.missing
-    : solution.description;
+  if (!solution.description || solution.description.length === 0) {
+    return (
+      <Li>
+        <div style={{ width: "100%" }}>
+          <ErrorP>
+            This topic currently has no solutions, add a solution{" "}
+            <a href={edit} target="_blank" rel="noreferrer">
+              here
+            </a>
+            !
+          </ErrorP>
+        </div>
+      </Li>
+    );
+  }
+
   return (
     <Li
       ref={ref}
@@ -76,7 +93,7 @@ function Solution({ solution, expanded, setCanExpand, solutionCount }) {
       overflow={overflow ? 1 : 0}
     >
       <div style={{ width: "100%" }}>
-        <ReactMarkdown children={renderedSolution} remarkPlugins={[gfm]} />
+        <ReactMarkdown children={solution.description} remarkPlugins={[gfm]} />
       </div>
       <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
     </Li>

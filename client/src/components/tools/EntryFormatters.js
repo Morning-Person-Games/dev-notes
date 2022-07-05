@@ -1,26 +1,59 @@
-async function SimpleFormattedTopicEntry(values) {
-  const strippedDescription = await generateSolutionTitle(values.solution);
-  const newSolutions = [
-    {
+async function FormattedTopicEntry(values) {
+  const newSolutions = [];
+  if (values.solution && values.solution.length > 0) {
+    const strippedDescription = await generateSolutionTitle(values.solution);
+    newSolutions.push({
       title: strippedDescription,
       description: values.solution,
-    },
-  ];
+    });
+  }
+  const tags = formatTagsFromValues(values.tags);
+  const newTags = formatTagsFromValues(values.tags, true);
   const topicToAdd = {
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
-    tags: [],
+    tags: tags,
     category: values.category,
     solutions: [],
   };
 
   const contentToAdd = {
-    newTags: [],
+    newTags: newTags,
     newSolutions: newSolutions,
     newTopic: topicToAdd,
   };
 
   return contentToAdd;
+}
+
+function formatTagsFromValues(tags, onlyNew) {
+  if (!tags || tags.length <= 0) {
+    return [];
+  }
+  let filtered = [];
+  if (onlyNew) {
+    filtered = tags.filter((tag) => tag.__isNew__);
+    if (filtered.length > 0) {
+      return filtered.map((tag) => {
+        return {
+          id: tag.value,
+          name: tag.label,
+          visibility: "public",
+        };
+      });
+    }
+  } else {
+    filtered = tags.filter((tag) => !tag.__isNew__);
+    if (filtered.length > 0) {
+      return filtered.map((tag) => {
+        return {
+          id: tag.value,
+          name: tag.label,
+        };
+      });
+    }
+  }
+  return [];
 }
 
 async function generateSolutionTitle(solutionMd) {
@@ -50,4 +83,4 @@ async function generateSolutionTitle(solutionMd) {
     });
 }
 
-export default SimpleFormattedTopicEntry;
+export default FormattedTopicEntry;

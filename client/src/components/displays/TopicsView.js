@@ -195,7 +195,7 @@ function TopicsView(props) {
           active={tagsVisible}
           onClick={() => setTagsVisible((prev) => !prev)}
         >
-          Tags {TagIcon}
+          Tag Filters {TagIcon}
         </TagsToggle>
         <SecondaryControls>
           <SortOptions

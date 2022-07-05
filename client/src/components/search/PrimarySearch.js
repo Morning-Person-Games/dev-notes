@@ -60,9 +60,7 @@ class PrimarySearch extends Component {
     const { search } = this.state;
     const value = e.target.value;
     const queryResult = search.search(value);
-    console.log("value", value);
     this.setState({ searchQuery: value });
-    console.log("queryResult", queryResult);
     if (value.length === 0) {
       this.props.setQueryResult(this.props.topics);
     } else {
@@ -78,7 +76,6 @@ class PrimarySearch extends Component {
     return (
       <form
         css={css`
-          box-shadow: inset -1px 2px 3px ${theme.colors.shadow};
           flex-grow: 1;
           flex-basis: 100%;
           transition: all 150ms ease-in;
@@ -107,7 +104,7 @@ class PrimarySearch extends Component {
             onChange={this.searchData}
             placeholder="Search for a topic or solution"
             css={css`
-              ${theme.baseTypes.baseInput}
+              ${theme.baseTypes.baseInput};
               background: none;
               font-size: ${theme.sizes.font.lg};
               min-width: 12em;

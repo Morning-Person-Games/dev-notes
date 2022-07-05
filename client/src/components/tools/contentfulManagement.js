@@ -7,13 +7,12 @@ import { toast } from "react-toastify";
   }; 
 */
 async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
-  const notifID = toast.loading("Creating topic...", {
+  const notifID = toast.loading("Uploading topic...", {
     position: toast.POSITION.TOP_RIGHT,
   });
   const messages = [];
   const tagResults =
     newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
-  console.log("tagResults", tagResults);
   const filteredTags = [];
   if (tagResults.length > 0) {
     tagResults.forEach((result) => {
@@ -104,7 +103,6 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       return data.json();
     })
     .then((topic) => {
-      console.log("Created topic: ", topic);
       if (messages.length > 0) {
         messages.forEach((message) => {
           console.log(message);

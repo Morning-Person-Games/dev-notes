@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/displays/Modal";
 import styled from "@emotion/styled";
 import { globals, theme } from "./globalStyles";
+import { BsX } from "react-icons/bs";
 
 // styling
 const { sizes, colors } = theme;
@@ -20,20 +21,36 @@ const MainContent = styled.div`
 `;
 
 const EmptyDiv = styled.div`
-  display: block;
-  height: 125px;
+  display: ${(props) => (props.footer ? "block" : "none")};
+  height: 170px;
 `;
 
 const DemoFooter = styled.div`
-  display: block;
+  display: ${(props) => (props.footer ? "block" : "none")};
   position: fixed;
   bottom: 0;
   width: 100%;
   background-color: ${colors.primary};
   div {
     ${sizes.colWidth};
+    position: relative;
     h3 {
       margin: 15px 0 10px 0;
+    }
+    p {
+      font-size: ${sizes.font.sm};
+    }
+    button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      color: ${colors.link};
+      font-size: ${sizes.font.xxl};
+      position: absolute;
+      right: 20px;
+      &:hover {
+        color: ${colors.linkHover};
+      }
     }
   }
 `;
@@ -45,6 +62,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [modalContent, setModalContent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [footer, setFooter] = useState(true);
 
   const setTopicsAndCategories = (topicsList) => {
     setTopics(topicsList);
@@ -161,16 +179,19 @@ function App() {
           <TopicSection>
             <Routes>{allRoutes}</Routes>
           </TopicSection>
-          <EmptyDiv />
+          <EmptyDiv footer={footer ? 1 : 0} />
         </MainContent>
-        <DemoFooter>
+        <DemoFooter footer={footer ? 1 : 0}>
           <div>
+            <button onClick={() => setFooter(false)}>
+              <BsX />
+            </button>
             <h3>This is a demo!</h3>
             <p style={{ marginTop: "0" }}>
               While all the front facing functionality is still working,
               anything you create here won't be stored. The real version submits
-              new notes, better know as Topics with (or without) Solutions, to a
-              headless cms called Contentful!
+              new notes — better know as Topics with (or without) Solutions — to
+              a headless cms called Contentful!
             </p>
           </div>
         </DemoFooter>

@@ -23,6 +23,7 @@ const Card = styled.li`
   margin-bottom: 0;
   box-shadow: 0 3px 3px 0 ${shadow};
   flex-grow: 1;
+  max-width: 100%;
   @media screen and (min-width: ${sizes.screenMd}) {
     max-width: calc(50% - 5px);
   }

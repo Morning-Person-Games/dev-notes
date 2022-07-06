@@ -18,6 +18,7 @@ const theme = {
     link: "",
     // hidden
     placeholder: "",
+    codeText: "",
     dark: "",
     shadow: "",
     linkHover: "",
@@ -79,16 +80,20 @@ const theme = {
 const { colors, sizes, baseTypes } = theme;
 colors.white = colors.text;
 colors.inactiveColor = colors.gray;
-colors.background = darken("0.13", colors.primary);
-colors.secondary = darken("0.07", colors.primary);
-colors.dark = darken("0.02", colors.background);
-colors.highlightHover = lighten("0.1", colors.highlight);
-colors.placeholder = lighten(0.15, colors.gray);
-colors.link = lighten(0.2, colors.highlight);
-colors.linkHover = darken(0.1, colors.link);
-colors.codeBlock = colors.background;
-colors.codeLine = transparentize(0.3, lighten(0.1, colors.primary));
-colors.shadow = transparentize(0.4, theme.colors.background);
+if (colors.background === "")
+  colors.background = darken("0.13", colors.primary);
+if (colors.secondary === "") colors.secondary = darken("0.07", colors.primary);
+if (colors.dark === "") colors.dark = darken("0.02", colors.background);
+if (colors.highlightHover === "")
+  colors.highlightHover = lighten("0.1", colors.highlight);
+if (colors.placeholder === "") colors.placeholder = lighten(0.15, colors.gray);
+if (colors.link === "") colors.link = lighten(0.2, colors.highlight);
+if (colors.linkHover === "") colors.linkHover = darken(0.1, colors.link);
+if (colors.codeBlock === "") colors.codeBlock = colors.background;
+if (colors.codeLine === "")
+  colors.codeLine = transparentize(0.3, lighten(0.1, colors.primary));
+if (colors.codeText === "") colors.codeText = colors.white;
+colors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
 // sizes:
 sizes.screenSm = math(baseTypes.baseFontSize + "* 20px"); // 320px - Each at default fontsize:
 sizes.smCol = math(sizes.screenSm + "- 20px"); // 300px
@@ -227,6 +232,7 @@ baseTypes.baseRichText = css`
     border-radius: 6px;
     margin: 0;
     padding: 0.2em 0.4em;
+    color: ${colors.codeText};
   }
   pre {
     box-shadow: inset 0 1px 6px -1px ${transparentize(0.4, colors.primary)};
@@ -234,6 +240,7 @@ baseTypes.baseRichText = css`
     line-height: 1.45;
     margin-top: 10px;
     border-radius: 0;
+    color: ${colors.codeText};
     code {
       display: block;
       overflow: auto;

@@ -86,7 +86,7 @@ const toolbarHeight = baseTypes.baseFontSize * 2;
 
 const editor = css`
   --color-canvas-default: ${colors.secondary};
-  --color-border-default: ${colors.secondary};
+  --color-border-default: transparent;
   --color-fg-default: ${colors.white};
   --color-accent-fg: ${colors.link};
   --color-neutral-muted: ${colors.secondary};
@@ -99,7 +99,7 @@ const editor = css`
   }
   .wmde-markdown {
     --color-canvas-default: ${colors.shadow};
-    --color-border-default: ${colors.secondary};
+    --color-border-default: transparent;
     --color-accent-fg: ${colors.link};
     --color-neutral-muted: ${colors.secondary};
     border-radius: 0;
@@ -112,6 +112,7 @@ const editor = css`
   .w-md-editor-toolbar {
     padding: 7px 5px 5px 10px;
     border-radius: 0;
+    border: 0;
     background-color: ${colors.primary};
     svg {
       font-size: ${sizes.font.h3n}rem;

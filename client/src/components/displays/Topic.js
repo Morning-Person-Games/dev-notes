@@ -21,7 +21,7 @@ const Card = styled.li`
   border-radius: ${sizes.radius};
   padding: 0;
   margin-bottom: 0;
-  box-shadow: 0 3px 0 ${shadow};
+  box-shadow: 0 3px 3px 0 ${shadow};
   flex-grow: 1;
   @media screen and (min-width: ${sizes.screenMd}) {
     max-width: calc(50% - 5px);
@@ -205,7 +205,7 @@ function Topic({ topic, tags, spaceID, token }) {
         <ReadMore onClick={() => setExpanded((prev) => !prev)}>
           {expanded ? <MdExpandLess /> : <MdExpandMore />}
         </ReadMore>
-        <Expand>
+        <Expand disabled>
           <MdFullscreen />
         </Expand>
       </Actions>

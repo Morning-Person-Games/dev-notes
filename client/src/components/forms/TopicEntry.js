@@ -4,7 +4,6 @@ import { useState } from "react";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
-import { createNewTopic } from "../tools/contentfulManagement";
 import FormattedTopicEntry from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
@@ -201,7 +200,6 @@ const TopicEntry = withFormik({
       contentToAdd.newTopic.indexableSolutions = newSolutions[0].title;
     }
     props.addToContentList(contentToAdd);
-    console.log("createdTopic", createdTopic);
     resetForm({
       values: {
         title: "",

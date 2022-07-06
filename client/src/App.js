@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-`import { BrowserRouter, Routes, Route } from "react-router-dom";`;
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TopicForm from "./components/forms/TopicEntry";
 import TopicsView from "./components/displays/TopicsView";
 import CategoriesHeader from "./components/displays/Categories";

@@ -86,9 +86,6 @@ const TopicForm = (props) => {
     tags,
   } = props;
 
-  if (!props.token) {
-    return;
-  }
   const tagOptions = [];
   if (tags?.length > 0) {
     tags.forEach((tag) => {
@@ -190,7 +187,6 @@ const TopicEntry = withFormik({
   }),
   handleSubmit: async (values, { props, resetForm }) => {
     const contentToAdd = await FormattedTopicEntry(values);
-    const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
     const { newSolutions, newTopic } = contentToAdd;
     // add details for immediate usage of new content that contentful will generate later:
     newTopic.id = generateTempID(contentToAdd.newTopic.title);
@@ -205,9 +201,6 @@ const TopicEntry = withFormik({
       contentToAdd.newTopic.indexableSolutions = newSolutions[0].title;
     }
     props.addToContentList(contentToAdd);
-
-    // Send content to contentful
-    const createdTopic = await createNewTopic(props.token, contentToSend);
     console.log("createdTopic", createdTopic);
     resetForm({
       values: {

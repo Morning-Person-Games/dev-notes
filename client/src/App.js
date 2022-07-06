@@ -1,11 +1,8 @@
 import { React, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import useToken from "./components/tools/useToken";
+`import { BrowserRouter, Routes, Route } from "react-router-dom";`;
 import TopicForm from "./components/forms/TopicEntry";
 import TopicsView from "./components/displays/TopicsView";
 import CategoriesHeader from "./components/displays/Categories";
-import Login from "./components/tools/Login";
-import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Modal from "./components/displays/Modal";
@@ -21,23 +18,7 @@ const MainContent = styled.div`
   ${sizes.colWidth};
   display: block;
 `;
-const LoginButton = styled.a`
-  ${theme.baseTypes.baseBtn};
-  width: 100%;
-  max-width: ${theme.sizes.mdCol};
-  font-size: 2em;
-  margin-bottom: 10px;
-  padding: 8px 0;
-  text-align: center;
-  text-decoration: none;
-`;
-const LoginButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 function App() {
-  const { token, setToken, resetToken } = useToken();
   const [topics, setTopics] = useState([]);
   const [spaceID, setSpaceID] = useState("");
   const [tags, setTags] = useState([]);
@@ -122,16 +103,6 @@ function App() {
   // TODO - optimize
   const allRoutes = [
     <Route
-      key={"login"}
-      path="/oauth/redirect"
-      element={<Login setToken={setToken} />}
-    />,
-    <Route
-      key={"logout"}
-      path="/logout"
-      element={<Logout resetToken={resetToken} />}
-    />,
-    <Route
       key={"home"}
       path="/"
       element={
@@ -139,7 +110,6 @@ function App() {
           currentTopics={currentCategory.topics}
           tags={tags}
           spaceID={spaceID}
-          token={token}
           loading={loading}
         ></TopicsView>
       }
@@ -170,19 +140,12 @@ function App() {
         activeCategory={currentCategory.category}
       />
       <MainContent>
-        {token ? (
-          <TopicForm
-            token={token}
-            currentCategory={currentCategory}
-            tags={tags}
-            setTopics={setTopics}
-            addToContentList={addToContentList}
-          />
-        ) : (
-          <LoginButtonWrapper>
-            <LoginButton href="/login">Login</LoginButton>
-          </LoginButtonWrapper>
-        )}
+        <TopicForm
+          currentCategory={currentCategory}
+          tags={tags}
+          setTopics={setTopics}
+          addToContentList={addToContentList}
+        />
         <TopicSection>
           <Routes>{allRoutes}</Routes>
         </TopicSection>

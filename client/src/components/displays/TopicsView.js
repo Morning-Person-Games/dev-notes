@@ -66,14 +66,7 @@ const TagsUl = styled.ul`
   padding: 0;
 `;
 
-function GetTopicsList(
-  queryResult,
-  activeTagFilters,
-  tags,
-  spaceID,
-  token,
-  loading
-) {
+function GetTopicsList(queryResult, activeTagFilters, tags, spaceID, loading) {
   if (queryResult && queryResult.length > 0) {
     const filteredTopics = queryResult.slice();
     if (activeTagFilters.length > 0) {
@@ -93,19 +86,12 @@ function GetTopicsList(
           topic={topic}
           tags={tags}
           spaceID={spaceID}
-          token={token}
           loading={loading}
         />
       ));
     }
     return queryResult.map((topic) => (
-      <Topic
-        key={topic.id}
-        topic={topic}
-        tags={tags}
-        spaceID={spaceID}
-        token={token}
-      />
+      <Topic key={topic.id} topic={topic} tags={tags} spaceID={spaceID} />
     ));
   } else {
     return [];
@@ -113,7 +99,7 @@ function GetTopicsList(
 }
 
 function TopicsView(props) {
-  const { currentTopics, loading, tags, spaceID, token } = props;
+  const { currentTopics, loading, tags, spaceID } = props;
   const [sortedTopics, setSortedTopics] = useState(currentTopics);
   const [queryResult, setQueryResult] = useState([]);
   const [topicsList, setTopicsList] = useState([]);
@@ -133,11 +119,11 @@ function TopicsView(props) {
       setSortedTopics(queryResult);
       if (queryResult !== null) {
         setTopicsList(
-          GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token)
+          GetTopicsList(queryResult, activeTagFilters, tags, spaceID)
         );
       }
     }
-  }, [queryResult, tags, spaceID, token, activeTagFilters, loading]);
+  }, [queryResult, tags, spaceID, activeTagFilters, loading]);
 
   useEffect(() => {
     if (!loading) {

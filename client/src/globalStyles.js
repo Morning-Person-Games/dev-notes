@@ -270,12 +270,14 @@ const globals = (
         width: 100vw;
         overflow-x: hidden;
         font-size: 100%;
+        height: 100vh;
       }
       body {
         font-size: ${baseTypes.baseFontSize}px;
         line-height: 1.5;
         background-color: ${colors.background};
         margin: 0;
+        min-height: 100%;
       }
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

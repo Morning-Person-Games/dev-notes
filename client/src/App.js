@@ -10,13 +10,27 @@ import styled from "@emotion/styled";
 import { globals, theme } from "./globalStyles";
 
 // styling
-const { sizes } = theme;
+const { sizes, colors } = theme;
 const TopicSection = styled.div`
   display: block;
 `;
 const MainContent = styled.div`
   ${sizes.colWidth};
   display: block;
+`;
+
+const DemoFooter = styled.div`
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: ${colors.primary};
+  div {
+    ${sizes.colWidth};
+    h2 {
+      margin: 15px 0 10px 0;
+    }
+  }
 `;
 function App() {
   const [topics, setTopics] = useState([]);
@@ -56,14 +70,6 @@ function App() {
     fetchAndSetContent();
     setLoading(false);
   }, []);
-
-  const createModal = function (title, component) {
-    if (title === null && component === null) {
-      setModalContent(null);
-    } else {
-      setModalContent({ title, component });
-    }
-  };
 
   /*
     contentToAdd = {
@@ -120,36 +126,48 @@ function App() {
   return (
     <BrowserRouter>
       {globals}
-      <ToastContainer
-        theme="dark"
-        toastStyle={{ backgroundColor: theme.colors.primary }}
-        position="top-center"
-        autoClose={7000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Modal modalContent={modalContent} setModalContent={setModalContent} />
-      <CategoriesHeader
-        topics={topics}
-        setCurrentCategory={setCurrentCategory}
-        activeCategory={currentCategory.category}
-      />
-      <MainContent>
-        <TopicForm
-          currentCategory={currentCategory}
-          tags={tags}
-          setTopics={setTopics}
-          addToContentList={addToContentList}
+      <div style={{ position: "relative" }}>
+        <ToastContainer
+          theme="dark"
+          toastStyle={{ backgroundColor: theme.colors.primary }}
+          position="top-center"
+          autoClose={7000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
         />
-        <TopicSection>
-          <Routes>{allRoutes}</Routes>
-        </TopicSection>
-      </MainContent>
+        <Modal modalContent={modalContent} setModalContent={setModalContent} />
+        <CategoriesHeader
+          topics={topics}
+          setCurrentCategory={setCurrentCategory}
+          activeCategory={currentCategory.category}
+        />
+        <MainContent>
+          <TopicForm
+            currentCategory={currentCategory}
+            tags={tags}
+            setTopics={setTopics}
+            addToContentList={addToContentList}
+          />
+          <TopicSection>
+            <Routes>{allRoutes}</Routes>
+          </TopicSection>
+        </MainContent>
+        <DemoFooter>
+          <div>
+            <h2>This is a demo!</h2>
+            <p style={{ marginTop: "0" }}>
+              While all the front facing functionality is still working, the
+              real version submits new notes, better know as Topics with (or
+              without) Solutions, to a headless cms called Contentful!
+            </p>
+          </div>
+        </DemoFooter>
+      </div>
     </BrowserRouter>
   );
 }

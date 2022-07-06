@@ -19,6 +19,11 @@ const MainContent = styled.div`
   display: block;
 `;
 
+const EmptyDiv = styled.div`
+  display: block;
+  height: 125px;
+`;
+
 const DemoFooter = styled.div`
   display: block;
   position: fixed;
@@ -27,7 +32,7 @@ const DemoFooter = styled.div`
   background-color: ${colors.primary};
   div {
     ${sizes.colWidth};
-    h2 {
+    h3 {
       margin: 15px 0 10px 0;
     }
   }
@@ -156,14 +161,16 @@ function App() {
           <TopicSection>
             <Routes>{allRoutes}</Routes>
           </TopicSection>
+          <EmptyDiv />
         </MainContent>
         <DemoFooter>
           <div>
-            <h2>This is a demo!</h2>
+            <h3>This is a demo!</h3>
             <p style={{ marginTop: "0" }}>
-              While all the front facing functionality is still working, the
-              real version submits new notes, better know as Topics with (or
-              without) Solutions, to a headless cms called Contentful!
+              While all the front facing functionality is still working,
+              anything you create here won't be stored. The real version submits
+              new notes, better know as Topics with (or without) Solutions, to a
+              headless cms called Contentful!
             </p>
           </div>
         </DemoFooter>

@@ -202,7 +202,10 @@ function Topic({ topic, tags, spaceID, token }) {
         <Edit href={edit} target="_blank" rel="noreferrer" disabled={canEdit}>
           <MdEditNote />
         </Edit>
-        <ReadMore onClick={() => setExpanded((prev) => !prev)}>
+        <ReadMore
+          disabled={canExpand ? 0 : 1}
+          onClick={() => setExpanded((prev) => !prev)}
+        >
           {expanded ? <MdExpandLess /> : <MdExpandMore />}
         </ReadMore>
         <Expand disabled>

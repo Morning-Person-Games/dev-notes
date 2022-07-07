@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { theme } from "../../globalStyles";
 import ScrollContainer from "react-indiana-drag-scroll";
+const { baseTypes } = theme;
 const { highlight, white, highlightHover } = theme.colors;
 const ScrollCon = css`
   ${theme.sizes.colWidth};
@@ -28,8 +29,8 @@ const Button = styled.button`
   border-style: solid;
   border-color: transparent;
   border-width: 0 0 3px 0;
-  transition: border 150ms ease-in;
-  -webkit-transition: border 150ms ease-in;
+  transition: border ${baseTypes.transitionSpeed} ease-in;
+  -webkit-transition: border ${baseTypes.transitionSpeed} ease-in;
   ${theme.baseTypes.hover} {
     &:enabled {
       border-bottom-color: ${highlight};

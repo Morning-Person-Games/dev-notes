@@ -119,8 +119,8 @@ const editor = css`
       margin-bottom: -4px;
     }
     button {
-      transition: all 100ms ease-in;
-      -webkit-transition: all 100ms ease-in;
+      transition: all ${baseTypes.transitionSpeed} ease-in;
+      -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
       font-size: ${sizes.font.h5n}rem;
       padding: 0 3px;
       height: auto;

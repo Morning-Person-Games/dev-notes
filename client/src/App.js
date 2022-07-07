@@ -4,13 +4,14 @@ import useToken from "./components/tools/useToken";
 import TopicForm from "./components/forms/TopicEntry";
 import TopicsView from "./components/displays/TopicsView";
 import CategoriesHeader from "./components/displays/Categories";
+import { InitConfigForm } from "./components/forms/ConfigForms";
+import LoadingDisplay from "./components/displays/Loading";
 import Login from "./components/tools/Login";
 import Logout from "./components/tools/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import Modal from "./components/displays/Modal";
 import styled from "@emotion/styled";
-import { globals, theme } from "./globalStyles";
+import { theme } from "./globalStyles";
 
 // styling
 const { sizes } = theme;
@@ -43,7 +44,6 @@ function App() {
   const [tags, setTags] = useState([]);
   const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
-  const [modalContent, setModalContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const setTopicsAndCategories = (topicsList) => {
@@ -75,14 +75,23 @@ function App() {
     fetchAndSetContent();
     setLoading(false);
   }, []);
+  // To stop aggresive color changes when setting up default theme we blur the page until loading is complete
+  if (loading) {
+    return (
+      <MainContent>
+        <LoadingDisplay />
+      </MainContent>
+    );
+  }
 
-  const createModal = function (title, component) {
-    if (title === null && component === null) {
-      setModalContent(null);
-    } else {
-      setModalContent({ title, component });
-    }
-  };
+  // if theres no categories, go to initial startup form
+  if (!topics || topics.length === 0) {
+    return (
+      <MainContent>
+        <InitConfigForm />
+      </MainContent>
+    );
+  }
 
   /*
     contentToAdd = {
@@ -149,7 +158,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {globals}
       <ToastContainer
         theme="dark"
         toastStyle={{ backgroundColor: theme.colors.primary }}
@@ -163,7 +171,6 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Modal modalContent={modalContent} setModalContent={setModalContent} />
       <CategoriesHeader
         topics={topics}
         setCurrentCategory={setCurrentCategory}

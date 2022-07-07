@@ -125,7 +125,7 @@ const TopicForm = (props) => {
         <Field
           type="text"
           name="title"
-          placeholder="Write a descriptive title here"
+          placeholder="Write a descriptive title here..."
           onChange={handleTitleField}
           css={TitleCSS}
           maxLength="255"

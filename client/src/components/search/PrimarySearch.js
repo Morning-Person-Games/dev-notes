@@ -78,8 +78,8 @@ class PrimarySearch extends Component {
         css={css`
           flex-grow: 1;
           flex-basis: 100%;
-          transition: all 150ms ease-in;
-          -webkit-transition: all 150ms ease-in;
+          transition: all ${theme.baseTypes.transitionSpeed} ease-in;
+          -webkit-transition: all ${theme.baseTypes.transitionSpeed} ease-in;
           display: flex;
           background: ${theme.colors.secondary};
           border-radius: ${theme.sizes.radius};

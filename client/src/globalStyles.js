@@ -1,31 +1,10 @@
 import { Global, css } from "@emotion/react";
 import { math, darken, lighten, transparentize } from "polished";
+import defaultColors from "./defaultColors";
 
 // empty strings are set below just so I can hack intellisense a bit
 const theme = {
-  colors: {
-    // Core   colors
-    primary: "rgb(36, 40, 85)",
-    text: "rgb(242, 242, 242)",
-    gray: "rgb(136, 136, 142)",
-    highlight: "rgb(49, 62, 164)",
-    error: "rgb(255, 90, 85)",
-    // calculated
-    background: "rgb(16, 18, 38)",
-    secondary: "",
-    codeLine: "",
-    codeBlock: "",
-    link: "",
-    // hidden
-    placeholder: "",
-    codeText: "",
-    dark: "",
-    shadow: "",
-    linkHover: "",
-    highlightHover: "",
-    inactiveColor: "",
-    white: "",
-  },
+  colors: defaultColors,
   sizes: {
     radius: "5px",
     minHeight: "44px",
@@ -69,6 +48,7 @@ const theme = {
     baseIconControl: "",
     hover: "",
     baseTagsList: "",
+    transitionSpeed: "100ms",
   },
   font: css`
     font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
@@ -76,7 +56,17 @@ const theme = {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   `,
+  blurReveal: "",
 };
+
+// blur reveal:
+/*
+  transition: background-color 400ms ease-in;
+  -webkit-transition: background-color 400ms
+          ease-in;
+*/
+
+// color calculations:
 const { colors, sizes, baseTypes } = theme;
 colors.white = colors.text;
 colors.inactiveColor = colors.gray;
@@ -94,6 +84,7 @@ if (colors.codeLine === "")
   colors.codeLine = transparentize(0.3, lighten(0.1, colors.primary));
 if (colors.codeText === "") colors.codeText = colors.white;
 colors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
+
 // sizes:
 sizes.screenSm = math(baseTypes.baseFontSize + "* 20px"); // 320px - Each at default fontsize:
 sizes.smCol = math(sizes.screenSm + "- 20px"); // 300px
@@ -112,7 +103,7 @@ sizes.colWidth = css`
   }
 `;
 
-// baseTypes:
+// baseTypes aka fancy classes:
 baseTypes.hover = "&:hover, &:active, &:focus, &:focus-visible";
 baseTypes.baseInput = css`
   display: block;
@@ -128,8 +119,8 @@ baseTypes.baseInput = css`
 
 baseTypes.clickable = css`
   cursor: pointer;
-  transition: all 100ms ease-in;
-  -webkit-transition: all 100ms ease-in;
+  transition: all ${baseTypes.transitionSpeed} ease-in;
+  -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
   border: 0;
   border-radius: ${sizes.radius};
   position: relative;
@@ -272,6 +263,7 @@ const globals = (
         font-size: 100%;
       }
       body {
+        ${theme.blurReveal};
         font-size: ${baseTypes.baseFontSize}px;
         line-height: 1.5;
         background-color: ${colors.background};

@@ -8,7 +8,6 @@ import CategoryEntryForm from "../forms/CategoryEntry";
 import { toast } from "react-toastify";
 
 const { baseTypes, colors, sizes } = theme;
-const { highlight, white, highlightHover } = theme.colors;
 const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 10px;
@@ -32,7 +31,7 @@ const Button = styled.button`
   cursor: pointer;
   margin: 0;
   padding: 10px;
-  color: ${white};
+  color: ${colors.white};
   background: none;
   border-style: solid;
   border-color: transparent;
@@ -41,17 +40,17 @@ const Button = styled.button`
   -webkit-transition: border ${baseTypes.transitionSpeed} ease-in;
   ${theme.baseTypes.hover} {
     &:enabled {
-      border-bottom-color: ${highlight};
+      border-bottom-color: ${colors.highlight};
     }
   }
   &:disabled {
     cursor: default;
-    border-bottom-color: ${highlightHover};
+    border-bottom-color: ${colors.highlightHover};
   }
 `;
 const H2 = styled.h2`
   margin: 0;
-  color: ${highlightHover};
+  color: ${colors.highlightHover};
 `;
 const svgBtn = css`
   border: 0;

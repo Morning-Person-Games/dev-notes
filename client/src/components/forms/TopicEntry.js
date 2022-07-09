@@ -12,10 +12,7 @@ import SolutionMd from "./SolutionMd";
 import TagsField from "./TagsField";
 
 // styling
-const { baseInput, baseBtn } = theme.baseTypes;
-const { primary, white, secondary, inactiveColor } = theme.colors;
-const { radius } = theme.sizes;
-const { font } = theme.sizes;
+const { baseTypes, colors, sizes } = theme;
 const Errors = styled.div`
   color: ${theme.colors.error};
   margin: 5px 0;
@@ -23,14 +20,15 @@ const Errors = styled.div`
   font-size: 0.8em;
 `;
 const Submit = styled.button`
-  ${baseBtn}
+  ${baseTypes.button}
   padding:12px;
-  color: ${white};
-  font-size: ${font.lg};
+  color: ${colors.white};
+  font-size: ${sizes.font.lg};
   flex-grow: 1;
-  border-radius: 0 0 ${radius} ${radius};
+  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
   &:disabled {
-    color: ${(props) => (props.error ? theme.colors.error : inactiveColor)};
+    color: ${(props) =>
+      props.error ? theme.colors.error : colors.inactiveColor};
   }
 `;
 
@@ -40,11 +38,11 @@ const Buttons = css`
 `;
 // issue with styled and formik work around
 const TitleCSS = css`
-  ${baseInput}
-  border-radius: ${radius} ${radius} 0 0;
+  ${baseTypes.input}
+  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
   background: none;
   padding: 7px 10px 5px 12px;
-  border-bottom: 3px solid ${primary};
+  border-bottom: 3px solid ${colors.primary};
   min-height: 2em;
   font-size: ${theme.sizes.font.lg};
   ${theme.font};
@@ -57,14 +55,14 @@ const FormWrapper = css`
 const TopicFieldWrapper = css`
   display: flex;
   flex-wrap: wrap;
-  background: ${secondary};
-  border-radius: ${radius} ${radius} 0 0;
+  background: ${colors.secondary};
+  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
 `;
 
 const TagErrors = styled.div`
   display: block;
-  background-color: ${secondary};
-  border-top: 1px solid ${primary};
+  background-color: ${colors.secondary};
+  border-top: 1px solid ${colors.primary};
   color: ${theme.colors.error};
   padding: 5px 5px 5px 12px;
   font-size: ${theme.sizes.font.sm};

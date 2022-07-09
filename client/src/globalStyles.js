@@ -41,13 +41,14 @@ const theme = {
   baseTypes: {
     baseFontSize: "16",
     clickable: "",
-    baseInput: "",
-    baseBtn: "",
-    baseControl: "",
-    baseLink: "",
-    baseModalField: "",
-    baseRichText: "",
-    baseIconControl: "",
+    input: "",
+    button: "",
+    control: "",
+    label: "",
+    link: "",
+    modalField: "",
+    richText: "",
+    iconControl: "",
     hover: "",
     baseTagsList: "",
     transitionSpeed: "100ms",
@@ -106,7 +107,7 @@ sizes.colWidth = css`
 
 // baseTypes aka fancy classes:
 baseTypes.hover = "&:hover, &:active, &:focus, &:focus-visible";
-baseTypes.baseInput = css`
+baseTypes.input = css`
   display: block;
   padding: 10px;
   background: ${colors.primary};
@@ -118,8 +119,8 @@ baseTypes.baseInput = css`
     color: ${colors.placeholder};
   }
 `;
-baseTypes.baseModalField = css`
-  ${baseTypes.baseInput};
+baseTypes.modalField = css`
+  ${baseTypes.input};
   max-width: ${sizes.mdCol};
   font-size: ${sizes.font.lg};
   -webkit-box-sizing: border-box;
@@ -127,7 +128,7 @@ baseTypes.baseModalField = css`
   box-sizing: border-box;
 `;
 
-baseTypes.baseLabel = css`
+baseTypes.label = css`
   font-size: ${sizes.font.md};
   color: ${colors.white};
   max-width: ${sizes.mdCol};
@@ -147,7 +148,7 @@ baseTypes.clickable = css`
   }
 `;
 
-baseTypes.baseBtn = css`
+baseTypes.button = css`
   ${baseTypes.clickable};
   background-color: ${colors.highlight};
   font-size: ${sizes.font.md};
@@ -161,7 +162,7 @@ baseTypes.baseBtn = css`
     cursor: default;
   }
 `;
-baseTypes.baseControl = css`
+baseTypes.control = css`
   ${baseTypes.clickable};
   background-color: ${colors.secondary};
   color: ${colors.white};
@@ -175,7 +176,7 @@ baseTypes.baseControl = css`
     cursor: default;
   }
 `;
-baseTypes.baseLink = css`
+baseTypes.link = css`
   transition: all ${baseTypes.transitionSpeed} ease-in;
   -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
   color: ${colors.link};
@@ -194,7 +195,7 @@ baseTypes.baseTagsList = css`
   flex-flow: row wrap;
   row-gap: 10px;
 `;
-baseTypes.baseRichText = css`
+baseTypes.richText = css`
   word-wrap: break-word;
   p {
     margin: 0;
@@ -261,7 +262,7 @@ baseTypes.baseRichText = css`
   }
   a {
     overflow-wrap: anywhere;
-    ${baseTypes.baseLink};
+    ${baseTypes.link};
   }
   &:not(:last-child) {
     padding-bottom: 10px;
@@ -293,7 +294,7 @@ const globals = (
           monospace;
       }
       a {
-        ${baseTypes.baseLink};
+        ${baseTypes.link};
       }
       p,
       h1,

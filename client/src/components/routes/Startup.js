@@ -74,7 +74,7 @@ const DescriptionWrapper = styled.div`
   border-radius: 5px;
 `;
 const LoginButton = styled.a`
-  ${theme.baseTypes.baseBtn};
+  ${theme.baseTypes.button};
   width: 100%;
   max-width: ${theme.sizes.mdCol};
   font-size: 2em;
@@ -89,7 +89,7 @@ const LoginButtonWrapper = styled.div`
   width: 100%;
 `;
 const A = styled.a`
-  ${theme.baseTypes.baseLink};
+  ${theme.baseTypes.link};
 `;
 function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
   return (

@@ -6,14 +6,13 @@ import { useIsOverflow } from "../tools/useIsOverflow";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 //styling
-const { colors } = theme;
-const { baseRichText, baseFontSize } = theme.baseTypes;
+const { colors, baseTypes } = theme;
 const minLines = 2;
 // line height + default padding:
-const defaultLineHeight = baseFontSize * 1.5 + 10;
+const defaultLineHeight = baseTypes.baseFontSize * 1.5 + 10;
 const defaultMaxHeight = defaultLineHeight * 6;
 const Li = styled.li`
-  ${baseRichText};
+  ${baseTypes.richText};
   margin: 0;
   padding: 0 0 14px 0;
   margin-bottom: 0;

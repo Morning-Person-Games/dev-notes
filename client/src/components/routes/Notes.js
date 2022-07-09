@@ -17,7 +17,7 @@ const MainContent = styled.div`
   display: block;
 `;
 const LoginButton = styled.a`
-  ${theme.baseTypes.baseBtn};
+  ${theme.baseTypes.button};
   width: 100%;
   max-width: ${theme.sizes.mdCol};
   font-size: 2em;

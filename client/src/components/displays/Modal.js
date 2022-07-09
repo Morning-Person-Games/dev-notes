@@ -46,7 +46,7 @@ const Header = styled.div`
 `;
 
 const Escape = styled.button`
-  ${baseTypes.baseBtn};
+  ${baseTypes.button};
   padding: 10px;
   font-size: ${sizes.font.xl};
   background: none;

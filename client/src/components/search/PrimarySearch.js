@@ -105,7 +105,7 @@ class PrimarySearch extends Component {
             onChange={this.searchData}
             placeholder="Search through topics and solutions..."
             css={css`
-              ${theme.baseTypes.baseInput};
+              ${theme.baseTypes.input};
               background: none;
               font-size: ${theme.sizes.font.lg};
               min-width: 12em;

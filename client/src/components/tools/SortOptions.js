@@ -18,7 +18,7 @@ const Options = styled.div`
   width: 100%;
 `;
 const SortBtn = styled.button`
-  ${baseTypes.baseControl};
+  ${baseTypes.control};
   flex-grow: 1;
   display: flex;
   align-items: center;

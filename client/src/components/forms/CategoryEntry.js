@@ -24,18 +24,14 @@ const CategoryForm = styled(CategoryFormInit)`
 const FieldInit = ({ ...props }) => <Field {...props} />;
 
 const CategoryField = styled(FieldInit)`
-  ${baseTypes.baseModalField};
+  ${baseTypes.modalField};
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
 `;
 
 const Label = styled.label`
-  font-size: ${sizes.font.md};
-  color: ${colors.white};
-  max-width: ${sizes.mdCol};
-  width: 100%;
-  font-weight: 700;
+  ${baseTypes.label}
   text-align: left;
 `;
 const InfoAndErrorDiv = styled.div`
@@ -101,7 +97,7 @@ const WeightWrapper = styled.div`
 `;
 
 const Submit = styled.button`
-  ${baseTypes.baseBtn};
+  ${baseTypes.button};
   max-width: ${sizes.mdCol};
   width: 100%;
   padding: 10px;

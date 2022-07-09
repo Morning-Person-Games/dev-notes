@@ -101,8 +101,9 @@ class PrimarySearch extends Component {
         >
           <input
             value={searchQuery}
+            type="search"
             onChange={this.searchData}
-            placeholder="Search for a topic or solution"
+            placeholder="Search through topics and solutions..."
             css={css`
               ${theme.baseTypes.baseInput};
               background: none;
@@ -113,6 +114,9 @@ class PrimarySearch extends Component {
               margin-left: 28px;
               @media screen and (min-width: ${theme.sizes.screenMd}) {
                 min-width: 13em;
+              }
+              &::-webkit-search-cancel-button {
+                display: none;
               }
             `}
           />

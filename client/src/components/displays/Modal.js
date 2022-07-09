@@ -1,87 +1,108 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
+import { theme } from "../../globalStyles";
+
+const { colors, sizes, baseTypes } = theme;
 
 const ModalDiv = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 3000;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+`;
+
+const CloseOnClick = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 `;
 
 const Main = styled.section`
-  position: fixed;
-  background: white;
-  width: 80%;
+  position: relative;
+  width: 95%;
+  max-width: calc(${sizes.mdCol} + 40px);
   height: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 101;
+  border: 0;
+  border-radius: ${sizes.radius};
 `;
 
-const Header = styled.section`
-  display: -webkit-box;
-  display: -ms-flexbox;
+const Header = styled.div`
   display: flex;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  align-items: flex-start;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
+  align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid #e9ecef;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
+  padding: 0 10px;
+  border: 0;
+  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
+  background-color: ${colors.primary};
 `;
 
 const Escape = styled.button`
-  padding: 1rem;
-  margin: -1rem -1rem -1rem auto;
+  ${baseTypes.baseBtn};
+  padding: 10px;
+  font-size: ${sizes.font.xl};
+  background: none;
+  color: ${colors.link};
+  ${baseTypes.hover} {
+    background: none;
+    color: ${colors.linkHover};
+  }
 `;
 
 const Body = styled.div`
   position: relative;
-  -webkit-box-flex: 1;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  padding: 1rem;
+  padding: 20px;
+  background-color: ${colors.secondary};
+  border: 0;
+  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
 `;
 
-const Title = styled.h5``;
+const Title = styled.h2`
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+`;
 
-function Modal(props) {
+function Modal({ modalContent, setModalContent }) {
   useEffect(() => {
-    if (props.modalContent !== null) {
+    if (modalContent !== null) {
       const close = (e) => {
         if (e.key === "Escape") {
-          props.setModalContent(null);
+          setModalContent(null);
         }
       };
       window.addEventListener("keydown", close);
       return () => window.removeEventListener("keydown", close);
     }
-  }, [props, props.modalContent]);
+  }, [modalContent, setModalContent]);
 
-  if (props.modalContent === null) {
+  if (modalContent === null) {
     return;
   } else {
     return (
       <ModalDiv id="Modal">
+        <CloseOnClick onClick={() => setModalContent(null)} />
         <Main>
           <Header>
-            <Title>{props.modalContent.title}</Title>
+            <Title>{modalContent.title}</Title>
             <Escape
               onClick={() => {
-                props.setModalContent(null);
+                setModalContent(null);
               }}
             >
               X
             </Escape>
           </Header>
-          <Body>{props.modalContent.component}</Body>
+          <Body>{modalContent.component}</Body>
         </Main>
       </ModalDiv>
     );

@@ -125,6 +125,75 @@ router.post("/solutions", (req, res, next) => {
   }
 });
 
+router.post("/category", (req, res, next) => {
+  console.log("create category");
+  const { category } = req.body;
+  if (req.client && category) {
+    req.client
+      .getSpace(process.env.CONTENTFUL_SPACE_ID)
+      .then((space) => {
+        space
+          .getEnvironment("master")
+          .then((environment) => {
+            environment
+              .createEntry("category", {
+                fields: {
+                  title: {
+                    "en-US": category.title,
+                  },
+                  public: {
+                    "en-US": category.visibility,
+                  },
+                  weight: {
+                    "en-US": category.weight,
+                  },
+                },
+              })
+              .then((entry) => {
+                entry
+                  .publish()
+                  .then((results) => {
+                    res.send(results);
+                    next();
+                  })
+                  .catch(function (err) {
+                    console.log(
+                      "create.js - create entry (line 21) error:",
+                      JSON.stringify(err, null, 2)
+                    );
+                    return res
+                      .status(401)
+                      .json({ error: "unpublished", message: err });
+                  });
+              })
+              .catch(function (err) {
+                console.log(
+                  "create.js - create entry (line 21) error:",
+                  JSON.stringify(err, null, 2)
+                );
+                return res.status(401).json({ error: "failed", message: err });
+              });
+          })
+          .catch(function (err) {
+            console.log(
+              "create.js - getEnvironment (line 21) error:",
+              JSON.stringify(err, null, 2)
+            );
+            return res.status(401).json({ error: "environment" });
+          });
+      })
+      .catch(function (err) {
+        console.log(
+          "create.js - getSpace (line 28) error:",
+          JSON.stringify(err, null, 2)
+        );
+        return res.status(401).json({ error: "environment" });
+      });
+  } else {
+    return res.status(401).json({ error: "No solutions found in request" });
+  }
+});
+
 /*
   req:
     contentToAdd = {
@@ -206,7 +275,7 @@ router.post("/topic", (req, res, next) => {
         return res.status(401).json({ error: "environment" });
       });
   } else {
-    return res.status(401).json({ error: "No solutions found in request" });
+    return res.status(401).json({ error: "No Note found in request" });
   }
 });
 

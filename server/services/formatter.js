@@ -2,6 +2,8 @@ function formatCategory(category) {
   return {
     id: category.sys.id,
     title: category.fields.title,
+    public: category.fields.public,
+    weight: category.fields.weight,
     path: encodeURIComponent(
       category.fields.title.replace(/\s+/g, "-").toLowerCase()
     ),
@@ -61,6 +63,8 @@ function formatMainTopicsList(categories, topics) {
   return categories.map((category) => ({
     id: category.sys.id,
     category: category.fields.title,
+    public: category.fields.public,
+    weight: category.fields.weight,
     path: encodeURIComponent(
       category.fields.title.replace(/\s+/g, "-").toLowerCase()
     ),

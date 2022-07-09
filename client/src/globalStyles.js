@@ -17,6 +17,7 @@ const theme = {
     screenXl: "",
     smCol: "",
     mdCol: "",
+    lgCol: "",
     maxWidth: "",
     colWidth: "",
     font: {
@@ -44,6 +45,7 @@ const theme = {
     baseBtn: "",
     baseControl: "",
     baseLink: "",
+    baseModalField: "",
     baseRichText: "",
     baseIconControl: "",
     hover: "",
@@ -56,7 +58,6 @@ const theme = {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   `,
-  blurReveal: "",
 };
 
 // blur reveal:
@@ -89,10 +90,10 @@ colors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
 sizes.screenSm = math(baseTypes.baseFontSize + "* 20px"); // 320px - Each at default fontsize:
 sizes.smCol = math(sizes.screenSm + "- 20px"); // 300px
 sizes.mdCol = math(sizes.smCol + "* 1.5"); // 450px
-sizes.LgCol = math(sizes.smCol + "* 2"); // 600px
+sizes.lgCol = math(sizes.smCol + "* 2"); // 600px
 sizes.screenMd = math(sizes.smCol + "* 2 + 30px"); // 630px
 sizes.screenLg = math("(" + sizes.mdCol + "* 2) + 50px"); // 950px
-sizes.screenXl = math("(" + sizes.LgCol + "* 2) + 50px"); // 1250px
+sizes.screenXl = math("(" + sizes.lgCol + "* 2) + 50px"); // 1250px
 sizes.maxWidth = math(sizes.screenLg + " - 40px"); // 910px
 sizes.colWidth = css`
   margin: 0 auto;
@@ -112,9 +113,26 @@ baseTypes.baseInput = css`
   border: none;
   color: ${colors.white};
   width: 100%;
+  border-radius: ${sizes.radius};
   &::placeholder {
     color: ${colors.placeholder};
   }
+`;
+baseTypes.baseModalField = css`
+  ${baseTypes.baseInput};
+  max-width: ${sizes.mdCol};
+  font-size: ${sizes.font.lg};
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+`;
+
+baseTypes.baseLabel = css`
+  font-size: ${sizes.font.md};
+  color: ${colors.white};
+  max-width: ${sizes.mdCol};
+  width: 100%;
+  font-weight: 700;
 `;
 
 baseTypes.clickable = css`
@@ -158,6 +176,8 @@ baseTypes.baseControl = css`
   }
 `;
 baseTypes.baseLink = css`
+  transition: all ${baseTypes.transitionSpeed} ease-in;
+  -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
   color: ${colors.link};
   &:link {
     color: ${colors.link};
@@ -263,7 +283,6 @@ const globals = (
         font-size: 100%;
       }
       body {
-        ${theme.blurReveal};
         font-size: ${baseTypes.baseFontSize}px;
         line-height: 1.5;
         background-color: ${colors.background};
@@ -272,6 +291,9 @@ const globals = (
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
           monospace;
+      }
+      a {
+        ${baseTypes.baseLink};
       }
       p,
       h1,

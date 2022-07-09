@@ -1,3 +1,4 @@
+import CreationError from "./CreationError";
 import { toast } from "react-toastify";
 /*
   contentToAdd = {
@@ -7,9 +8,7 @@ import { toast } from "react-toastify";
   }; 
 */
 async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
-  const notifID = toast.loading("Uploading topic...", {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+  const notifID = toast.loading("Uploading topic...");
   const messages = [];
   const tagResults =
     newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
@@ -125,11 +124,10 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       );
       if (notifID) {
         toast.update(notifID, {
-          render:
-            "Issue creating new topic. If trying again does not work, try adding directly in contentful",
+          render: <CreationError title={"Issue creating new topic. "} />,
           type: "error",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: false,
         });
       }
       return;
@@ -140,9 +138,7 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
 async function createNewTags(token, tags, notify) {
   let notifID = null;
   if (notify) {
-    notifID = toast.loading("Creating tags...", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+    notifID = toast.loading("Creating tags...");
   }
   return fetch("/api/create/tags", {
     method: "POST",
@@ -171,11 +167,10 @@ async function createNewTags(token, tags, notify) {
     .catch((err) => {
       if (notifID) {
         toast.update(notifID, {
-          render:
-            "Issue creating tags. If trying again does not work, try adding directly in contentful",
+          render: <CreationError title={"Issue creating new tags. "} />,
           type: "error",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: false,
         });
       }
       console.log(
@@ -188,9 +183,7 @@ async function createNewTags(token, tags, notify) {
 async function createNewSolutions(token, solutions, notify) {
   let notifID = null;
   if (notify) {
-    notifID = toast.loading("Creating solution...", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+    notifID = toast.loading("Creating solution...");
   }
   return fetch("/api/create/solutions", {
     method: "POST",
@@ -222,11 +215,10 @@ async function createNewSolutions(token, solutions, notify) {
       );
       if (notifID) {
         toast.update(notifID, {
-          render:
-            "Issue creating solution. Try again and if the issue persists, try adding it directly in contentful after the solution has been added.",
+          render: <CreationError title={"Issue creating new solutions. "} />,
           type: "error",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: false,
         });
       }
       return "error";

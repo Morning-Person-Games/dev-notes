@@ -1,55 +1,28 @@
 import { React, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
-import TopicForm from "./components/forms/TopicEntry";
+import Notes from "./components/routes/Notes";
 import TopicsView from "./components/displays/TopicsView";
-import CategoriesHeader from "./components/displays/Categories";
-import { InitConfigForm } from "./components/forms/ConfigForms";
 import LoadingDisplay from "./components/displays/Loading";
-import Login from "./components/tools/Login";
-import Logout from "./components/tools/Logout";
+import Login from "./components/routes/Login";
+import Logout from "./components/routes/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import styled from "@emotion/styled";
 import { theme } from "./globalStyles";
-
-// styling
-const { sizes } = theme;
-const TopicSection = styled.div`
-  display: block;
-`;
-const MainContent = styled.div`
-  ${sizes.colWidth};
-  display: block;
-`;
-const LoginButton = styled.a`
-  ${theme.baseTypes.baseBtn};
-  width: 100%;
-  max-width: ${theme.sizes.mdCol};
-  font-size: 2em;
-  margin-bottom: 10px;
-  padding: 8px 0;
-  text-align: center;
-  text-decoration: none;
-`;
-const LoginButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
 function App() {
   const { token, setToken, resetToken } = useToken();
   const [topics, setTopics] = useState([]);
   const [spaceID, setSpaceID] = useState("");
   const [tags, setTags] = useState([]);
-  const [solutions, setSolutions] = useState([]);
+  //const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [loading, setLoading] = useState(true);
+  const [loadScreen, setLoadScreen] = useState(true);
 
   const setTopicsAndCategories = (topicsList) => {
     setTopics(topicsList);
     if (topicsList.length > 0) {
-      // TODO if localstorage of preffered order, put order here
       setCurrentCategory(topicsList[0]);
     }
   };
@@ -57,41 +30,28 @@ function App() {
   useEffect(() => {
     // TODO Caching? Optimization? I don't know a lot about API based optimization atm.
     // pull and set content list
-    const fetchAndSetContent = async () => {
-      return await fetch("/api/content")
-        .then((res) => {
-          return res.json();
-        })
-        .then((content) => {
-          setTopicsAndCategories(content.topics);
-          setTags(content.tags);
+    if (loading) {
+      setLoadScreen(true);
+      const fetchAndSetContent = async () => {
+        return await fetch("/api/content")
+          .then((res) => {
+            return res.json();
+          })
+          .then((content) => {
+            setTopicsAndCategories(content.topics);
+            setTags(content.tags);
 
-          //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
-          setSolutions(content.solutions);
-          setSpaceID(content.spaceID);
-          console.log("Fetched content");
-        });
-    };
-    fetchAndSetContent();
-    setLoading(false);
-  }, []);
-  // To stop aggresive color changes when setting up default theme we blur the page until loading is complete
-  if (loading) {
-    return (
-      <MainContent>
-        <LoadingDisplay />
-      </MainContent>
-    );
-  }
-
-  // if theres no categories, go to initial startup form
-  if (!topics || topics.length === 0) {
-    return (
-      <MainContent>
-        <InitConfigForm />
-      </MainContent>
-    );
-  }
+            //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
+            //setSolutions(content.solutions);
+            setSpaceID(content.spaceID);
+            console.log("Fetched content");
+            setLoading(false);
+            setTimeout(() => setLoadScreen(false), 600);
+          });
+      };
+      fetchAndSetContent();
+    }
+  }, [loading]);
 
   /*
     contentToAdd = {
@@ -101,7 +61,7 @@ function App() {
       newTopic: topicToAdd{},
     }
   */
-  const addToContentList = ({ newTags, newSolutions, newTopic }) => {
+  const addToContentList = ({ newTags, newTopic }) => {
     // stop duplicates:
     if (newTopic.id === topics[topics.length - 1].id) {
       return;
@@ -110,10 +70,10 @@ function App() {
       var newTagsList = tags.concat(newTags);
       setTags(newTagsList);
     }
-    if (newSolutions.length > 0) {
-      var newSolutionsList = solutions.concat(newSolutions);
-      setSolutions(newSolutionsList);
-    }
+    // if (newSolutions.length > 0) {
+    //   var newSolutionsList = solutions.concat(newSolutions);
+    //   setSolutions(newSolutionsList);
+    // }
     if (newTopic) {
       for (let i = 0; i < topics.length; i++) {
         if (topics[i].id === newTopic.category.id) {
@@ -127,35 +87,17 @@ function App() {
     }
   };
 
-  // set initial utility routes
-  // TODO - optimize
-  const allRoutes = [
-    <Route
-      key={"login"}
-      path="/oauth/redirect"
-      element={<Login setToken={setToken} />}
-    />,
-    <Route
-      key={"logout"}
-      path="/logout"
-      element={<Logout resetToken={resetToken} />}
-    />,
-    <Route
-      key={"home"}
-      path="/"
-      element={
-        <TopicsView
-          currentTopics={currentCategory.topics}
-          tags={tags}
-          spaceID={spaceID}
-          token={token}
-          loading={loading}
-        ></TopicsView>
-      }
-    />,
-    <Route key="wildcard" from="*" element={<TopicsView />} />,
-  ];
-
+  /*
+  topics,
+    setCurrentCategory,
+    currentCategory,
+    token,
+    tags,
+    setTopics,
+    addToContentList,
+    spaceID,
+    loading
+  */
   return (
     <BrowserRouter>
       <ToastContainer
@@ -171,29 +113,39 @@ function App() {
         draggable
         pauseOnHover
       />
-      <CategoriesHeader
-        topics={topics}
-        setCurrentCategory={setCurrentCategory}
-        activeCategory={currentCategory.category}
-      />
-      <MainContent>
-        {token ? (
-          <TopicForm
-            token={token}
-            currentCategory={currentCategory}
-            tags={tags}
-            setTopics={setTopics}
-            addToContentList={addToContentList}
-          />
-        ) : (
-          <LoginButtonWrapper>
-            <LoginButton href="/login">Login</LoginButton>
-          </LoginButtonWrapper>
-        )}
-        <TopicSection>
-          <Routes>{allRoutes}</Routes>
-        </TopicSection>
-      </MainContent>
+      {loadScreen && <LoadingDisplay loading={loading} />}
+      <Routes>
+        <Route
+          key={"login"}
+          path="/oauth/redirect"
+          element={<Login setToken={setToken} />}
+        />
+        <Route
+          key={"logout"}
+          path="/logout"
+          element={<Logout resetToken={resetToken} />}
+        />
+        {/* <Route key={"settings"} path="/settings" element={<Settings />} /> */}
+        <Route
+          key={"home"}
+          path="/"
+          element={
+            <Notes
+              topics={topics}
+              setCurrentCategory={setCurrentCategory}
+              currentCategory={currentCategory}
+              tags={tags}
+              spaceID={spaceID}
+              token={token}
+              loading={loading}
+              setTopics={setTopics}
+              addToContentList={addToContentList}
+              setLoading={setLoading}
+            />
+          }
+        />
+        <Route key="wildcard" from="*" element={<TopicsView />} />
+      </Routes>
     </BrowserRouter>
   );
 }

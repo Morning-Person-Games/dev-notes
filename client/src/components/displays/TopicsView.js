@@ -184,7 +184,7 @@ function TopicsView(props) {
     return NotFound;
   }
 
-  const emptySearch = <p>No topics or solutions found in search</p>;
+  const emptySearch = <p>No topics or solutions found in current category.</p>;
   const TagIcon = !tagsVisible ? <BsEyeSlashFill /> : <BsEyeFill />;
   return (
     <div>

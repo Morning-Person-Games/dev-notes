@@ -27,7 +27,6 @@ I almost took out tags entirely because in all honesty, titles will work best wh
 
 - Solution UX overhaul allowing adding additional Solutions and searching for existing Solutions to add to a Topic.
 - Separate repo to setup with external search engine (Contentful suggests Algolia)
--
 - Public/Private categories to hide any or all Topics behind Contentful login.
 - Pinned Topics to keep go to Solutions easy to access.
 - Shortcuts for less mouse more typing.

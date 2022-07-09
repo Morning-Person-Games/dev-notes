@@ -4,7 +4,7 @@ import { useState } from "react";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
-import { createNewTopic } from "../tools/contentfulManagement";
+import { createNewTopic } from "../tools/topicManagement";
 import FormattedTopicEntry from "../tools/EntryFormatters";
 import { theme } from "../../globalStyles";
 import styled from "@emotion/styled";
@@ -41,6 +41,7 @@ const Buttons = css`
 // issue with styled and formik work around
 const TitleCSS = css`
   ${baseInput}
+  border-radius: ${radius} ${radius} 0 0;
   background: none;
   padding: 7px 10px 5px 12px;
   border-bottom: 3px solid ${primary};
@@ -125,7 +126,7 @@ const TopicForm = (props) => {
         <Field
           type="text"
           name="title"
-          placeholder="Write a descriptive title here..."
+          placeholder="Describe a topic for your note..."
           onChange={handleTitleField}
           css={TitleCSS}
           maxLength="255"
@@ -136,7 +137,7 @@ const TopicForm = (props) => {
         <Field
           name="tags"
           component={TagsField}
-          placeholder="Type to select Tags..."
+          placeholder="Type to select any tags..."
           options={tagOptions}
         />
         {errors.tags && touched.title && <TagErrors>{errors.tags}</TagErrors>}
@@ -190,6 +191,13 @@ const TopicEntry = withFormik({
   }),
   handleSubmit: async (values, { props, resetForm }) => {
     const contentToAdd = await FormattedTopicEntry(values);
+    /*
+    const contentToAdd = {
+      newTags: newTags,
+      newSolutions: newSolutions,
+      newTopic: topicToAdd,
+    };
+    */
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
     const { newSolutions, newTopic } = contentToAdd;
     // add details for immediate usage of new content that contentful will generate later:

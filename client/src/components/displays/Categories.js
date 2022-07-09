@@ -1,21 +1,29 @@
-/** @jsxImportSource @emotion/react */
+import React from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { theme } from "../../globalStyles";
-import ScrollContainer from "react-indiana-drag-scroll";
-const { baseTypes } = theme;
+import { BsGearFill, BsPlusLg } from "react-icons/bs";
+import Settings from "../routes/Settings";
+import CategoryEntryForm from "../forms/CategoryEntry";
+import { toast } from "react-toastify";
+
+const { baseTypes, colors, sizes } = theme;
 const { highlight, white, highlightHover } = theme.colors;
-const ScrollCon = css`
-  ${theme.sizes.colWidth};
+const Wrapper = styled.div`
+  width: 100%;
   margin-bottom: 10px;
+  position: relative;
 `;
 const Ul = styled.ul`
+  display: flex;
+  align-items: center;
   list-style-type: none;
   padding: 0;
   margin: 0;
   white-space: nowrap;
-  width: fit-content;
-  margin: 5px 0 3px 0;
+  overflow-x: auto;
+  margin: 5px 0 0 0;
+  padding-bottom: 3px;
 `;
 const Li = styled.li`
   display: inline-block;
@@ -45,27 +53,125 @@ const H2 = styled.h2`
   margin: 0;
   color: ${highlightHover};
 `;
-function CategoriesHeader({ topics, setCurrentCategory, activeCategory }) {
+const svgBtn = css`
+  border: 0;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  display: flex;
+  background-color: ${colors.background};
+  box-shadow: -4px 0px 7px 3px ${colors.background};
+  svg {
+    transition: all ${baseTypes.transitionSpeed} ease-in;
+    -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
+    font-size: ${sizes.font.xl};
+    color: ${colors.highlight};
+    position: initial;
+    ${baseTypes.hover} {
+      color: ${colors.highlightHover};
+    }
+  }
+`;
+const SettingsDiv = styled.div`
+  position: absolute;
+  right: 0;
+  top: 2px;
+  height: 100%;
+  padding: 0 0 0 5px;
+  display: flex;
+  align-items: center;
+  background-color: ${colors.background};
+  box-shadow: -4px 0px 7px 3px ${colors.background};
+  button {
+    ${svgBtn};
+  }
+`;
+const AddCategoryBtn = styled.button`
+  ${svgBtn};
+  margin-left: 10px;
+`;
+function CategoriesHeader({
+  topics,
+  setCurrentCategory,
+  currentCategory,
+  setModalContent,
+  token,
+  setLoading,
+}) {
+  const activeCategory = currentCategory.category
+    ? currentCategory.category
+    : [];
   const links = [];
   if (topics && topics.length > 0) {
-    topics.forEach((category) => {
+    const filtered = topics.filter((category) => category.public || token);
+    const sorted = filtered.sort((a, b) => a.weight - b.weight);
+    sorted.forEach((category) => {
+      if (category.public || token) {
+        links.push(
+          <Li key={category.id}>
+            <Button
+              type="button"
+              disabled={activeCategory === category.category}
+              onClick={() => setCurrentCategory(category)}
+            >
+              <H2>{category.category}</H2>
+            </Button>
+          </Li>
+        );
+      }
+      console.log("links", links);
+    });
+    if (token) {
       links.push(
-        <Li key={category.id}>
-          <Button
+        <Li key={"add"}>
+          <AddCategoryBtn
             type="button"
-            disabled={activeCategory === category.category}
-            onClick={() => setCurrentCategory(category)}
+            onClick={() =>
+              setModalContent({
+                title: "Create a Category",
+                component: (
+                  <CategoryEntryForm
+                    token={token}
+                    callback={() => {
+                      setModalContent(null);
+                      setLoading(true);
+                      const notifID = toast.loading("Setting category up...");
+                      setTimeout(() => {
+                        toast.update(notifID, {
+                          render: "Have fun!",
+                          type: "success",
+                          isLoading: false,
+                          autoClose: 3000,
+                        });
+                      }, 1600);
+                    }}
+                  />
+                ),
+              })
+            }
           >
-            <H2>{category.category}</H2>
-          </Button>
+            <BsPlusLg />
+          </AddCategoryBtn>
         </Li>
       );
-    });
+    }
   }
   return (
-    <ScrollContainer css={ScrollCon} horizontal={true}>
+    <Wrapper>
       <Ul>{links}</Ul>
-    </ScrollContainer>
+
+      <SettingsDiv>
+        <button
+          type="button"
+          to="/settings"
+          onClick={() =>
+            setModalContent({ title: "Settings", component: <Settings /> })
+          }
+        >
+          <BsGearFill />
+        </button>
+      </SettingsDiv>
+    </Wrapper>
   );
 }
 

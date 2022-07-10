@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Solution } from "./Solution";
 import { TagString } from "./Tag";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import {
   MdFullscreen,
   MdEditNote,
@@ -127,7 +127,7 @@ const TopicDate = styled.span`
 `;
 
 const TagsDiv = styled.div`
-  ${baseTypes.baseTagsList};
+  ${baseTypes.tagsList};
   background-color: ${colors.primary};
   padding: 2px 10px 10px 10px;
   gap: 5px;

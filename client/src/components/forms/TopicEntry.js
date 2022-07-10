@@ -6,10 +6,10 @@ import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
 import { createNewTopic } from "../tools/topicManagement";
 import FormattedTopicEntry from "../tools/EntryFormatters";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
-import TagsField from "./TagsField";
+import { TagsField } from "./SelectFields";
 
 // styling
 const { baseTypes, colors, sizes } = theme;
@@ -193,7 +193,7 @@ const TopicEntry = withFormik({
     const contentToAdd = {
       newTags: newTags,
       newSolutions: newSolutions,
-      newTopic: topicToAdd,
+      newTopic: topicToAdd,      
     };
     */
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
@@ -213,7 +213,11 @@ const TopicEntry = withFormik({
     props.addToContentList(contentToAdd);
 
     // Send content to contentful
-    const createdTopic = await createNewTopic(props.token, contentToSend);
+    const createdTopic = await createNewTopic(
+      props.token,
+      contentToSend,
+      props.spaceID
+    );
     console.log("createdTopic", createdTopic);
     resetForm({
       values: {

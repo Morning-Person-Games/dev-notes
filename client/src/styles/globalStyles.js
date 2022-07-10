@@ -21,6 +21,8 @@ const theme = {
     maxWidth: "",
     colWidth: "",
     font: {
+      defaultBaseSize: "16",
+      baseSize: "",
       h6n: "0.67",
       h5n: "0.83",
       pn: "1",
@@ -39,7 +41,6 @@ const theme = {
     },
   },
   baseTypes: {
-    baseFontSize: "16",
     clickable: "",
     input: "",
     button: "",
@@ -49,24 +50,21 @@ const theme = {
     modalField: "",
     richText: "",
     iconControl: "",
+    fieldHelperText: "",
     hover: "",
-    baseTagsList: "",
+    tagsList: "",
     transitionSpeed: "100ms",
+    transition:
+      "transition: all 100ms ease-in; -webkit-transition: all 100ms ease-in;",
   },
-  font: css`
+  defaultFont: css`
     font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
       "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   `,
+  font: "",
 };
-
-// blur reveal:
-/*
-  transition: background-color 400ms ease-in;
-  -webkit-transition: background-color 400ms
-          ease-in;
-*/
 
 // color calculations:
 const { colors, sizes, baseTypes } = theme;
@@ -88,7 +86,9 @@ if (colors.codeText === "") colors.codeText = colors.white;
 colors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
 
 // sizes:
-sizes.screenSm = math(baseTypes.baseFontSize + "* 20px"); // 320px - Each at default fontsize:
+if (sizes.font.baseSize === "")
+  sizes.font.baseSize = sizes.font.defaultBaseSize;
+sizes.screenSm = math(sizes.font.baseSize + "* 20px"); // 320px - Each at default fontsize:
 sizes.smCol = math(sizes.screenSm + "- 20px"); // 300px
 sizes.mdCol = math(sizes.smCol + "* 1.5"); // 450px
 sizes.lgCol = math(sizes.smCol + "* 2"); // 600px
@@ -105,6 +105,9 @@ sizes.colWidth = css`
   }
 `;
 
+// font
+if (theme.font === "") theme.font = theme.defaultFont;
+
 // baseTypes aka fancy classes:
 baseTypes.hover = "&:hover, &:active, &:focus, &:focus-visible";
 baseTypes.input = css`
@@ -119,8 +122,21 @@ baseTypes.input = css`
     color: ${colors.placeholder};
   }
 `;
+
+baseTypes.fieldHelperText = css`
+  display: block;
+  max-width: ${sizes.mdCol};
+  width: 100%;
+  color: ${colors.placeholder};
+  text-align: left;
+  font-size: ${sizes.font.sm};
+  min-height: 20px;
+  margin: 0;
+`;
+
 baseTypes.modalField = css`
   ${baseTypes.input};
+  ${baseTypes.transition};
   max-width: ${sizes.mdCol};
   font-size: ${sizes.font.lg};
   -webkit-box-sizing: border-box;
@@ -156,6 +172,9 @@ baseTypes.button = css`
   ${baseTypes.hover} {
     background-color: ${colors.highlightHover};
   }
+  &:visited {
+    color: ${colors.white};
+  }
   &:disabled {
     color: ${colors.inactiveColor};
     background-color: ${colors.primary};
@@ -190,7 +209,7 @@ baseTypes.link = css`
     color: ${colors.linkHover};
   }
 `;
-baseTypes.baseTagsList = css`
+baseTypes.tagsList = css`
   display: flex;
   flex-flow: row wrap;
   row-gap: 10px;
@@ -284,7 +303,7 @@ const globals = (
         font-size: 100%;
       }
       body {
-        font-size: ${baseTypes.baseFontSize}px;
+        font-size: ${sizes.font.baseSize}px;
         line-height: 1.5;
         background-color: ${colors.background};
         margin: 0;

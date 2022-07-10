@@ -1,9 +1,9 @@
 import React from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import { BsGearFill, BsPlusLg } from "react-icons/bs";
-import Settings from "../routes/Settings";
+import SettingsForm from "../forms/Settings";
 import CategoryEntryForm from "../forms/CategoryEntry";
 import { toast } from "react-toastify";
 
@@ -96,6 +96,7 @@ function CategoriesHeader({
   setModalContent,
   token,
   setLoading,
+  spaceID,
 }) {
   const activeCategory = currentCategory.category
     ? currentCategory.category
@@ -118,7 +119,6 @@ function CategoriesHeader({
           </Li>
         );
       }
-      console.log("links", links);
     });
     if (token) {
       links.push(
@@ -131,6 +131,7 @@ function CategoriesHeader({
                 component: (
                   <CategoryEntryForm
                     token={token}
+                    spaceID={spaceID}
                     callback={() => {
                       setModalContent(null);
                       setLoading(true);
@@ -164,7 +165,10 @@ function CategoriesHeader({
           type="button"
           to="/settings"
           onClick={() =>
-            setModalContent({ title: "Settings", component: <Settings /> })
+            setModalContent({
+              title: "Settings",
+              component: <SettingsForm spaceID={spaceID} />,
+            })
           }
         >
           <BsGearFill />

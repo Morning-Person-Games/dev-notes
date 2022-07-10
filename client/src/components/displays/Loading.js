@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 import styled from "@emotion/styled";
-import defaultColors from "../../defaultColors";
+import defaultColors from "../../styles/defaultColors";
 
 const speed = 2;
 const backgroundColor = defaultColors.primary;

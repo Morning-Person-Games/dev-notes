@@ -20,15 +20,30 @@ router.use(function (req, res, next) {
           tags
             .getTags()
             .then(function (tagCollection) {
-              req.content = {
-                topics: formatter.formatMainTopicsList(
-                  categoryCollection.items,
-                  topicsCollection.items
-                ),
-                tags: formatter.formatTags(tagCollection.items),
-              };
-              // finish fetching
-              next();
+              // get solutions
+              solutions
+                .getSolutions()
+                .then(function (solutionCollection) {
+                  req.content = {
+                    topics: formatter.formatMainTopicsList(
+                      categoryCollection.items,
+                      topicsCollection.items
+                    ),
+                    tags: formatter.formatTags(tagCollection.items),
+                    solutions: formatter.formatSolutions(
+                      solutionCollection.items
+                    ),
+                  };
+                  // finish fetching
+                  next();
+                })
+                .catch(function (err) {
+                  console.log(
+                    "content.js - getSolutions (router.use()) error:",
+                    JSON.stringify(err, null, 2)
+                  );
+                  next();
+                });
             })
             .catch(function (err) {
               console.log(
@@ -59,6 +74,7 @@ router.get("/", function (req, res, next) {
   res.json({
     topics: req.content.topics ? req.content.topics : [],
     tags: req.content.tags ? req.content.tags : [],
+    solutions: req.content.solutions ? req.content.solutions : [],
     spaceID: process.env.CONTENTFUL_SPACE_ID,
   });
 });

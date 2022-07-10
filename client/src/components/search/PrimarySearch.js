@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import * as JsSearch from "js-search";
 import { Component } from "react";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import { MdSearch } from "react-icons/md";
 
 class PrimarySearch extends Component {

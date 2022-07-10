@@ -8,14 +8,14 @@ import Login from "./components/routes/Login";
 import Logout from "./components/routes/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { theme } from "./globalStyles";
+import { theme } from "./styles/globalStyles";
 
 function App() {
   const { token, setToken, resetToken } = useToken();
   const [topics, setTopics] = useState([]);
   const [spaceID, setSpaceID] = useState("");
   const [tags, setTags] = useState([]);
-  //const [solutions, setSolutions] = useState([]);
+  const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [loading, setLoading] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
@@ -42,7 +42,7 @@ function App() {
             setTags(content.tags);
 
             //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
-            //setSolutions(content.solutions);
+            setSolutions(content.solutions);
             setSpaceID(content.spaceID);
             console.log("Fetched content");
             setLoading(false);
@@ -61,7 +61,7 @@ function App() {
       newTopic: topicToAdd{},
     }
   */
-  const addToContentList = ({ newTags, newTopic }) => {
+  const addToContentList = ({ newTags, newSolutions, newTopic }) => {
     // stop duplicates:
     if (newTopic.id === topics[topics.length - 1].id) {
       return;
@@ -70,10 +70,10 @@ function App() {
       var newTagsList = tags.concat(newTags);
       setTags(newTagsList);
     }
-    // if (newSolutions.length > 0) {
-    //   var newSolutionsList = solutions.concat(newSolutions);
-    //   setSolutions(newSolutionsList);
-    // }
+    if (newSolutions.length > 0) {
+      var newSolutionsList = solutions.concat(newSolutions);
+      setSolutions(newSolutionsList);
+    }
     if (newTopic) {
       for (let i = 0; i < topics.length; i++) {
         if (topics[i].id === newTopic.category.id) {

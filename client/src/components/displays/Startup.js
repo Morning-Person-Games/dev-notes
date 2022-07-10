@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import defaultColors from "../../defaultColors";
+import defaultColors from "../../styles/defaultColors";
 import { lighten } from "polished";
 import CategoryEntryForm from "../forms/CategoryEntry";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import { toast } from "react-toastify";
 
 const colors = defaultColors;

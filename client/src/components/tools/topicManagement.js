@@ -7,11 +7,16 @@ import { toast } from "react-toastify";
     newTopic,
   }; 
 */
-async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
+async function createNewTopic(
+  token,
+  { newTopic, newSolutions, newTags, spaceID }
+) {
   const notifID = toast.loading("Uploading topic...");
   const messages = [];
   const tagResults =
-    newTags.length > 0 ? await createNewTags(token, newTags, false) : [];
+    newTags.length > 0
+      ? await createNewTags(token, newTags, false, spaceID)
+      : [];
   const filteredTags = [];
   if (tagResults.length > 0) {
     tagResults.forEach((result) => {
@@ -43,7 +48,7 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
 
   const solutionsResults =
     newSolutions.length > 0
-      ? await createNewSolutions(token, newSolutions, false)
+      ? await createNewSolutions(token, newSolutions, false, spaceID)
       : [];
   const filteredSolutions = [];
   if (solutionsResults.length > 0) {
@@ -124,7 +129,12 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
       );
       if (notifID) {
         toast.update(notifID, {
-          render: <CreationError title={"Issue creating new topic. "} />,
+          render: (
+            <CreationError
+              title={"Issue creating new topic. "}
+              spaceID={spaceID}
+            />
+          ),
           type: "error",
           isLoading: false,
           autoClose: false,
@@ -135,7 +145,7 @@ async function createNewTopic(token, { newTopic, newSolutions, newTags }) {
 }
 
 // each of these createNew functions send their respective data to contentful to be added. If any of these fail, the user is notified with a useful link on contentful to fix the issue.
-async function createNewTags(token, tags, notify) {
+async function createNewTags(token, tags, notify, spaceID) {
   let notifID = null;
   if (notify) {
     notifID = toast.loading("Creating tags...");
@@ -167,7 +177,12 @@ async function createNewTags(token, tags, notify) {
     .catch((err) => {
       if (notifID) {
         toast.update(notifID, {
-          render: <CreationError title={"Issue creating new tags. "} />,
+          render: (
+            <CreationError
+              title={"Issue creating new tags. "}
+              spaceID={spaceID}
+            />
+          ),
           type: "error",
           isLoading: false,
           autoClose: false,
@@ -180,7 +195,7 @@ async function createNewTags(token, tags, notify) {
     });
 }
 
-async function createNewSolutions(token, solutions, notify) {
+async function createNewSolutions(token, solutions, notify, spaceID) {
   let notifID = null;
   if (notify) {
     notifID = toast.loading("Creating solution...");
@@ -215,7 +230,12 @@ async function createNewSolutions(token, solutions, notify) {
       );
       if (notifID) {
         toast.update(notifID, {
-          render: <CreationError title={"Issue creating new solutions. "} />,
+          render: (
+            <CreationError
+              title={"Issue creating new solutions. "}
+              spaceID={spaceID}
+            />
+          ),
           type: "error",
           isLoading: false,
           autoClose: false,

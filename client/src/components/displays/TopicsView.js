@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect } from "react";
-import { Topic } from "../displays/Topic";
+import { Topic } from "./Topic";
 import styled from "@emotion/styled";
 import SortOptions from "../tools/SortOptions";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
 import PrimarySearch from "../search/PrimarySearch";
 import { TagField } from "./Tag";
@@ -61,7 +61,7 @@ const TagsToggle = styled.button`
   }
 `;
 const TagsUl = styled.ul`
-  ${baseTypes.baseTagsList};
+  ${baseTypes.tagsList};
   margin: 0;
   padding: 0;
 `;

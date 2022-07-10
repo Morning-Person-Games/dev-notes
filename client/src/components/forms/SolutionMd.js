@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import {
   BsTypeH2,
   BsTypeH3,
@@ -81,8 +81,8 @@ commands.fullscreen.execute = function execute(
 
 //styling
 const { colors, sizes, baseTypes } = theme;
-const mainHeight = baseTypes.baseFontSize * 1.5 * 8;
-const toolbarHeight = baseTypes.baseFontSize * 2;
+const mainHeight = sizes.font.baseSize * 1.5 * 8;
+const toolbarHeight = sizes.font.baseSize * 2;
 
 const editor = css`
   --color-canvas-default: ${colors.secondary};

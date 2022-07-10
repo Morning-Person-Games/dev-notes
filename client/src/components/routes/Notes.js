@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import TopicForm from "../forms/TopicEntry";
 import TopicsView from "../displays/TopicsView";
 import CategoriesHeader from "../displays/Categories";
-import Startup from "../routes/Startup";
+import Startup from "../displays/Startup";
 import Modal from "../displays/Modal";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 
 // styling
 const { sizes } = theme;
@@ -70,6 +70,7 @@ function Notes(props) {
             setFade={setFade}
             setLoading={props.setLoading}
             setStartupOn={setStartupOn}
+            spaceID={spaceID}
           />
         )}
         <CategoriesHeader
@@ -79,6 +80,7 @@ function Notes(props) {
           setModalContent={setModalContent}
           setLoading={setLoading}
           token={token}
+          spaceID={spaceID}
         />
         {token ? (
           <TopicForm
@@ -87,6 +89,7 @@ function Notes(props) {
             tags={tags}
             setTopics={setTopics}
             addToContentList={addToContentList}
+            spaceID={spaceID}
           />
         ) : (
           <LoginButtonWrapper>

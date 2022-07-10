@@ -1,15 +1,18 @@
 import React, { useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
+import remarkImages from "remark-images";
+import remarkUnwrapImages from "remark-unwrap-images";
+
 //styling
-const { colors, baseTypes } = theme;
+const { colors, baseTypes, sizes } = theme;
 const minLines = 2;
 // line height + default padding:
-const defaultLineHeight = baseTypes.baseFontSize * 1.5 + 10;
+const defaultLineHeight = sizes.font.baseSize * 1.5 + 10;
 const defaultMaxHeight = defaultLineHeight * 6;
 const Li = styled.li`
   ${baseTypes.richText};
@@ -92,7 +95,10 @@ function Solution({ solution, expanded, setCanExpand, solutionCount, edit }) {
       overflow={overflow ? 1 : 0}
     >
       <div style={{ width: "100%" }}>
-        <ReactMarkdown children={solution.description} remarkPlugins={[gfm]} />
+        <ReactMarkdown
+          children={solution.description}
+          remarkPlugins={[gfm, remarkImages, remarkUnwrapImages]}
+        />
       </div>
       <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
     </Li>

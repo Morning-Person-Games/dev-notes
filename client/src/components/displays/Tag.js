@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getTagNameFromID } from "../tools/HelperFunctions";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 
 const { baseTypes, colors, sizes } = theme;
 const Li = styled.li`

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 
 const { colors, sizes, baseTypes } = theme;
 
@@ -50,16 +50,16 @@ const Escape = styled.button`
   padding: 10px;
   font-size: ${sizes.font.xl};
   background: none;
-  color: ${colors.link};
+  color: ${colors.white};
   ${baseTypes.hover} {
     background: none;
-    color: ${colors.linkHover};
+    color: ${colors.highlightHover};
   }
 `;
 
 const Body = styled.div`
   position: relative;
-  padding: 20px;
+  padding: 10px 20px;
   background-color: ${colors.secondary};
   border: 0;
   border-radius: 0 0 ${sizes.radius} ${sizes.radius};

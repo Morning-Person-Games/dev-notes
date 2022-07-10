@@ -2,15 +2,16 @@ import React from "react";
 import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
-import defaultColors from "../../defaultColors";
+import { theme } from "../../styles/globalStyles";
+import defaultColors from "../../styles/defaultColors";
 import createNewCategory from "../tools/categoryManagement";
 
 const { baseTypes, sizes } = theme;
 const colors = defaultColors;
 
-//form
+//styling
 const CategoryFormInit = ({ ...props }) => <Form {...props} />;
+const FieldInit = ({ ...props }) => <Field {...props} />;
 
 const CategoryForm = styled(CategoryFormInit)`
   flex-basis: 100%;
@@ -20,8 +21,6 @@ const CategoryForm = styled(CategoryFormInit)`
   align-items: center;
   margin-bottom: 20px;
 `;
-
-const FieldInit = ({ ...props }) => <Field {...props} />;
 
 const CategoryField = styled(FieldInit)`
   ${baseTypes.modalField};
@@ -35,14 +34,9 @@ const Label = styled.label`
   text-align: left;
 `;
 const InfoAndErrorDiv = styled.div`
-  display: block;
-  max-width: ${sizes.mdCol};
-  width: 100%;
-  color: ${(props) => (props.error ? colors.error : colors.placeholder)};
-  text-align: left;
-  font-size: ${sizes.font.sm};
-  min-height: 20px;
+  ${baseTypes.fieldHelperText};
   margin: 5px 0 10px 0;
+  color: ${(props) => (props.error ? colors.error : colors.placeholder)};
 `;
 
 const VisibilityButtons = styled.div`
@@ -183,7 +177,7 @@ const validationSchema = Yup.object().shape({
   weight: Yup.number().min(-5).max(5),
 });
 
-function CategoryEntryForm({ token, callback }) {
+function CategoryEntryForm({ token, callback, spaceID }) {
   if (!token) {
     return;
   }
@@ -196,7 +190,11 @@ function CategoryEntryForm({ token, callback }) {
           visibility: values.visibility,
           weight: values.weight,
         };
-        const createdCategory = await createNewCategory(token, newCategory);
+        const createdCategory = await createNewCategory(
+          token,
+          newCategory,
+          spaceID
+        );
         console.log("New Category: ", createdCategory);
         if (callback) {
           callback();

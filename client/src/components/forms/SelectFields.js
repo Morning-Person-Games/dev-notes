@@ -1,18 +1,16 @@
 import React from "react";
 import CreatableSelect from "react-select/creatable";
+import Select from "react-select";
 import { createTagID } from "../tools/HelperFunctions";
 import styled from "@emotion/styled";
-import { theme } from "../../globalStyles";
+import { css } from "@emotion/react";
+import { theme } from "../../styles/globalStyles";
 
 const { sizes, colors } = theme;
 
-const TagsSelectPass = (props) => (
-  <CreatableSelect classNamePrefix="tags" {...props} />
-);
-
-const TagsSelect = styled(TagsSelectPass)`
+const SelectBase = css`
   width: 100%;
-  .tags__control {
+  .select__control {
     :focus-visible {
       outline: none;
     }
@@ -32,15 +30,15 @@ const TagsSelect = styled(TagsSelectPass)`
     &:hover {
       border-color: ${colors.primary};
     }
-    .tags__indicators {
+    .select__indicators {
       cursor: pointer;
     }
-    .tags__value-container {
+    .select__value-container {
       padding: 0 5px 0 0;
-      .tags__placeholder {
+      .select__placeholder {
         color: ${colors.placeholder};
       }
-      .tags__input-container {
+      .select__input-container {
         :focus-visible {
           outline: none;
         }
@@ -48,15 +46,15 @@ const TagsSelect = styled(TagsSelectPass)`
         padding: 0;
         color: ${colors.white};
       }
-      .tags__multi-value {
+      .select__multi-value {
         cursor: pointer;
         background-color: ${colors.primary};
         color: ${colors.white};
-        .tags__multi-value__label {
+        .select__multi-value__label {
           color: ${colors.white};
           padding-right: 6px;
         }
-        .tags__multi-value__remove {
+        .select__multi-value__remove {
           padding-left: 2px;
           padding-right: 2px;
           border-radius: 0 2px 2px 0;
@@ -68,7 +66,7 @@ const TagsSelect = styled(TagsSelectPass)`
       }
     }
   }
-  .tags__menu {
+  .select__menu {
     background-color: ${colors.primary};
     color: ${colors.white};
     z-index: 2000;
@@ -76,17 +74,26 @@ const TagsSelect = styled(TagsSelectPass)`
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     box-shadow: 1px 4px 4px 0 ${colors.shadow};
-    .tags__menu-list {
+    .select__menu-list {
       padding-top: 0;
-      .tags__option {
+      .select__option {
         padding: 6px 15px;
         cursor: pointer;
-        &.tags__option--is-focused {
+        &.select__option--is-focused {
           background-color: ${colors.highlight};
         }
       }
     }
   }
+`;
+
+const CreatableSelectInit = (props) => (
+  <CreatableSelect classNamePrefix="select" {...props} />
+);
+const SelectInit = (props) => <Select classNamePrefix="select" {...props} />;
+
+const TagsSelect = styled(CreatableSelectInit)`
+  ${SelectBase};
 `;
 
 function TagsField({ form, field, onBlur, options, placeholder }) {
@@ -113,4 +120,8 @@ function TagsField({ form, field, onBlur, options, placeholder }) {
   );
 }
 
-export default TagsField;
+function SelectField(props) {
+  const { form, field, onBlur, options, placeholder } = props;
+}
+
+export { TagsField, SelectField };

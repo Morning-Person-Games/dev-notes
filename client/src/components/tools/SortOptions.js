@@ -5,7 +5,7 @@ import {
   BsSortDownAlt,
   BsSortUpAlt,
 } from "react-icons/bs";
-import { theme } from "../../globalStyles";
+import { theme } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 
 //styling

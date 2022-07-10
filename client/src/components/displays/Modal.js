@@ -11,7 +11,7 @@ const ModalDiv = styled.div`
   width: 100vw;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  z-index: 3000;
 `;
 
 const CloseOnClick = styled.div`
@@ -30,7 +30,7 @@ const Main = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 101;
+  z-index: 3001;
   border: 0;
   border-radius: ${sizes.radius};
 `;

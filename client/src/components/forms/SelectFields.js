@@ -67,9 +67,9 @@ const SelectBase = css`
     }
   }
   .select__menu {
-    background-color: ${colors.primary};
+    background-color: ${colors.background};
     color: ${colors.white};
-    z-index: 2000;
+    z-index: 200;
     margin-top: 3px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -90,9 +90,21 @@ const SelectBase = css`
 const CreatableSelectInit = (props) => (
   <CreatableSelect classNamePrefix="select" {...props} />
 );
-const SelectInit = (props) => <Select classNamePrefix="select" {...props} />;
+const SelectInit = (props) => (
+  <Select
+    isMulti={false}
+    isClearable={true}
+    isSearchable={true}
+    classNamePrefix="select"
+    {...props}
+  />
+);
 
 const TagsSelect = styled(CreatableSelectInit)`
+  ${SelectBase};
+`;
+
+const DefaultSelect = styled(SelectInit)`
   ${SelectBase};
 `;
 
@@ -121,7 +133,7 @@ function TagsField({ form, field, onBlur, options, placeholder }) {
 }
 
 function SelectField(props) {
-  const { form, field, onBlur, options, placeholder } = props;
+  return <DefaultSelect {...props} />;
 }
 
 export { TagsField, SelectField };

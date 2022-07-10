@@ -2,14 +2,14 @@ import React from "react";
 import styled from "@emotion/styled";
 import { theme } from "../../styles/globalStyles";
 import { Form, Field, withFormik } from "formik";
-import { HiChevronDown } from "react-icons/hi";
 import slider from "../../styles/slider";
-import CreatableSelect from "react-select/creatable";
+import { SelectField } from "./SelectFields";
 
 //styling
 const { sizes, baseTypes, colors } = theme;
 const SettingsFormInit = ({ ...props }) => <Form {...props} />;
 const FieldInit = ({ ...props }) => <Field {...props} />;
+const SelectInit = ({ ...props }) => <SelectField {...props} />;
 
 const FormWrapper = styled(SettingsFormInit)`
   display: flex;
@@ -36,29 +36,17 @@ const HelperText = styled.div`
   margin-bottom: 5px;
 `;
 
-const SelectWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  max-width: ${sizes.mdCol};
-  margin-bottom: 10px;
-  position: relative;
-  svg {
-    pointer-events: none;
-    font-size: ${sizes.font.xl};
-    color: ${colors.white};
-    position: absolute;
-    right: 10px;
-  }
-`;
-const Select = styled(FieldInit)`
+const Select = styled(SelectInit)`
   ${baseTypes.modalField};
-  cursor: pointer;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  &:hover {
-    background-color: ${colors.highlight};
+  padding: 0;
+  .select__control {
+    background-color: ${colors.primary};
+    border-radius: ${sizes.radius};
+  }
+  .select__menu {
+    border-radius: ${sizes.radius};
+    padding: 10px 0 8px 0;
+    z-index: 3002;
   }
 `;
 const Range = styled(FieldInit)`
@@ -73,7 +61,7 @@ const handleSubmit = (e) => {
 };
 
 const SettingsForm = (props) => {
-  const { themesList, spaceID, errors, values } = props;
+  const { spaceID, errors } = props;
   const themesUrl = spaceID
     ? "https://app.contentful.com/spaces/" +
       spaceID +
@@ -82,13 +70,15 @@ const SettingsForm = (props) => {
   return (
     <FormWrapper onSubmit={handleSubmit}>
       <Label>Theme: </Label>
-      <SelectWrapper>
-        <Select as="select" name="theme" style={{ marginBottom: 0 }}>
-          <option value="default">Default</option>
-          <option value="light">Light</option>
-        </Select>
-        <HiChevronDown />
-      </SelectWrapper>
+      <Select
+        name="theme"
+        placeholder="Type or select a theme..."
+        component={SelectField}
+        options={[
+          { value: "default", label: "Default" },
+          { value: "light", label: "Light" },
+        ]}
+      />
       <HelperText>
         Head to your{" "}
         <a href={themesUrl} target="_blank" rel="noreferrer">
@@ -97,13 +87,15 @@ const SettingsForm = (props) => {
         to make a custom theme.
       </HelperText>
       <Label>Font: </Label>
-      <SelectWrapper>
-        <Select as="select" name="font">
-          <option value="default">Default</option>
-          <option value="cool">Cool</option>
-        </Select>
-        <HiChevronDown />
-      </SelectWrapper>
+      <Select
+        name="font"
+        placeholder="Type or select a font..."
+        component={SelectField}
+        options={[
+          { value: "default", label: "Default" },
+          { value: "light", label: "Light" },
+        ]}
+      />
       <Label>Text Size: </Label>
       <Range type="range" name="textSize" min="8" max="24" />
       <Submit type="submit" disabled={errors ? 1 : 0}>

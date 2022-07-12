@@ -18,6 +18,7 @@ const defaultColors = {
   shadow: "",
   linkHover: "",
   highlightHover: "",
+  fieldHover: "",
   inactiveColor: "",
   white: "",
 };

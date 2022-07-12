@@ -43,8 +43,11 @@ const TagsToggle = styled.button`
   ${baseTypes.clickable};
   position: relative;
   font-size: ${sizes.font.lg};
-  padding: 12px;
+  padding: 10px;
   padding-right: 2em;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
   flex-grow: 3;
   @media screen and (min-width: ${sizes.screenMd}) {
     flex-grow: initial;
@@ -56,8 +59,7 @@ const TagsToggle = styled.button`
     background-color: ${colors.primary};
   }
   svg {
-    margin-top: 2px;
-    margin-left: 0.3em;
+    right: 0.6em;
   }
 `;
 const TagsUl = styled.ul`

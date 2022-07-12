@@ -4,6 +4,7 @@ const topics = require("../services/topics.js");
 const categories = require("../services/categories.js");
 const tags = require("../services/tags.js");
 const solutions = require("../services/solutions.js");
+const themes = require("../services/themes.js");
 const formatter = require("../services/formatter.js");
 require("dotenv").config();
 
@@ -24,18 +25,37 @@ router.use(function (req, res, next) {
               solutions
                 .getSolutions()
                 .then(function (solutionCollection) {
-                  req.content = {
-                    topics: formatter.formatMainTopicsList(
-                      categoryCollection.items,
-                      topicsCollection.items
-                    ),
-                    tags: formatter.formatTags(tagCollection.items),
-                    solutions: formatter.formatSolutions(
-                      solutionCollection.items
-                    ),
-                  };
-                  // finish fetching
-                  next();
+                  themes
+                    .getThemes()
+                    .then(function (themeCollection) {
+                      const themesList = [];
+                      themeCollection.items.forEach((theme) => {
+                        // default only on contentful as an example:
+                        if (theme.fields.title !== "Default") {
+                          themesList.push(theme.fields);
+                        }
+                      });
+                      req.content = {
+                        topics: formatter.formatMainTopicsList(
+                          categoryCollection.items,
+                          topicsCollection.items
+                        ),
+                        tags: formatter.formatTags(tagCollection.items),
+                        solutions: formatter.formatSolutions(
+                          solutionCollection.items
+                        ),
+                        themes: themesList,
+                      };
+                      // finish fetching
+                      next();
+                    })
+                    .catch(function (err) {
+                      console.log(
+                        "content.js - getThemes (router.use()) error:",
+                        JSON.stringify(err, null, 2)
+                      );
+                      next();
+                    });
                 })
                 .catch(function (err) {
                   console.log(
@@ -70,11 +90,12 @@ router.use(function (req, res, next) {
     });
 });
 
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res) {
   res.json({
     topics: req.content.topics ? req.content.topics : [],
     tags: req.content.tags ? req.content.tags : [],
     solutions: req.content.solutions ? req.content.solutions : [],
+    themes: req.content.themes ? req.content.themes : [],
     spaceID: process.env.CONTENTFUL_SPACE_ID,
   });
 });

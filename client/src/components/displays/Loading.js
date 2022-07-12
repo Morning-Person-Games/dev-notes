@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   background-color: ${defaultColors.background};
   position: absolute;
   z-index: 500;
-  margin-left: 3px;
+  margin: -5px 0 0 3px;
   opacity: ${(props) => (props.fade ? 0 : 1)};
   transition: opacity 600ms cubic-bezier(0.79, 0.06, 0.56, 0.86);
   -webkit-transition: opacity 600ms cubic-bezier(0.79, 0.06, 0.56, 0.86);

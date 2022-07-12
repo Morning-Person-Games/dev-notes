@@ -28,7 +28,7 @@ const TagP = styled.p`
   padding: 0 5px 0 0;
   margin: 0;
   color: ${colors.placeholder};
-  font-weight: 600;
+  font-weight: 500;
 `;
 
 function TagString({ tagged, allTags }) {

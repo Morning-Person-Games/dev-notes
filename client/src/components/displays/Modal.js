@@ -27,9 +27,9 @@ const Main = styled.section`
   width: 95%;
   max-width: calc(${sizes.mdCol} + 40px);
   height: auto;
-  top: 50%;
+  top: 30px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
   z-index: 3001;
   border: 0;
   border-radius: ${sizes.radius};
@@ -67,7 +67,7 @@ const Body = styled.div`
 
 const Title = styled.h2`
   margin: 0;
-  padding: 10px;
+  padding: 10px 10px 10px 46px;
   width: 100%;
   text-align: center;
 `;

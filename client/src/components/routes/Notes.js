@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { theme } from "../../styles/globalStyles";
 
 // styling
-const { sizes } = theme;
+const { sizes, colors, baseTypes } = theme;
 const TopicSection = styled.div`
   display: block;
 `;
@@ -17,7 +17,7 @@ const MainContent = styled.div`
   display: block;
 `;
 const LoginButton = styled.a`
-  ${theme.baseTypes.button};
+  ${baseTypes.button};
   width: 100%;
   max-width: ${theme.sizes.mdCol};
   font-size: 2em;
@@ -25,6 +25,13 @@ const LoginButton = styled.a`
   padding: 8px 0;
   text-align: center;
   text-decoration: none;
+  color: ${colors.white};
+  ${baseTypes.hover} {
+    color: ${colors.white};
+  }
+  &:link {
+    color: ${colors.white};
+  }
 `;
 const LoginButtonWrapper = styled.div`
   display: flex;
@@ -55,6 +62,7 @@ function Notes(props) {
     spaceID,
     loading,
     setLoading,
+    themesObject,
   } = props;
 
   const showStart = startupOn || !props.topics || props.topics.length === 0;
@@ -81,6 +89,7 @@ function Notes(props) {
           setLoading={setLoading}
           token={token}
           spaceID={spaceID}
+          themesObject={themesObject}
         />
         {token ? (
           <TopicForm

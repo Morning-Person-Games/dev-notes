@@ -110,7 +110,7 @@ const TopicHeader = styled.div`
 const TopicTitle = styled.h2`
   overflow-wrap: break-word;
   margin: 0;
-  padding: 8px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   ${(props) => props.tagged && "padding-bottom: 0px"};
 `;
 const TopicDate = styled.span`
@@ -123,7 +123,7 @@ const TopicDate = styled.span`
   color: ${colors.placeholder};
   background-color: ${colors.primary};
   font-size: ${sizes.font.xs};
-  font-weight: 600;
+  font-weight: 500;
 `;
 
 const TagsDiv = styled.div`

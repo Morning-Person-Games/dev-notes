@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import * as JsSearch from "js-search";
 import { Component } from "react";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 import { MdSearch } from "react-icons/md";
 
 class PrimarySearch extends Component {
@@ -78,13 +78,15 @@ class PrimarySearch extends Component {
         css={css`
           flex-grow: 1;
           flex-basis: 100%;
-          transition: all ${theme.baseTypes.transitionSpeed} ease-in;
-          -webkit-transition: all ${theme.baseTypes.transitionSpeed} ease-in;
+          ${mixins.transition()};
           display: flex;
           background: ${theme.colors.secondary};
           border-radius: ${theme.sizes.radius};
           ${theme.baseTypes.hover} {
             background-color: ${theme.colors.primary};
+          }
+          &:hover:focus-within {
+            background-color: ${theme.colors.secondary};
           }
           @media screen and (min-width: ${theme.sizes.screenMd}) {
             flex-basis: auto;
@@ -95,13 +97,13 @@ class PrimarySearch extends Component {
         <div
           css={css`
             display: flex;
+            align-items: center;
             width: 100%;
             position: relative;
           `}
         >
           <input
             value={searchQuery}
-            type="search"
             onChange={this.searchData}
             placeholder="Search through topics and solutions..."
             css={css`
@@ -110,13 +112,10 @@ class PrimarySearch extends Component {
               font-size: ${theme.sizes.font.lg};
               min-width: 12em;
               flex-grow: 1;
-              padding: 12px;
+              padding-left: 12px;
               margin-left: 28px;
               @media screen and (min-width: ${theme.sizes.screenMd}) {
                 min-width: 13em;
-              }
-              &::-webkit-search-cancel-button {
-                display: none;
               }
             `}
           />
@@ -125,7 +124,6 @@ class PrimarySearch extends Component {
               display: block;
               position: absolute;
               left: 8px;
-              top: 10px;
               font-size: ${theme.sizes.font.xl};
               color: ${theme.colors.white};
             `}

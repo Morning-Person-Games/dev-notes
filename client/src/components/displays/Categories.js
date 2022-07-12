@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 import { BsGearFill, BsPlusLg } from "react-icons/bs";
 import SettingsForm from "../forms/Settings";
 import CategoryEntryForm from "../forms/CategoryEntry";
@@ -36,8 +36,7 @@ const Button = styled.button`
   border-style: solid;
   border-color: transparent;
   border-width: 0 0 3px 0;
-  transition: border ${baseTypes.transitionSpeed} ease-in;
-  -webkit-transition: border ${baseTypes.transitionSpeed} ease-in;
+  ${mixins.transition("border")};
   ${theme.baseTypes.hover} {
     &:enabled {
       border-bottom-color: ${colors.highlight};
@@ -61,8 +60,7 @@ const svgBtn = css`
   background-color: ${colors.background};
   box-shadow: -4px 0px 7px 3px ${colors.background};
   svg {
-    transition: all ${baseTypes.transitionSpeed} ease-in;
-    -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
+    ${mixins.transition()};
     font-size: ${sizes.font.xl};
     color: ${colors.highlight};
     position: initial;
@@ -97,6 +95,7 @@ function CategoriesHeader({
   token,
   setLoading,
   spaceID,
+  themesObject,
 }) {
   const activeCategory = currentCategory.category
     ? currentCategory.category
@@ -167,7 +166,9 @@ function CategoriesHeader({
           onClick={() =>
             setModalContent({
               title: "Settings",
-              component: <SettingsForm spaceID={spaceID} />,
+              component: (
+                <SettingsForm spaceID={spaceID} themesObject={themesObject} />
+              ),
             })
           }
         >

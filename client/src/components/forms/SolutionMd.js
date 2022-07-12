@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 import {
   BsTypeH2,
   BsTypeH3,
@@ -80,7 +80,7 @@ commands.fullscreen.execute = function execute(
 };
 
 //styling
-const { colors, sizes, baseTypes } = theme;
+const { colors, sizes } = theme;
 const mainHeight = sizes.font.baseSize * 1.5 * 8;
 const toolbarHeight = sizes.font.baseSize * 2;
 
@@ -104,6 +104,16 @@ const editor = css`
     --color-neutral-muted: ${colors.secondary};
     border-radius: 0;
   }
+  .w-md-editor-input {
+    ${mixins.transition("background-color", 150)};
+    border-radius: 0;
+    &:hover {
+      background-color: ${colors.fieldHover};
+    }
+    &:hover:focus-within {
+      background-color: ${colors.secondary};
+    }
+  }
   .w-md-editor-show-edit {
     .w-md-editor-toolbar-divider {
       background-color: ${colors.secondary};
@@ -119,8 +129,8 @@ const editor = css`
       margin-bottom: -4px;
     }
     button {
-      transition: all ${baseTypes.transitionSpeed} ease-in;
-      -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
+      font-weight: 500;
+      ${mixins.transition()};
       font-size: ${sizes.font.h5n}rem;
       padding: 0 3px;
       height: auto;
@@ -192,11 +202,6 @@ const editor = css`
       @media screen and (min-width: ${sizes.screenMd}) {
         display: block;
       }
-    }
-  }
-  textarea {
-    &::placeholder {
-      ${theme.font};
     }
   }
   textarea,

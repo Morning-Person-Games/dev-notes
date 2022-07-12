@@ -2,6 +2,56 @@ import { Global, css } from "@emotion/react";
 import { math, darken, lighten, transparentize } from "polished";
 import defaultColors from "./defaultColors";
 
+const mixins = {
+  transition: (type = "all", time = 100, curve = "ease-in") => {
+    const s = type.concat(" ", time, "ms ", curve, ";");
+    return "transition: ".concat(s, "\n", "-webkit-transition: ", s);
+  },
+  backgroundGradient: (primary, secondary) => {
+    return css`
+      background: -webkit-linear-gradient(
+        110deg,
+        ${primary} 50%,
+        ${secondary} 50%
+      );
+      background: -o-linear-gradient(110deg, ${primary} 50%, ${secondary} 50%);
+      background: -moz-linear-gradient(
+        110deg,
+        ${primary} 50%,
+        ${secondary} 50%
+      );
+      background: linear-gradient(110deg, ${primary} 50%, ${secondary} 50%);
+    `;
+  },
+  preview: (palette) => css`
+    color: ${palette.white};
+    ${mixins.backgroundGradient(palette.primary, palette.secondary)};
+    &:disabled {
+      // disabled means its the currentTheme
+      background: ${palette.primary};
+      color: ${palette.placeholder};
+    }
+    &::before {
+      ${mixins.transition("opacity", 250)};
+      position: absolute;
+      border-radius: ${sizes.radius};
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      opacity: 0;
+      z-index: -1;
+      content: "";
+      ${mixins.backgroundGradient(palette.highlight, palette.primary)};
+    }
+    ${baseTypes.hover} {
+      &::before {
+        opacity: 1;
+      }
+    }
+  `,
+};
+
 // empty strings are set below just so I can hack intellisense a bit
 const theme = {
   colors: defaultColors,
@@ -53,13 +103,11 @@ const theme = {
     fieldHelperText: "",
     hover: "",
     tagsList: "",
-    transitionSpeed: "100ms",
-    transition:
-      "transition: all 100ms ease-in; -webkit-transition: all 100ms ease-in;",
   },
   defaultFont: css`
-    font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
-      "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   `,
@@ -84,6 +132,8 @@ if (colors.codeLine === "")
   colors.codeLine = transparentize(0.3, lighten(0.1, colors.primary));
 if (colors.codeText === "") colors.codeText = colors.white;
 colors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
+colors.fieldHover = lighten(0.025, colors.secondary);
+colors.reverseFieldHover = lighten(0.035, colors.primary);
 
 // sizes:
 if (sizes.font.baseSize === "")
@@ -136,12 +186,15 @@ baseTypes.fieldHelperText = css`
 
 baseTypes.modalField = css`
   ${baseTypes.input};
-  ${baseTypes.transition};
+  ${mixins.transition()};
   max-width: ${sizes.mdCol};
   font-size: ${sizes.font.lg};
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  &:hover {
+    background-color: ${colors.reverseFieldHover};
+  }
 `;
 
 baseTypes.label = css`
@@ -154,8 +207,7 @@ baseTypes.label = css`
 
 baseTypes.clickable = css`
   cursor: pointer;
-  transition: all ${baseTypes.transitionSpeed} ease-in;
-  -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
+  ${mixins.transition()};
   border: 0;
   border-radius: ${sizes.radius};
   position: relative;
@@ -196,8 +248,7 @@ baseTypes.control = css`
   }
 `;
 baseTypes.link = css`
-  transition: all ${baseTypes.transitionSpeed} ease-in;
-  -webkit-transition: all ${baseTypes.transitionSpeed} ease-in;
+  ${mixins.transition()};
   color: ${colors.link};
   &:link {
     color: ${colors.link};
@@ -236,6 +287,7 @@ baseTypes.richText = css`
   h6 {
     line-height: 1.2em;
     margin: 0;
+    font-weight: 700;
     ${sizes.rtPadding};
   }
 
@@ -296,6 +348,14 @@ const globals = (
       html,
       body {
         ${theme.font};
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      * {
+        font-display: optional;
+        ${theme.font};
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       html {
         width: 100vw;
@@ -347,4 +407,4 @@ const globals = (
   />
 );
 
-export { theme, globals };
+export { theme, globals, mixins };

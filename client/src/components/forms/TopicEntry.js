@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { generateTempID } from "../tools/HelperFunctions";
 import { createNewTopic } from "../tools/topicManagement";
 import FormattedTopicEntry from "../tools/EntryFormatters";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
 import { TagsField } from "./SelectFields";
@@ -41,11 +41,17 @@ const TitleCSS = css`
   ${baseTypes.input}
   border-radius: ${sizes.radius} ${sizes.radius} 0 0;
   background: none;
-  padding: 7px 10px 5px 12px;
+  padding: 5px 10px 5px 12px;
   border-bottom: 3px solid ${colors.primary};
   min-height: 2em;
   font-size: ${theme.sizes.font.lg};
-  ${theme.font};
+  ${mixins.transition("all", 150)};
+  &:hover {
+    background-color: ${colors.fieldHover};
+  }
+  &:hover:focus-within {
+    background-color: ${colors.secondary};
+  }
 `;
 const FormWrapper = css`
   padding-bottom: 0;

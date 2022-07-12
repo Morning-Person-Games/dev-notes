@@ -1,9 +1,7 @@
 import { css } from "@emotion/react";
-import { theme } from "./globalStyles";
+import { theme, mixins } from "./globalStyles";
 const { colors, baseTypes } = theme;
-const hover = css`
-  box-shadow: 0px 0px 4px ${colors.shadow};
-`;
+
 const track = css`
   width: 100%;
   height: 10px;
@@ -11,18 +9,24 @@ const track = css`
   background: ${colors.primary};
   border-radius: 10px;
   border: 0;
+  ${mixins.transition()};
+  &:hover {
+    background-color: ${colors.reverseFieldHover};
+  }
 `;
 const thumb = css`
-  height: 30px;
-  width: 30px;
+  height: 28px;
+  width: 28px;
   border-radius: 30px;
   border: 0;
-  background: ${colors.highlight};
+  background-color: ${colors.highlight};
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -11px;
+  margin-top: -9.5px;
+  ${mixins.transition()};
   ${baseTypes.hover} {
-    ${hover};
+    box-shadow: 0px 0px 1px 3px ${colors.background};
+    background-color: ${colors.highlightHover};
   }
 `;
 
@@ -32,6 +36,7 @@ const range = css`
     -webkit-appearance: none;
     margin: 0;
     width: 100%;
+    ${mixins.transition()};
     &:focus {
       outline: none;
     }

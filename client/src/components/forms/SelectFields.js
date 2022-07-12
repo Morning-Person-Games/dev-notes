@@ -4,7 +4,7 @@ import Select from "react-select";
 import { createTagID } from "../tools/HelperFunctions";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 
 const { sizes, colors } = theme;
 
@@ -17,25 +17,33 @@ const SelectBase = css`
     padding: 10px;
     cursor: text;
     background: ${colors.primary};
-    border: none;
+    border: 0;
     color: ${colors.white};
     width: 100%;
     background: none;
-    padding: 7px 10px 5px 11px;
+    padding: 5px 10px 5px 11px;
     border-radius: 0;
     border-bottom: 0;
     min-height: 2em;
     font-size: ${sizes.font.lg};
     box-shadow: none;
+    ${mixins.transition("background-color", 150)};
     &:hover {
       border-color: ${colors.primary};
+      background-color: ${colors.fieldHover};
+    }
+    &:hover:focus-within {
+      background-color: ${theme.colors.secondary};
     }
     .select__indicators {
       cursor: pointer;
     }
     .select__value-container {
       padding: 0 5px 0 0;
+
       .select__placeholder {
+        white-space: nowrap;
+        text-overflow: ellipsis;
         color: ${colors.placeholder};
       }
       .select__input-container {
@@ -64,21 +72,26 @@ const SelectBase = css`
           }
         }
       }
+      .select__single-value {
+        color: ${colors.white};
+      }
     }
   }
   .select__menu {
-    background-color: ${colors.background};
+    background-color: ${colors.secondary};
     color: ${colors.white};
     z-index: 200;
     margin-top: 3px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    box-shadow: 1px 4px 4px 0 ${colors.shadow};
+    box-shadow: 1px 5px 4px 0 ${colors.shadow};
+    border: 1px solid ${colors.primary};
     .select__menu-list {
       padding-top: 0;
       .select__option {
         padding: 6px 15px;
         cursor: pointer;
+        ${mixins.transition()};
         &.select__option--is-focused {
           background-color: ${colors.highlight};
         }
@@ -94,7 +107,6 @@ const SelectInit = (props) => (
   <Select
     isMulti={false}
     isClearable={true}
-    isSearchable={true}
     classNamePrefix="select"
     {...props}
   />

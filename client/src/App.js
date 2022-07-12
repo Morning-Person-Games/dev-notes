@@ -8,7 +8,8 @@ import Login from "./components/routes/Login";
 import Logout from "./components/routes/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { theme } from "./styles/globalStyles";
+import { globals, theme } from "./styles/globalStyles";
+import { formatThemesList } from "./styles/themeSelection";
 
 function App() {
   const { token, setToken, resetToken } = useToken();
@@ -17,6 +18,7 @@ function App() {
   const [tags, setTags] = useState([]);
   const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
+  const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
 
@@ -40,9 +42,8 @@ function App() {
           .then((content) => {
             setTopicsAndCategories(content.topics);
             setTags(content.tags);
-
-            //? It's possible that we dont have to call solutions in api/content and can have a serperate api/solutions as a possible optimization. If that was the case we could just call api/solutions the first time we need it for either getSolutionUniqueID or search
             setSolutions(content.solutions);
+            setThemesObject(formatThemesList(content.themes));
             setSpaceID(content.spaceID);
             console.log("Fetched content");
             setLoading(false);
@@ -100,6 +101,7 @@ function App() {
   */
   return (
     <BrowserRouter>
+      {globals}
       <ToastContainer
         theme="dark"
         toastStyle={{ backgroundColor: theme.colors.primary }}
@@ -141,6 +143,7 @@ function App() {
               setTopics={setTopics}
               addToContentList={addToContentList}
               setLoading={setLoading}
+              themesObject={themesObject}
             />
           }
         />

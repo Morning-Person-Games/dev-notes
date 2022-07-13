@@ -9,14 +9,20 @@ function formattedThemePreview(palette, count) {
     }
   `;
 }
+
 function formatThemesList(themes) {
   const themesObject = {
     themes: [{ title: "Default", theme: defaultColors }],
     previewStyles: [formattedThemePreview(defaultColors, 1)],
+    options: [{ value: "Default", label: "Default" }],
   };
   for (let i = 0; i < themes.length; i++) {
     themesObject.themes.push({ title: themes[i].title, theme: themes[i] });
     themesObject.previewStyles.push(formattedThemePreview(themes[i], i + 2));
+    themesObject.options.push({
+      value: themes[i].title,
+      label: themes[i].title,
+    });
   }
   return themesObject;
 }
@@ -48,4 +54,4 @@ const defaultColors = {
 };
 */
 
-export { formatThemesList };
+export default formatThemesList;

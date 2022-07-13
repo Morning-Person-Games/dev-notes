@@ -21,7 +21,7 @@ const SelectBase = css`
     color: ${colors.white};
     width: 100%;
     background: none;
-    padding: 5px 10px 5px 11px;
+    padding: 5px 0 5px 11px;
     border-radius: 0;
     border-bottom: 0;
     min-height: 2em;
@@ -74,6 +74,9 @@ const SelectBase = css`
       }
       .select__single-value {
         color: ${colors.white};
+        &:disabled {
+          color: ${colors.inactiveColor};
+        }
       }
     }
   }
@@ -94,6 +97,19 @@ const SelectBase = css`
         ${mixins.transition()};
         &.select__option--is-focused {
           background-color: ${colors.highlight};
+        }
+        &.select__option--is-disabled {
+          color: ${colors.placeholder};
+          cursor: default;
+        }
+        &.select__option--is-focused.select__option--is-disabled {
+          background-color: inherit;
+        }
+        &.option-heading {
+          font-size: ${sizes.font.xs};
+          color: ${colors.inactiveColor};
+          padding: 0 0 0 8px;
+          font-weight: 500;
         }
       }
     }
@@ -121,20 +137,18 @@ const DefaultSelect = styled(SelectInit)`
 `;
 
 function TagsField({ form, field, onBlur, options, placeholder }) {
-  const onChange = (options, actionType) => {
-    let values = options;
-    if (actionType.action === "create-option") {
-      values[values.length - 1].value = createTagID(
-        values[values.length - 1].value
-      );
-    }
-    form.setFieldValue(field.name, values);
-  };
-
   return (
     <TagsSelect
       value={field.value}
-      onChange={onChange}
+      onChange={(options, actionType) => {
+        let values = options;
+        if (actionType.action === "create-option") {
+          values[values.length - 1].value = createTagID(
+            values[values.length - 1].value
+          );
+        }
+        form.setFieldValue(field.name, values);
+      }}
       onBlur={onBlur}
       isMulti={true}
       placeholder={placeholder}

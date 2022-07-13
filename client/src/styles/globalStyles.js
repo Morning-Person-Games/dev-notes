@@ -26,10 +26,18 @@ const mixins = {
   preview: (palette) => css`
     color: ${palette.white};
     ${mixins.backgroundGradient(palette.primary, palette.secondary)};
-    &:disabled {
+    &.select__option--is-disabled {
       // disabled means its the currentTheme
-      background: ${palette.primary};
       color: ${palette.placeholder};
+      cursor: default;
+      ${baseTypes.hover} {
+        &::before {
+          opacity: 0;
+        }
+      }
+    }
+    &.current {
+      color: ${colors.placeholder};
     }
     &::before {
       ${mixins.transition("opacity", 250)};
@@ -352,7 +360,6 @@ const globals = (
         -moz-osx-font-smoothing: grayscale;
       }
       * {
-        font-display: optional;
         ${theme.font};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;

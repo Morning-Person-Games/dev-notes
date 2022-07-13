@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Global, css } from "@emotion/react";
 import { theme, mixins } from "../../styles/globalStyles";
-import { Form, Field, withFormik } from "formik";
+import { Form, Field, Formik } from "formik";
 import slider from "../../styles/slider";
 import { SelectField } from "./SelectFields";
-import {
-  getAllFontFaces,
-  getFontOptions,
-  getFontFamily,
-} from "../../styles/fonts";
+import { getFont, getAllFontFaces, getFontOptions } from "../../styles/fonts";
+import { components } from "react-select";
+import { useSettings } from "../tools/useSettings";
 
 const fontFaces = getAllFontFaces();
 const fontOptions = getFontOptions();
@@ -18,9 +16,7 @@ const fontOptions = getFontOptions();
 const { sizes, baseTypes, colors } = theme;
 const SettingsFormInit = ({ ...props }) => <Form {...props} />;
 const FieldInit = ({ ...props }) => <Field {...props} />;
-const SelectInit = ({ ...props }) => (
-  <SelectField isOptionDisabled={(option) => option.isdisabled} {...props} />
-);
+const SelectInit = ({ ...props }) => <SelectField {...props} />;
 
 const FormWrapper = styled(SettingsFormInit)`
   display: flex;
@@ -82,8 +78,12 @@ const RangeValue = styled.div`
 const Select = styled(SelectInit)`
   ${baseTypes.modalField};
   padding: 0;
-  margin: ${(props) => (props.margin ? props.margin : 0)};
+  margin: 0 0 15px 0;
   .select__control {
+    border: 1px solid ${colors.background};
+    ${baseTypes.hover} {
+      border: 1px solid ${colors.background};
+    }
     background-color: ${colors.primary};
     border-radius: ${sizes.radius};
     &:hover {
@@ -93,22 +93,27 @@ const Select = styled(SelectInit)`
       background-color: ${colors.reverseFieldHover};
     }
     .select__value-container .select__single-value {
-      color: ${(props) =>
-        props.changed ? colors.inactiveColor : colors.white};
+      font-family: ${(props) => (props.font ? props.font : "inherit")};
     }
   }
   .select__menu {
     border-radius: ${sizes.radius};
     z-index: 3002;
     padding: 10px 0 6px;
+    .select__menu-list .select__option {
+      &.current {
+        color: ${colors.placeholder};
+      }
+      span {
+        margin-left: 5px;
+        font-size: ${sizes.font.xs};
+      }
+    }
   }
 `;
 const ThemeSelect = styled(Select)`
+  margin: 0;
   .select__control {
-    border: 1px solid ${colors.background};
-    ${baseTypes.hover} {
-      border: 1px solid ${colors.background};
-    }
     ${(props) => props.background && props.background};
     cursor: pointer;
   }
@@ -121,6 +126,7 @@ const ThemeSelect = styled(Select)`
         position: relative;
         z-index: 1;
         border-radius: ${sizes.radius};
+        border: 1px solid ${colors.background};
         &:not(:last-of-type) {
           margin-bottom: 10px;
         }
@@ -131,10 +137,12 @@ const ThemeSelect = styled(Select)`
 
 const fontStyles = {
   option: (styles, { data }) => {
-    const family = getFontFamily(data.value);
+    if (data.id === "_HEADING") {
+      return { ...styles };
+    }
     return {
       ...styles,
-      fontFamily: family,
+      fontFamily: data.id && data.id,
     };
   },
 };
@@ -147,23 +155,49 @@ const leftPercent = (value) => {
   return "calc(" + percent + "% - " + adjust + "px)";
 };
 
+const Option = ({ children, ...props }) => {
+  if (props.data.id && props.data?.id === "_HEADING") {
+    return (
+      <components.Option
+        className="option-heading select__option--is-disabled"
+        {...props}
+      >
+        {children}
+      </components.Option>
+    );
+  }
+  return (
+    <components.Option className={props.data.isCurrent && "current"} {...props}>
+      {children}
+      {props.data.isCurrent && <span>(Current)</span>}
+    </components.Option>
+  );
+};
+
+const background = (palette, isCurrentTheme) => {
+  console.log("palette", palette);
+  return css`
+    color: ${palette.white};
+    .select__value-container .select__single-value {
+      color: ${isCurrentTheme ? palette.placeholder : palette.white};
+    }
+    ${mixins.preview(palette)};
+    z-index: 1;
+  `;
+};
+
 const SettingsForm = (props) => {
-  const [themeBackground, setThemeBackground] = useState("");
-  const { themesObject, spaceID, values, errors } = props;
+  const { themesObject, spaceID } = props;
+  const { settings, setSettings } = useSettings();
+  const [themeBackground, setThemeBackground] = useState(
+    background(settings.theme, true)
+  );
+  const [selectedFont, setSelectedFont] = useState("inherit");
   const themesListUrl = spaceID
     ? "https://app.contentful.com/spaces/" +
       spaceID +
       "/entries?contentTypeId=theme"
     : "https://app.contentful.com/login";
-  const textSizeValue = values.textSize + "px";
-
-  //themesObject.find((theme) => theme.title === title);
-  const themeOptions = [{ value: "default", label: "Default" }];
-  if (themesObject !== {}) {
-    themesObject.themes.forEach((theme) =>
-      themeOptions.push({ value: theme.title, label: theme.title })
-    );
-  }
   return (
     <>
       <Global
@@ -171,106 +205,136 @@ const SettingsForm = (props) => {
           ${fontFaces}
         `}
       />
-      <FormWrapper>
-        <Label>Theme: </Label>
-        <ThemeSelect
-          name="theme"
-          placeholder="Select a theme..."
-          component={SelectField}
-          previews={themesObject.previewStyles}
-          background={themeBackground}
-          changed={errors !== {} && errors.theme ? 0 : 1}
-          isSearchable={false}
-          onChange={(e) => {
-            if (e) {
-              const aTheme = themesObject.themes.find(
-                (theme) => theme.title === e.value
-              );
-              const background = css`
-                color: ${aTheme.theme.white};
-
-                .select__value-container .select__single-value {
-                  color: ${aTheme.theme.white};
+      <Formik
+        initialValues={{
+          theme: settings.theme.title,
+          font: settings.font,
+          textSize: settings.textSize,
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 1000);
+        }}
+        validate={(values) => {
+          const errors = {
+            theme: values.theme === settings.theme.title ? "No Changes" : "",
+            font: values.font === settings.font ? "No Changes" : "",
+            textSize: values.textSize === settings.textSize ? "No Changes" : "",
+          };
+          return errors;
+        }}
+        validateOnChange={true}
+        validateOnMount={true}
+        validateOnBlur={true}
+      >
+        {({ values, errors, setFieldValue, isSubmitting }) => (
+          <FormWrapper>
+            <Label>Theme: </Label>
+            <ThemeSelect
+              name="theme"
+              placeholder="Select a new theme..."
+              component={SelectField}
+              previews={themesObject.previewStyles}
+              background={themeBackground}
+              // isOptionDisabled={(option) =>
+              //   option.value === settings.theme.title
+              // }
+              getOptionLabel={(option) => {
+                if (option.label === settings.theme.title) {
+                  option.isCurrent = true;
                 }
-                ${mixins.preview(aTheme.theme)};
-                z-index: 1;
-              `;
-              setThemeBackground(background);
-            } else {
-              setThemeBackground("");
-            }
-          }}
-          options={[
-            { value: "Default", label: "Default" },
-            { value: "Too Bright", label: "Too Bright" },
-          ]}
-        />
-        <HelperText>
-          Head to your{" "}
-          <a href={themesListUrl} target="_blank" rel="noreferrer">
-            Contentful Space
-          </a>{" "}
-          to make a custom theme.
-        </HelperText>
-        <Label>Font: </Label>
-        <Select
-          name="font"
-          placeholder="Type to pick a font..."
-          component={SelectField}
-          margin="0 0 15px 0"
-          changed={errors !== {} && errors.font ? 0 : 1}
-          options={fontOptions}
-          isOptionDisabled={(option) => option.isdisabled}
-          styles={fontStyles}
-        />
-        <Label>Base Text Size: </Label>
-        <Range name="textSize" type="range" min="8" max="24" />
-        <RangeValue
-          percent={leftPercent(values.textSize)}
-          changed={errors !== {} && errors.textSize ? 0 : 1}
-        >
-          <span>{textSizeValue}</span>
-        </RangeValue>
-        <Submit type="submit" disabled={errors !== {} ? 1 : 0}>
-          {errors !== {} ? "Make a Change to Save" : "Save Changes"}
-        </Submit>
-      </FormWrapper>
+                return option.label;
+              }}
+              components={{ Option }}
+              isSearchable={false}
+              onChange={(e) => {
+                if (e?.value) {
+                  const aTheme = themesObject.themes.find(
+                    (theme) => theme.title === e.value
+                  );
+                  setThemeBackground(
+                    background(
+                      aTheme.theme,
+                      aTheme.theme.title === settings.theme.title
+                    )
+                  );
+                  setFieldValue("theme", e.value);
+                } else {
+                  console.log("settings.theme", settings.theme);
+                  setThemeBackground(settings.theme, true);
+                  setFieldValue("theme", "");
+                }
+              }}
+              options={[
+                { value: "Default", label: "Default" },
+                { value: "Too Bright", label: "Too Bright" },
+              ]}
+            />
+            <HelperText>
+              Head to your{" "}
+              <a href={themesListUrl} target="_blank" rel="noreferrer">
+                Contentful Space
+              </a>{" "}
+              to make a custom theme.
+            </HelperText>
+            <Label>Font: </Label>
+            <Select
+              name="font"
+              placeholder="Type or select to pick a new font..."
+              component={SelectField}
+              font={selectedFont}
+              options={fontOptions}
+              isSearchable={false}
+              // isOptionDisabled={(option) => {
+              //   return option.isdisabled || option.value === settings.font;
+              // }}
+              getOptionLabel={(option) => {
+                if (option.label === settings.font) {
+                  option.isCurrent = true;
+                }
+                return option.label;
+              }}
+              styles={fontStyles}
+              components={{ Option }}
+              onChange={(e) => {
+                if (e?.value) {
+                  const selectedFont = getFont(e.value);
+                  setSelectedFont(
+                    selectedFont ? selectedFont.fontID : "inherit"
+                  );
+                  setFieldValue("font", e.value);
+                } else {
+                  setSelectedFont("inherit");
+                  setFieldValue("font", "");
+                }
+              }}
+            />
+            <Label>Base Text Size: </Label>
+            <Range name="textSize" type="range" min="8" max="24" />
+            <RangeValue
+              percent={leftPercent(values.textSize)}
+              changed={errors.textSize ? 0 : 1}
+            >
+              <span>{values.textSize + "px"}</span>
+            </RangeValue>
+            <Submit
+              type="submit"
+              disabled={
+                !isSubmitting ||
+                (!errors.theme && !errors.font && !errors.textSize)
+                  ? 0
+                  : 1
+              }
+            >
+              {errors !== {} ? "Make a Change to Save" : "Save Changes"}
+            </Submit>
+          </FormWrapper>
+        )}
+      </Formik>
     </>
   );
 };
 
-const SettingsEntry = withFormik({
-  mapPropsToValues: ({ currentSettings }) => ({
-    theme: currentSettings ? currentSettings.theme : "default",
-    font: currentSettings ? currentSettings.font : "default",
-    textSize: currentSettings ? currentSettings.textSize : 16,
-  }),
-
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
-  },
-
-  validate: (values, { currentSettings }) => {
-    const errors = {};
-    if (values.theme) {
-      errors.theme = "No Changes";
-    }
-    if (values.font) {
-      errors.font = "No Changes";
-    }
-    if (values.textSize) {
-      errors.textSize = "No Changes";
-    }
-    return errors;
-  },
-  validateOnChange: true,
-  validateOnMount: true,
-  validateOnBlur: true,
-
-  displayName: "SettingsForm",
-})(SettingsForm);
-
-export default SettingsEntry;
+export default SettingsForm;

@@ -6,6 +6,7 @@ import Startup from "../displays/Startup";
 import Modal from "../displays/Modal";
 import styled from "@emotion/styled";
 import { theme } from "../../styles/globalStyles";
+//import { useSettings } from "../tools/useSettings";
 
 // styling
 const { sizes, colors, baseTypes } = theme;
@@ -39,6 +40,7 @@ const LoginButtonWrapper = styled.div`
 `;
 
 function Notes(props) {
+  //const { settings, setSettings } = useSettings();
   const [fade, setFade] = useState(false);
   const [startupOn, setStartupOn] = useState(false);
   const [modalContent, setModalContent] = useState(null);

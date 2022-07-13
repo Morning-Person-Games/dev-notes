@@ -1,4 +1,5 @@
 const defaultColors = {
+  title: "Default",
   // Core   colors
   primary: "rgb(36, 40, 85)",
   text: "rgb(242, 242, 242)",
@@ -20,7 +21,7 @@ const defaultColors = {
   highlightHover: "",
   fieldHover: "",
   inactiveColor: "",
-  white: "",
+  white: "rgb(242, 242, 242)",
 };
 
 export default defaultColors;

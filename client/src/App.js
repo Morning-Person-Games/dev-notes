@@ -9,7 +9,7 @@ import Logout from "./components/routes/Logout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { globals, theme } from "./styles/globalStyles";
-import { formatThemesList } from "./styles/themeSelection";
+import formatThemesList from "./styles/themeFormatter";
 
 function App() {
   const { token, setToken, resetToken } = useToken();

@@ -1,4 +1,24 @@
-import { css } from "@emotion/react";
+import andikaFontFace from "./fonts/andika/anidka";
+import interFontFace from "./fonts/inter/inter";
+import karlaFontFace from "./fonts/karla/karla";
+import latoFontFace from "./fonts/lato/lato";
+import merriweatherFontFace from "./fonts/merriweather/merriweather";
+import montserratFontFace from "./fonts/montserrat/montserrat";
+import opensansFontFace from "./fonts/open-sans/open-sans";
+import oswaldFontFace from "./fonts/oswald/oswald";
+import ptsansFontFace from "./fonts/pt-sans/pt-sans";
+import quicksandFontFace from "./fonts/quicksand/quicksand";
+import robotoFontFace from "./fonts/roboto/roboto";
+import robotoCondensedFontFace from "./fonts/roboto-condensed/roboto-condensed";
+import slaboFontFace from "./fonts/slabo-27px/slabo-27px";
+import sourcesansFontFace from "./fonts/source-sans/source-sans";
+import sourceserifFontFace from "./fonts/source-sans-serif/source-sans-serif";
+
+const systemStack = `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+"Oxygen", "Ubuntu", "Cantarell", "Droid Sans",
+"Helvetica Neue", sans-serif`;
+
+const serifStack = `Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, Constantia, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;`;
 
 // Additonal fonts can easily be added by copying this process
 const fonts = [
@@ -6,791 +26,132 @@ const fonts = [
     fontName: "System Default",
     type: "sans",
     fontFace: "",
-    altFontName: "",
+    fontID: "",
   },
   {
     fontName: "Andika",
     type: "sans",
-    fontFace: css`
-      /* andika-new-basic-regular - latin */
-      @font-face {
-        font-family: "Andika";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/andika/andika-new-basic-v17-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/andika/andika-new-basic-v17-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      /* andika-new-basic-italic - latin */
-      @font-face {
-        font-family: "Andika";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/andika/andika-new-basic-v17-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/andika/andika-new-basic-v17-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      /* andika-new-basic-700 - latin */
-      @font-face {
-        font-family: "Andika";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/andika/andika-new-basic-v17-latin-700.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/andika/andika-new-basic-v17-latin-700.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      /* andika-new-basic-700italic - latin */
-      @font-face {
-        font-family: "Andika";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/andika/andika-new-basic-v17-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/andika/andika-new-basic-v17-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: andikaFontFace,
+    fontID: '"Andika"',
+  },
+  {
+    fontName: "Arial",
+    type: "sans",
+    fontFace: "",
+    fontID: '"Arial"',
   },
   {
     fontName: "Inter",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Inter";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/inter/Inter-Regular.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-Regular.woff?v=3.19") format("woff");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/inter/Inter-Italic.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-Italic.woff?v=3.19") format("woff");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/inter/Inter-Medium.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-Medium.woff?v=3.19") format("woff");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: italic;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/inter/Inter-MediumItalic.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-MediumItalic.woff?v=3.19") format("woff");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/inter/Inter-Bold.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-Bold.woff?v=3.19") format("woff");
-      }
-      @font-face {
-        font-family: "Inter";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/inter/Inter-BoldItalic.woff2?v=3.19") format("woff2"),
-          url("./fonts/inter/Inter-BoldItalic.woff?v=3.19") format("woff");
-      }
-    `,
+    fontFace: interFontFace,
+    fontID: '"Inter"',
   },
   {
     fontName: "Karla",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Karla";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/karla/karla-v22-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/karla/karla-v22-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Karla";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/karla/karla-v22-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/karla/karla-v22-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Karla";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/karla/karla-v22-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/karla/karla-v22-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Karla";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/karla/karla-v22-latin-italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/karla/karla-v22-latin-italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Karla";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/karla/karla-v22-latin-700italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/karla/karla-v22-latin-700italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: karlaFontFace,
+    fontID: '"Karla"',
   },
   {
     fontName: "Lato",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Lato";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/lato/lato-v23-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/lato/lato-v23-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Lato";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/lato/lato-v23-latin-italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/lato/lato-v23-latin-italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Lato";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/lato/lato-v23-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/lato/lato-v23-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Lato";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/lato/lato-v23-latin-700italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/lato/lato-v23-latin-700italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: latoFontFace,
+    fontID: '"Lato"',
   },
   {
     fontName: "Montserrat",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Montserrat";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/montserrat/montserrat-v24-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/montserrat/montserrat-v24-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Montserrat";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/montserrat/montserrat-v24-latin-500.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/montserrat/montserrat-v24-latin-500.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Montserrat";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/montserrat/montserrat-v24-latin-700.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/montserrat/montserrat-v24-latin-700.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Montserrat";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/montserrat/montserrat-v24-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/montserrat/montserrat-v24-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Montserrat";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/montserrat/montserrat-v24-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/montserrat/montserrat-v24-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: montserratFontFace,
+    fontID: '"Montserrat"',
   },
   {
     fontName: "Open Sans",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Open Sans";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Open Sans";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Open Sans";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Open Sans";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Open Sans";
-        font-style: italic;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-500italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-500italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Open Sans";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/open-sans/open-sans-v29-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/open-sans/open-sans-v29-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: opensansFontFace,
+    fontID: '"Open Sans"',
   },
   {
     fontName: "PT Sans",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "PT Sans";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/pt-sans/pt-sans-v17-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/pt-sans/pt-sans-v17-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "PT Sans";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/pt-sans/pt-sans-v17-latin-italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/pt-sans/pt-sans-v17-latin-italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "PT Sans";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/pt-sans/pt-sans-v17-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/pt-sans/pt-sans-v17-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "PT Sans";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/pt-sans/pt-sans-v17-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/pt-sans/pt-sans-v17-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: ptsansFontFace,
+    fontID: '"PT Sans"',
   },
   {
     fontName: "Quicksand",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Quicksand";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/quicksand/quicksand-v29-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/quicksand/quicksand-v29-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Quicksand";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/quicksand/quicksand-v29-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/quicksand/quicksand-v29-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Quicksand";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/quicksand/quicksand-v29-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/quicksand/quicksand-v29-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: quicksandFontFace,
+    fontID: '"Quicksand"',
   },
   {
     fontName: "Roboto",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Roboto";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto";
-        font-style: italic;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-500italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-500italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/roboto/roboto-v30-latin-700italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto/roboto-v30-latin-700italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: robotoFontFace,
+    fontID: '"Roboto"',
   },
   {
     fontName: "Source Sans Pro",
     type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Source Sans Pro";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/source-sans/source-sans-pro-v21-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/source-sans/source-sans-pro-v21-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Source Sans Pro";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/source-sans/source-sans-pro-v21-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/source-sans/source-sans-pro-v21-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Source Sans Pro";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/source-sans/source-sans-pro-v21-latin-600.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/source-sans/source-sans-pro-v21-latin-600.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Source Sans Pro";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/source-sans/source-sans-pro-v21-latin-700.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/source-sans/source-sans-pro-v21-latin-700.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Source Sans Pro";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/source-sans/source-sans-pro-v21-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/source-sans/source-sans-pro-v21-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
-  },
-  {
-    fontName: "Ubuntu",
-    type: "sans",
-    fontFace: css`
-      @font-face {
-        font-family: "Ubuntu";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/ubuntu/ubuntu-v20-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu/ubuntu-v20-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Ubuntu";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/ubuntu/ubuntu-v20-latin-italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu/ubuntu-v20-latin-italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Ubuntu";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/ubuntu/ubuntu-v20-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu/ubuntu-v20-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Ubuntu";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/ubuntu/ubuntu-v20-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu/ubuntu-v20-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Ubuntu";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/ubuntu/ubuntu-v20-latin-700italic.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu/ubuntu-v20-latin-700italic.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: sourcesansFontFace,
+    fontID: '"Source Sans Pro"',
   },
   {
     fontName: "Oswald",
     type: "condensed",
-    fontFace: css`
-      @font-face {
-        font-family: "Oswald";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/oswald/oswald-v48-latin-regular.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/oswald/oswald-v48-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Oswald";
-        font-style: normal;
-        font-weight: 500;
-        src: local(""),
-          url("./fonts/oswald/oswald-v48-latin-500.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/oswald/oswald-v48-latin-500.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Oswald";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/oswald/oswald-v48-latin-700.woff2") format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/oswald/oswald-v48-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: oswaldFontFace,
+    fontID: '"Oswald"',
   },
   {
     fontName: "Roboto Condensed",
     type: "condensed",
-    fontFace: css`
-      @font-face {
-        font-family: "Roboto Condensed";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/roboto-condensed/roboto-condensed-v25-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto-condensed/roboto-condensed-v25-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto Condensed";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/roboto-condensed/roboto-condensed-v25-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto-condensed/roboto-condensed-v25-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto Condensed";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/roboto-condensed/roboto-condensed-v25-latin-700.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto-condensed/roboto-condensed-v25-latin-700.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Roboto Condensed";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/roboto-condensed/roboto-condensed-v25-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/roboto-condensed/roboto-condensed-v25-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
-  },
-  {
-    fontName: "Ubuntu Condensed",
-    type: "condensed",
-    fontFace: css`
-      @font-face {
-        font-family: "Ubuntu Condensed";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/ubuntu-condensed/ubuntu-condensed-v16-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/ubuntu-condensed/ubuntu-condensed-v16-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: robotoCondensedFontFace,
+    fontID: '"Roboto Condensed"',
   },
   {
     fontName: "Serif Default",
     type: "serif",
     fontFace: "",
-    altFontName: "",
+    fontID: serifStack,
   },
   {
     fontName: "Georgia",
     type: "serif",
     fontFace: "",
-    altFontName: '"Georgia"',
+    fontID: '"Georgia"',
   },
   {
     fontName: "Merriweather",
     type: "serif",
-    fontFace: css`
-      @font-face {
-        font-family: "Merriweather";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/merriweather/merriweather-v30-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/merriweather/merriweather-v30-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Merriweather";
-        font-style: italic;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/merriweather/merriweather-v30-latin-italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/merriweather/merriweather-v30-latin-italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Merriweather";
-        font-style: normal;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/merriweather/merriweather-v30-latin-700.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/merriweather/merriweather-v30-latin-700.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-      @font-face {
-        font-family: "Merriweather";
-        font-style: italic;
-        font-weight: 700;
-        src: local(""),
-          url("./fonts/merriweather/merriweather-v30-latin-700italic.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/merriweather/merriweather-v30-latin-700italic.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: merriweatherFontFace,
+    fontID: '"Merriweather"',
   },
   {
     fontName: "Slabo 27px",
     type: "serif",
-    fontFace: css`
-      @font-face {
-        font-family: "Slabo 27px";
-        font-style: normal;
-        font-weight: 400;
-        src: local(""),
-          url("./fonts/slabo-27px/slabo-27px-v12-latin-regular.woff2")
-            format("woff2"),
-          /* Chrome 26+, Opera 23+, Firefox 39+ */
-            url("./fonts/slabo-27px/slabo-27px-v12-latin-regular.woff")
-            format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-      }
-    `,
+    fontFace: slaboFontFace,
+    fontID: '"Slabo 27px"',
+  },
+  {
+    fontName: "Source Serif Pro",
+    type: "serif",
+    fontFace: sourceserifFontFace,
+    fontID: '"Source Serif Pro"',
   },
   {
     fontName: "Times New Roman",
     type: "serif",
     fontFace: "",
-    altFontName: '"Times, Times New Roman"',
+    fontID: '"Times", "Times New Roman"',
   },
   {
     fontName: "Comic Sans",
     type: "comic",
     fontFace: "",
-    altFontName: '"Comic Sans MS", "Comic Sans"',
+    fontID: '"Comic Sans MS", "Comic Sans"',
   },
 ];
 
-const systemStack = `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-"Oxygen", "Ubuntu", "Cantarell", "Droid Sans",
-"Helvetica Neue", sans-serif`;
-
-const serifStack = `"Lucida Bright", Lucidabright, "Lucida Serif", Lucida, Constantia, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;`;
-
-function getFontFace(fontTitle) {
-  const font = fonts.find((font) => font.fontName === fontTitle);
-  return font.fontFace;
+function getFont(fontTitle) {
+  return fonts.find((font) => font.fontName === fontTitle);
 }
 
 function getFontFamily(fontTitle) {
@@ -798,9 +159,8 @@ function getFontFamily(fontTitle) {
   if (!font) {
     return "inherit";
   }
-  const fontName = font.fontFace === "" ? font.altFontName : font.fontFace;
   const fontStack = font.serifStack ? serifStack : systemStack;
-  return fontName + " " + fontStack;
+  return [font.fontID, fontStack].join(", ");
 }
 
 function getAllFontFaces() {
@@ -814,57 +174,51 @@ function getAllFontFaces() {
 }
 
 function getFontOptions() {
-  // ?Sans:
-  // System Default
-  // Andika
-  // Inter
-  // Karla
-  // Lato
-  // Montserrat
-  // Open Sans
-  // PT Sans
-  // Quicksand
-  // Roboto
-  // Source Sans Pro
-  // Ubuntu
-  // ?Condensed:
-  // Oswald
-  // Roboto Condensed
-  // Ubuntu condensed
-  // ?Serif
-  // Serif Default
-  // Georgia
-  // Merriweather
-  // Slabo 27px
-  // Times New Roman
-  // ?gRaPhIc DeSiGn Is mY pAsSiOn
-  // Comic Sans
-  const sans = [{ value: "", label: "Sans Fonts:", isdisabled: true }];
-  const condensed = [
-    { value: "", label: "Condensed Fonts:", isdisabled: true },
+  const sans = [
+    {
+      value: "",
+      label: "Sans Fonts:",
+      isdisabled: true,
+      id: "_HEADING",
+    },
   ];
-  const serif = [{ value: "", label: "Serif Fonts:", isdisabled: true }];
+  const condensed = [
+    {
+      value: "",
+      label: "Condensed Fonts:",
+      isdisabled: true,
+      id: "_HEADING",
+    },
+  ];
+  const serif = [
+    {
+      value: "",
+      label: "Serif Fonts:",
+      isdisabled: true,
+      id: "_HEADING",
+    },
+  ];
 
   fonts.forEach((font) => {
     if (font.type === "sans") {
       sans.push({
         value: font.fontName,
         label: font.fontName,
-        //isdisabled: currentFont === font.fontName,
+        id: font.fontID,
       });
     }
     if (font.type === "condensed") {
       condensed.push({
         value: font.fontName,
         label: font.fontName,
-        // isdisabled: currentFont === font.fontName,
+        id: font.fontID,
       });
     }
     if (font.type === "serif") {
       serif.push({
         value: font.fontName,
         label: font.fontName,
-        //isdisabled: currentFont === font.fontName,
+        id: font.fontID,
       });
     }
   });
@@ -876,13 +230,14 @@ function getFontOptions() {
       value: "",
       label: "gRaPhIc DeSiGn Is mY pAsSiOn",
       isdisabled: true,
+      id: "_HEADING",
     },
     {
       value: "Comic Sans",
       label: "Comic Sans",
-      // isdisabled: currentFont === "Comic Sans",
+      id: '"Comic Sans MS", "Comic Sans"',
     }
   );
 }
 
-export { getFontFace, getFontFamily, getFontOptions, getAllFontFaces };
+export { getFont, getFontFamily, getFontOptions, getAllFontFaces };

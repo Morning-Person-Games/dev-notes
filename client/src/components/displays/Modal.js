@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { theme } from "../../styles/globalStyles";
+import { theme, mixins } from "../../styles/globalStyles";
 
 const { colors, sizes, baseTypes } = theme;
 
@@ -10,6 +10,7 @@ const ModalDiv = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
+  ${mixins.transition("all", 200)}
   background: rgba(0, 0, 0, 0.5);
   z-index: 3000;
 `;
@@ -72,7 +73,7 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-function Modal({ modalContent, setModalContent }) {
+function Modal({ modalContent, setModalContent, fade }) {
   useEffect(() => {
     if (modalContent !== null) {
       const close = (e) => {
@@ -85,28 +86,32 @@ function Modal({ modalContent, setModalContent }) {
     }
   }, [modalContent, setModalContent]);
 
+  useEffect(() => {
+    if (fade === true) {
+    }
+  }, [fade]);
+
   if (modalContent === null) {
     return;
-  } else {
-    return (
-      <ModalDiv id="Modal">
-        <CloseOnClick onClick={() => setModalContent(null)} />
-        <Main>
-          <Header>
-            <Title>{modalContent.title}</Title>
-            <Escape
-              onClick={() => {
-                setModalContent(null);
-              }}
-            >
-              X
-            </Escape>
-          </Header>
-          <Body>{modalContent.component}</Body>
-        </Main>
-      </ModalDiv>
-    );
   }
+  return (
+    <ModalDiv id="Modal">
+      <CloseOnClick onClick={() => setModalContent(null)} />
+      <Main style={{ display: fade ? "none" : "block" }}>
+        <Header>
+          <Title>{modalContent.title}</Title>
+          <Escape
+            onClick={() => {
+              setModalContent(null);
+            }}
+          >
+            X
+          </Escape>
+        </Header>
+        <Body>{modalContent.component}</Body>
+      </Main>
+    </ModalDiv>
+  );
 }
 
 export default Modal;

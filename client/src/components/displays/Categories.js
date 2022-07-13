@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { theme, mixins } from "../../styles/globalStyles";
@@ -97,6 +97,7 @@ function CategoriesHeader({
   spaceID,
   themesObject,
 }) {
+  const [fade, setFade] = useState(false);
   const activeCategory = currentCategory.category
     ? currentCategory.category
     : [];
@@ -162,13 +163,17 @@ function CategoriesHeader({
       <SettingsDiv>
         <button
           type="button"
-          to="/settings"
           onClick={() =>
             setModalContent({
               title: "Settings",
               component: (
-                <SettingsForm spaceID={spaceID} themesObject={themesObject} />
+                <SettingsForm
+                  spaceID={spaceID}
+                  themesObject={themesObject}
+                  setFade={setFade}
+                />
               ),
+              fade: fade,
             })
           }
         >

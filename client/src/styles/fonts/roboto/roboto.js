@@ -26,7 +26,7 @@ const robotoFontFace = css`
   @font-face {
     font-family: "Roboto";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${r500w2}) format("woff2"), url(${r500}) format("woff");
   }
   @font-face {

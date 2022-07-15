@@ -1,30 +1,31 @@
 import React from "react";
 import styled from "@emotion/styled";
 import defaultColors from "../../styles/defaultColors";
+import defaultSizes from "../../styles/defaultSizes";
 import { lighten } from "polished";
 import CategoryEntryForm from "../forms/CategoryEntry";
-import { theme } from "../../styles/globalStyles";
+import { baseTypes } from "../../styles/globalStyles";
 import { toast } from "react-toastify";
 
-const colors = defaultColors;
-const boldHighlight = lighten(0.2, colors.link);
+const boldHighlight = lighten(0.2, defaultColors.link);
 
 // init text
-const Wrapper = styled.div`
-  ${theme.sizes.colWidth};
+const WrapperInit = styled.div`
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 20px;
-  background-color: ${colors.background};
+  background-color: ${defaultColors.background};
   position: absolute;
   z-index: 400;
   opacity: ${(props) => (props.fade ? 0 : 1)};
   transition: opacity 600ms ease-in-out;
   -webkit-transition: opacity 600ms ease-in-out;
 `;
+const Wrapper = baseTypes.MainContent.withComponent(WrapperInit);
+
 const Title = styled.h1`
   margin-bottom: 0;
   text-align: center;
@@ -35,7 +36,7 @@ const SubtitleWrapper = styled.div`
   display: flex;
   justify-content: center;
   h4 {
-    color: ${colors.inactiveColor};
+    color: ${defaultColors.inactiveColor};
     font-weight: 400;
     margin-top: 0;
     width: 60%;
@@ -57,7 +58,7 @@ const B = styled.b`
 `;
 const H3 = styled.h3`
   padding: 10px 20px;
-  background-color: ${colors.primary};
+  background-color: ${defaultColors.primary};
   margin: 0 0 15px 0;
   display: block;
   text-align: left;
@@ -68,15 +69,14 @@ const H3 = styled.h3`
   box-sizing: border-box; /* Opera/IE 8+ */
 `;
 const DescriptionWrapper = styled.div`
-  background-color: ${colors.secondary};
+  background-color: ${defaultColors.secondary};
   padding: 0 0 10px 0;
   margin-top: 10px;
   border-radius: 5px;
 `;
-const LoginButton = styled.a`
-  ${theme.baseTypes.button};
+const LoginButton = styled(baseTypes.DefaultBtn)`
   width: 100%;
-  max-width: ${theme.sizes.mdCol};
+  max-width: ${defaultSizes.mdCol};
   font-size: 2em;
   margin-bottom: 10px;
   padding: 8px 0;
@@ -88,9 +88,7 @@ const LoginButtonWrapper = styled.div`
   justify-content: center;
   width: 100%;
 `;
-const A = styled.a`
-  ${theme.baseTypes.link};
-`;
+
 function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
   return (
     <Wrapper fade={fade ? 1 : 0}>
@@ -127,13 +125,15 @@ function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
       ) : (
         <div>
           <LoginButtonWrapper>
-            <LoginButton href="/login">Login</LoginButton>
+            <LoginButton as="a" href="/login">
+              Login
+            </LoginButton>
           </LoginButtonWrapper>
           <P>
             If something isn't working, double check the{" "}
-            <A href="https://github.com/Morning-Person-Games/dev-notes#Setup">
+            <a href="https://github.com/Morning-Person-Games/dev-notes#Setup">
               Setup Instructions
-            </A>
+            </a>
           </P>
         </div>
       )}

@@ -1,34 +1,34 @@
 import React, { useState } from "react";
-import { getTagNameFromID } from "../tools/HelperFunctions";
+import { getTagNameFromID } from "../tools/helperFunctions";
 import styled from "@emotion/styled";
-import { theme } from "../../styles/globalStyles";
+import { staticSizes } from "../../styles/globalStyles";
 
-const { baseTypes, colors, sizes } = theme;
 const Li = styled.li`
   display: inline-block;
 `;
 const Button = styled.button`
-  ${baseTypes.clickable};
-  font-size: ${sizes.font.md};
+  font-size: ${staticSizes.font.md};
   padding: 8px 10px;
   margin-right: 10px;
-  color: ${(props) => (props.active ? colors.white : colors.placeholder)};
+  color: ${(props) =>
+    props.active ? props.theme.colors.white : props.theme.colors.placeholder};
   background-color: ${(props) =>
-    props.active ? colors.highlight : "transparent"};
+    props.active ? props.theme.colors.highlight : "transparent"};
   border: 1px solid transparent;
-  border-color: ${(props) => !props.active && colors.inactiveColor};
+  border-color: ${(props) => !props.active && props.theme.colors.inactiveColor};
   &:hover {
-    background-color: ${(props) => props.active && colors.highlightHover};
-    border-color: ${(props) => !props.active && colors.link};
-    color: ${(props) => !props.active && colors.link};
+    background-color: ${(props) =>
+      props.active && props.theme.colors.highlightHover};
+    border-color: ${(props) => !props.active && props.theme.colors.link};
+    color: ${(props) => !props.active && props.theme.colors.link};
   }
 `;
 const TagP = styled.p`
-  font-size: ${sizes.font.sm};
+  font-size: ${staticSizes.font.sm};
   padding: 0 5px 0 0;
   margin: 0;
-  color: ${colors.placeholder};
-  font-weight: 500;
+  color: ${(props) => props.theme.colors.placeholder};
+  font-weight: 600;
 `;
 
 function TagString({ tagged, allTags }) {

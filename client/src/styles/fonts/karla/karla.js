@@ -20,7 +20,7 @@ const karlaFontFace = css`
   @font-face {
     font-family: "Karla";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${k500w2}) format("woff2"), url(${k500}) format("woff");
   }
   @font-face {

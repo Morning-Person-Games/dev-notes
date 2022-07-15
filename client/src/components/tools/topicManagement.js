@@ -1,4 +1,4 @@
-import CreationError from "./CreationError";
+import CreationError from "../displays/CreationError";
 import { toast } from "react-toastify";
 /*
   contentToAdd = {

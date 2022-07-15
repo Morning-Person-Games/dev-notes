@@ -20,7 +20,7 @@ const montserratFontFace = css`
   @font-face {
     font-family: "Montserrat";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${m500w2}) format("woff2"), url(${m500}) format("woff");
   }
   @font-face {

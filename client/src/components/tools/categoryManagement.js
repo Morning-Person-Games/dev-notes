@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import CreationError from "./CreationError";
+import CreationError from "../displays/CreationError";
 
 async function createNewCategory(token, newCategory, spaceID) {
   const notifID = toast.loading("Creating Category...");

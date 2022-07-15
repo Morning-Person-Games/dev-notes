@@ -16,7 +16,7 @@ const oswaldFontFace = css`
   @font-face {
     font-family: "Oswald";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${o500w2}) format("woff2"), url(${o500}) format("woff");
   }
   @font-face {

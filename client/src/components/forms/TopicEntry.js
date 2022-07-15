@@ -1,77 +1,76 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { withFormik, Field } from "formik";
 import * as Yup from "yup";
-import { generateTempID } from "../tools/HelperFunctions";
+import { generateTempID } from "../tools/helperFunctions";
 import { createNewTopic } from "../tools/topicManagement";
-import FormattedTopicEntry from "../tools/EntryFormatters";
-import { theme, mixins } from "../../styles/globalStyles";
+import FormattedTopicEntry from "../tools/entryFormatters";
+import { baseTypes, staticSizes } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
 import { TagsField } from "./SelectFields";
 
 // styling
-const { baseTypes, colors, sizes } = theme;
 const Errors = styled.div`
-  color: ${theme.colors.error};
+  color: ${(props) => props.colors.error};
   margin: 5px 0;
   height: 1.4em;
   font-size: 0.8em;
 `;
-const Submit = styled.button`
-  ${baseTypes.button}
-  padding:12px;
-  color: ${colors.white};
-  font-size: ${sizes.font.lg};
+const Submit = styled(baseTypes.DefaultBtn)`
+  padding: 12px;
+  color: ${(props) => props.theme.colors.white};
+  font-size: ${staticSizes.font.lg};
   flex-grow: 1;
-  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
+  border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
   &:disabled {
     color: ${(props) =>
-      props.error ? theme.colors.error : colors.inactiveColor};
+      props.error
+        ? (props) => props.theme.colors.error
+        : props.theme.colors.inactiveColor};
   }
 `;
 
-const Buttons = css`
+const ButtonsWrapper = styled.div`
   display: flex;
   flex-wrap: none;
 `;
+
+const TitleInit = (props) => <Field {...props} />;
 // issue with styled and formik work around
-const TitleCSS = css`
-  ${baseTypes.input}
-  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
+const TitleField = styled(TitleInit)`
+  border: 0;
+  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
   background: none;
   padding: 5px 10px 5px 12px;
-  border-bottom: 3px solid ${colors.primary};
+  border-bottom: 3px solid ${(props) => props.theme.colors.primary};
   min-height: 2em;
-  font-size: ${theme.sizes.font.lg};
-  ${mixins.transition("all", 150)};
+  font-size: ${staticSizes.font.lg};
   &:hover {
-    background-color: ${colors.fieldHover};
+    background-color: ${(props) => props.theme.colors.fieldHover};
   }
   &:hover:focus-within {
-    background-color: ${colors.secondary};
+    background-color: ${(props) => props.theme.colors.secondary};
   }
 `;
-const FormWrapper = css`
+const FormWrapper = styled.form`
   padding-bottom: 0;
   margin-bottom: 10px;
 `;
 
-const TopicFieldWrapper = css`
+const TopicFieldWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  background: ${colors.secondary};
-  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
+  background: ${(props) => props.theme.colors.secondary};
+  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
 `;
 
 const TagErrors = styled.div`
   display: block;
-  background-color: ${colors.secondary};
-  border-top: 1px solid ${colors.primary};
-  color: ${theme.colors.error};
+  background-color: ${(props) => props.theme.colors.secondary};
+  border-top: 1px solid ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.colors.error};
   padding: 5px 5px 5px 12px;
-  font-size: ${theme.sizes.font.sm};
+  font-size: ${staticSizes.font.sm};
   width: 100%;
 `;
 
@@ -124,15 +123,14 @@ const TopicForm = (props) => {
 
   const submitText = errors.title ? errors.title : "Add topic";
   return (
-    <form onSubmit={handleSubmit} css={FormWrapper}>
+    <FormWrapper onSubmit={handleSubmit}>
       {errors.category && touched.title && <Errors>{errors.category}</Errors>}
-      <div css={TopicFieldWrapper}>
-        <Field
+      <TopicFieldWrapper>
+        <TitleField
           type="text"
           name="title"
           placeholder="Describe a topic for your note..."
           onChange={handleTitleField}
-          css={TitleCSS}
           maxLength="255"
           tabIndex="1"
           onBlur={handleEmptyBlur}
@@ -152,8 +150,8 @@ const TopicForm = (props) => {
           handleBlur={handleBlur}
           value={values.solution}
         />
-      </div>
-      <div css={Buttons}>
+      </TopicFieldWrapper>
+      <ButtonsWrapper>
         <Submit
           type="submit"
           error={errors.title ? 1 : 0}
@@ -161,8 +159,8 @@ const TopicForm = (props) => {
         >
           {submitText}
         </Submit>
-      </div>
-    </form>
+      </ButtonsWrapper>
+    </FormWrapper>
   );
 };
 

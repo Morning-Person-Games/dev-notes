@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { css } from "@emotion/react";
 import { Solution } from "./Solution";
 import { TagString } from "./Tag";
 import styled from "@emotion/styled";
-import { theme } from "../../styles/globalStyles";
+import { staticSizes, baseTypes, mixins } from "../../styles/globalStyles";
 import {
   MdFullscreen,
   MdEditNote,
@@ -13,40 +12,36 @@ import {
 import { BsTagsFill } from "react-icons/bs";
 
 //styling
-const { primary, secondary, inactiveColor, highlight, shadow, highlightHover } =
-  theme.colors;
-const { sizes, baseTypes, colors } = theme;
 const Card = styled.li`
-  background-color: ${secondary};
-  border-radius: ${sizes.radius};
+  background-color: ${(props) => props.theme.colors.secondary};
+  border-radius: ${staticSizes.radius};
   padding: 0;
   margin-bottom: 0;
-  box-shadow: 0 3px 3px 0 ${shadow};
+  box-shadow: 0 3px 3px 0 ${(props) => props.theme.colors.shadow};
   flex-grow: 1;
   max-width: 100%;
-  @media screen and (min-width: ${sizes.screenMd}) {
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
     max-width: calc(50% - 5px);
   }
-  @media screen and (min-width: ${sizes.screenLg}) {
-    width: ${sizes.mdCol};
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenLg}) {
+    width: ${(props) => props.theme.sizes.mdCol};
   }
 `;
 const SolutionsList = styled.ul`
   margin: 0;
   padding: 0;
-  background-color: ${secondary};
+  background-color: ${(props) => props.theme.colors.secondary};
   list-style-type: none;
 `;
 const Actions = styled.div`
-  background-color: ${primary};
+  background-color: ${(props) => props.theme.colors.primary};
   display: flex;
   flex-wrap: none;
-  height: ${sizes.minHeight};
-  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
+  height: ${staticSizes.minHeight};
+  border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
 `;
-const alternateBtn = css`
-  ${baseTypes.clickable};
-  color: ${highlightHover};
+const AlternateBtn = styled.button`
+  color: ${(props) => props.theme.colors.highlightHover};
   margin: 0;
   padding: 0;
   border-radius: 0;
@@ -54,16 +49,18 @@ const alternateBtn = css`
   display: flex;
   justify-content: center;
   align-items: stretch;
-  font-size: ${sizes.font.fixedEm(sizes.font.h1n)};
+  font-size: ${mixins.fixedEm(staticSizes.font.h1n)};
+  position: relative;
   svg {
     height: 100%;
+    position: absolute;
   }
   &:hover {
-    color: ${highlight};
-    background-color: ${secondary};
+    color: ${(props) => props.theme.colors.highlight};
+    background-color: ${(props) => props.theme.colors.secondary};
   }
   &:disabled {
-    color: ${inactiveColor};
+    color: ${(props) => props.theme.colors.inactiveColor};
     background-color: transparent;
     cursor: default;
     svg {
@@ -71,40 +68,37 @@ const alternateBtn = css`
     }
   }
 `;
-const Expand = styled.button`
-  ${alternateBtn};
-  height: ${sizes.minHeight};
-  width: ${sizes.minHeight};
-  border-radius: 0 0 ${sizes.radius} 0;
+const Expand = styled(AlternateBtn)`
+  height: ${staticSizes.minHeight};
+  width: ${staticSizes.minHeight};
+  border-radius: 0 0 ${staticSizes.radius} 0;
   svg {
     margin-right: 1px;
   }
 `;
-const Edit = styled.a`
-  ${alternateBtn};
-  height: ${sizes.minHeight};
+const Edit = styled(AlternateBtn)`
+  height: ${staticSizes.minHeight};
   text-decoration: none;
-  width: ${sizes.minHeight};
+  width: ${staticSizes.minHeight};
   cursor: pointer;
-  border-radius: 0 0 0 ${sizes.radius};
+  border-radius: 0 0 0 ${staticSizes.radius};
   svg {
     margin-left: 2px;
   }
 `;
 
-const ReadMore = styled.button`
-  ${alternateBtn};
-  height: ${sizes.minHeight};
+const ReadMore = styled(AlternateBtn)`
+  height: ${staticSizes.minHeight};
   flex-grow: 1;
-  border: solid ${secondary};
+  border: solid ${(props) => props.theme.colors.secondary};
   border-width: 0 3px;
-  font-size: ${sizes.font.fixedEm(2.5)};
+  font-size: ${mixins.fixedEm(2.5)};
   padding: 0;
 `;
 const TopicHeader = styled.div`
   display: block;
-  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
-  background-color: ${primary};
+  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
+  background-color: ${(props) => props.theme.colors.primary};
   position: relative;
 `;
 const TopicTitle = styled.h2`
@@ -119,24 +113,24 @@ const TopicDate = styled.span`
   bottom: 0;
   right: 0;
   padding: 1px 2px 0 1px;
-  border-radius: 0 0 0 ${sizes.radius};
-  color: ${colors.placeholder};
-  background-color: ${colors.primary};
-  font-size: ${sizes.font.xs};
-  font-weight: 500;
+  border-radius: 0 0 0 ${staticSizes.radius};
+  color: ${(props) => props.theme.colors.placeholder};
+  background-color: ${(props) => props.theme.colors.primary};
+  font-size: ${staticSizes.font.xs};
+  font-weight: 600;
 `;
 
 const TagsDiv = styled.div`
-  ${baseTypes.tagsList};
-  background-color: ${colors.primary};
+  ${(props) => baseTypes.tagsList(props.theme)};
+  background-color: ${(props) => props.theme.colors.primary};
   padding: 2px 10px 10px 10px;
   gap: 5px;
   margin: 0;
   list-style-type: none;
-  color: ${colors.placeholder};
+  color: ${(props) => props.theme.colors.placeholder};
   svg {
     margin-top: 4px;
-    font-size: ${sizes.font.sm};
+    font-size: ${staticSizes.font.sm};
   }
 `;
 
@@ -200,7 +194,13 @@ function Topic({ topic, tags, spaceID, token }) {
         </SolutionsList>
       )}
       <Actions>
-        <Edit href={edit} target="_blank" rel="noreferrer" disabled={canEdit}>
+        <Edit
+          as="a"
+          href={edit}
+          target="_blank"
+          rel="noreferrer"
+          disabled={canEdit}
+        >
           <MdEditNote />
         </Edit>
         <ReadMore

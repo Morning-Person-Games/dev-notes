@@ -22,7 +22,7 @@ function useSettings() {
 
   const [settings, setSettings] = useState(getSettings());
 
-  const saveSettings = (theme, font, textSize) => {
+  const saveSettings = ({ theme, font, textSize }) => {
     const currentSettings = getSettings();
     const newSetting = {
       theme: theme ? theme : currentSettings.theme,

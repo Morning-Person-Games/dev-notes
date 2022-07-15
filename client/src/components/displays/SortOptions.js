@@ -5,11 +5,10 @@ import {
   BsSortDownAlt,
   BsSortUpAlt,
 } from "react-icons/bs";
-import { theme } from "../../styles/globalStyles";
+import { baseTypes, staticSizes } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 
 //styling
-const { baseTypes, sizes, colors } = theme;
 const Options = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -18,21 +17,26 @@ const Options = styled.div`
   width: 100%;
 `;
 const SortBtn = styled.button`
-  ${baseTypes.control};
+  width: 1.5em;
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${sizes.font.xxl};
+  font-size: ${staticSizes.font.xxl};
   padding: 0;
   background-color: ${(props) =>
-    props.active ? colors.highlight : colors.secondary};
-  color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
+    props.active ? props.theme.colors.highlight : props.theme.colors.secondary};
+  color: ${(props) =>
+    props.active ? props.theme.colors.white : props.theme.colors.inactiveColor};
   ${baseTypes.hover} {
     background-color: ${(props) =>
-      props.active ? colors.highlightHover : colors.primary};
+      props.active
+        ? props.theme.colors.highlightHover
+        : props.theme.colors.primary};
   }
-  width: 1.5em;
+  &:disabled {
+    background-color: ${(props) => props.theme.colors.inactiveColor};
+  }
 `;
 
 function SortOptions({

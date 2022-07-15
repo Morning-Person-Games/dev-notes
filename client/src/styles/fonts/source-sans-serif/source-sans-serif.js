@@ -26,7 +26,7 @@ const sourceserifFontFace = css`
   @font-face {
     font-family: "Source Serif Pro";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${s500w2}) format("woff2"), url(${s500}) format("woff");
   }
   @font-face {

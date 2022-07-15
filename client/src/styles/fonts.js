@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import andikaFontFace from "./fonts/andika/anidka";
 import interFontFace from "./fonts/inter/inter";
 import karlaFontFace from "./fonts/karla/karla";
@@ -154,13 +155,48 @@ function getFont(fontTitle) {
   return fonts.find((font) => font.fontName === fontTitle);
 }
 
-function getFontFamily(fontTitle) {
+const smooting =
+  "-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;";
+
+function getFontStyles(fontTitle) {
   const font = fonts.find((font) => font.fontName === fontTitle);
   if (!font) {
-    return "inherit";
+    return css`
+      html,
+      body {
+        font-family: ${systemStack};
+      }
+      * {
+        font-family: ${systemStack};
+        ${smooting};
+      }
+    `;
   }
   const fontStack = font.serifStack ? serifStack : systemStack;
-  return [font.fontID, fontStack].join(", ");
+  if (!font.fontID) {
+    return css`
+      html,
+      body {
+        font-family: ${fontStack};
+      }
+      * {
+        font-family: ${fontStack};
+        ${smooting};
+      }
+    `;
+  }
+  const fontFamily = [font.fontID, fontStack].join(", ");
+  return css`
+    ${font.fontFace && font.fontFace};
+    html,
+    body {
+      font-family: ${fontFamily};
+    }
+    * {
+      font-family: ${fontFamily};
+      ${smooting};
+    }
+  `;
 }
 
 function getAllFontFaces() {
@@ -240,4 +276,4 @@ function getFontOptions() {
   );
 }
 
-export { getFont, getFontFamily, getFontOptions, getAllFontFaces };
+export { getFont, getFontStyles, getFontOptions, getAllFontFaces };

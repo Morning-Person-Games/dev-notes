@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Global, css } from "@emotion/react";
-import { theme, mixins } from "../../styles/globalStyles";
+import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { Form, Field, Formik } from "formik";
-import slider from "../../styles/slider";
 import { SelectField } from "./SelectFields";
 import { getFont, getAllFontFaces, getFontOptions } from "../../styles/fonts";
 import { components } from "react-select";
 import { useSettings } from "../tools/useSettings";
+import { toast } from "react-toastify";
 
 const fontFaces = getAllFontFaces();
 const fontOptions = getFontOptions();
 
 //styling
-const { sizes, baseTypes, colors } = theme;
 const SettingsFormInit = ({ ...props }) => <Form {...props} />;
 const FieldInit = ({ ...props }) => <Field {...props} />;
 const SelectInit = ({ ...props }) => <SelectField {...props} />;
@@ -27,33 +26,94 @@ const FormWrapper = styled(SettingsFormInit)`
   width: 100%;
 `;
 
-const Label = styled.label`
-  ${baseTypes.label};
-  display: block;
-`;
-const Submit = styled.button`
-  ${baseTypes.button};
+const Submit = styled(baseTypes.DefaultBtn)`
   width: 100%;
   padding: 10px;
-  font-size: ${sizes.font.xl};
+  font-size: ${staticSizes.font.xl};
   margin: 10px 0;
 `;
-const HelperText = styled.div`
-  ${baseTypes.fieldHelperText};
+const HelperText = styled(baseTypes.FieldHelperText)`
   margin: 2px 0 10px 0;
 `;
+
 const Range = styled(FieldInit)`
-  ${baseTypes.modalField};
-  ${slider};
-  padding: 0;
-  background-color: transparent;
-  display: block;
-  &:hover {
+  &[type="range"] {
+    height: 39px;
+    -webkit-appearance: none;
+    margin: 0;
+    width: 100%;
+    padding: 0;
     background-color: transparent;
+    display: block;
+    &:hover {
+      background-color: transparent;
+    }
+    ${mixins.transition()};
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      border: 0;
+      background: ${(props) => props.theme.colors.primary};
+      ${mixins.transition()};
+      &:hover {
+        background-color: ${(props) => props.theme.colors.reverseFieldHover};
+      }
+    }
+    &::-webkit-slider-thumb {
+      height: 28px;
+      width: 28px;
+      border-radius: 30px;
+      border: 0;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -9.5px;
+      background-color: ${(props) => props.theme.colors.highlight};
+      ${mixins.transition()};
+      ${baseTypes.hover} {
+        box-shadow: 0px 0px 1px 3px ${(props) => props.theme.colors.background};
+        background-color: ${(props) => props.theme.colors.highlightHover};
+      }
+      &:focus::-webkit-slider-runnable-track {
+        background: ${(props) => props.theme.colors.primary};
+      }
+      &::-moz-range-track {
+        width: 100%;
+        height: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: 0;
+        background: ${(props) => props.theme.colors.primary};
+        ${mixins.transition()};
+        &:hover {
+          background-color: ${(props) => props.theme.colors.reverseFieldHover};
+        }
+      }
+      &::-moz-range-thumb {
+        height: 28px;
+        width: 28px;
+        border-radius: 30px;
+        border: 0;
+        cursor: pointer;
+        -webkit-appearance: none;
+        margin-top: -9.5px;
+        background-color: ${(props) => props.theme.colors.highlight};
+        ${mixins.transition()};
+        ${baseTypes.hover} {
+          box-shadow: 0px 0px 1px 3px
+            ${(props) => props.theme.colors.background};
+          background-color: ${(props) => props.theme.colors.highlightHover};
+        }
+      }
+    }
   }
 `;
 const RangeValue = styled.div`
-  max-width: ${sizes.mdCol};
+  max-width: ${(props) => props.theme.sizes.mdCol};
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -61,12 +121,15 @@ const RangeValue = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  margin: 10px 0;
-  //padding: 0 10px;
+  margin: 10px 0 15px 0;
   span {
     display: block;
-    color: ${(props) => (props.changed ? colors.white : colors.inactiveColor)};
-    font-size: ${sizes.font.md};
+    color: ${(props) =>
+      props.changed
+        ? props.theme.colors.white
+        : props.theme.colors.inactiveColor};
+    font-size: ${(props) =>
+      props.size ? props.size + "px" : staticSizes.font.md};
     position: absolute;
     text-align: center;
     left: ${(props) => props.percent};
@@ -76,37 +139,36 @@ const RangeValue = styled.div`
 `;
 
 const Select = styled(SelectInit)`
-  ${baseTypes.modalField};
   padding: 0;
   margin: 0 0 15px 0;
   .select__control {
-    border: 1px solid ${colors.background};
+    border: 1px solid ${(props) => props.theme.colors.background};
     ${baseTypes.hover} {
-      border: 1px solid ${colors.background};
+      border: 1px solid ${(props) => props.theme.colors.background};
     }
-    background-color: ${colors.primary};
-    border-radius: ${sizes.radius};
+    background-color: ${(props) => props.theme.colors.primary};
+    border-radius: ${staticSizes.radius};
     &:hover {
-      background-color: ${colors.reverseFieldHover};
+      background-color: ${(props) => props.theme.colors.reverseFieldHover};
     }
     &:hover:focus-within {
-      background-color: ${colors.reverseFieldHover};
+      background-color: ${(props) => props.theme.colors.reverseFieldHover};
     }
     .select__value-container .select__single-value {
       font-family: ${(props) => (props.font ? props.font : "inherit")};
     }
   }
   .select__menu {
-    border-radius: ${sizes.radius};
+    border-radius: ${staticSizes.radius};
     z-index: 3002;
     padding: 10px 0 6px;
     .select__menu-list .select__option {
       &.current {
-        color: ${colors.placeholder};
+        color: ${(props) => props.theme.colors.placeholder};
       }
       span {
         margin-left: 5px;
-        font-size: ${sizes.font.xs};
+        font-size: ${staticSizes.font.xs};
       }
     }
   }
@@ -114,19 +176,66 @@ const Select = styled(SelectInit)`
 const ThemeSelect = styled(Select)`
   margin: 0;
   .select__control {
-    ${(props) => props.background && props.background};
+    ${staticSizes.font.lg};
+    color: ${(props) => props.palette.white};
+    .select__value-container .select__single-value {
+      color: ${(props) =>
+        props.isCurrentTheme ? props.palette.placeholder : props.palette.white};
+    }
+    color: ${(props) => props.palette.white};
+    ${(props) =>
+      mixins.backgroundGradient(
+        props.palette.primary,
+        props.palette.secondary
+      )};
+    &.select__option--is-disabled {
+      // disabled means its the currentTheme
+      color: ${(props) => props.palette.placeholder};
+      cursor: default;
+      ${baseTypes.hover} {
+        &::before {
+          opacity: 0;
+        }
+      }
+    }
+    &.current {
+      color: ${(props) => props.palette.placeholder};
+    }
+    &::before {
+      ${mixins.transition("opacity", 250)};
+      position: absolute;
+      border-radius: ${staticSizes.radius};
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      opacity: 0;
+      z-index: -1;
+      content: "";
+      ${(props) =>
+        mixins.backgroundGradient(
+          props.palette.highlight,
+          props.palette.primary
+        )};
+    }
+    ${baseTypes.hover} {
+      &::before {
+        opacity: 1;
+      }
+    }
+    z-index: 1;
     cursor: pointer;
   }
   .select__menu {
-    border-radius: ${sizes.radius};
+    border-radius: ${staticSizes.radius};
     padding: 10px;
     .select__menu-list {
       ${(props) => props.previews && props.previews};
       .select__option {
         position: relative;
         z-index: 1;
-        border-radius: ${sizes.radius};
-        border: 1px solid ${colors.background};
+        border-radius: ${staticSizes.radius};
+        border: 1px solid ${(props) => props.theme.colors.background};
         &:not(:last-of-type) {
           margin-bottom: 10px;
         }
@@ -149,8 +258,8 @@ const fontStyles = {
 
 // not very variable friendly but ranges suck
 const leftPercent = (value) => {
-  const floatValue = (value - 8) / 16;
-  const adjust = 30 * floatValue;
+  const floatValue = (value - 12) / 16;
+  const adjust = value * 2 * floatValue;
   const percent = floatValue * 100;
   return "calc(" + percent + "% - " + adjust + "px)";
 };
@@ -174,24 +283,54 @@ const Option = ({ children, ...props }) => {
   );
 };
 
-const background = (palette, isCurrentTheme) => {
-  console.log("palette", palette);
-  return css`
-    color: ${palette.white};
-    .select__value-container .select__single-value {
-      color: ${isCurrentTheme ? palette.placeholder : palette.white};
-    }
-    ${mixins.preview(palette)};
-    z-index: 1;
-  `;
-};
+// const backgroundPreview = (palette, isCurrentTheme) => css`
+//   color: ${palette.white};
+//   .select__value-container .select__single-value {
+//     color: ${isCurrentTheme ? palette.placeholder : palette.white};
+//   }
+//   color: ${palette.white};
+//   ${mixins.backgroundGradient(palette.primary, palette.secondary)};
+//   &.select__option--is-disabled {
+//     // disabled means its the currentTheme
+//     color: ${palette.placeholder};
+//     cursor: default;
+//     ${baseTypes.hover} {
+//       &::before {
+//         opacity: 0;
+//       }
+//     }
+//   }
+//   &.current {
+//     color: ${palette.placeholder};
+//   }
+//   &::before {
+//     ${mixins.transition("opacity", 250)};
+//     position: absolute;
+//     border-radius: ${staticSizes.radius};
+//     top: 0;
+//     bottom: 0;
+//     right: 0;
+//     left: 0;
+//     opacity: 0;
+//     z-index: -1;
+//     content: "";
+//     ${mixins.backgroundGradient(palette.highlight, palette.primary)};
+//   }
+//   ${baseTypes.hover} {
+//     &::before {
+//       opacity: 1;
+//     }
+//   }
+//   z-index: 1;
+// `;
 
 const SettingsForm = (props) => {
   const { themesObject, spaceID } = props;
-  const { settings, setSettings } = useSettings();
-  const [themeBackground, setThemeBackground] = useState(
-    background(settings.theme, true)
-  );
+  const { settings, setSettings, applySettings } = useSettings();
+  const [background, setBackground] = useState({
+    palette: settings.theme,
+    isCurrentTheme: true,
+  });
   const [selectedFont, setSelectedFont] = useState("inherit");
   const themesListUrl = spaceID
     ? "https://app.contentful.com/spaces/" +
@@ -211,17 +350,41 @@ const SettingsForm = (props) => {
           font: settings.font,
           textSize: settings.textSize,
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { themesObject, setFade }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
+            const theme =
+              values.theme !== settings.theme.title
+                ? themesObject.themes.find((t) => t.title === values.theme)
+                : settings.theme;
+            setSettings(theme.theme, values.font, values.textSize);
+            const notifID = toast.loading("Applying new settings...");
+            setFade(300);
+            setTimeout(() => {
+              applySettings();
+            }, 300);
+            setTimeout(() => {
+              toast.update(notifID, {
+                render: "Have fun!",
+                type: "success",
+                isLoading: false,
+                autoClose: 3000,
+              });
+            }, 900);
+            //setSubmitting(false);
           }, 1000);
         }}
         validate={(values) => {
           const errors = {
-            theme: values.theme === settings.theme.title ? "No Changes" : "",
-            font: values.font === settings.font ? "No Changes" : "",
-            textSize: values.textSize === settings.textSize ? "No Changes" : "",
+            theme:
+              values.theme === settings.theme.title || !values.theme
+                ? "No Changes"
+                : "",
+            font:
+              values.font === settings.font || !values.font ? "No Changes" : "",
+            textSize:
+              values.textSize === settings.textSize || !values.textSize
+                ? "No Changes"
+                : "",
           };
           return errors;
         }}
@@ -231,16 +394,15 @@ const SettingsForm = (props) => {
       >
         {({ values, errors, setFieldValue, isSubmitting }) => (
           <FormWrapper>
-            <Label>Theme: </Label>
-            <ThemeSelect
+            <baseTypes.Label>Theme: </baseTypes.Label>
+            <baseTypes.ModalField
+              as={ThemeSelect}
               name="theme"
-              placeholder="Select a new theme..."
+              placeholder="Select a theme..."
               component={SelectField}
               previews={themesObject.previewStyles}
-              background={themeBackground}
-              // isOptionDisabled={(option) =>
-              //   option.value === settings.theme.title
-              // }
+              palette={background.palette}
+              isCurrentTheme={background.isCurrentTheme}
               getOptionLabel={(option) => {
                 if (option.label === settings.theme.title) {
                   option.isCurrent = true;
@@ -254,17 +416,17 @@ const SettingsForm = (props) => {
                   const aTheme = themesObject.themes.find(
                     (theme) => theme.title === e.value
                   );
-                  setThemeBackground(
-                    background(
-                      aTheme.theme,
-                      aTheme.theme.title === settings.theme.title
-                    )
-                  );
+                  setBackground({
+                    palette: aTheme.theme,
+                    isCurrentTheme: aTheme.theme.title === settings.theme.title,
+                  });
                   setFieldValue("theme", e.value);
                 } else {
-                  console.log("settings.theme", settings.theme);
-                  setThemeBackground(settings.theme, true);
-                  setFieldValue("theme", "");
+                  setBackground({
+                    palette: settings.theme,
+                    isCurrentTheme: true,
+                  });
+                  setFieldValue("theme", settings.theme.title);
                 }
               }}
               options={[
@@ -279,17 +441,15 @@ const SettingsForm = (props) => {
               </a>{" "}
               to make a custom theme.
             </HelperText>
-            <Label>Font: </Label>
-            <Select
+            <baseTypes.Label>Font: </baseTypes.Label>
+            <baseTypes.ModalField
+              as={Select}
               name="font"
-              placeholder="Type or select to pick a new font..."
+              placeholder="Type or select to pick a font..."
               component={SelectField}
               font={selectedFont}
               options={fontOptions}
               isSearchable={false}
-              // isOptionDisabled={(option) => {
-              //   return option.isdisabled || option.value === settings.font;
-              // }}
               getOptionLabel={(option) => {
                 if (option.label === settings.font) {
                   option.isCurrent = true;
@@ -307,28 +467,39 @@ const SettingsForm = (props) => {
                   setFieldValue("font", e.value);
                 } else {
                   setSelectedFont("inherit");
-                  setFieldValue("font", "");
+                  setFieldValue("font", settings.font);
                 }
               }}
             />
-            <Label>Base Text Size: </Label>
-            <Range name="textSize" type="range" min="8" max="24" />
+            <baseTypes.Label>Base Text Size: </baseTypes.Label>
+            <baseTypes.ModalField
+              as={Range}
+              name="textSize"
+              type="range"
+              min="12"
+              max="28"
+            />
             <RangeValue
               percent={leftPercent(values.textSize)}
               changed={errors.textSize ? 0 : 1}
+              size={values.textSize}
             >
               <span>{values.textSize + "px"}</span>
             </RangeValue>
             <Submit
               type="submit"
               disabled={
-                !isSubmitting ||
-                (!errors.theme && !errors.font && !errors.textSize)
+                isSubmitting ||
+                !errors.theme ||
+                !errors.font ||
+                !errors.textSize
                   ? 0
                   : 1
               }
             >
-              {errors !== {} ? "Make a Change to Save" : "Save Changes"}
+              {!errors.theme || !errors.font || !errors.textSize
+                ? "Save Changes"
+                : "Make a Change to Save"}
             </Submit>
           </FormWrapper>
         )}

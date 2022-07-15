@@ -1,9 +1,57 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import React, { Component } from "react";
+import styled from "@emotion/styled";
 import * as JsSearch from "js-search";
-import { Component } from "react";
-import { theme, mixins } from "../../styles/globalStyles";
+import { baseTypes, mixins, staticSizes } from "../../styles/globalStyles";
 import { MdSearch } from "react-icons/md";
+
+const Form = styled.form`
+  flex-grow: 1;
+  flex-basis: 100%;
+  ${mixins.transition()};
+  display: flex;
+  background: ${(props) => props.theme.colors.secondary};
+  border-radius: ${staticSizes.radius};
+  ${baseTypes.hover} {
+    background-color: ${(props) => props.theme.colors.primary};
+  }
+  &:hover:focus-within {
+    background-color: ${(props) => props.theme.colors.secondary};
+  }
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
+    flex-basis: auto;
+  }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+`;
+
+const Input = styled.input`
+  background: none;
+  border: 0;
+  border-radius: ${staticSizes.radius};
+  font-size: ${staticSizes.font.lg};
+  min-width: 12em;
+  flex-grow: 1;
+  padding: 10px 10px 10px 12px;
+  margin-left: 28px;
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
+    min-width: 13em;
+  }
+`;
+
+const IconInit = ({ className }) => <MdSearch className={className} />;
+
+const Icon = styled(IconInit)`
+  display: block;
+  position: absolute;
+  left: 8px;
+  font-size: ${staticSizes.font.xl};
+  color: ${(props) => props.theme.colors.white};
+`;
 
 class PrimarySearch extends Component {
   constructor(props) {
@@ -74,62 +122,16 @@ class PrimarySearch extends Component {
   render() {
     const { searchQuery } = this.state;
     return (
-      <form
-        css={css`
-          flex-grow: 1;
-          flex-basis: 100%;
-          ${mixins.transition()};
-          display: flex;
-          background: ${theme.colors.secondary};
-          border-radius: ${theme.sizes.radius};
-          ${theme.baseTypes.hover} {
-            background-color: ${theme.colors.primary};
-          }
-          &:hover:focus-within {
-            background-color: ${theme.colors.secondary};
-          }
-          @media screen and (min-width: ${theme.sizes.screenMd}) {
-            flex-basis: auto;
-          }
-        `}
-        onSubmit={this.handleSubmit}
-      >
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            width: 100%;
-            position: relative;
-          `}
-        >
-          <input
+      <Form onSubmit={this.handleSubmit}>
+        <Wrapper>
+          <Input
             value={searchQuery}
             onChange={this.searchData}
             placeholder="Search through topics and solutions..."
-            css={css`
-              ${theme.baseTypes.input};
-              background: none;
-              font-size: ${theme.sizes.font.lg};
-              min-width: 12em;
-              flex-grow: 1;
-              padding-left: 12px;
-              margin-left: 28px;
-              @media screen and (min-width: ${theme.sizes.screenMd}) {
-                min-width: 13em;
-              }
-            `}
           />
-          <MdSearch
-            css={css`
-              display: block;
-              position: absolute;
-              left: 8px;
-              font-size: ${theme.sizes.font.xl};
-              color: ${theme.colors.white};
-            `}
-          />
-        </div>
-      </form>
+          <Icon />
+        </Wrapper>
+      </Form>
     );
   }
 }

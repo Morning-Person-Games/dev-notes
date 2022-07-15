@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { theme, mixins } from "../../styles/globalStyles";
+import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { BsGearFill, BsPlusLg } from "react-icons/bs";
 import SettingsForm from "../forms/Settings";
 import CategoryEntryForm from "../forms/CategoryEntry";
 import { toast } from "react-toastify";
 
-const { baseTypes, colors, sizes } = theme;
 const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 10px;
@@ -31,41 +29,43 @@ const Button = styled.button`
   cursor: pointer;
   margin: 0;
   padding: 10px;
-  color: ${colors.white};
+  color: ${(props) => props.theme.colors.highlight};
   background: none;
+  border-radius: 0;
   border-style: solid;
   border-color: transparent;
   border-width: 0 0 3px 0;
   ${mixins.transition("border")};
-  ${theme.baseTypes.hover} {
+  ${baseTypes.hover} {
     &:enabled {
-      border-bottom-color: ${colors.highlight};
+      border-bottom-color: ${(props) => props.theme.colors.highlight};
     }
   }
   &:disabled {
     cursor: default;
-    border-bottom-color: ${colors.highlightHover};
+    border-bottom-color: ${(props) => props.theme.colors.highlightHover};
   }
 `;
 const H2 = styled.h2`
   margin: 0;
-  color: ${colors.highlightHover};
+  color: ${(props) => props.theme.colors.highlightHover};
 `;
-const svgBtn = css`
+
+const SvgBtn = styled.button`
   border: 0;
   cursor: pointer;
   background: none;
   padding: 0;
   display: flex;
-  background-color: ${colors.background};
-  box-shadow: -4px 0px 7px 3px ${colors.background};
+  background-color: ${(props) => props.theme.colors.background};
+  box-shadow: -4px 0px 7px 3px ${(props) => props.theme.colors.background};
   svg {
     ${mixins.transition()};
-    font-size: ${sizes.font.xl};
-    color: ${colors.highlight};
+    font-size: ${staticSizes.font.xl};
+    color: ${(props) => props.theme.colors.highlight};
     position: initial;
     ${baseTypes.hover} {
-      color: ${colors.highlightHover};
+      color: ${(props) => props.theme.colors.highlightHover};
     }
   }
 `;
@@ -77,16 +77,10 @@ const SettingsDiv = styled.div`
   padding: 0 0 0 5px;
   display: flex;
   align-items: center;
-  background-color: ${colors.background};
-  box-shadow: -4px 0px 7px 3px ${colors.background};
-  button {
-    ${svgBtn};
-  }
+  background-color: ${(props) => props.theme.colors.background};
+  box-shadow: -4px 0px 7px 3px ${(props) => props.theme.colors.background};
 `;
-const AddCategoryBtn = styled.button`
-  ${svgBtn};
-  margin-left: 10px;
-`;
+
 function CategoriesHeader({
   topics,
   setCurrentCategory,
@@ -97,7 +91,7 @@ function CategoriesHeader({
   spaceID,
   themesObject,
 }) {
-  const [fade, setFade] = useState(false);
+  const [fade, setFade] = useState(0);
   const activeCategory = currentCategory.category
     ? currentCategory.category
     : [];
@@ -123,7 +117,8 @@ function CategoriesHeader({
     if (token) {
       links.push(
         <Li key={"add"}>
-          <AddCategoryBtn
+          <SvgBtn
+            style={{ marginLeft: "10px" }}
             type="button"
             onClick={() =>
               setModalContent({
@@ -151,7 +146,7 @@ function CategoriesHeader({
             }
           >
             <BsPlusLg />
-          </AddCategoryBtn>
+          </SvgBtn>
         </Li>
       );
     }
@@ -159,9 +154,8 @@ function CategoriesHeader({
   return (
     <Wrapper>
       <Ul>{links}</Ul>
-
       <SettingsDiv>
-        <button
+        <SvgBtn
           type="button"
           onClick={() =>
             setModalContent({
@@ -178,7 +172,7 @@ function CategoriesHeader({
           }
         >
           <BsGearFill />
-        </button>
+        </SvgBtn>
       </SettingsDiv>
     </Wrapper>
   );

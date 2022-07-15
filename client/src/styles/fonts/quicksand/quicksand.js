@@ -10,7 +10,7 @@ const quicksandFontFace = css`
   @font-face {
     font-family: "Quicksand";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${q500w2}) format("woff2"), url(${q500}) format("woff");
   }
   @font-face {

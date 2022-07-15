@@ -26,7 +26,7 @@ const interFontFace = css`
   @font-face {
     font-family: "Inter";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     src: local(""), url(${i500w2}) format("woff2"), url(${i500}) format("woff");
   }
   @font-face {

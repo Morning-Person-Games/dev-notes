@@ -2,15 +2,14 @@
 import { useState, useEffect } from "react";
 import { Topic } from "./Topic";
 import styled from "@emotion/styled";
-import SortOptions from "../tools/SortOptions";
-import { theme } from "../../styles/globalStyles";
+import SortOptions from "./SortOptions";
+import { baseTypes, staticSizes } from "../../styles/globalStyles";
 import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
 import PrimarySearch from "../search/PrimarySearch";
 import { TagField } from "./Tag";
 //import Highlighter from "react-highlight-words";
 
 // styling
-const { baseTypes, sizes, colors } = theme;
 const Ul = styled.ul`
   display: flex;
   column-count: 2;
@@ -27,7 +26,7 @@ const Controls = styled.div`
   width: 100%;
   flex-flow: row wrap;
   gap: 10px;
-  @media screen and (min-width: ${sizes.screenLg}) {
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenLg}) {
     flex-wrap: ${(props) => (props.tagsvisible ? "wrap" : "nowrap")};
   }
   margin-bottom: 10px;
@@ -35,30 +34,31 @@ const Controls = styled.div`
 const SecondaryControls = styled.div`
   display: flex;
   flex-grow: 2;
-  @media screen and (min-width: ${sizes.screenMd}) {
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
     flex-grow: initial;
   }
 `;
 const TagsToggle = styled.button`
-  ${baseTypes.clickable};
   position: relative;
-  font-size: ${sizes.font.lg};
+  font-size: ${staticSizes.font.lg};
   padding: 10px;
   padding-right: 2em;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   flex-grow: 3;
-  @media screen and (min-width: ${sizes.screenMd}) {
+  @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
     flex-grow: initial;
     order: -1;
   }
-  color: ${(props) => (props.active ? colors.white : colors.inactiveColor)};
-  background-color: ${colors.secondary};
+  color: ${(props) =>
+    props.active ? props.theme.colors.white : props.theme.colors.inactiveColor};
+  background-color: ${(props) => props.theme.colors.secondary};
   &:hover {
-    background-color: ${colors.primary};
+    background-color: ${(props) => props.theme.colors.primary};
   }
   svg {
+    position: absolute;
     right: 0.6em;
   }
 `;

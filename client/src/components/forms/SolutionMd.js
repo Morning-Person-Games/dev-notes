@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
+import gfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
-import { theme, mixins } from "../../styles/globalStyles";
+import { mixins, staticSizes } from "../../styles/globalStyles";
 import {
   BsTypeH2,
   BsTypeH3,
@@ -80,58 +81,55 @@ commands.fullscreen.execute = function execute(
 };
 
 //styling
-const { colors, sizes } = theme;
-const mainHeight = sizes.font.baseSize * 1.5 * 8;
-const toolbarHeight = sizes.font.baseSize * 2;
-
-const editor = css`
-  --color-canvas-default: ${colors.secondary};
+const editor = (theme) => css`
+  --color-canvas-default: ${theme.colors.secondary};
   --color-border-default: transparent;
-  --color-fg-default: ${colors.white};
-  --color-accent-fg: ${colors.link};
-  --color-neutral-muted: ${colors.secondary};
+  --color-fg-default: ${theme.colors.white};
+  --color-accent-fg: ${theme.colors.link};
+  --color-neutral-muted: ${theme.colors.secondary};
   width: 100%;
   border-radius: 0;
   border: 0;
   font-size: 1rem;
+  font-family: inherit;
   div {
-    --color-border-default: ${colors.primary};
+    --color-border-default: ${theme.colors.primary};
   }
   .wmde-markdown {
-    --color-canvas-default: ${colors.shadow};
+    --color-canvas-default: ${theme.colors.shadow};
     --color-border-default: transparent;
-    --color-accent-fg: ${colors.link};
-    --color-neutral-muted: ${colors.secondary};
+    --color-accent-fg: ${theme.colors.link};
+    --color-neutral-muted: ${theme.colors.secondary};
     border-radius: 0;
   }
   .w-md-editor-input {
     ${mixins.transition("background-color", 150)};
     border-radius: 0;
     &:hover {
-      background-color: ${colors.fieldHover};
+      background-color: ${theme.colors.fieldHover};
     }
     &:hover:focus-within {
-      background-color: ${colors.secondary};
+      background-color: ${theme.colors.secondary};
     }
   }
   .w-md-editor-show-edit {
     .w-md-editor-toolbar-divider {
-      background-color: ${colors.secondary};
+      background-color: ${theme.colors.secondary};
     }
   }
   .w-md-editor-toolbar {
     padding: 7px 5px 5px 10px;
     border-radius: 0;
     border: 0;
-    background-color: ${colors.primary};
+    background-color: ${theme.colors.primary};
     svg {
-      font-size: ${sizes.font.h3n}rem;
+      font-size: ${staticSizes.font.h3n}rem;
       margin-bottom: -4px;
     }
     button {
-      font-weight: 500;
+      font-weight: 600;
       ${mixins.transition()};
-      font-size: ${sizes.font.h5n}rem;
+      font-size: ${staticSizes.font.h5n}rem;
       padding: 0 3px;
       height: auto;
       line-height: inherit;
@@ -141,7 +139,7 @@ const editor = css`
     }
     .active {
       button {
-        color: ${colors.placeholder};
+        color: ${theme.colors.placeholder};
         background-color: transparent;
         &:hover {
           cursor: default;
@@ -150,7 +148,7 @@ const editor = css`
       }
     }
     .w-md-editor-toolbar-divider {
-      background-color: ${colors.inactiveColor};
+      background-color: ${theme.colors.inactiveColor};
       margin-top: -1px !important;
     }
     ul:last-child {
@@ -160,16 +158,16 @@ const editor = css`
         padding: 0 3px;
         margin: 0;
         background-color: transparent;
-        color: ${colors.white};
+        color: ${theme.colors.white};
         &:hover {
           background-color: transparent;
-          color: ${colors.link};
+          color: ${theme.colors.link};
         }
       }
       li {
         &.active {
           button {
-            color: ${colors.linkHover};
+            color: ${theme.colors.linkHover};
             background-color: transparent;
             &:hover {
               background-color: transparent;
@@ -178,28 +176,28 @@ const editor = css`
         }
         &:last-child {
           button {
-            font-size: ${sizes.font.sm};
-            color: ${colors.white};
+            font-size: ${staticSizes.font.sm};
+            color: ${theme.colors.white};
             &:hover {
-              color: ${colors.link};
+              color: ${theme.colors.link};
             }
             svg {
-              font-size: ${sizes.font.xl};
+              font-size: ${staticSizes.font.xl};
             }
           }
           &.active {
             button {
               background-color: transparent;
-              color: ${colors.white};
+              color: ${theme.colors.white};
               &:hover {
-                color: ${colors.link};
+                color: ${theme.colors.link};
               }
             }
           }
         }
       }
 
-      @media screen and (min-width: ${sizes.screenMd}) {
+      @media screen and (min-width: ${theme.sizes.screenMd}) {
         display: block;
       }
     }
@@ -208,7 +206,7 @@ const editor = css`
   pre {
     border: 0;
     &::placeholder {
-      color: ${colors.placeholder};
+      color: ${theme.colors.placeholder};
     }
   }
   .w-md-editor-text {
@@ -218,10 +216,12 @@ const editor = css`
 
 function SolutionMd(props) {
   const { type, name, handleChange, handleBlur, value } = props;
-
+  const theme = useTheme();
+  const mainHeight = theme.sizes.baseFontSize * 1.5 * 8;
+  const toolbarHeight = theme.sizes.baseFontSize * 2;
   return (
     <MDEditor
-      css={editor}
+      css={(theme) => editor(theme)}
       preview={"edit"}
       visibleDragbar={false}
       height={mainHeight}
@@ -239,6 +239,7 @@ function SolutionMd(props) {
       value={value}
       previewOptions={{
         rehypePlugins: [[rehypeSanitize]],
+        remarkPlugins: [[gfm]],
       }}
       commands={commandList}
       extraCommands={extraCommands}

@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { theme, mixins } from "../../styles/globalStyles";
-
-const { colors, sizes, baseTypes } = theme;
+import { staticSizes, baseTypes, mixins } from "../../styles/globalStyles";
 
 const ModalDiv = styled.div`
   position: fixed;
@@ -10,8 +8,9 @@ const ModalDiv = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
-  ${mixins.transition("all", 200)}
-  background: rgba(0, 0, 0, 0.5);
+  ${mixins.transition("all", (props) => (props.fade ? props.fade : 300))}
+  background: rgba(0, 0, 0, ${(props) =>
+    props.transparency ? props.transparency : 0.5});
   z-index: 3000;
 `;
 
@@ -24,16 +23,17 @@ const CloseOnClick = styled.div`
 `;
 
 const Main = styled.section`
+  ${(props) => (props.fade && props.fade > 0 ? "none" : "block")};
   position: relative;
   width: 95%;
-  max-width: calc(${sizes.mdCol} + 40px);
+  max-width: calc(${(props) => props.theme.sizes.mdCol} + 40px);
   height: auto;
   top: 30px;
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 3001;
   border: 0;
-  border-radius: ${sizes.radius};
+  border-radius: ${staticSizes.radius};
 `;
 
 const Header = styled.div`
@@ -42,28 +42,27 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 0 10px;
   border: 0;
-  border-radius: ${sizes.radius} ${sizes.radius} 0 0;
-  background-color: ${colors.primary};
+  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
+  background-color: ${(props) => props.theme.colors.primary};
 `;
 
 const Escape = styled.button`
-  ${baseTypes.button};
   padding: 10px;
-  font-size: ${sizes.font.xl};
+  font-size: ${staticSizes.font.xl};
   background: none;
-  color: ${colors.white};
+  color: ${(props) => props.theme.colors.white};
   ${baseTypes.hover} {
     background: none;
-    color: ${colors.highlightHover};
+    color: ${(props) => props.theme.colors.highlightHover};
   }
 `;
 
 const Body = styled.div`
   position: relative;
   padding: 10px 20px;
-  background-color: ${colors.secondary};
+  background-color: ${(props) => props.theme.colors.secondary};
   border: 0;
-  border-radius: 0 0 ${sizes.radius} ${sizes.radius};
+  border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
 `;
 
 const Title = styled.h2`
@@ -73,31 +72,41 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-function Modal({ modalContent, setModalContent, fade }) {
+function Modal({ modalContent, setModalContent }) {
+  const [transparency, setTransparency] = useState(0.5);
+  const fade = modalContent && modalContent.fade ? modalContent.fade : "0";
   useEffect(() => {
     if (modalContent !== null) {
       const close = (e) => {
-        if (e.key === "Escape") {
+        if (e.key === "Escape" && !fade) {
           setModalContent(null);
         }
       };
       window.addEventListener("keydown", close);
       return () => window.removeEventListener("keydown", close);
     }
-  }, [modalContent, setModalContent]);
+  }, [modalContent, setModalContent, fade]);
 
   useEffect(() => {
-    if (fade === true) {
+    if (fade) {
+      setTimeout(() => {
+        setTransparency(0);
+      }, fade * 2);
+      setTimeout(() => {
+        setModalContent(null);
+      }, fade * 3 - 1);
     }
-  }, [fade]);
+  }, [fade, setModalContent]);
+
+  //console.log("modalContent.fade", fade);
 
   if (modalContent === null) {
     return;
   }
   return (
-    <ModalDiv id="Modal">
+    <ModalDiv transparency={transparency} fade={fade} id="Modal">
       <CloseOnClick onClick={() => setModalContent(null)} />
-      <Main style={{ display: fade ? "none" : "block" }}>
+      <Main fade={fade}>
         <Header>
           <Title>{modalContent.title}</Title>
           <Escape

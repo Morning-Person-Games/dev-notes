@@ -2,16 +2,11 @@ import React from "react";
 import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
-import { theme } from "../../styles/globalStyles";
-import defaultColors from "../../styles/defaultColors";
+import { baseTypes, staticSizes } from "../../styles/globalStyles";
 import createNewCategory from "../tools/categoryManagement";
-
-const { baseTypes, sizes } = theme;
-const colors = defaultColors;
 
 //styling
 const CategoryFormInit = ({ ...props }) => <Form {...props} />;
-const FieldInit = ({ ...props }) => <Field {...props} />;
 
 const CategoryForm = styled(CategoryFormInit)`
   flex-basis: 100%;
@@ -22,42 +17,34 @@ const CategoryForm = styled(CategoryFormInit)`
   margin-bottom: 20px;
 `;
 
-const CategoryField = styled(FieldInit)`
-  ${baseTypes.modalField};
-  &:placeholder-shown {
-    text-overflow: ellipsis;
-  }
-`;
-
-const Label = styled.label`
-  ${baseTypes.label}
+const Label = styled(baseTypes.Label)`
   text-align: left;
 `;
-const InfoAndErrorDiv = styled.div`
-  ${baseTypes.fieldHelperText};
+const InfoAndErrorDiv = styled(baseTypes.FieldHelperText)`
   margin: 5px 0 10px 0;
-  color: ${(props) => (props.error ? colors.error : colors.placeholder)};
+  color: ${(props) =>
+    props.error ? props.theme.colors.error : props.theme.colors.placeholder};
 `;
 
 const VisibilityButtons = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  max-width: ${sizes.mdCol};
+  max-width: ${(props) => props.theme.sizes.mdCol};
   width: 100%;
   button {
     flex-basis: 50%;
     width: 100%;
     padding: 10px;
-    font-size: ${sizes.font.lg};
+    font-size: ${staticSizes.font.lg};
     font-weight: 700;
-    color: ${colors.inactiveColor};
-    background-color: ${colors.primary};
+    color: ${(props) => props.theme.colors.inactiveColor};
+    background-color: ${(props) => props.theme.colors.primary};
     ${baseTypes.hover} {
-      background-color: ${colors.highlight};
+      background-color: ${(props) => props.theme.colors.highlight};
     }
     &:disabled {
-      background-color: ${colors.highlightHover};
-      color: ${colors.white};
+      background-color: ${(props) => props.theme.colors.highlightHover};
+      color: ${(props) => props.theme.colors.white};
       cursor: default;
     }
   }
@@ -66,50 +53,46 @@ const VisibilityButtons = styled.div`
 const WeightWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  max-width: ${sizes.mdCol};
+  max-width: ${(props) => props.theme.sizes.mdCol};
   width: 100%;
   button {
-    min-height: ${sizes.font.lg};
-    font-size: ${sizes.font.md};
-    @media screen and (min-width: ${sizes.mdCol}) {
-      font-size: ${sizes.font.lg};
+    min-height: ${staticSizes.font.lg};
+    font-size: ${staticSizes.font.md};
+    @media screen and (min-width: ${(props) => props.theme.sizes.mdCol}) {
+      font-size: ${staticSizes.font.lg};
     }
     width: 100%;
     padding: 10px 0;
     justify-content: space-evenly;
-    color: ${colors.inactiveColor};
-    background-color: ${colors.primary};
+    color: ${(props) => props.theme.colors.inactiveColor};
+    background-color: ${(props) => props.theme.colors.primary};
     ${baseTypes.hover} {
-      background-color: ${colors.highlight};
+      background-color: ${(props) => props.theme.colors.highlight};
     }
     &:disabled {
-      background-color: ${colors.highlightHover};
-      color: ${colors.white};
+      background-color: ${(props) => props.theme.colors.highlightHover};
+      color: ${(props) => props.theme.colors.white};
       cursor: default;
     }
   }
 `;
 
-const Submit = styled.button`
-  ${baseTypes.button};
-  max-width: ${sizes.mdCol};
+const Submit = styled(baseTypes.DefaultBtn)`
+  max-width: ${(props) => props.theme.sizes.mdCol};
   width: 100%;
   padding: 10px;
-  font-size: ${sizes.font.xl};
+  font-size: ${staticSizes.font.xl};
   margin-top: 10px;
 `;
 
 const LeftBtn = styled.button`
-  ${baseTypes.clickable};
-  border-radius: ${sizes.radius} 0 0 ${sizes.radius};
+  border-radius: ${staticSizes.radius} 0 0 ${staticSizes.radius};
 `;
 const CenterBtn = styled.button`
-  ${baseTypes.clickable};
   border-radius: 0;
 `;
 const RightBtn = styled.button`
-  ${baseTypes.clickable};
-  border-radius: 0 ${sizes.radius} ${sizes.radius} 0;
+  border-radius: 0 ${staticSizes.radius} ${staticSizes.radius} 0;
 `;
 
 const WeightButtons = ({ setFieldValue, currentValue }) => {
@@ -206,7 +189,8 @@ function CategoryEntryForm({ token, callback, spaceID }) {
       {({ values, touched, errors, setFieldValue, isSubmitting }) => (
         <CategoryForm>
           <Label htmlFor="category">Title:</Label>
-          <CategoryField
+          <baseTypes.ModalField
+            as={Field}
             type="text"
             name="category"
             placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" ...'

@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect } from "react";
-import { Topic } from "./Topic";
+import Topic from "./Topic";
 import styled from "@emotion/styled";
 import SortOptions from "./SortOptions";
-import { baseTypes, staticSizes } from "../../styles/globalStyles";
+import { staticSizes, mixins } from "../../styles/globalStyles";
 import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
-import PrimarySearch from "../search/PrimarySearch";
+import PrimarySearch from "../forms/PrimarySearch";
 import { TagField } from "./Tag";
 //import Highlighter from "react-highlight-words";
 
@@ -13,13 +13,14 @@ import { TagField } from "./Tag";
 const Ul = styled.ul`
   display: flex;
   column-count: 2;
-  gap: 10px;
+  gap: ${(props) => (!props.topicFocused ? "10px" : 0)};
   flex-flow: row wrap;
   align-items: flex-start;
   justify-content: flex-start;
   list-style-type: none;
   padding: 0;
   margin: 0;
+  transition: all 300ms ease-in-out;
 `;
 const Controls = styled.div`
   display: flex;
@@ -29,7 +30,11 @@ const Controls = styled.div`
   @media screen and (min-width: ${(props) => props.theme.sizes.screenLg}) {
     flex-wrap: ${(props) => (props.tagsvisible ? "wrap" : "nowrap")};
   }
-  margin-bottom: 10px;
+  margin-bottom: ${(props) => (props.topicFocused ? "0px" : "10px")};
+  ${mixins.transition("all", 280)};
+  opacity: ${(props) => (props.topicFocused ? 0 : 1)};
+  height: auto;
+  height: ${(props) => props.topicFocused && 0};
 `;
 const SecondaryControls = styled.div`
   display: flex;
@@ -42,10 +47,10 @@ const TagsToggle = styled.button`
   position: relative;
   font-size: ${staticSizes.font.lg};
   padding: 10px;
-  padding-right: 2em;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: center;
   flex-grow: 3;
   @media screen and (min-width: ${(props) => props.theme.sizes.screenMd}) {
     flex-grow: initial;
@@ -58,14 +63,23 @@ const TagsToggle = styled.button`
     background-color: ${(props) => props.theme.colors.primary};
   }
   svg {
-    position: absolute;
-    right: 0.6em;
+    margin-left: 5px;
+    margin-top: 2px;
   }
 `;
 const TagsUl = styled.ul`
-  ${baseTypes.tagsList};
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 10px;
+  flex-basis: 100%;
   margin: 0;
   padding: 0;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  position: relative;
+  transition: all 300ms ease-in-out;
 `;
 
 function GetTopicsList(
@@ -74,7 +88,10 @@ function GetTopicsList(
   tags,
   spaceID,
   token,
-  loading
+  topicFocused,
+  setTopicFocused,
+  delay,
+  setDelay
 ) {
   if (queryResult && queryResult.length > 0) {
     const filteredTopics = queryResult.slice();
@@ -92,21 +109,30 @@ function GetTopicsList(
       return taggedTopics.map((topic) => (
         <Topic
           key={topic.id}
+          id={topic.id}
           topic={topic}
           tags={tags}
           spaceID={spaceID}
           token={token}
-          loading={loading}
+          topicFocused={topicFocused}
+          setTopicFocused={setTopicFocused}
+          delay={delay}
+          setDelay={setDelay}
         />
       ));
     }
     return queryResult.map((topic) => (
       <Topic
         key={topic.id}
+        id={topic.id}
         topic={topic}
         tags={tags}
         spaceID={spaceID}
         token={token}
+        topicFocused={topicFocused}
+        setTopicFocused={setTopicFocused}
+        delay={delay}
+        setDelay={setDelay}
       />
     ));
   } else {
@@ -114,7 +140,7 @@ function GetTopicsList(
   }
 }
 
-function TopicsView(props) {
+function Topics(props) {
   const { currentTopics, loading, tags, spaceID, token } = props;
   const [sortedTopics, setSortedTopics] = useState(currentTopics);
   const [queryResult, setQueryResult] = useState([]);
@@ -123,6 +149,8 @@ function TopicsView(props) {
   const [activeTagFilters, setActiveTagFilters] = useState([]);
   const [tagsVisible, setTagsVisible] = useState(false);
   const [sorting, setSorting] = useState(false);
+  const [topicFocused, setTopicFocused] = useState(false);
+  const [delay, setDelay] = useState(false);
   const [whichSort, setWhichSort] = useState({
     type: "date",
     previous: "date",
@@ -135,11 +163,30 @@ function TopicsView(props) {
       setSortedTopics(queryResult);
       if (queryResult !== null) {
         setTopicsList(
-          GetTopicsList(queryResult, activeTagFilters, tags, spaceID, token)
+          GetTopicsList(
+            queryResult,
+            activeTagFilters,
+            tags,
+            spaceID,
+            token,
+            topicFocused,
+            setTopicFocused,
+            delay,
+            setDelay
+          )
         );
       }
     }
-  }, [queryResult, tags, spaceID, token, activeTagFilters, loading]);
+  }, [
+    queryResult,
+    tags,
+    spaceID,
+    token,
+    activeTagFilters,
+    loading,
+    topicFocused,
+    delay,
+  ]);
 
   useEffect(() => {
     if (!loading) {
@@ -189,8 +236,8 @@ function TopicsView(props) {
   const emptySearch = <p>No topics or solutions found in current category.</p>;
   const TagIcon = !tagsVisible ? <BsEyeSlashFill /> : <BsEyeFill />;
   return (
-    <div>
-      <Controls tagsvisible={tagsVisible ? 1 : 0}>
+    <Wrapper id="Notes">
+      <Controls topicFocused={topicFocused} tagsvisible={tagsVisible ? 1 : 0}>
         <PrimarySearch topics={currentTopics} setQueryResult={setQueryResult} />
         <TagsToggle
           type="button"
@@ -212,8 +259,8 @@ function TopicsView(props) {
         {tagsVisible && tagsList.length > 0 && <TagsUl>{tagsList}</TagsUl>}
       </Controls>
       {topicsList.length > 0 ? <Ul>{topicsList}</Ul> : <h3>{emptySearch}</h3>}
-    </div>
+    </Wrapper>
   );
 }
 
-export default TopicsView;
+export default Topics;

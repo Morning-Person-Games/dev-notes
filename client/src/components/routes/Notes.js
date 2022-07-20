@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import TopicForm from "../forms/TopicEntry";
-import TopicsView from "../displays/TopicsView";
+import Topics from "../displays/Topics";
 import CategoriesHeader from "../displays/Categories";
 import Startup from "../displays/Startup";
 import Modal from "../displays/Modal";
 import styled from "@emotion/styled";
-import { baseTypes } from "../../styles/globalStyles";
-// import { Global, css } from "@emotion/react";
+import { baseTypes, staticSizes } from "../../styles/globalStyles";
 
-// styling
+// #region styling
 const TopicSection = styled.div`
   display: block;
 `;
@@ -20,6 +19,7 @@ const LoginButton = styled(baseTypes.DefaultBtn)`
   padding: 8px 0;
   text-align: center;
   text-decoration: none;
+  border-radius: ${staticSizes.radius};
   color: ${(props) => props.theme.colors.white};
   ${baseTypes.hover} {
     color: ${(props) => props.theme.colors.white};
@@ -32,6 +32,7 @@ const LoginButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+// #endregion
 
 function Notes(props) {
   const [fade, setFade] = useState(false);
@@ -49,6 +50,7 @@ function Notes(props) {
     loading,
     setLoading,
     themesObject,
+    solutions,
   } = props;
 
   useEffect(() => {
@@ -59,9 +61,8 @@ function Notes(props) {
       }, 2600);
     }
   }, [startupOn]);
-
-  //<Global styles={fontStyles} />
   const showStart = startupOn || !props.topics || props.topics.length === 0;
+
   return (
     <>
       <Modal modalContent={modalContent} setModalContent={setModalContent} />
@@ -91,6 +92,7 @@ function Notes(props) {
             token={token}
             currentCategory={currentCategory}
             tags={tags}
+            solutions={solutions}
             setTopics={setTopics}
             addToContentList={addToContentList}
             spaceID={spaceID}
@@ -103,7 +105,7 @@ function Notes(props) {
           </LoginButtonWrapper>
         )}
         <TopicSection>
-          <TopicsView
+          <Topics
             currentTopics={currentCategory.topics}
             tags={tags}
             spaceID={spaceID}

@@ -283,47 +283,6 @@ const Option = ({ children, ...props }) => {
   );
 };
 
-// const backgroundPreview = (palette, isCurrentTheme) => css`
-//   color: ${palette.white};
-//   .select__value-container .select__single-value {
-//     color: ${isCurrentTheme ? palette.placeholder : palette.white};
-//   }
-//   color: ${palette.white};
-//   ${mixins.backgroundGradient(palette.primary, palette.secondary)};
-//   &.select__option--is-disabled {
-//     // disabled means its the currentTheme
-//     color: ${palette.placeholder};
-//     cursor: default;
-//     ${baseTypes.hover} {
-//       &::before {
-//         opacity: 0;
-//       }
-//     }
-//   }
-//   &.current {
-//     color: ${palette.placeholder};
-//   }
-//   &::before {
-//     ${mixins.transition("opacity", 250)};
-//     position: absolute;
-//     border-radius: ${staticSizes.radius};
-//     top: 0;
-//     bottom: 0;
-//     right: 0;
-//     left: 0;
-//     opacity: 0;
-//     z-index: -1;
-//     content: "";
-//     ${mixins.backgroundGradient(palette.highlight, palette.primary)};
-//   }
-//   ${baseTypes.hover} {
-//     &::before {
-//       opacity: 1;
-//     }
-//   }
-//   z-index: 1;
-// `;
-
 const SettingsForm = (props) => {
   const { themesObject, spaceID } = props;
   const { settings, setSettings, applySettings } = useSettings();
@@ -399,7 +358,7 @@ const SettingsForm = (props) => {
               as={ThemeSelect}
               name="theme"
               placeholder="Select a theme..."
-              component={SelectField}
+              //component={SelectField}
               previews={themesObject.previewStyles}
               palette={background.palette}
               isCurrentTheme={background.isCurrentTheme}
@@ -446,7 +405,7 @@ const SettingsForm = (props) => {
               as={Select}
               name="font"
               placeholder="Type or select to pick a font..."
-              component={SelectField}
+              //component={SelectField}
               font={selectedFont}
               options={fontOptions}
               isSearchable={false}

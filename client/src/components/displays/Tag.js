@@ -24,7 +24,7 @@ const Button = styled.button`
   }
 `;
 const TagP = styled.p`
-  font-size: ${staticSizes.font.sm};
+  //font-size: ${staticSizes.font.sm};
   padding: 0 5px 0 0;
   margin: 0;
   color: ${(props) => props.theme.colors.placeholder};

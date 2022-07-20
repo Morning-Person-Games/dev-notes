@@ -9,14 +9,20 @@ import remarkUnwrapImages from "remark-unwrap-images";
 import { useTheme } from "@emotion/react";
 import { transparentize } from "polished";
 
-//styling
+// BsFillStickiesFill
+//BsBack
+//BsFiles
+//BsFront
+//BsUnion
+
+// #region styling
 const minLines = 2;
 // line height + default padding:
 const defaultLineHeight = (baseSize) => baseSize * 1.5 + 10;
 const defaultMaxHeight = (baseSize) => defaultLineHeight(baseSize) * 6;
 const Li = styled.li`
   margin: 0;
-  padding: 0 0 14px 0;
+  padding: ${(props) => (props.fullscreen ? "0 20px 14px 20px" : "0 0 14px 0")};
   margin-bottom: 0;
   max-width: 100%;
   display: -webkit-box;
@@ -26,9 +32,11 @@ const Li = styled.li`
     props.overflow
       ? "6.5em"
       : defaultLineHeight(props.theme.baseFontSize) + "px"};
-  max-height: ${(props) => (!props.expanded ? "12em" : "max-content")};
+  max-height: ${(props) =>
+    !props.expanded && !props.fullscreen ? "12em" : "max-content"};
   ${(props) =>
     props.eliped &&
+    !props.fullscreen &&
     `overflow: hidden; 
   text-overflow: ellipsis; 
   -webkit-box-orient: vertical;
@@ -59,7 +67,10 @@ const Li = styled.li`
     font-weight: 700;
     ${staticSizes.rtPadding};
   }
-
+  img {
+    padding-top: 10px;
+    width: 100%;
+  }
   a.anchor {
     margin-left: -27px;
   }
@@ -77,7 +88,10 @@ const Li = styled.li`
     border: none;
     height: 3px;
     margin: 1em 0;
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) =>
+      props.fullscreen
+        ? props.theme.colors.secondary
+        : props.theme.colors.primary};
   }
   code {
     background-color: ${(props) => props.theme.colors.codeLine};
@@ -104,9 +118,6 @@ const Li = styled.li`
     overflow-wrap: anywhere;
     ${mixins.transition()};
     color: ${(props) => props.theme.colors.link};
-    &:link {
-      color: ${(props) => props.theme.colors.link};
-    }
     &:visited {
       color: ${(props) => props.theme.colors.link};
     }
@@ -116,12 +127,16 @@ const Li = styled.li`
   }
   &:not(:last-child) {
     padding-bottom: 10px;
-    border-bottom: 2px solid ${(props) => props.theme.colors.primary};
+    border-bottom: 2px solid
+      ${(props) =>
+        props.fullscreen
+          ? props.theme.colors.secondary
+          : props.theme.colors.primary};
   }
 `;
 
 const Cover = styled.div`
-  display: block;
+  display: ${(props) => props.fullscreen};
   position: absolute;
   background-color: ${(props) => props.theme.colors.secondary};
   width: 100%;
@@ -139,7 +154,17 @@ const ErrorP = styled.p`
   color: ${(props) => props.theme.colors.inactiveColor};
 `;
 
-function Solution({ solution, expanded, setCanExpand, solutionCount, edit }) {
+// #endregion
+
+function Solution({
+  solution,
+  expanded,
+  setCanExpand,
+  solutionCount,
+  edit,
+  fullscreen,
+}) {
+  // #region vars
   const ref = useRef();
   const overflow = useIsOverflow(ref);
   const theme = useTheme();
@@ -161,10 +186,11 @@ function Solution({ solution, expanded, setCanExpand, solutionCount, edit }) {
       : false;
   const lines = pickyTooTall ? 5 : 6;
   const eliped = expanded ? 0 : 1;
+  // #endregion
 
   if (!solution.description || solution.description.length === 0) {
     return (
-      <Li>
+      <Li fullscreen={fullscreen}>
         <div style={{ width: "100%" }}>
           <ErrorP>
             This topic currently has no solutions, add a solution{" "}
@@ -186,16 +212,19 @@ function Solution({ solution, expanded, setCanExpand, solutionCount, edit }) {
       overflow={overflow ? 1 : 0}
       lines={lines}
       solutionCount={solutionCount}
+      fullscreen={fullscreen}
     >
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", display: "block" }}>
         <ReactMarkdown
           children={solution.description}
           remarkPlugins={[gfm, remarkImages, remarkUnwrapImages]}
         />
       </div>
-      <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
+      {!fullscreen && (
+        <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
+      )}
     </Li>
   );
 }
 
-export { Solution };
+export default Solution;

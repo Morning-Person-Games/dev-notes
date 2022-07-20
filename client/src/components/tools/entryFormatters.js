@@ -7,14 +7,20 @@ async function FormattedTopicEntry(values) {
       description: values.solution,
     });
   }
+  // sys: {
+  //   type: "Link",
+  //   linkType: "Tag",
+  //   id: tag.sys.id,
+  // }
   const tags = formatTagsFromValues(values.tags);
   const newTags = formatTagsFromValues(values.tags, true);
+  console.log("newTags", newTags);
   const topicToAdd = {
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
     tags: tags,
     category: values.category,
-    solutions: [],
+    solutions: values.refSolutions,
   };
 
   const contentToAdd = {
@@ -71,7 +77,6 @@ async function generateSolutionTitle(solutionMd) {
       return data.json();
     })
     .then((title) => {
-      console.log("title", title);
       return title;
     })
     .catch((err) => {

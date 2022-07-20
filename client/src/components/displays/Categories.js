@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
-import { BsGearFill, BsPlusLg } from "react-icons/bs";
+import { BsSliders, BsPlusLg } from "react-icons/bs";
 import SettingsForm from "../forms/Settings";
 import CategoryEntryForm from "../forms/CategoryEntry";
 import { toast } from "react-toastify";
@@ -81,6 +81,10 @@ const SettingsDiv = styled.div`
   box-shadow: -4px 0px 7px 3px ${(props) => props.theme.colors.background};
 `;
 
+const SettingsIcon = styled(BsSliders)`
+  stroke-width: 0.6;
+`;
+
 function CategoriesHeader({
   topics,
   setCurrentCategory,
@@ -152,7 +156,7 @@ function CategoriesHeader({
     }
   }
   return (
-    <Wrapper>
+    <Wrapper id="Header">
       <Ul>{links}</Ul>
       <SettingsDiv>
         <SvgBtn
@@ -171,7 +175,7 @@ function CategoriesHeader({
             })
           }
         >
-          <BsGearFill />
+          <SettingsIcon />
         </SvgBtn>
       </SettingsDiv>
     </Wrapper>

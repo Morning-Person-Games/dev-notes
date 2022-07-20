@@ -3,12 +3,13 @@ import { React, useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
+import useOfflineStorage from "./components/tools/useOfflineStorage";
 import Notes from "./components/routes/Notes";
-import TopicsView from "./components/displays/TopicsView";
+import Topics from "./components/displays/Topics";
 import LoadingDisplay from "./components/displays/Loading";
 import Login from "./components/routes/Login";
 import Logout from "./components/routes/Logout";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { staticSizes, mixins, baseTypes } from "./styles/globalStyles";
 import "react-toastify/dist/ReactToastify.min.css";
 import {
@@ -31,6 +32,7 @@ const defaultTheme = {
 function App() {
   const { token, setToken, resetToken } = useToken();
   const { settings } = useSettings();
+  const { offlineStorage, setOfflineStorage } = useOfflineStorage();
   const [theme, setTheme] = useState(defaultTheme);
   const [topics, setTopics] = useState([]);
   const [spaceID, setSpaceID] = useState("");
@@ -40,13 +42,6 @@ function App() {
   const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
-
-  const setTopicsAndCategories = (topicsList) => {
-    setTopics(topicsList);
-    if (topicsList.length > 0) {
-      setCurrentCategory(topicsList[0]);
-    }
-  };
 
   useEffect(() => {
     const newTheme = {};
@@ -62,24 +57,45 @@ function App() {
     if (loading) {
       setLoadScreen(true);
       const fetchAndSetContent = async () => {
-        return await fetch("/api/content")
+        const controller = new AbortController();
+        // 5 second timeout:
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const setStates = (content) => {
+          setTopics(content.topics);
+          if (content.topics.length > 0) {
+            setCurrentCategory(content.topics[0]);
+          }
+          setTags(content.tags);
+          setSolutions(content.solutions);
+          setThemesObject(formatThemesList(content.themes));
+          setSpaceID(content.spaceID);
+          setLoading(false);
+          setTimeout(() => setLoadScreen(false), 600);
+        };
+        return await fetch("/api/content", { signal: controller.signal })
           .then((res) => {
+            clearTimeout(timeoutId);
             return res.json();
           })
           .then((content) => {
-            setTopicsAndCategories(content.topics);
-            setTags(content.tags);
-            setSolutions(content.solutions);
-            setThemesObject(formatThemesList(content.themes));
-            setSpaceID(content.spaceID);
+            setStates(content);
+            //setOfflineStorage(content);
             console.log("Fetched content");
-            setLoading(false);
-            setTimeout(() => setLoadScreen(false), 600);
+          })
+          .catch((err) => {
+            // TODO if AbortError and hasnt succeeded:
+            if (err.name === "AbortError") {
+              return;
+            }
+            toast.info(
+              "Timeout reached while fetching content. Using local backup."
+            );
+            setStates(offlineStorage);
           });
       };
       fetchAndSetContent();
     }
-  }, [loading]);
+  }, [loading, offlineStorage, setOfflineStorage]);
 
   /*
     contentToAdd = {
@@ -95,11 +111,11 @@ function App() {
       return;
     }
     if (newTags.length > 0) {
-      var newTagsList = tags.concat(newTags);
+      var newTagsList = [].concat(tags, newTags);
       setTags(newTagsList);
     }
     if (newSolutions.length > 0) {
-      var newSolutionsList = solutions.concat(newSolutions);
+      var newSolutionsList = [].concat(solutions, newSolutions);
       setSolutions(newSolutionsList);
     }
     if (newTopic) {
@@ -150,9 +166,6 @@ function App() {
             a {
               ${mixins.transition()};
               color: ${theme.colors.link};
-              &:link {
-                color: ${theme.colors.link};
-              }
               &:visited {
                 color: ${theme.colors.link};
               }
@@ -256,10 +269,11 @@ function App() {
                 addToContentList={addToContentList}
                 setLoading={setLoading}
                 themesObject={themesObject}
+                solutions={solutions}
               />
             }
           />
-          <Route key="wildcard" from="*" element={<TopicsView />} />
+          <Route key="wildcard" from="*" element={<Topics />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

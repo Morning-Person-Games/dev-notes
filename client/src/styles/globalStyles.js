@@ -43,11 +43,6 @@ const baseTypes = {};
 
 // baseTypes aka fancy classes:
 baseTypes.hover = "&:hover, &:active, &:focus, &:focus-visible";
-baseTypes.tagsList = `
-  display: flex;
-  flex-flow: row wrap;
-  row-gap: 10px;
-`;
 
 baseTypes.MainContent = styled.div`
   margin: 0 auto;
@@ -84,9 +79,9 @@ baseTypes.FieldHelperText = styled.div`
 baseTypes.Label = styled.label`
   font-size: ${staticSizes.font.md};
   color: ${(props) => props.theme.colors.white};
+  font-weight: 700;
   max-width: ${(props) => props.theme.sizes.mdCol};
   width: 100%;
-  font-weight: 700;
 `;
 
 baseTypes.DefaultBtn = styled.button`

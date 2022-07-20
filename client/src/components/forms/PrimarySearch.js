@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import * as JsSearch from "js-search";
 import { baseTypes, mixins, staticSizes } from "../../styles/globalStyles";
-import { MdSearch } from "react-icons/md";
+import { BsSearch } from "react-icons/bs";
 
 const Form = styled.form`
   flex-grow: 1;
@@ -43,13 +43,14 @@ const Input = styled.input`
   }
 `;
 
-const IconInit = ({ className }) => <MdSearch className={className} />;
+const IconInit = ({ className }) => <BsSearch className={className} />;
 
 const Icon = styled(IconInit)`
   display: block;
   position: absolute;
-  left: 8px;
-  font-size: ${staticSizes.font.xl};
+  left: 10px;
+  font-size: 1.3em;
+  margin-top: 1px;
   color: ${(props) => props.theme.colors.white};
 `;
 

@@ -13,6 +13,7 @@ async function createNewTopic(
 ) {
   const notifID = toast.loading("Uploading topic...");
   const messages = [];
+  console.log("newTags", newTags);
   const tagResults =
     newTags.length > 0
       ? await createNewTags(token, newTags, false, spaceID)
@@ -60,24 +61,29 @@ async function createNewTopic(
       }
     });
   }
-  const solutions = filteredSolutions.map((solution) => {
-    return {
-      sys: {
-        type: "Link",
-        linkType: "Entry",
-        id: solution.sys.id,
-      },
-    };
-  });
-  newTopic.solutions.forEach((solution) => {
-    solutions.push({
-      sys: {
-        type: "Link",
-        linkType: "Entry",
-        id: solution.sys.id,
-      },
-    });
-  });
+  const solutions = [];
+  if (filteredSolutions.length > 0) {
+    filteredSolutions.forEach((solution) =>
+      solutions.push({
+        sys: {
+          type: "Link",
+          linkType: "Entry",
+          id: solution.sys.id,
+        },
+      })
+    );
+  }
+  if (newTopic.solutions.length > 0) {
+    newTopic.solutions.forEach((solution) =>
+      solutions.push({
+        sys: {
+          type: "Link",
+          linkType: "Entry",
+          id: solution.sysID,
+        },
+      })
+    );
+  }
   console.log("all tags:", tags);
   console.log("all solutions:", solutions);
   const topic = {

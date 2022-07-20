@@ -13,7 +13,7 @@ const SelectBase = styled.div`
       outline: none;
     }
     padding: 10px;
-    cursor: text;
+    cursor: ${(props) => (props.isSearchable ? "text" : "pointer")};
     background: ${(props) => props.theme.colors.primary};
     border: 0;
     color: ${(props) => props.theme.colors.white};
@@ -25,12 +25,15 @@ const SelectBase = styled.div`
     min-height: 2em;
     font-size: ${staticSizes.font.lg};
     box-shadow: none;
-    ${mixins.transition("background-color", 150)};
+    ${mixins.transition("all", 200)};
     &:hover {
       border-color: ${(props) => props.theme.colors.primary};
       background-color: ${(props) => props.theme.colors.fieldHover};
     }
     &:hover:focus-within {
+      background-color: ${(props) => props.theme.colors.secondary};
+    }
+    &:focus-within {
       background-color: ${(props) => props.theme.colors.secondary};
     }
     .select__indicators {
@@ -41,6 +44,7 @@ const SelectBase = styled.div`
 
       .select__placeholder {
         white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
         color: ${(props) => props.theme.colors.placeholder};
       }
@@ -53,6 +57,7 @@ const SelectBase = styled.div`
         color: ${(props) => props.theme.colors.white};
       }
       .select__multi-value {
+        max-width: 12em;
         cursor: pointer;
         background-color: ${(props) => props.theme.colors.primary};
         color: ${(props) => props.theme.colors.white};
@@ -114,7 +119,20 @@ const SelectBase = styled.div`
   }
 `;
 
-function TagsField({ form, field, onBlur, options, placeholder }) {
+// const CreateableSelectBase = styled(SelectBase)`
+//   .select__control {
+//     padding: 8px 0 7px 12px;
+//   }
+// `;
+
+function CreatableSelectField({
+  form,
+  field,
+  onBlur,
+  options,
+  placeholder,
+  ...props
+}) {
   return (
     <SelectBase
       as={CreatableSelect}
@@ -133,7 +151,8 @@ function TagsField({ form, field, onBlur, options, placeholder }) {
       isMulti={true}
       placeholder={placeholder}
       options={options}
-      tabIndex="2"
+      isSearchable={true}
+      {...props}
     />
   );
 }
@@ -142,7 +161,7 @@ function SelectField(props) {
   return (
     <SelectBase
       as={Select}
-      isMulti={false}
+      isMulti={props.isMulti ? props.isMulti : false}
       isClearable={true}
       classNamePrefix="select"
       {...props}
@@ -150,4 +169,4 @@ function SelectField(props) {
   );
 }
 
-export { TagsField, SelectField };
+export { CreatableSelectField, SelectField };

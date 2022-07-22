@@ -97,7 +97,6 @@ function getColorsFromTheme(newTheme) {
   const newColors = JSON.parse(JSON.stringify(newTheme));
   newColors.text = newColors.white;
   newColors.inactiveColor = newColors.gray;
-  console.log("newColors", newColors);
   // treating #000 as null because the field helper in contentful cant be null
   newColors.background = colorIsEmpty(
     newColors.background,

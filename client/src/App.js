@@ -60,7 +60,7 @@ function App() {
     // pull and set content list
     if (loading) {
       setLoadScreen(true);
-      return async () => {
+      const setContent = async () => {
         const controller = new AbortController();
         // 5 second timeout:
         const timeoutId = setTimeout(() => controller.abort(), 2000);
@@ -99,6 +99,7 @@ function App() {
             setStates(offlineStorage);
           });
       };
+      setContent();
     }
   }, [loading, offlineStorage, setOfflineStorage, settings]);
 

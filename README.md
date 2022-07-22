@@ -1,4 +1,4 @@
-[Setup](#setup) | [Description / Tips](#description-/-tips) | [Possible Improvements](#possible-improvements) | [Local Setup](#local-setup)
+[Setup](#setup) | [Description / Tips](#description--tips) | [Local Setup](#local-setup)
 
 Dev Notes is a digital journal streamlined to quickly jot down important thoughts and quickly find them later — like a searchable list of bookmarks, or a simple blog with much less overhead.
 
@@ -42,7 +42,7 @@ I'd love for this whole process to be way more accessible but that's a chunk of 
 
 Every **Note** has a title or **Topic**, can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
 
-**Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links.
+**Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links. Also! Pasting a url to an image will automatically render the image in the content list.
 
 **Tags**... well everyone knows tags by now. I like to make broader Topics and use less Tags, but Tags are still good in a pinch.
 

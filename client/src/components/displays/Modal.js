@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { staticSizes, baseTypes, mixins } from "../../styles/globalStyles";
 
@@ -73,7 +73,6 @@ const Title = styled.h2`
 `;
 
 function Modal({ modalContent, setModalContent }) {
-  const [transparency, setTransparency] = useState(0.5);
   const fade = modalContent && modalContent.fade ? modalContent.fade : "0";
   useEffect(() => {
     if (modalContent !== null) {
@@ -87,26 +86,13 @@ function Modal({ modalContent, setModalContent }) {
     }
   }, [modalContent, setModalContent, fade]);
 
-  useEffect(() => {
-    if (fade) {
-      setTimeout(() => {
-        setTransparency(0);
-      }, fade * 2);
-      setTimeout(() => {
-        setModalContent(null);
-      }, fade * 3 - 1);
-    }
-  }, [fade, setModalContent]);
-
-  //console.log("modalContent.fade", fade);
-
   if (modalContent === null) {
     return;
   }
   return (
-    <ModalDiv transparency={transparency} fade={fade} id="Modal">
+    <ModalDiv id="Modal">
       <CloseOnClick onClick={() => setModalContent(null)} />
-      <Main fade={fade}>
+      <Main>
         <Header>
           <Title>{modalContent.title}</Title>
           <Escape

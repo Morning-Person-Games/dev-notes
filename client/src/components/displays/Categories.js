@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { BsSliders, BsPlusLg } from "react-icons/bs";
@@ -94,8 +94,10 @@ function CategoriesHeader({
   setLoading,
   spaceID,
   themesObject,
+  setLoadScreen,
+  setTheme,
+  setLoadingFade,
 }) {
-  const [fade, setFade] = useState(0);
   const activeCategory = currentCategory.category
     ? currentCategory.category
     : [];
@@ -168,10 +170,12 @@ function CategoriesHeader({
                 <SettingsForm
                   spaceID={spaceID}
                   themesObject={themesObject}
-                  setFade={setFade}
+                  setLoadScreen={setLoadScreen}
+                  setModalContent={setModalContent}
+                  setLoadingFade={setLoadingFade}
+                  setTheme={setTheme}
                 />
               ),
-              fade: fade,
             })
           }
         >

@@ -1,5 +1,5 @@
 ///** @jsxImportSource @emotion/react */
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
@@ -41,6 +41,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingFade, setLoadingFade] = useState(false);
   const [loadScreen, setLoadScreen] = useState(true);
 
   useEffect(() => {
@@ -70,7 +71,6 @@ function App() {
           setThemesObject(formatThemesList(content.themes));
           setSpaceID(content.spaceID);
           setLoading(false);
-          setTimeout(() => setLoadScreen(false), 600);
         };
         return await fetch("/api/content", { signal: controller.signal })
           .then((res) => {
@@ -83,8 +83,7 @@ function App() {
             console.log("Fetched content");
           })
           .catch((err) => {
-            // TODO if AbortError and hasnt succeeded:
-            if (err.name === "AbortError") {
+            if (err.name === "AbortError" && loading) {
               return;
             }
             toast.info(
@@ -151,7 +150,8 @@ function App() {
             html {
               width: 100vw;
               overflow-x: hidden;
-              font-size: 100%;
+              overflow-y: ${(loading || loadingFade) && "hidden"};
+              font-size: ${theme.sizes.baseFontSize}px;
             }
             body {
               font-size: ${theme.sizes.baseFontSize}px;
@@ -230,7 +230,10 @@ function App() {
         />
         <ToastContainer
           theme="dark"
-          toastStyle={{ backgroundColor: theme.colors.primary }}
+          toastStyle={{
+            backgroundColor: defaultColors.primary,
+            fontSize: "18px",
+          }}
           position="top-center"
           autoClose={7000}
           hideProgressBar={false}
@@ -241,7 +244,12 @@ function App() {
           draggable
           pauseOnHover
         />
-        {loadScreen && <LoadingDisplay loading={loading} />}
+        {loadScreen && (
+          <LoadingDisplay
+            setLoadScreen={setLoadScreen}
+            loading={loading || loadingFade ? 1 : 0}
+          />
+        )}
         <Routes>
           <Route
             key={"login"}
@@ -270,6 +278,9 @@ function App() {
                 setLoading={setLoading}
                 themesObject={themesObject}
                 solutions={solutions}
+                setLoadScreen={setLoadScreen}
+                setTheme={setTheme}
+                setLoadingFade={setLoadingFade}
               />
             }
           />

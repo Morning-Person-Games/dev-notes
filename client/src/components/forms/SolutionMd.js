@@ -67,7 +67,7 @@ const Editor = styled(EditorInit)`
   width: 100%;
   border-radius: 0;
   border: 0;
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.sizes.baseFontSize}px;
   font-family: inherit;
   padding-bottom: 10px;
   border-top: 2px solid ${(props) => props.theme.colors.primary};
@@ -95,12 +95,15 @@ const Editor = styled(EditorInit)`
     }
   }
   .w-md-editor-toolbar {
+    li {
+      font-size: 1em;
+    }
     margin: 5px;
     border-radius: 3.5px;
     border: 0;
     background-color: ${(props) => props.theme.colors.primary};
     svg {
-      font-size: ${staticSizes.font.h3n}rem;
+      font-size: 1.3rem;
       margin-bottom: -4px;
     }
     button {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ContentLoader from "react-content-loader";
 import styled from "@emotion/styled";
 import defaultColors from "../../styles/defaultColors";
@@ -14,12 +14,17 @@ const Wrapper = styled.div`
   background-color: ${defaultColors.background};
   position: absolute;
   z-index: 500;
-  margin: -5px 0 0 3px;
+  margin: -5px 0 0 0;
   opacity: ${(props) => (props.fade ? 0 : 1)};
   transition: opacity 600ms cubic-bezier(0.79, 0.06, 0.56, 0.86);
   -webkit-transition: opacity 600ms cubic-bezier(0.79, 0.06, 0.56, 0.86);
 `;
-function LoadingDisplay({ loading }) {
+function LoadingDisplay({ loading, setLoadScreen }) {
+  useEffect(() => {
+    if (!loading) {
+      setTimeout(() => setLoadScreen(false), 600);
+    }
+  }, [loading, setLoadScreen]);
   const browserWidth = window.innerWidth;
   return (
     <Wrapper fade={loading ? 0 : 1}>

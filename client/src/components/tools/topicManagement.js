@@ -116,6 +116,7 @@ async function createNewTopic(
       if (messages.length > 0) {
         messages.forEach((message) => {
           console.log(message);
+          // TODO clearer errors:
           //toast.info(message.error);
         });
       }

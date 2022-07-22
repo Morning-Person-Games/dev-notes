@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+[Setup](#Setup) | [Description / Tips](#Description-/-Tips) | [Possible Improvements](#Possible-Improvements) | [Local Setup](#Local-Setup)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dev Notes is a digital journal streamlined to quickly jot down important thoughts and quickly find them later — like a searchable list of bookmarks, or a simple blog with much less overhead.
 
-## Available Scripts
+Try out the demo [here](https://dev-notes-demo.herokuapp.com/).
 
-In the project directory, you can run:
+## Setup
 
-### `npm start`
+I would love for this to not be as threatening to non-devs down the line, but until then here's extra specific instructions.
+If you want to check Dev Notes out locally see: [Local Setup](#Local-Setup).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [A Contentful account](https://www.contentful.com/sign-up/)
+- [Contentful's CLI tool](https://www.contentful.com/developers/docs/tutorials/cli/installation/)
 
-### `npm test`
+### Contentful Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- First off: `$ git clone https://github.com/Morning-Person-Games/dev-notes.git`
+- `$ git remote add personal http://github.com/YOU/YOUR_REPO`
+  - Optional: `$ git fetch upstream` for easier access to any updates!
+- `$ git push origin main`
+- On an empty Contentful Space navigate to Settings -> API Keys -> Content Management Tokens and generate a new personal token.
+- Take that token and run: `$ contentful login --management-token <management-token-here> `
+- In the project root:`$ contentful space import --space-id <space-id-here> --contentFile dev_notes_export.json`
+  - If you're looking for your Space ID most URL paths within your Contentful Space start with `/spaces/SPACE-ID-HERE/...`
 
-### `npm run build`
+As long as that went well, your Contentful Space should be ready for hosting.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Hosting with Heroku
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You can obviously host wherever you prefer, but this is how I set it up.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Prerequisites
 
-### `npm run eject`
+- [A Heroku account](https://signup.heroku.com/)
+- [Heroku's CLI tool](https://devcenter.heroku.com/articles/heroku-cli)
+  Next create an app on Heroku (creating an account on Heroku typically leads you right into creating an app).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Description / Tips
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Every **Note** has a title or **Topic**, can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Tags**... well everyone knows tags by now. I like to make broader Topics and use less Tags, but Tags are still good in a pinch.
 
-## Learn More
+**Categories** define which topics can be found when you start typing in the search bar, so they are very impactful. If you find that you're not sure what category a Topic would be found in, it is likely you should make them more broad. I'm currently using Game Dev, Web Dev, and Misc as my current categories (Misc will be used sparingly and typically for keyboard shortcuts in various apps).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Why not use \_\_\_?
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**This very well could not be the right tool to help you.**
+I found that I hate finding where I placed a bookmark, a giant google doc is awful to read through, and I don't want to spend 5 minutes just to logging in just to make a new entry... so here's my solution. With that in mind, I made Dev Notes for myself, and it is specifically designed with what I think will help my memory best. I'm constantly trying to minimize the amount I depend on ~~dumb luck~~ remembering anything off-hand. For me, simply dumping links in a giant doc has been immensely helpful and relieved a ton of stress of late.
 
-### Code Splitting
+## Local Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+If you plan on messing with the project locally there's a few things you'll need to do:
 
-### Analyzing the Bundle Size
+1. Copy and rename `.example-env` to `.env `
+2. In Contentful go to Settings -> API Keys and create one for yourself.
+3. Set `CONTENTFUL_DELIVERY_SECRET` in `.env` to your new **Content Delivery API - access token**.
+4. Set `CONTENTFUL_SPACE_ID` to your Contentful Space ID.
+5. Probably best to do a `npm install && cd client/ && npm install` for good measure.
+6. `npm start` in root, and in a separate instance `npm start` in `./client/` then you're all set!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### If you want to use Contentful content management API:
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Copy and rename `/server/example-local.js` to `/server/local.js`.
+2. Create an SSL Certificate through whatever means. Just make sure to fix the file names/locations in your `local.js` line 8-10
+3. [Create a Contentful OAuth App](https://app.contentful.com/account/profile/developers/applications/new) with Read and Manage access (it does not need to be Confidential).
+   Your redirect should look like this: https://localhost:3080/oauth/redirect
+4. Hook up those new values into each of the follow OAuth environment variables: `CONTENTFUL_OAUTH_ID`, `CONTENTFUL_OAUTH_SECRET`, `CONTENTFUL_OAUTH_REDIRECT_URI`
+5. Now run `npm run local` instead of start for your node server.
+6. This parts a bit weird but its the best I could do with Contentful giving the access key through the URL: go to https://localhost:3080/login. This will not correctly log you, but you should see see your key in the URL. Adjust that URL so you keep the access_token but are back on your local React instance (should look something like: http://localhost:3000/oauth/redirect#access_token=TOKEN)

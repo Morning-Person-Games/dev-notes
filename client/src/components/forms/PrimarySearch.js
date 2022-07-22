@@ -81,7 +81,7 @@ class PrimarySearch extends Component {
      * defines an indexing strategy for the data
      * more about it in here https://github.com/bvaughn/js-search#configuring-the-index-strategy
      */
-    dataToSearch.indexStrategy = new JsSearch.PrefixIndexStrategy();
+    dataToSearch.indexStrategy = new JsSearch.AllSubstringsIndexStrategy();
     /**
      * defines the sanitizer for the search
      * to prevent some of the words from being excluded
@@ -126,6 +126,7 @@ class PrimarySearch extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Wrapper>
           <Input
+            type="search"
             value={searchQuery}
             onChange={this.searchData}
             placeholder="Search through topics and solutions..."

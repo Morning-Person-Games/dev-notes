@@ -22,12 +22,14 @@ function useSettings() {
 
   const [settings, setSettings] = useState(getSettings());
 
-  const saveSettings = ({ theme, font, textSize }) => {
+  const saveSettings = (settings) => {
     const currentSettings = getSettings();
     const newSetting = {
-      theme: theme ? theme : currentSettings.theme,
-      font: font ? font : currentSettings.font,
-      textSize: textSize ? textSize : currentSettings.textSize,
+      theme: settings.theme ? settings.theme : currentSettings.theme,
+      font: settings.font ? settings.font : currentSettings.font,
+      textSize: settings.textSize
+        ? settings.textSize
+        : currentSettings.textSize,
     };
     localStorage.setItem("settings", JSON.stringify(newSetting));
     setSettings(newSetting);

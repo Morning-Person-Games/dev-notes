@@ -4,10 +4,16 @@ import { Global, css } from "@emotion/react";
 import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { Form, Field, Formik } from "formik";
 import { SelectField } from "./SelectFields";
-import { getFont, getAllFontFaces, getFontOptions } from "../../styles/fonts";
+import {
+  getFont,
+  getFontStyles,
+  getAllFontFaces,
+  getFontOptions,
+} from "../../styles/fonts";
 import { components } from "react-select";
 import { useSettings } from "../tools/useSettings";
 import { toast } from "react-toastify";
+import { getThemeSizes, getColorsFromTheme } from "../../styles/themeHelper";
 
 const fontFaces = getAllFontFaces();
 const fontOptions = getFontOptions();
@@ -284,13 +290,27 @@ const Option = ({ children, ...props }) => {
 };
 
 const SettingsForm = (props) => {
-  const { themesObject, spaceID } = props;
-  const { settings, setSettings, applySettings } = useSettings();
+  const {
+    themesObject,
+    spaceID,
+    setLoadScreen,
+    setModalContent,
+    setTheme,
+    setLoadingFade,
+  } = props;
+  const { settings, setSettings } = useSettings();
   const [background, setBackground] = useState({
     palette: settings.theme,
     isCurrentTheme: true,
   });
   const [selectedFont, setSelectedFont] = useState("inherit");
+  const [settingsChanged, setSettingsChanged] = useState({
+    theme: false,
+    font: false,
+    textSize: false,
+    valid: false,
+  });
+
   const themesListUrl = spaceID
     ? "https://app.contentful.com/spaces/" +
       spaceID +
@@ -309,50 +329,44 @@ const SettingsForm = (props) => {
           font: settings.font,
           textSize: settings.textSize,
         }}
-        onSubmit={(values, { themesObject, setFade }) => {
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(true);
+          setLoadScreen(true);
+          setLoadingFade(true);
+          if (!settingsChanged.valid) {
+            return;
+          }
+          const theme = settingsChanged.theme
+            ? themesObject.themes.find((t) => t.title === values.theme)
+            : settings.theme;
+          const notifID = toast.loading("Applying new settings...");
+          setSettings({
+            theme: theme,
+            font: values.font,
+            textSize: values.textSize,
+          });
           setTimeout(() => {
-            const theme =
-              values.theme !== settings.theme.title
-                ? themesObject.themes.find((t) => t.title === values.theme)
-                : settings.theme;
-            setSettings(theme.theme, values.font, values.textSize);
-            const notifID = toast.loading("Applying new settings...");
-            setFade(300);
-            setTimeout(() => {
-              applySettings();
-            }, 300);
-            setTimeout(() => {
-              toast.update(notifID, {
-                render: "Have fun!",
-                type: "success",
-                isLoading: false,
-                autoClose: 3000,
-              });
-            }, 900);
-            //setSubmitting(false);
-          }, 1000);
+            const newTheme = {};
+            newTheme.colors = getColorsFromTheme(theme);
+            newTheme.font = getFontStyles(values.font);
+            newTheme.sizes = getThemeSizes(values.textSize);
+            setTheme(newTheme);
+          }, 600);
+          setModalContent(null);
+          setTimeout(() => {
+            toast.update(notifID, {
+              render: "Settings saved!",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000,
+            });
+            setLoadingFade(false);
+            setSubmitting(false);
+          }, 2400);
         }}
-        validate={(values) => {
-          const errors = {
-            theme:
-              values.theme === settings.theme.title || !values.theme
-                ? "No Changes"
-                : "",
-            font:
-              values.font === settings.font || !values.font ? "No Changes" : "",
-            textSize:
-              values.textSize === settings.textSize || !values.textSize
-                ? "No Changes"
-                : "",
-          };
-          return errors;
-        }}
-        validateOnChange={true}
-        validateOnMount={true}
-        validateOnBlur={true}
       >
-        {({ values, errors, setFieldValue, isSubmitting }) => (
-          <FormWrapper>
+        {({ values, errors, setFieldValue, isSubmitting, handleSubmit }) => (
+          <FormWrapper onSubmit={handleSubmit}>
             <baseTypes.Label>Theme: </baseTypes.Label>
             <baseTypes.ModalField
               as={ThemeSelect}
@@ -387,6 +401,18 @@ const SettingsForm = (props) => {
                   });
                   setFieldValue("theme", settings.theme.title);
                 }
+                const themeChanged =
+                  e?.value && e.value !== settings.theme.title;
+                setSettingsChanged({
+                  theme: themeChanged,
+                  font: settingsChanged.font,
+                  textSize: settingsChanged.textSize,
+                  valid: [
+                    themeChanged,
+                    settingsChanged.font,
+                    settingsChanged.textSize,
+                  ].includes(true),
+                });
               }}
               options={[
                 { value: "Default", label: "Default" },
@@ -412,6 +438,8 @@ const SettingsForm = (props) => {
               getOptionLabel={(option) => {
                 if (option.label === settings.font) {
                   option.isCurrent = true;
+                } else {
+                  option.isCurrent = false;
                 }
                 return option.label;
               }}
@@ -428,6 +456,17 @@ const SettingsForm = (props) => {
                   setSelectedFont("inherit");
                   setFieldValue("font", settings.font);
                 }
+                const fontChanged = e?.value && e.value !== settings.font;
+                setSettingsChanged({
+                  theme: settingsChanged.theme,
+                  font: fontChanged,
+                  textSize: settingsChanged.textSize,
+                  valid: [
+                    settingsChanged.theme,
+                    fontChanged,
+                    settingsChanged.textSize,
+                  ].includes(true),
+                });
               }}
             />
             <baseTypes.Label>Base Text Size: </baseTypes.Label>
@@ -437,28 +476,36 @@ const SettingsForm = (props) => {
               type="range"
               min="12"
               max="28"
+              onChange={(e) => {
+                setFieldValue("textSize", e.target.value);
+                const textSizeChanged =
+                  e?.target.value &&
+                  e.target.value.toString() !== settings.textSize;
+                setSettingsChanged({
+                  theme: settingsChanged.theme,
+                  font: settingsChanged.font,
+                  textSize: textSizeChanged,
+                  valid: [
+                    settingsChanged.theme,
+                    settingsChanged.font,
+                    textSizeChanged,
+                  ].includes(true),
+                });
+              }}
+              value={values.textSize}
             />
             <RangeValue
               percent={leftPercent(values.textSize)}
-              changed={errors.textSize ? 0 : 1}
+              changed={!settingsChanged.textSize ? 0 : 1}
               size={values.textSize}
             >
               <span>{values.textSize + "px"}</span>
             </RangeValue>
             <Submit
               type="submit"
-              disabled={
-                isSubmitting ||
-                !errors.theme ||
-                !errors.font ||
-                !errors.textSize
-                  ? 0
-                  : 1
-              }
+              disabled={isSubmitting || !settingsChanged.valid ? 1 : 0}
             >
-              {!errors.theme || !errors.font || !errors.textSize
-                ? "Save Changes"
-                : "Make a Change to Save"}
+              {settingsChanged.valid ? "Save Changes" : "Make a Change to Save"}
             </Submit>
           </FormWrapper>
         )}

@@ -23,7 +23,7 @@ const SelectBase = styled.div`
     border-radius: 0;
     border-bottom: 0;
     min-height: 2em;
-    font-size: ${staticSizes.font.lg};
+    font-size: ${staticSizes.font.h3n}em;
     box-shadow: none;
     ${mixins.transition("all", 200)};
     &:hover {

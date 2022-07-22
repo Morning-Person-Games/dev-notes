@@ -258,7 +258,11 @@ function Topics(props) {
         </SecondaryControls>
         {tagsVisible && tagsList.length > 0 && <TagsUl>{tagsList}</TagsUl>}
       </Controls>
-      {topicsList.length > 0 ? <Ul>{topicsList}</Ul> : <h3>{emptySearch}</h3>}
+      {topicsList.length > 0 && queryResult !== null ? (
+        <Ul>{topicsList}</Ul>
+      ) : (
+        <h3>{emptySearch}</h3>
+      )}
     </Wrapper>
   );
 }

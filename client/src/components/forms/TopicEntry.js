@@ -8,7 +8,8 @@ import { baseTypes, mixins, staticSizes } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 import SolutionMd from "./SolutionMd";
 import { CreatableSelectField, SelectField } from "./SelectFields";
-import { BsTagsFill, BsJournalBookmarkFill, BsCardList } from "react-icons/bs";
+import { BsTagsFill, BsJournalPlus } from "react-icons/bs";
+import { ReactComponent as Logo } from "../../logo.svg";
 
 // styling
 const Errors = styled.div`
@@ -42,9 +43,9 @@ const TitleField = styled(FieldInit)`
   border: 0;
   border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
   background: none;
-  padding: 10px 10px 10px 37px;
+  padding: 10px 10px 10px 1.9em;
   min-height: 2em;
-  font-size: ${staticSizes.font.lg};
+  font-size: ${staticSizes.font.h3n}em;
   ${mixins.transition("all", 200)};
   position: relative;
   &:hover {
@@ -60,6 +61,7 @@ const TitleField = styled(FieldInit)`
 const FormWrapper = styled.form`
   padding-bottom: 0;
   margin-bottom: 10px;
+  font-size: 1rem;
 `;
 
 const TopicFieldsWrapper = styled.div`
@@ -89,26 +91,26 @@ const TagIcon = styled(BsTagsFill)`
   font-size: ${staticSizes.font.lg};
   color: ${(props) => props.theme.colors.inactiveColor};
   z-index: 2;
-  // TODO no click events
+  pointer-events: none;
 `;
-const TopicIcon = styled(BsJournalBookmarkFill)`
+const TopicIcon = styled(Logo)`
   position: absolute;
   margin-top: 3px;
   left: 12px;
   font-size: 1.1em;
   color: ${(props) => props.theme.colors.inactiveColor};
   z-index: 2;
-  // TODO no click events
+  pointer-events: none;
 `;
-const RefSolutionIcon = styled(BsCardList)`
+const RefSolutionIcon = styled(BsJournalPlus)`
   position: absolute;
-  margin-top: 3px;
-  left: 12px;
-  font-size: ${staticSizes.font.lg};
+  margin-top: 5px;
+  left: 10px;
+  font-size: 1.3em;
   color: ${(props) => props.theme.colors.inactiveColor};
   z-index: 2;
-  stroke-width: 0.3;
-  // TODO no click events
+  stroke-width: 0.7;
+  pointer-events: none;
 `;
 
 const TagErrors = styled.div`
@@ -127,7 +129,7 @@ const SolutionsSelect = styled(SelectInit)`
   border-top: 3px solid ${(props) => props.theme.colors.primary};
   border-radius: 0;
   .select__control .select__value-container {
-    padding-left: 25px;
+    padding-left: 1.4em;
   }
 `;
 
@@ -136,7 +138,7 @@ const TagsField = styled(FieldInit)`
   border-radius: 0;
 
   .select__control .select__value-container {
-    padding-left: 25px;
+    padding-left: 1.4em;
   }
 `;
 
@@ -157,6 +159,7 @@ const TopicForm = (props) => {
     handleChange,
     tags,
     solutions,
+    setTouched,
   } = props;
 
   useEffect(() => {
@@ -196,6 +199,9 @@ const TopicForm = (props) => {
             name="title"
             placeholder="Describe a topic for your note..."
             onChange={(e) => {
+              if (!touched.title) {
+                setTouched({ title: true });
+              }
               if (!values.category || !values.category.category) {
                 if (props.currentCategory.category) {
                   setFieldValue("category", {
@@ -289,26 +295,29 @@ const TopicEntry = withFormik({
     solution: "",
     refSolutions: [],
   }),
-  validationSchema: Yup.object().shape({
-    title: Yup.string()
-      .min(3, "Topic title too short!")
-      .max(255, "Topic title too long!")
-      .required("Topic title required"),
-    // .test("unique", "", function (list) {
-    //   return list.length === new Set(list.map(mapper)).size;
-    // }),
-    category: Yup.object().required(
-      "Please create or select a category above to add new topics."
-    ),
-    tags: Yup.array().of(
-      Yup.object().shape({
-        label: Yup.string()
-          .max(255, "Tags can be no longer than 255 characters")
-          .required(),
-        value: Yup.string().required(),
-      })
-    ),
-  }),
+  validationSchema: (props) =>
+    Yup.object().shape({
+      title: Yup.string()
+        .min(3, "Topic title too short!")
+        .max(255, "Topic title too long!")
+        .required("Topic title required")
+        .test(
+          "Unique Title",
+          "A Note with the same title was found.",
+          (value) => !props.topicTitlesList.includes(value)
+        ),
+      category: Yup.object().required(
+        "Please create or select a category above to add new topics."
+      ),
+      tags: Yup.array().of(
+        Yup.object().shape({
+          label: Yup.string()
+            .max(255, "Tags can be no longer than 255 characters")
+            .required(),
+          value: Yup.string().required(),
+        })
+      ),
+    }),
   handleSubmit: async (values, { props, resetForm }) => {
     const refSolutions = values.refSolutions.map((ref) => {
       return props.solutions.find((solution) => ref.value === solution.sysID);
@@ -342,7 +351,7 @@ const TopicEntry = withFormik({
         (solution) => (indexableSolutions += " " + solution.title)
       );
       newTopic.indexableSolutions = indexableSolutions;
-      console.log("New Local Topic: ", newTopic);
+      console.log("New (Local) Topic: ", newTopic);
     }
     props.addToContentList(contentToAdd);
     // Send content to contentful

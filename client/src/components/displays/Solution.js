@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
@@ -8,12 +8,7 @@ import remarkImages from "remark-images";
 import remarkUnwrapImages from "remark-unwrap-images";
 import { useTheme } from "@emotion/react";
 import { transparentize } from "polished";
-
-// BsFillStickiesFill
-//BsBack
-//BsFiles
-//BsFront
-//BsUnion
+import { BsFiles, BsCheckLg } from "react-icons/bs";
 
 // #region styling
 const minLines = 2;
@@ -96,9 +91,10 @@ const Li = styled.li`
   code {
     background-color: ${(props) => props.theme.colors.codeLine};
     border-radius: 6px;
-    margin: 0;
-    padding: 0.2em 0.4em;
+    margin: 0 10px 0 0;
+    padding: 0.2em 0.5em;
     color: ${(props) => props.theme.colors.codeText};
+    line-height: 2;
   }
   pre {
     box-shadow: inset 0 1px 6px -1px ${(props) => transparentize(0.4, props.theme.colors.primary)};
@@ -107,11 +103,24 @@ const Li = styled.li`
     margin-top: 10px;
     border-radius: 0;
     color: ${(props) => props.theme.colors.codeText};
+    white-space: inherit;
+    position: relative;
+    ${baseTypes.hover} {
+      #ClipButton {
+        opacity: 1;
+      }
+    }
+    p {
+      padding: 0;
+    }
     code {
       display: block;
       overflow: auto;
+      line-height: inherit;
       padding: 15px;
       background-color: transparent;
+      position: relative;
+      margin: 0;
     }
   }
   a {
@@ -154,7 +163,46 @@ const ErrorP = styled.p`
   color: ${(props) => props.theme.colors.inactiveColor};
 `;
 
+const ClipCodeBtn = styled.button`
+  transition: opacity 150 ease-in, color 100 ease-in;
+  opacity: 0;
+  background: none;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: ${staticSizes.font.xl};
+  color: ${(props) => props.theme.colors.white};
+  &:hover {
+    color: ${(props) => props.theme.colors.highlight};
+  }
+  svg {
+    transition: opacity 150 ease-in, color 100 ease-in;
+  }
+`;
+const SuccessIcon = styled(BsCheckLg)`
+  color: ${(props) => props.theme.colors.link};
+`;
 // #endregion
+
+function CopyCodeButton({ children }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <>
+      <ClipCodeBtn
+        id="ClipButton"
+        onClick={() => {
+          navigator.clipboard.writeText(children);
+          setCopied(true);
+          setTimeout(() => {
+            setCopied(false);
+          }, 1000);
+        }}
+      >
+        {copied ? <SuccessIcon /> : <BsFiles />}
+      </ClipCodeBtn>
+    </>
+  );
+}
 
 function Solution({
   solution,
@@ -218,6 +266,21 @@ function Solution({
         <ReactMarkdown
           children={solution.description}
           remarkPlugins={[gfm, remarkImages, remarkUnwrapImages]}
+          components={{
+            code({ node, inline, children, ...props }) {
+              return inline ? (
+                <p style={{ position: "relative" }}>
+                  <code {...props}>{children}</code>
+                  <CopyCodeButton children={children} />
+                </p>
+              ) : (
+                <>
+                  <code {...props}>{children}</code>
+                  <CopyCodeButton children={children} />
+                </>
+              );
+            },
+          }}
         />
       </div>
       {!fullscreen && (

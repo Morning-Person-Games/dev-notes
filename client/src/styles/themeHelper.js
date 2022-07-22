@@ -75,7 +75,7 @@ function getThemeSizes(newTextSize) {
 }
 
 function getColorsFromTheme(newTheme) {
-  const newColors = newTheme;
+  const newColors = newTheme.theme;
   newColors.white = newColors.text;
   newColors.inactiveColor = newColors.gray;
   if (newColors.background === "")
@@ -96,7 +96,7 @@ function getColorsFromTheme(newTheme) {
     newColors.codeLine = transparentize(0.3, lighten(0.1, newColors.primary));
   if (newColors.codeText === "") newColors.codeText = newColors.white;
   newColors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
-  newColors.fieldHover = lighten(0.025, newColors.secondary);
+  newColors.fieldHover = darken(0.045, newColors.primary);
   newColors.reverseFieldHover = lighten(0.035, newColors.primary);
   return newColors;
 }

@@ -1,43 +1,75 @@
+[Setup](#setup) | [Description / Tips](#description-/-tips) | [Possible Improvements](#possible-improvements) | [Local Setup](#local-setup)
+
+Dev Notes is a digital journal streamlined to quickly jot down important thoughts and quickly find them later — like a searchable list of bookmarks, or a simple blog with much less overhead.
+
+Try out the demo [here](https://dev-notes-demo.herokuapp.com/).
+
 ## Setup
 
-There's a bit of setup so bear with me:
+I would love for this to not be as threatening to non-devs down the line, but until then here's extra specific instructions.
+If you want to check Dev Notes out locally see: [Local Setup](#Local-Setup).
 
-1. After cloning `npm install`
-2. Fill out the CONTENTFUL_DELIVERY_SECRET from the [Contentful API Keys page](https://app.contentful.com/spaces/73ald6l92kz4/api/keys/5BaafGMxncKTY4QubHvDlU)
-3. `cd client npm install` (Probably easiest in a separate tab/window)
-4. In project root, copy the .sample-env file and rename it .env.
-5. Start the node server: `npm start`
-6. Start React in ./client: `npm start`
+### Prerequisites
 
-npm install -g contentful-cli
-Settings > API keys > Content management tokens > Generate personal token
-contentful login --management-token <management-token>
+- [A Contentful account](https://www.contentful.com/sign-up/)
+- [Contentful's CLI tool](https://www.contentful.com/developers/docs/tutorials/cli/installation/)
 
-## For Contentful management api access and content entry:
+### Contentful Setup
 
-Contentful requires https to access their OAuth. I couldn't find the exact place I created my certs but a quick google search shoup pop up with how to create https certs locally. After creating the certs, I'd suggest copying example-local.js in ./server/ and renaming it local.js. Theres already a npm command `npm run local` that you can use INSTEAD of npm start for running your local server. This creates an extra port 3080 that runs https and can be used to get an access key from contentful. The downside of the 3080 port is that it is only running a pre-built version of react. What I do is go to https://localhost:3080/oauth/authenticate. This will save your access token to your react localStorage. You can then copy that key (Chrome devtools -> Application -> Storage -> Local Storage -> https://localhost:3080 -> "token") and go to http://localhost:3000/oauth/redirect#access_token=PASTE_ACCESS_TOKEN_HERE. This should use the same token and save it to your local development version of react.
+- First off: `$ git clone https://github.com/Morning-Person-Games/dev-notes.git`
+- `$ git remote add personal http://github.com/YOU/YOUR_REPO`
+  - Optional: `$ git fetch upstream` for easier access to any updates!
+- `$ git push origin main`
+- On an empty Contentful Space navigate to Settings -> API Keys -> Content Management Tokens and generate a new personal token.
+- Take that token and run: `$ contentful login --management-token <management-token-here> `
+- In the project root:`$ contentful space import --space-id <space-id-here> --contentFile dev_notes_export.json`
+  - If you're looking for your Space ID most URL paths within your Contentful Space start with `/spaces/SPACE-ID-HERE/...`
 
-## Tips
+As long as that went well, your Contentful Space should be ready for hosting.
 
-### Use Tags Sparingly and Name your Topic Titles Carefully
+### Hosting
 
-I almost took out tags entirely because in all honesty, titles will work best when they function a bit like tags ()
+There's a lot of options here, but I'm using Heroku. There's also a couple ways to set it up in Heroku but in generally its pretty simple. You'll need to connect a Heroku app to your personal git branch of Dev Notes and then set up your Environment Variables (Apps -> Settings: Config Vars section). You'll need to input the following into Config Vars:
 
-## Future Goals / Improvements
+- CONTENTFUL_DELIVERY_SECRET: On Contentful go to your Space -> Settings -> API KEYS -> Add API Key. You can also find your SPACE ID here
+- CONTENTFUL_SPACE_ID: See above.
+- CONTENTFUL_OAUTH_ID: Set OAuth up [here](https://app.contentful.com/account/profile/developers/applications/new)
+- CONTENTFUL_OAUTH_REDIRECT_URI: WhateverYourDomainIs.com/oauth/redirect
 
-- Solution UX overhaul allowing adding additional Solutions and searching for existing Solutions to add to a Topic.
-- Separate repo to setup with external search engine (Contentful suggests Algolia)
-- Public/Private categories to hide any or all Topics behind Contentful login.
-- Pinned Topics to keep go to Solutions easy to access.
-- Shortcuts for less mouse more typing.
-- Read more / Fetch limitting/optimization
-- Better and more error messages for when problems arise.
-- Optimization: Caching and better component setup for less re-rendering.
+I'd love for this whole process to be way more accessible but that's a chunk of time I'm not willing to spend without interest.
 
-### On Request / Based On Usage
+## Description / Tips
 
-- Host on Heroku without CLI. For users that are used to working through CLI. I don't know how possible this is but _I want it_
-- Locale customization: I'd basically hop on improvements needed to improve UX for other languages the moment it was requested.
-- Multi-category search: While I do think that categories should define what is being searched, and you can already accomplish this on contentfuls end, I can see having a easy-access back-up being helpful.
-- Browser Extension? Haven't researched this much but was given this suggestion and it seems interesting to have a tool to quickly throw a topic onto the site from the current webpage. An alternate form of bookmarking if you will.
-- Topic URL Routes: I haven't really felt the urge/need for this but it could be nice if expanded views of individual topics were available by URL. Slug field is already available for this functionality.
+Every **Note** has a title or **Topic**, can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
+
+**Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links.
+
+**Tags**... well everyone knows tags by now. I like to make broader Topics and use less Tags, but Tags are still good in a pinch.
+
+**Categories** define which topics can be found when you start typing in the search bar, so they are very impactful. If you find that you're not sure what category a Topic would be found in, it is likely you should make them more broad. I'm currently using Game Dev, Web Dev, and Misc as my current categories (Misc will be used sparingly and typically for keyboard shortcuts in various apps).
+
+### Why not use \_\_\_?
+
+**This very well could not be the right tool to help you.**
+I found that I hate finding where I placed a bookmark, a giant google doc is awful to read through, and I don't want to spend 5 minutes just to logging in just to make a new entry... so here's my solution. With that in mind, I made Dev Notes for myself, and it is specifically designed with what I think will help my memory best. I'm constantly trying to minimize the amount I depend on ~~dumb luck~~ remembering anything off-hand. For me, simply dumping links in a giant doc has been immensely helpful and relieved a ton of stress of late.
+
+## Local Setup
+
+If you plan on messing with the project locally there's a few things you'll need to do:
+
+1. Copy and rename `.example-env` to `.env `
+2. In Contentful go to Settings -> API Keys and create one for yourself.
+3. Set `CONTENTFUL_DELIVERY_SECRET` in `.env` to your new **Content Delivery API - access token**.
+4. Set `CONTENTFUL_SPACE_ID` to your Contentful Space ID.
+5. Probably best to do a `npm install && cd client/ && npm install` for good measure.
+6. `npm start` in root, and in a separate instance `npm start` in `./client/` then you're all set!
+
+### If you want to use Contentful content management API:
+
+1. Copy and rename `/server/example-local.js` to `/server/local.js`.
+2. Create an SSL Certificate through whatever means. Just make sure to fix the file names/locations in your `local.js` line 8-10
+3. [Create a Contentful OAuth App](https://app.contentful.com/account/profile/developers/applications/new) with Read and Manage access (it does not need to be Confidential).
+   Your redirect should look like this: https://localhost:3080/oauth/redirect
+4. Hook up those new values into each of the follow OAuth environment variables: `CONTENTFUL_OAUTH_ID`, `CONTENTFUL_OAUTH_SECRET`, `CONTENTFUL_OAUTH_REDIRECT_URI`
+5. Now run `npm run local` instead of start for your node server.
+6. This parts a bit weird but its the best I could do with Contentful giving the access key through the URL: go to https://localhost:3080/login. This will not correctly log you, but you should see see your key in the URL. Adjust that URL so you keep the access_token but are back on your local React instance (should look something like: http://localhost:3000/oauth/redirect#access_token=TOKEN)

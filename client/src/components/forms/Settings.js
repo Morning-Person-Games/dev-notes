@@ -300,7 +300,7 @@ const SettingsForm = (props) => {
   } = props;
   const { settings, setSettings } = useSettings();
   const [background, setBackground] = useState({
-    palette: settings.theme,
+    palette: themesObject.getTheme(settings.theme),
     isCurrentTheme: true,
   });
   const [selectedFont, setSelectedFont] = useState("inherit");
@@ -325,7 +325,7 @@ const SettingsForm = (props) => {
       />
       <Formik
         initialValues={{
-          theme: settings.theme.title,
+          theme: settings.theme,
           font: settings.font,
           textSize: settings.textSize,
         }}
@@ -336,18 +336,19 @@ const SettingsForm = (props) => {
           if (!settingsChanged.valid) {
             return;
           }
-          const theme = settingsChanged.theme
-            ? themesObject.themes.find((t) => t.title === values.theme)
-            : settings.theme;
           const notifID = toast.loading("Applying new settings...");
           setSettings({
-            theme: theme,
+            theme: values.theme,
             font: values.font,
             textSize: values.textSize,
           });
           setTimeout(() => {
             const newTheme = {};
-            newTheme.colors = getColorsFromTheme(theme);
+            newTheme.colors = getColorsFromTheme(
+              themesObject.getTheme(
+                settingsChanged.theme ? values.theme : settings.theme
+              )
+            );
             newTheme.font = getFontStyles(values.font);
             newTheme.sizes = getThemeSizes(values.textSize);
             setTheme(newTheme);
@@ -372,12 +373,11 @@ const SettingsForm = (props) => {
               as={ThemeSelect}
               name="theme"
               placeholder="Select a theme..."
-              //component={SelectField}
               previews={themesObject.previewStyles}
               palette={background.palette}
               isCurrentTheme={background.isCurrentTheme}
               getOptionLabel={(option) => {
-                if (option.label === settings.theme.title) {
+                if (option.label === settings.theme) {
                   option.isCurrent = true;
                 }
                 return option.label;
@@ -386,23 +386,21 @@ const SettingsForm = (props) => {
               isSearchable={false}
               onChange={(e) => {
                 if (e?.value) {
-                  const aTheme = themesObject.themes.find(
-                    (theme) => theme.title === e.value
-                  );
+                  const aTheme = themesObject.getTheme(e.value);
                   setBackground({
-                    palette: aTheme.theme,
-                    isCurrentTheme: aTheme.theme.title === settings.theme.title,
+                    palette: aTheme,
+                    isCurrentTheme: aTheme.title === settings.theme,
                   });
                   setFieldValue("theme", e.value);
                 } else {
+                  const settingsTheme = themesObject.getTheme(settings.theme);
                   setBackground({
-                    palette: settings.theme,
+                    palette: settingsTheme,
                     isCurrentTheme: true,
                   });
-                  setFieldValue("theme", settings.theme.title);
+                  setFieldValue("theme", settings.theme);
                 }
-                const themeChanged =
-                  e?.value && e.value !== settings.theme.title;
+                const themeChanged = e?.value && e.value !== settings.theme;
                 setSettingsChanged({
                   theme: themeChanged,
                   font: settingsChanged.font,
@@ -431,7 +429,6 @@ const SettingsForm = (props) => {
               as={Select}
               name="font"
               placeholder="Type or select to pick a font..."
-              //component={SelectField}
               font={selectedFont}
               options={fontOptions}
               isSearchable={false}

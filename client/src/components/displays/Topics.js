@@ -3,11 +3,15 @@ import { useState, useEffect } from "react";
 import Topic from "./Topic";
 import styled from "@emotion/styled";
 import SortOptions from "./SortOptions";
-import { staticSizes, mixins } from "../../styles/globalStyles";
-import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
+import { staticSizes, baseTypes, mixins } from "../../styles/globalStyles";
+import {
+  BsEyeSlashFill,
+  BsEyeFill,
+  BsFillArrowUpSquareFill,
+} from "react-icons/bs";
 import PrimarySearch from "../forms/PrimarySearch";
 import { TagField } from "./Tag";
-//import Highlighter from "react-highlight-words";
+import { Link } from "react-scroll";
 
 // styling
 const Ul = styled.ul`
@@ -80,6 +84,27 @@ const Wrapper = styled.div`
   width: 100%;
   position: relative;
   transition: all 300ms ease-in-out;
+`;
+
+const UpArrow = styled(BsFillArrowUpSquareFill)`
+  ${mixins.transition()};
+`;
+
+const ScrollToTop = styled.button`
+  ${mixins.transition("all", 150)};
+  opacity: ${(props) => props.visible};
+  cursor: pointer;
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  display: flex;
+  padding: 0;
+  font-size: ${staticSizes.font.xl};
+  background: none;
+  color: ${(props) => props.theme.colors.highlight};
+  ${baseTypes.hover} {
+    color: ${(props) => props.theme.colors.highlightHover};
+  }
 `;
 
 function GetTopicsList(
@@ -157,6 +182,19 @@ function Topics(props) {
     dateReversed: false,
     alphaReversed: false,
   });
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (!loading) {
@@ -263,6 +301,15 @@ function Topics(props) {
       ) : (
         <h3>{emptySearch}</h3>
       )}
+      <ScrollToTop
+        visible={scrollPosition > 500 ? 1 : 0}
+        as={Link}
+        to="Header"
+        smooth={true}
+        duration={500}
+      >
+        <UpArrow />
+      </ScrollToTop>
     </Wrapper>
   );
 }

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import defaultColors from "../../styles/defaultColors";
 
 const defaultSettings = {
-  theme: defaultColors,
+  theme: "Default",
   font: "System Default",
   textSize: "16",
 };

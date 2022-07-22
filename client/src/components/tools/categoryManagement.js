@@ -26,7 +26,7 @@ async function createNewCategory(token, newCategory, spaceID) {
       return category;
     })
     .catch((err) => {
-      console.log(
+      console.warn(
         "TopicEntry - createNewSolution error: " + JSON.stringify(err, null, 2)
       );
       toast.update(notifID, {

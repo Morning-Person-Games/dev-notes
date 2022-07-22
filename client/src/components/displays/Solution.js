@@ -4,8 +4,6 @@ import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
 import { useIsOverflow } from "../tools/useIsOverflow";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-import remarkImages from "remark-images";
-import remarkUnwrapImages from "remark-unwrap-images";
 import { useTheme } from "@emotion/react";
 import { transparentize } from "polished";
 import { BsFiles, BsCheckLg } from "react-icons/bs";
@@ -61,13 +59,6 @@ const Li = styled.li`
     margin: 0;
     font-weight: 700;
     ${staticSizes.rtPadding};
-  }
-  img {
-    padding-top: 10px;
-    width: 100%;
-  }
-  a.anchor {
-    margin-left: -27px;
   }
   ul {
     list-style-type: disc;
@@ -182,7 +173,46 @@ const ClipCodeBtn = styled.button`
 const SuccessIcon = styled(BsCheckLg)`
   color: ${(props) => props.theme.colors.link};
 `;
+const ImageLinkText = styled.span`
+  position: absolute;
+  display: block;
+  top: 0;
+  ${mixins.transition("opacity", 150)};
+  opacity: 0;
+  font-size: ${staticSizes.font.sm};
+  color: rgb(242, 242, 242);
+  box-shadow: 0px 7px 7px -2px rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+`;
+const SpanWrapper = styled.span`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+const ImageA = styled.a`
+  margin: 10px -10px 0 -10px;
+  display: block;
+  position: relative;
+  text-align: center;
+  //side step P wrapper:
+  width: fit-content;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  ${baseTypes.hover} {
+    span {
+      opacity: 1;
+    }
+  }
+`;
+
 // #endregion
+
+function isImage(url) {
+  return /\.(jpg|jpeg|png|gif)$/.test(url);
+}
 
 function CopyCodeButton({ children }) {
   const [copied, setCopied] = useState(false);
@@ -265,7 +295,8 @@ function Solution({
       <div style={{ width: "100%", display: "block" }}>
         <ReactMarkdown
           children={solution.description}
-          remarkPlugins={[gfm, remarkImages, remarkUnwrapImages]}
+          remarkPlugins={[gfm]}
+          fullscreen={fullscreen}
           components={{
             code({ node, inline, children, ...props }) {
               return inline ? (
@@ -279,6 +310,33 @@ function Solution({
                   <CopyCodeButton children={children} />
                 </>
               );
+            },
+            a({ node, href, children, ...props }) {
+              if (isImage(href)) {
+                return (
+                  <SpanWrapper>
+                    <ImageA
+                      href={href}
+                      {...props}
+                      target="__blank"
+                      rel="noreferrer"
+                      fullscreen={fullscreen}
+                    >
+                      <ImageLinkText>{href}</ImageLinkText>
+                      <img
+                        src={href}
+                        alt="A URL thats automatically displayed, so no further visual description can be given unfortunately"
+                      />
+                    </ImageA>
+                  </SpanWrapper>
+                );
+              } else {
+                return (
+                  <a href={href} {...props} target="__blank" rel="noreferrer">
+                    {children}
+                  </a>
+                );
+              }
             },
           }}
         />

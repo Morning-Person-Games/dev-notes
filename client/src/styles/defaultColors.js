@@ -13,7 +13,6 @@ const defaultColors = {
   link: "#6975d2",
   placeholder: "#afafb3",
   codeText: "rgb(242, 242, 242)",
-  dark: "#0d0f1f",
   shadow: "rgba(16,18,30,0.6)",
   linkHover: "#4251c6",
   highlightHover: "#4251c6",

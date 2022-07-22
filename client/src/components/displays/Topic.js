@@ -72,7 +72,7 @@ const Actions = styled.div`
     !props.fullscreen || (props.fullscreen && !props.delay) ? "flex" : "none"};
 `;
 const AlternateBtn = styled.button`
-  color: ${(props) => props.theme.colors.highlightHover};
+  color: ${(props) => props.theme.colors.highlight};
   margin: 0;
   padding: 0;
   border-radius: 0;
@@ -88,10 +88,13 @@ const AlternateBtn = styled.button`
     position: absolute;
   }
   &:hover {
-    color: ${(props) => props.theme.colors.highlight};
     background-color: ${(props) => props.theme.colors.secondary};
+    color: ${(props) => props.theme.colors.highlightHover};
   }
   &:visited {
+    color: ${(props) => props.theme.colors.highlight};
+  }
+  &:hover:visited {
     color: ${(props) => props.theme.colors.highlightHover};
   }
   &:disabled {
@@ -203,6 +206,7 @@ const ContractBtn = styled.button`
   }
   //font-size: ${staticSizes.font.xl};
   color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.highlight};
   ${baseTypes.hover} {
     background: none;
     color: ${(props) => props.theme.colors.highlightHover};

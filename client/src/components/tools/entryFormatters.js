@@ -14,7 +14,6 @@ async function FormattedTopicEntry(values) {
   // }
   const tags = formatTagsFromValues(values.tags);
   const newTags = formatTagsFromValues(values.tags, true);
-  console.log("newTags", newTags);
   const topicToAdd = {
     title: values.title,
     slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
@@ -73,14 +72,13 @@ async function generateSolutionTitle(solutionMd) {
     }),
   })
     .then((data) => {
-      console.log("data", data);
       return data.json();
     })
     .then((title) => {
       return title;
     })
     .catch((err) => {
-      console.log(
+      console.warn(
         "EntryFormatters - generateSolutionTitle error: " +
           JSON.stringify(err, null, 2)
       );

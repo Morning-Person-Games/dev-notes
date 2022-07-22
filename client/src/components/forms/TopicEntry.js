@@ -351,7 +351,7 @@ const TopicEntry = withFormik({
         (solution) => (indexableSolutions += " " + solution.title)
       );
       newTopic.indexableSolutions = indexableSolutions;
-      console.log("New (Local) Topic: ", newTopic);
+      console.info("New (Local) Topic: ", newTopic);
     }
     props.addToContentList(contentToAdd);
     // Send content to contentful
@@ -360,7 +360,7 @@ const TopicEntry = withFormik({
       contentToSend,
       props.spaceID
     );
-    console.log("Topic Created on Contentful: ", createdTopic);
+    console.info("Topic Created on Contentful: ", createdTopic);
     resetForm({
       values: {
         title: "",

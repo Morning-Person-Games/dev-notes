@@ -12,11 +12,7 @@ import Logout from "./components/routes/Logout";
 import { ToastContainer, toast } from "react-toastify";
 import { staticSizes, mixins, baseTypes } from "./styles/globalStyles";
 import "react-toastify/dist/ReactToastify.min.css";
-import {
-  formatThemesList,
-  getThemeSizes,
-  getColorsFromTheme,
-} from "./styles/themeHelper";
+import { formatThemesList, getThemeSizes } from "./styles/themeHelper";
 import { getFontStyles } from "./styles/fonts";
 import { useSettings } from "./components/tools/useSettings";
 import { ThemeProvider, Global } from "@emotion/react";
@@ -27,6 +23,21 @@ const defaultTheme = {
   colors: defaultColors,
   font: getFontStyles("System Default"),
   sizes: defaultSizes,
+};
+
+const getSetTheme = async (settings, setTheme, setThemesObject) => {
+  await fetch("api/themes")
+    .then((res) => res.json())
+    .then((resThemes) => {
+      const themesFormated = formatThemesList(resThemes);
+      setThemesObject(themesFormated);
+      const newTheme = {
+        colors: themesFormated.getTheme(settings.theme),
+        font: getFontStyles(settings.font),
+        sizes: getThemeSizes(settings.textSize),
+      };
+      setTheme(newTheme);
+    });
 };
 
 function App() {
@@ -41,23 +52,15 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState({ topics: [] });
   const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
-  const [loadingFade, setLoadingFade] = useState(false);
+  const [loadingFade, setLoadingFade] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
 
+  // TODO finish caching/local offline storage. Needs a limit of some sort
   useEffect(() => {
-    const newTheme = {};
-    newTheme.colors = getColorsFromTheme(settings.theme);
-    newTheme.font = getFontStyles(settings.font);
-    newTheme.sizes = getThemeSizes(settings.textSize);
-    setTheme(newTheme);
-  }, [settings]);
-
-  useEffect(() => {
-    // TODO Caching? Optimization? I don't know a lot about API based optimization atm.
     // pull and set content list
     if (loading) {
       setLoadScreen(true);
-      const fetchAndSetContent = async () => {
+      return async () => {
         const controller = new AbortController();
         // 5 second timeout:
         const timeoutId = setTimeout(() => controller.abort(), 2000);
@@ -68,19 +71,22 @@ function App() {
           }
           setTags(content.tags);
           setSolutions(content.solutions);
-          setThemesObject(formatThemesList(content.themes));
           setSpaceID(content.spaceID);
+          setTimeout(() => {
+            setLoadingFade(false);
+          }, 1200);
           setLoading(false);
         };
         return await fetch("/api/content", { signal: controller.signal })
           .then((res) => {
-            clearTimeout(timeoutId);
             return res.json();
           })
           .then((content) => {
+            clearTimeout(timeoutId);
+            getSetTheme(settings, setTheme, setThemesObject);
             setStates(content);
             //setOfflineStorage(content);
-            console.log("Fetched content");
+            console.info("Fetched content");
           })
           .catch((err) => {
             if (err.name === "AbortError" && loading) {
@@ -89,12 +95,12 @@ function App() {
             toast.info(
               "Timeout reached while fetching content. Using local backup."
             );
+            getSetTheme(settings, setTheme, setThemesObject);
             setStates(offlineStorage);
           });
       };
-      fetchAndSetContent();
     }
-  }, [loading, offlineStorage, setOfflineStorage]);
+  }, [loading, offlineStorage, setOfflineStorage, settings]);
 
   /*
     contentToAdd = {
@@ -150,7 +156,7 @@ function App() {
             html {
               width: 100vw;
               overflow-x: hidden;
-              overflow-y: ${(loading || loadingFade) && "hidden"};
+              overflow-y: ${loadingFade && "hidden"};
               font-size: ${theme.sizes.baseFontSize}px;
             }
             body {
@@ -173,6 +179,9 @@ function App() {
                 color: ${theme.colors.linkHover};
               }
               font-family: inherit;
+            }
+            .highlighted {
+              color: red;
             }
             p,
             h1,
@@ -247,7 +256,7 @@ function App() {
         {loadScreen && (
           <LoadingDisplay
             setLoadScreen={setLoadScreen}
-            loading={loading || loadingFade ? 1 : 0}
+            loading={loadingFade ? 1 : 0}
           />
         )}
         <Routes>

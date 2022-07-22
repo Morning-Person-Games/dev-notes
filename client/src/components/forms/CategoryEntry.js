@@ -178,7 +178,7 @@ function CategoryEntryForm({ token, callback, spaceID }) {
           newCategory,
           spaceID
         );
-        console.log("New Category: ", createdCategory);
+        console.info("New Category: ", createdCategory);
         if (callback) {
           callback();
         }

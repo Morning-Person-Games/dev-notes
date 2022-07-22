@@ -50,13 +50,28 @@ function formatThemesList(themes) {
     options: [{ value: "Default", label: "Default" }],
   };
   for (let i = 0; i < themes.length; i++) {
-    themesObject.themes.push({ title: themes[i].title, theme: themes[i] });
-    themesObject.previewStyles.push(formattedThemePreview(themes[i], i + 2));
+    const colors = getColorsFromTheme(themes[i]);
+    themesObject.themes.push({ title: themes[i].title, theme: colors });
+    themesObject.previewStyles.push(formattedThemePreview(colors, i + 2));
     themesObject.options.push({
       value: themes[i].title,
       label: themes[i].title,
     });
   }
+  themesObject.getTheme = (themeTitle) => {
+    if (themesObject.themes) {
+      const themeFound = themesObject.themes.find(
+        (t) => t.title === themeTitle
+      );
+      if (themeFound) {
+        return themeFound.theme;
+      }
+    }
+    console.warn(
+      "Issue getting theme from theme Object, returning default theme"
+    );
+    return defaultColors;
+  };
   return themesObject;
 }
 
@@ -74,29 +89,48 @@ function getThemeSizes(newTextSize) {
   return sizes;
 }
 
+const colorIsEmpty = (color, fallback) => {
+  return color && color !== "#000000" ? color : fallback;
+};
+
 function getColorsFromTheme(newTheme) {
-  const newColors = newTheme.theme;
-  newColors.white = newColors.text;
+  const newColors = JSON.parse(JSON.stringify(newTheme));
+  newColors.text = newColors.white;
   newColors.inactiveColor = newColors.gray;
-  if (newColors.background === "")
-    newColors.background = darken("0.13", newColors.primary);
-  if (newColors.secondary === "")
-    newColors.secondary = darken("0.07", newColors.primary);
-  if (newColors.dark === "")
-    newColors.dark = darken("0.02", newColors.background);
-  if (newColors.highlightHover === "")
-    newColors.highlightHover = lighten("0.1", newColors.highlight);
-  if (newColors.placeholder === "")
-    newColors.placeholder = lighten(0.15, newColors.gray);
-  if (newColors.link === "") newColors.link = lighten(0.2, newColors.highlight);
-  if (newColors.linkHover === "")
-    newColors.linkHover = darken(0.1, newColors.link);
-  if (newColors.codeBlock === "") newColors.codeBlock = newColors.background;
-  if (newColors.codeLine === "")
-    newColors.codeLine = transparentize(0.3, lighten(0.1, newColors.primary));
-  if (newColors.codeText === "") newColors.codeText = newColors.white;
+  // treating #000 as null because the field helper in contentful cant be null
+  newColors.background = colorIsEmpty(
+    newColors.background,
+    darken("0.13", newColors.primary)
+  );
+  newColors.secondary = colorIsEmpty(
+    newColors.secondary,
+    darken("0.07", newColors.primary)
+  );
+  newColors.highlightHover = colorIsEmpty(
+    newColors.highlightHover,
+    lighten("0.1", newColors.highlight)
+  );
+  newColors.placeholder = colorIsEmpty(
+    newColors.placeholder,
+    lighten(0.15, newColors.gray)
+  );
+  newColors.link = colorIsEmpty(
+    newColors.link,
+    lighten(0.2, newColors.highlight)
+  );
+  newColors.linkHover = colorIsEmpty(
+    newColors.linkHover,
+    darken(0.1, newColors.link)
+  );
+  newColors.codeBlock = colorIsEmpty(newColors.codeBlock, newColors.background);
+  newColors.codeLine = colorIsEmpty(
+    newColors.codeLine,
+    transparentize(0.3, lighten(0.1, newColors.primary))
+  );
+  newColors.codeText = colorIsEmpty(newColors.codeText, newColors.white);
+
   newColors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
-  newColors.fieldHover = darken(0.045, newColors.primary);
+  newColors.fieldHover = lighten(0.025, newColors.secondary);
   newColors.reverseFieldHover = lighten(0.035, newColors.primary);
   return newColors;
 }

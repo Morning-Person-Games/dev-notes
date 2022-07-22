@@ -38,17 +38,17 @@ const Button = styled.button`
   ${mixins.transition("border")};
   ${baseTypes.hover} {
     &:enabled {
-      border-bottom-color: ${(props) => props.theme.colors.highlight};
+      border-bottom-color: ${(props) => props.theme.colors.highlightHover};
     }
   }
   &:disabled {
     cursor: default;
-    border-bottom-color: ${(props) => props.theme.colors.highlightHover};
+    border-bottom-color: ${(props) => props.theme.colors.highlight};
   }
 `;
 const H2 = styled.h2`
   margin: 0;
-  color: ${(props) => props.theme.colors.highlightHover};
+  color: ${(props) => props.theme.colors.highlight};
 `;
 
 const SvgBtn = styled.button`

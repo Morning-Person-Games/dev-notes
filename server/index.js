@@ -10,6 +10,7 @@ const content = require("./routes/content.js");
 const create = require("./routes/create");
 const strip = require("./routes/strip");
 const topicsService = require("./services/topics.js");
+const themesService = require("./services/themes.js");
 
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(express.json());
@@ -29,9 +30,13 @@ app.get("/login", (req, res) => {
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-  res.write("<h1>Publically Available Content</h1>");
   topicsService.getTopics().then((topicsCollection) => {
     res.json(topicsCollection.items);
+  });
+});
+app.get("/api/themes", (req, res) => {
+  themesService.getThemes().then((themesCollection) => {
+    res.json(themesCollection.items);
   });
 });
 

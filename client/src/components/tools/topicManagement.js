@@ -13,7 +13,7 @@ async function createNewTopic(
 ) {
   const notifID = toast.loading("Uploading topic...");
   const messages = [];
-  console.log("newTags", newTags);
+  console.info("newTags", newTags);
   const tagResults =
     newTags.length > 0
       ? await createNewTags(token, newTags, false, spaceID)
@@ -84,8 +84,8 @@ async function createNewTopic(
       })
     );
   }
-  console.log("all tags:", tags);
-  console.log("all solutions:", solutions);
+  console.info("all tags:", tags);
+  console.info("all solutions:", solutions);
   const topic = {
     tags: tags,
     title: newTopic.title,
@@ -115,7 +115,7 @@ async function createNewTopic(
     .then((topic) => {
       if (messages.length > 0) {
         messages.forEach((message) => {
-          console.log(message);
+          console.warn(message);
           // TODO clearer errors:
           //toast.info(message.error);
         });
@@ -131,7 +131,7 @@ async function createNewTopic(
       return topic;
     })
     .catch((err) => {
-      console.log(
+      console.warn(
         "TopicEntry - createNewTag error: " + JSON.stringify(err, null, 2)
       );
       if (notifID) {
@@ -195,7 +195,7 @@ async function createNewTags(token, tags, notify, spaceID) {
           autoClose: false,
         });
       }
-      console.log(
+      console.warn(
         "TopicEntry - createNewTag error: " + JSON.stringify(err, null, 2)
       );
       return "error";
@@ -232,7 +232,7 @@ async function createNewSolutions(token, solutions, notify, spaceID) {
       return solutions;
     })
     .catch((err) => {
-      console.log(
+      console.warn(
         "TopicEntry - createNewSolution error: " + JSON.stringify(err, null, 2)
       );
       if (notifID) {

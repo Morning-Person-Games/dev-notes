@@ -15,6 +15,7 @@ const content = require("./routes/content");
 const create = require("./routes/create");
 const strip = require("./routes/strip");
 const topicsService = require("./services/topics.js");
+const themesService = require("./services/themes.js");
 
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(express.json());
@@ -37,6 +38,11 @@ app.get("/api", (req, res) => {
   //res.json({ message: "Hello from server!" });
   topicsService.getTopics().then((topicsCollection) => {
     res.json(topicsCollection.items);
+  });
+});
+app.get("/api/themes", (req, res) => {
+  themesService.getThemes().then((themesCollection) => {
+    res.json(themesCollection.items);
   });
 });
 

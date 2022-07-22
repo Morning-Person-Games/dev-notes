@@ -36,7 +36,14 @@ app.get("/api", (req, res) => {
 });
 app.get("/api/themes", (req, res) => {
   themesService.getThemes().then((themesCollection) => {
-    res.json(themesCollection.items);
+    const themesList = [];
+    themesCollection.items.forEach((theme) => {
+      // default only on contentful as an example:
+      if (theme.fields.title !== "Default") {
+        themesList.push(theme.fields);
+      }
+    });
+    res.json(themesList);
   });
 });
 

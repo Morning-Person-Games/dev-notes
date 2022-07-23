@@ -14,13 +14,15 @@ If you want to check Dev Notes out locally see: [Local Setup](#Local-Setup).
 - [A Contentful account](https://www.contentful.com/sign-up/)
 - [Contentful's CLI tool](https://www.contentful.com/developers/docs/tutorials/cli/installation/)
 
-### Contentful Setup
+### Git Repo and Contentful Setup
 
 - First off: `$ git clone https://github.com/Morning-Person-Games/dev-notes.git`
 - `$ git remote add personal http://github.com/YOU/YOUR_REPO`
   - Optional: `$ git fetch upstream` for easier access to any updates!
 - `$ git push origin main`
-- On an empty Contentful Space navigate to Settings -> API Keys -> Content Management Tokens and generate a new personal token.
+- If you haven't created a Contentful account already, [go ahead and do that](https://www.contentful.com/sign-up/).
+- Create a new empty Space from your [Contentful app home](https://app.contentful.com/) (new accounts have access to one free Space).
+- On your new empty Contentful Space navigate to Settings -> API Keys -> Content Management Tokens and generate a new personal token.
 - Take that token and run: `$ contentful login --management-token <management-token-here> `
 - In the project root:`$ contentful space import --space-id <space-id-here> --contentFile dev_notes_export.json`
   - If you're looking for your Space ID most URL paths within your Contentful Space start with `/spaces/SPACE-ID-HERE/...`

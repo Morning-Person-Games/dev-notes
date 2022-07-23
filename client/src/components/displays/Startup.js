@@ -150,7 +150,8 @@ function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
 
         <P>
           <B>Solutions</B> are the text body(s) of a Topic. I'd bet 75% of mine
-          are stackoverflow links.
+          are stackoverflow links. Also! Pasting a url to an image will
+          automatically render the image in the content list.
         </P>
         <P>
           <B>Tags</B>... well everyone knows tags by now. I like to make broader

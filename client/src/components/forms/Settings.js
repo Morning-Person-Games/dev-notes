@@ -366,7 +366,7 @@ const SettingsForm = (props) => {
           }, 2400);
         }}
       >
-        {({ values, errors, setFieldValue, isSubmitting, handleSubmit }) => (
+        {({ values, setFieldValue, isSubmitting, handleSubmit }) => (
           <FormWrapper onSubmit={handleSubmit}>
             <baseTypes.Label>Theme: </baseTypes.Label>
             <baseTypes.ModalField
@@ -379,6 +379,8 @@ const SettingsForm = (props) => {
               getOptionLabel={(option) => {
                 if (option.label === settings.theme) {
                   option.isCurrent = true;
+                } else {
+                  option.isCurrent = false;
                 }
                 return option.label;
               }}

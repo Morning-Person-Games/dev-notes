@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { mixins, baseTypes, staticSizes } from "./globalStyles";
 import defaultColors from "./defaultColors";
 import { math, darken, lighten, transparentize } from "polished";
+import { toast } from "react-toastify";
 
 function formattedThemePreview(palette, count) {
   return css`
@@ -48,6 +49,10 @@ function formatThemesList(themes) {
     themes: [{ title: "Default", theme: defaultColors }],
     previewStyles: [formattedThemePreview(defaultColors, 1)],
     options: [{ value: "Default", label: "Default" }],
+    getTheme: () => {
+      toast.warning("Issue finding theme. Reloading to avoid errors.");
+      window.location.reload(false);
+    },
   };
   for (let i = 0; i < themes.length; i++) {
     const colors = getColorsFromTheme(themes[i]);
@@ -100,7 +105,7 @@ function getColorsFromTheme(newTheme) {
   // treating #000 as null because the field helper in contentful cant be null
   newColors.background = colorIsEmpty(
     newColors.background,
-    darken("0.13", newColors.primary)
+    darken("0.15", newColors.primary)
   );
   newColors.secondary = colorIsEmpty(
     newColors.secondary,
@@ -116,7 +121,7 @@ function getColorsFromTheme(newTheme) {
   );
   newColors.link = colorIsEmpty(
     newColors.link,
-    lighten(0.2, newColors.highlight)
+    lighten(0.15, newColors.highlight)
   );
   newColors.linkHover = colorIsEmpty(
     newColors.linkHover,
@@ -129,7 +134,7 @@ function getColorsFromTheme(newTheme) {
   );
   newColors.codeText = colorIsEmpty(newColors.codeText, newColors.white);
 
-  newColors.shadow = transparentize(0.4, "rgb(16, 18, 30)");
+  newColors.shadow = transparentize(0.4, "rgb(15,17,28)");
   newColors.fieldHover = lighten(0.025, newColors.secondary);
   newColors.reverseFieldHover = lighten(0.035, newColors.primary);
   return newColors;

@@ -107,7 +107,7 @@ const Editor = styled(EditorInit)`
       margin-bottom: -4px;
     }
     button {
-      font-weight: 600;
+      font-weight: 700;
       ${mixins.transition()};
       font-size: ${staticSizes.font.h5n}rem;
       padding: 0 3px;

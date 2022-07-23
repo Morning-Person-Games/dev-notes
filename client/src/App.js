@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
-import useOfflineStorage from "./components/tools/useOfflineStorage";
+//import useOfflineStorage from "./components/tools/useOfflineStorage";
 import Notes from "./components/routes/Notes";
 import Topics from "./components/displays/Topics";
 import LoadingDisplay from "./components/displays/Loading";
@@ -38,6 +38,7 @@ const getSetTheme = async (
       if (resThemes.length > 0) {
         if (settings.theme !== "Default") {
           if (!resThemes.some((t) => t.title === settings.theme)) {
+            toast.warning("Issue finding saved theme, resetting to default.");
             resetSettings();
             setSettings(defaultTheme);
             setTheme(defaultTheme);
@@ -66,7 +67,7 @@ const getSetTheme = async (
 function App() {
   const { token, setToken, resetToken } = useToken();
   const { settings, resetSettings, setSettings } = useSettings();
-  const { offlineStorage, setOfflineStorage } = useOfflineStorage();
+  //const { offlineStorage, setOfflineStorage } = useOfflineStorage();
   const [theme, setTheme] = useState(defaultTheme);
   const [topics, setTopics] = useState([]);
   const [spaceID, setSpaceID] = useState("");
@@ -135,8 +136,8 @@ function App() {
     }
   }, [
     loading,
-    offlineStorage,
-    setOfflineStorage,
+    // offlineStorage,
+    // setOfflineStorage,
     settings,
     resetSettings,
     setSettings,

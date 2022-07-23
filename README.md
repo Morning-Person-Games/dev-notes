@@ -2,7 +2,7 @@
 
 Dev Notes is a digital journal streamlined to quickly jot down important thoughts and quickly find them later — like a searchable list of bookmarks, or a simple blog with much less overhead.
 
-Try out the demo [here](https://dev-notes-demo.herokuapp.com/).
+**Try out the demo [here](https://dev-notes-demo.herokuapp.com/).**
 
 ## Setup
 

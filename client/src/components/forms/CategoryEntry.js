@@ -95,6 +95,11 @@ const RightBtn = styled.button`
   border-radius: 0 ${staticSizes.radius} ${staticSizes.radius} 0;
 `;
 
+const TitleField = styled(baseTypes.ModalField)`
+  padding: 10px;
+  border-radius: ${staticSizes.radius};
+`;
+
 const WeightButtons = ({ setFieldValue, currentValue }) => {
   const list = [];
   for (let i = -5; i <= 5; i++) {
@@ -167,7 +172,7 @@ function CategoryEntryForm({ token, callback, spaceID }) {
   return (
     <Formik
       initialValues={{ category: "", visibility: true, weight: 0 }}
-      onSubmit={async (values, resetForm) => {
+      onSubmit={async (values, { resetForm }) => {
         const newCategory = {
           title: values.category,
           visibility: values.visibility,
@@ -189,7 +194,7 @@ function CategoryEntryForm({ token, callback, spaceID }) {
       {({ values, touched, errors, setFieldValue, isSubmitting }) => (
         <CategoryForm>
           <Label htmlFor="category">Title:</Label>
-          <baseTypes.ModalField
+          <TitleField
             as={Field}
             type="text"
             name="category"

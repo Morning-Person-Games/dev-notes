@@ -412,10 +412,7 @@ const SettingsForm = (props) => {
                   ].includes(true),
                 });
               }}
-              options={[
-                { value: "Default", label: "Default" },
-                { value: "Too Bright", label: "Too Bright" },
-              ]}
+              options={themesObject.options}
             />
             <HelperText>
               Head to your{" "}

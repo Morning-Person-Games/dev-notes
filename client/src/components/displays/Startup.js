@@ -71,7 +71,7 @@ const H3 = styled.h3`
 const DescriptionWrapper = styled.div`
   background-color: ${defaultColors.secondary};
   padding: 0 0 10px 0;
-  margin-top: 10px;
+  margin: 10px 0;
   border-radius: 5px;
 `;
 const LoginButton = styled(baseTypes.DefaultBtn)`

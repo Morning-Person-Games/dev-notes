@@ -160,28 +160,30 @@ function CategoriesHeader({
   return (
     <Wrapper id="Header">
       <Ul>{links}</Ul>
-      <SettingsDiv>
-        <SvgBtn
-          type="button"
-          onClick={() =>
-            setModalContent({
-              title: "Settings",
-              component: (
-                <SettingsForm
-                  spaceID={spaceID}
-                  themesObject={themesObject}
-                  setLoadScreen={setLoadScreen}
-                  setModalContent={setModalContent}
-                  setLoadingFade={setLoadingFade}
-                  setTheme={setTheme}
-                />
-              ),
-            })
-          }
-        >
-          <SettingsIcon />
-        </SvgBtn>
-      </SettingsDiv>
+      {topics && topics.length > 0 && (
+        <SettingsDiv>
+          <SvgBtn
+            type="button"
+            onClick={() =>
+              setModalContent({
+                title: "Settings",
+                component: (
+                  <SettingsForm
+                    spaceID={spaceID}
+                    themesObject={themesObject}
+                    setLoadScreen={setLoadScreen}
+                    setModalContent={setModalContent}
+                    setLoadingFade={setLoadingFade}
+                    setTheme={setTheme}
+                  />
+                ),
+              })
+            }
+          >
+            <SettingsIcon />
+          </SvgBtn>
+        </SettingsDiv>
+      )}
     </Wrapper>
   );
 }

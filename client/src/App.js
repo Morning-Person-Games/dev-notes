@@ -25,24 +25,47 @@ const defaultTheme = {
   sizes: defaultSizes,
 };
 
-const getSetTheme = async (settings, setTheme, setThemesObject) => {
+const getSetTheme = async (
+  settings,
+  setTheme,
+  setThemesObject,
+  resetSettings,
+  setSettings
+) => {
   await fetch("api/themes")
     .then((res) => res.json())
     .then((resThemes) => {
-      const themesFormated = formatThemesList(resThemes);
-      setThemesObject(themesFormated);
-      const newTheme = {
-        colors: themesFormated.getTheme(settings.theme),
-        font: getFontStyles(settings.font),
-        sizes: getThemeSizes(settings.textSize),
-      };
-      setTheme(newTheme);
+      if (resThemes.length > 0) {
+        if (settings.theme !== "Default") {
+          if (!resThemes.some((t) => t.title === settings.theme)) {
+            resetSettings();
+            setSettings(defaultTheme);
+            setTheme(defaultTheme);
+            return;
+          }
+        }
+        const themesFormated = formatThemesList(resThemes);
+        setThemesObject(themesFormated);
+        const newTheme = {
+          colors: themesFormated.getTheme(settings.theme),
+          font: getFontStyles(settings.font),
+          sizes: getThemeSizes(settings.textSize),
+        };
+        setTheme(newTheme);
+      } else {
+        setTheme(defaultTheme);
+      }
+    })
+    .catch((err) => {
+      console.warn("No themes found, setting default theme");
+      setTheme(defaultTheme);
+      return;
     });
 };
 
 function App() {
   const { token, setToken, resetToken } = useToken();
-  const { settings } = useSettings();
+  const { settings, resetSettings, setSettings } = useSettings();
   const { offlineStorage, setOfflineStorage } = useOfflineStorage();
   const [theme, setTheme] = useState(defaultTheme);
   const [topics, setTopics] = useState([]);
@@ -83,7 +106,15 @@ function App() {
           })
           .then((content) => {
             clearTimeout(timeoutId);
-            getSetTheme(settings, setTheme, setThemesObject);
+            if (content.topics.length > 0) {
+              getSetTheme(
+                settings,
+                setTheme,
+                setThemesObject,
+                resetSettings,
+                setSettings
+              );
+            }
             setStates(content);
             //setOfflineStorage(content);
             console.info("Fetched content");
@@ -95,13 +126,21 @@ function App() {
             toast.info(
               "Timeout reached while fetching content. Using local backup."
             );
-            getSetTheme(settings, setTheme, setThemesObject);
-            setStates(offlineStorage);
+            // commenting out until complete
+            // getSetTheme(settings, setTheme, setThemesObject);
+            // setStates(offlineStorage);
           });
       };
       setContent();
     }
-  }, [loading, offlineStorage, setOfflineStorage, settings]);
+  }, [
+    loading,
+    offlineStorage,
+    setOfflineStorage,
+    settings,
+    resetSettings,
+    setSettings,
+  ]);
 
   /*
     contentToAdd = {

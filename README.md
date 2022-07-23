@@ -54,7 +54,9 @@ Every **Note** has a title or **Topic**, can have any number of **Solutions** an
 I found that I hate finding where I placed a bookmark, a giant google doc is awful to read through, and I don't want to spend 5 minutes just to logging in just to make a new entry... so here's my solution. With that in mind, I made Dev Notes for myself, and it is specifically designed with what I think will help my memory best. I'm constantly trying to minimize the amount I depend on ~~dumb luck~~ remembering anything off-hand. For me, simply dumping links in a giant doc has been immensely helpful and relieved a ton of stress of late.
 
 ### Settings / Themes
-A selection of preset themes and fonts,  as well as a font-size are all availble as settings to customize the appearance of Dev Notes. If you'd like to add your own theme you can do so in Contentful by creating a Theme content type. There's some additional notes in the Theme form to help you out with it, but due to how that form is setup (and me not having the time to make a front-facing form) #000000 is treated as null and will calculate a relative color off of the primary color.
+A selection of preset themes and fonts,  as well as a font-size are all availble as settings to customize the appearance of Dev Notes. If you'd like to add your own theme you can do so in Contentful by creating a Theme content type. While the theme form can be a bit overwhelming, only three colors need to be set: Primary, Highlight, and Text / White (see image below), and the rest of the colors will calculate from those. Of course you dive deeper into color customization and thats why the rest of the fields are available!
+
+![Screenshot 2022-07-23 134656](https://user-images.githubusercontent.com/2497844/180622402-42d19803-606b-4964-b9b6-fb2d650d4553.png)
 
 ## Local Setup
 

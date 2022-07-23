@@ -1,0 +1,1437 @@
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "topic",
+        "type": "ContentType",
+        "createdAt": "2022-05-16T13:20:18.500Z",
+        "updatedAt": "2022-07-02T17:15:10.126Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 25,
+        "publishedAt": "2022-07-02T17:15:10.126Z",
+        "firstPublishedAt": "2022-05-16T13:20:18.897Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "publishedCounter": 13,
+        "version": 26,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        }
+      },
+      "displayField": "title",
+      "name": "Topic",
+      "description": "The primary title/question",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Title or Question",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "size": {
+                "min": 3,
+                "max": null
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "slug",
+          "name": "Slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "size": {
+                "max": 60
+              }
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9_-]*$",
+                "flags": null
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "category",
+          "name": "Category",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "linkContentType": [
+                "category"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry"
+        },
+        {
+          "id": "solutions",
+          "name": "Solutions",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkContentType": [
+                  "solution"
+                ]
+              }
+            ],
+            "linkType": "Entry"
+          }
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "solution",
+        "type": "ContentType",
+        "createdAt": "2022-05-16T13:27:15.888Z",
+        "updatedAt": "2022-07-05T02:53:18.614Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 55,
+        "publishedAt": "2022-07-05T02:53:18.614Z",
+        "firstPublishedAt": "2022-05-16T13:27:16.410Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "publishedCounter": 28,
+        "version": 56,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        }
+      },
+      "displayField": "strippedDescription",
+      "name": "Solution",
+      "description": "A solution or answer to a topic",
+      "fields": [
+        {
+          "id": "description",
+          "name": "Description",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "strippedDescription",
+          "name": "Stripped Description",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "category",
+        "type": "ContentType",
+        "createdAt": "2022-06-04T16:27:29.478Z",
+        "updatedAt": "2022-07-07T15:44:23.704Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 31,
+        "publishedAt": "2022-07-07T15:44:23.704Z",
+        "firstPublishedAt": "2022-06-04T16:27:29.663Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "publishedCounter": 16,
+        "version": 32,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        }
+      },
+      "displayField": "title",
+      "name": "Category",
+      "description": "These are like tags but broader buckets for separating Topics. A Topic can have one Category.",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "size": {
+                "min": 4,
+                "max": 60
+              }
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$",
+                "flags": null
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "public",
+          "name": "Visibility",
+          "type": "Boolean",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": true
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "weight",
+          "name": "Weight",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                -5,
+                -4,
+                -3,
+                -2,
+                -1,
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "defaultValue": {
+            "en-US": 0
+          },
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "theme",
+        "type": "ContentType",
+        "createdAt": "2022-07-02T17:14:22.446Z",
+        "updatedAt": "2022-07-23T20:51:33.793Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 51,
+        "publishedAt": "2022-07-23T20:51:33.793Z",
+        "firstPublishedAt": "2022-07-02T17:14:22.660Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "publishedCounter": 26,
+        "version": 52,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        }
+      },
+      "displayField": "title",
+      "name": "Theme",
+      "description": "A series of colors to customize the look of the app",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Theme Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "size": {
+                "max": 30
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "primary",
+          "name": "Primary",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "prohibitRegexp": {
+                "pattern": "#000000",
+                "flags": null
+              },
+              "message": "This is a required color and cannot be set to #000000 (treated as null)"
+            }
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "highlight",
+          "name": "Highlight",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "prohibitRegexp": {
+                "pattern": "#000000",
+                "flags": null
+              },
+              "message": "This is a required color and cannot be set to #000000 (treated as null)"
+            }
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "white",
+          "name": "Text / White",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "prohibitRegexp": {
+                "pattern": "#000000",
+                "flags": null
+              },
+              "message": "This is a required color and cannot be set to #000000 (treated as null)"
+            }
+          ],
+          "defaultValue": {
+            "en-US": "#f2f2f2"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "secondary",
+          "name": "Secondary",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "background",
+          "name": "Background",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#101226"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "link",
+          "name": "Link",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "gray",
+          "name": "Inactive / Gray",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#88888e"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "error",
+          "name": "Error / Red",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#ff5a55"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "codeLine",
+          "name": "Code Line",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "codeBlock",
+          "name": "Code Block",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "linkHover",
+          "name": "Link Hover",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "highlightHover",
+          "name": "Highlight Hover",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "placeholder",
+          "name": "Placeholder",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "codeText",
+          "name": "Code Text",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    }
+  ],
+  "editorInterfaces": [
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "73ald6l92kz4",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 26,
+        "createdAt": "2022-05-16T13:20:18.943Z",
+        "createdBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-07-02T17:15:10.587Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "topic",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "title",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "slug",
+          "settings": {
+            "helpText": "This should typically be the first 40 characters of the title but in a url friendly format.",
+            "trackingFieldId": "title"
+          },
+          "widgetId": "slugEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "category",
+          "widgetId": "entryLinkEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "solutions",
+          "settings": {
+            "bulkEditing": false,
+            "showLinkEntityAction": true,
+            "showCreateEntityAction": true
+          },
+          "widgetId": "entryLinksEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "73ald6l92kz4",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 56,
+        "createdAt": "2022-05-16T13:27:16.503Z",
+        "createdBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-07-05T02:53:19.031Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "solution",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "description",
+          "widgetId": "markdown",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "strippedDescription",
+          "settings": {
+            "helpText": "This is is the description stripped of markdown. This is generated automatically through the app, but adding the first few lines of text will do a decent job if making it here"
+          },
+          "widgetId": "multipleLine",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "73ald6l92kz4",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 32,
+        "createdAt": "2022-06-04T16:27:29.708Z",
+        "createdBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-07-07T15:44:24.087Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "category",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "title",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "public",
+          "settings": {
+            "helpText": "Determines whether this category will appear in the header for unauthenticated users. This does NOT secure the content, it will always be publicly accessible through Contentful, this only determines the headers visibility.",
+            "trueLabel": "Visible",
+            "falseLabel": "Hidden"
+          },
+          "widgetId": "boolean",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "weight",
+          "settings": {
+            "helpText": "Use this field if you want to control the order your categories appear in the header. The lower the weight the further left it will appear."
+          },
+          "widgetId": "dropdown",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "73ald6l92kz4",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 52,
+        "createdAt": "2022-07-02T17:14:22.709Z",
+        "createdBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-07-23T20:51:34.234Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1awYx90CAsZnbfg4aMRYqW",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "theme",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "title",
+          "settings": {
+            "helpText": "The name of your new theme!"
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "primary",
+          "settings": {
+            "helpText": "Most other colors are calculated from this one and its the only required field. Due to the color picker having its own validation pure black, #000000 will be treated as null for determining calculated fields"
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "highlight",
+          "settings": {
+            "helpText": "Generally for buttons and some headers"
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "white",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "secondary",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "background",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "link",
+          "settings": {
+            "helpText": "Used to give link text a bit more legibility separate from highlight. "
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "gray",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "error",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "codeLine",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "codeBlock",
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "linkHover",
+          "settings": {
+            "helpText": "!Rarely needed! This is 10% darker than Link color which will usually work."
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "highlightHover",
+          "settings": {
+            "helpText": "!Rarely needed! This is 10% lighter than Highlight color which will usually work."
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "placeholder",
+          "settings": {
+            "helpText": "!Rarely needed! This is 10% lighter than Gray/Inactive color which will usually work. Used for improving legibility."
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        },
+        {
+          "fieldId": "codeText",
+          "settings": {
+            "helpText": "!Rarely needed! Backup incase colors are on the light end but still want code block dark."
+          },
+          "widgetId": "7zWL8jaftvQT2luo92tMA3",
+          "widgetNamespace": "app"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "QKp4uDcvzH8v5AMut0ber",
+        "type": "Entry",
+        "createdAt": "2022-07-05T23:17:30.493Z",
+        "updatedAt": "2022-07-23T20:40:26.822Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 9,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "theme"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Default"
+        },
+        "primary": {
+          "en-US": "#252954"
+        },
+        "highlight": {
+          "en-US": "#4951db"
+        },
+        "white": {
+          "en-US": "#f2f2f2"
+        },
+        "background": {
+          "en-US": "#000000"
+        },
+        "link": {
+          "en-US": "#000000"
+        },
+        "secondary": {
+          "en-US": "#000000"
+        },
+        "gray": {
+          "en-US": "#88888e"
+        },
+        "error": {
+          "en-US": "#ff5a55"
+        },
+        "codeLine": {
+          "en-US": "#000000"
+        },
+        "codeBlock": {
+          "en-US": "#000000"
+        },
+        "linkHover": {
+          "en-US": "#000000"
+        },
+        "highlightHover": {
+          "en-US": "#000000"
+        },
+        "placeholder": {
+          "en-US": "#000000"
+        },
+        "codeText": {
+          "en-US": "#000000"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "3CKIvJOoU2LojwfgdDPwjR",
+        "type": "Entry",
+        "createdAt": "2022-07-06T00:21:03.963Z",
+        "updatedAt": "2022-07-23T19:54:12.112Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 14,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "theme"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Too Bright"
+        },
+        "primary": {
+          "en-US": "#f2f2f2"
+        },
+        "highlight": {
+          "en-US": "#e748ea"
+        },
+        "white": {
+          "en-US": "#0a0a0a"
+        },
+        "background": {
+          "en-US": "#ffffff"
+        },
+        "link": {
+          "en-US": "#000000"
+        },
+        "secondary": {
+          "en-US": "#e1e1e1"
+        },
+        "gray": {
+          "en-US": "#454545"
+        },
+        "error": {
+          "en-US": "#ff5a55"
+        },
+        "codeLine": {
+          "en-US": "#e1e1e1"
+        },
+        "codeBlock": {
+          "en-US": "#454545"
+        },
+        "linkHover": {
+          "en-US": "#000000"
+        },
+        "highlightHover": {
+          "en-US": "#000000"
+        },
+        "placeholder": {
+          "en-US": "#000000"
+        },
+        "codeText": {
+          "en-US": "#ffffff"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "4opPTp3WAQu2Ne6L1A3Wjd",
+        "type": "Entry",
+        "createdAt": "2022-07-22T23:49:09.737Z",
+        "updatedAt": "2022-07-23T19:52:48.069Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 10,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "theme"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Open World Notes"
+        },
+        "primary": {
+          "en-US": "#2b2b2b"
+        },
+        "highlight": {
+          "en-US": "#5f8ebe"
+        },
+        "white": {
+          "en-US": "#ffffff"
+        },
+        "background": {
+          "en-US": "#101112"
+        },
+        "link": {
+          "en-US": "#ffea36"
+        },
+        "secondary": {
+          "en-US": "#1c1c1c"
+        },
+        "gray": {
+          "en-US": "#abada8"
+        },
+        "error": {
+          "en-US": "#E13F2C"
+        },
+        "codeLine": {
+          "en-US": "#000000"
+        },
+        "codeBlock": {
+          "en-US": "#000000"
+        },
+        "linkHover": {
+          "en-US": "#000000"
+        },
+        "highlightHover": {
+          "en-US": "#000000"
+        },
+        "placeholder": {
+          "en-US": "#000000"
+        },
+        "codeText": {
+          "en-US": "#000000"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "3GmRr5nQdoJC2EfZnBNAbw",
+        "type": "Entry",
+        "createdAt": "2022-07-23T19:24:35.565Z",
+        "updatedAt": "2022-07-23T19:47:11.808Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 9,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "theme"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Unapologetic Glow Golf"
+        },
+        "primary": {
+          "en-US": "#1b0c59"
+        },
+        "highlight": {
+          "en-US": "#4e21ff"
+        },
+        "white": {
+          "en-US": "#f2f2f2"
+        },
+        "background": {
+          "en-US": "#09041f"
+        },
+        "link": {
+          "en-US": "#48ff00"
+        },
+        "secondary": {
+          "en-US": "#000000"
+        },
+        "gray": {
+          "en-US": "#88888e"
+        },
+        "error": {
+          "en-US": "#ff00e7"
+        },
+        "codeLine": {
+          "en-US": "#000000"
+        },
+        "codeBlock": {
+          "en-US": "#000000"
+        },
+        "linkHover": {
+          "en-US": "#feef1f"
+        },
+        "highlightHover": {
+          "en-US": "#0400ff"
+        },
+        "placeholder": {
+          "en-US": "#000000"
+        },
+        "codeText": {
+          "en-US": "#000000"
+        }
+      }
+    }
+  ],
+  "assets": [
+  ],
+  "locales": [
+    {
+      "name": "English (United States)",
+      "code": "en-US",
+      "fallbackCode": null,
+      "default": true,
+      "contentManagementApi": true,
+      "contentDeliveryApi": true,
+      "optional": false,
+      "sys": {
+        "type": "Locale",
+        "id": "1fp198p9OWwuGGTqk1OtSs",
+        "version": 1,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "environment": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Environment",
+            "id": "master",
+            "uuid": "12e1323a-258f-4884-834a-d9118da0b5a1"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "createdAt": "2022-05-16T13:08:10Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedAt": "2022-05-16T13:08:10Z"
+      }
+    }
+  ],
+  "webhooks": [
+  ],
+  "roles": [
+    {
+      "name": "Editor",
+      "description": "Allows editing, publishing and archiving of content",
+      "policies": [
+        {
+          "effect": "allow",
+          "actions": "all",
+          "constraint": {
+            "and": [
+              {
+                "equals": [
+                  {
+                    "doc": "sys.type"
+                  },
+                  "Entry"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "effect": "allow",
+          "actions": "all",
+          "constraint": {
+            "and": [
+              {
+                "equals": [
+                  {
+                    "doc": "sys.type"
+                  },
+                  "Asset"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "permissions": {
+        "ContentModel": [
+          "read"
+        ],
+        "Settings": [
+        ],
+        "ContentDelivery": [
+        ],
+        "Environments": [
+        ],
+        "EnvironmentAliases": [
+        ],
+        "Tags": [
+        ]
+      },
+      "sys": {
+        "type": "Role",
+        "id": "1fsywmDO1tQSVjWj1IkJSs",
+        "version": 0,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "createdAt": "2022-05-16T13:08:10Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedAt": "2022-05-16T13:08:10Z"
+      }
+    }
+  ]
+}

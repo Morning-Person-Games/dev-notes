@@ -95,14 +95,13 @@ function getThemeSizes(newTextSize) {
 }
 
 const colorIsEmpty = (color, fallback) => {
-  return color && color !== "#000000" ? color : fallback;
+  return color ? color : fallback;
 };
 
 function getColorsFromTheme(newTheme) {
   const newColors = JSON.parse(JSON.stringify(newTheme));
   newColors.text = newColors.white;
   newColors.inactiveColor = newColors.gray;
-  // treating #000 as null because the field helper in contentful cant be null
   newColors.background = colorIsEmpty(
     newColors.background,
     darken("0.15", newColors.primary)

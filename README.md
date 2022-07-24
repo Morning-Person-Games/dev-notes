@@ -42,7 +42,7 @@ I'd love for this whole process to be way more accessible but that's a chunk of 
 
 ## Description / Tips
 
-Every **Note** has a title (also known as a **Topic**), can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
+Every **Note** has a **Topic** (a title), can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
 
 **Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links. Also! Pasting a url to an image will automatically render the image in the content list.
 

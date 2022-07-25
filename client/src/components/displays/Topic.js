@@ -121,10 +121,19 @@ const Edit = styled(AlternateBtn)`
   width: ${staticSizes.minHeight};
   border-radius: 0 0 0 ${staticSizes.radius};
   font-size: ${mixins.fixedEm(1.9)};
+  position: relative;
   svg {
     margin-left: 2px;
     stroke-width: 0.2;
   }
+`;
+const EditHelperText = styled.div`
+  display: ${(props) => (props.visible ? "block" : "none")};
+  color: ${(props) => props.theme.colors.white};
+  font-weight: 700;
+  font-size: ${staticSizes.font.xs};
+  position: absolute;
+  bottom: -10px;
 `;
 
 const ReadMore = styled(AlternateBtn)`
@@ -225,8 +234,6 @@ const Padding = styled.div`
 function Topic({
   topic,
   tags,
-  spaceID,
-  token,
   topicFocused,
   setTopicFocused,
   delay,
@@ -238,9 +245,8 @@ function Topic({
   const [canExpand, setCanExpand] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [offsetTop, setOffsetTop] = useState();
-  const edit =
-    "https://app.contentful.com/spaces/" + spaceID + "/entries/" + topic.id;
-  const canEdit = token && spaceID ? true : false;
+  const [editHelper, setEditHelper] = useState(false);
+
   useEffect(() => {
     if (fullscreen) {
       const close = (e) => {
@@ -263,7 +269,6 @@ function Topic({
         solution={solution}
         expanded={expanded}
         canExpand={canExpand}
-        edit={edit}
         setCanExpand={setCanExpand}
         solutionCount={topic.solutions.length - 1}
         fullscreen={fullscreen}
@@ -329,7 +334,6 @@ function Topic({
               key={"no solution"}
               solution={[]}
               expanded={expanded}
-              edit={edit}
               setCanExpand={setCanExpand}
               fullscreen={fullscreen}
             />
@@ -337,13 +341,17 @@ function Topic({
         )}
         <Actions fullscreen={fullscreen} delay={delay}>
           <Edit
-            as="a"
-            href={edit}
-            target="_blank"
-            rel="noreferrer"
-            disabled={canEdit}
+            onClick={() => {
+              setEditHelper(true);
+              setTimeout(() => setEditHelper(true), 4000);
+            }}
+            disabled={editHelper ? 1 : 0}
           >
             <BsPencilSquare />
+            <EditHelperText visible={editHelper ? 1 : 0}>
+              If this wasn't a demo, this button would go to this Notes
+              Contentful edit page!
+            </EditHelperText>
           </Edit>
           <ReadMore
             disabled={canExpand ? 0 : 1}

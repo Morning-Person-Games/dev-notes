@@ -5,7 +5,7 @@ import {
   BsSortDownAlt,
   BsSortUpAlt,
 } from "react-icons/bs";
-import { baseTypes, staticSizes } from "../../styles/globalStyles";
+import { staticSizes } from "../../styles/globalStyles";
 import styled from "@emotion/styled";
 
 //styling
@@ -28,7 +28,7 @@ const SortBtn = styled.button`
     props.active ? props.theme.colors.highlight : props.theme.colors.secondary};
   color: ${(props) =>
     props.active ? props.theme.colors.white : props.theme.colors.inactiveColor};
-  ${baseTypes.hover} {
+  &:hover {
     background-color: ${(props) =>
       props.active
         ? props.theme.colors.highlightHover

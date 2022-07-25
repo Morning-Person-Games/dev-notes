@@ -30,11 +30,12 @@ const mixins = {
   },
   // prettier-ignore
   backgroundGradient: (primary, secondary) => {
-    return "background: -webkit-linear-gradient(110deg, " + primary + " 50%, " + secondary + " 50%);" +
-      "background: -o-linear-gradient(110deg, " + primary +" 50%, " + secondary + " 50%);" +
-      "background: -moz-linear-gradient(110deg, " + primary +" 50%, " + secondary + " 50% );" +
-      "background: linear-gradient(110deg, " + primary + " 50%, " + secondary + " 50%);"
-    ;
+    return (
+      "background: -webkit-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);" +
+      "background: -o-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);" +
+      "background: -moz-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65% );" +
+      "background: linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);"
+    );
   },
   fixedEm: (n) => n * 16 + "px",
 };

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { baseTypes, staticSizes } from "../../styles/globalStyles";
 import createNewCategory from "../tools/categoryManagement";
+import defaultSizes from "../../styles/defaultSizes";
 
 //styling
 const CategoryFormInit = ({ ...props }) => <Form {...props} />;
@@ -19,17 +20,20 @@ const CategoryForm = styled(CategoryFormInit)`
 
 const Label = styled(baseTypes.Label)`
   text-align: left;
+  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
 `;
 const InfoAndErrorDiv = styled(baseTypes.FieldHelperText)`
   margin: 5px 0 10px 0;
   color: ${(props) =>
     props.error ? props.theme.colors.error : props.theme.colors.placeholder};
+  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
 `;
 
 const VisibilityButtons = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  max-width: ${(props) => props.theme.sizes.mdCol};
+  max-width: ${(props) =>
+    props.startup === 1 ? defaultSizes.lgCol : props.theme.sizes.mdCol};
   width: 100%;
   button {
     flex-basis: 50%;
@@ -38,12 +42,18 @@ const VisibilityButtons = styled.div`
     font-size: ${staticSizes.font.lg};
     font-weight: 700;
     color: ${(props) => props.theme.colors.inactiveColor};
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) =>
+      props.startup === 1
+        ? props.theme.colors.secondary
+        : props.theme.colors.primary};
     ${baseTypes.hover} {
-      background-color: ${(props) => props.theme.colors.highlight};
+      background-color: ${(props) =>
+        props.startup === 1
+          ? props.theme.colors.reverseFieldHover
+          : props.theme.colors.fieldHover};
     }
     &:disabled {
-      background-color: ${(props) => props.theme.colors.highlightHover};
+      background-color: ${(props) => props.theme.colors.highlight};
       color: ${(props) => props.theme.colors.white};
       cursor: default;
     }
@@ -53,7 +63,8 @@ const VisibilityButtons = styled.div`
 const WeightWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
-  max-width: ${(props) => props.theme.sizes.mdCol};
+  max-width: ${(props) =>
+    props.startup === 1 ? defaultSizes.lgCol : props.theme.sizes.mdCol};
   width: 100%;
   button {
     min-height: ${staticSizes.font.lg};
@@ -65,12 +76,18 @@ const WeightWrapper = styled.div`
     padding: 10px 0;
     justify-content: space-evenly;
     color: ${(props) => props.theme.colors.inactiveColor};
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) =>
+      props.startup
+        ? props.theme.colors.secondary
+        : props.theme.colors.primary};
     ${baseTypes.hover} {
-      background-color: ${(props) => props.theme.colors.highlight};
+      background-color: ${(props) =>
+        props.startup
+          ? props.theme.colors.reverseFieldHover
+          : props.theme.colors.fieldHover};
     }
     &:disabled {
-      background-color: ${(props) => props.theme.colors.highlightHover};
+      background-color: ${(props) => props.theme.colors.highlight};
       color: ${(props) => props.theme.colors.white};
       cursor: default;
     }
@@ -78,11 +95,18 @@ const WeightWrapper = styled.div`
 `;
 
 const Submit = styled(baseTypes.DefaultBtn)`
-  max-width: ${(props) => props.theme.sizes.mdCol};
+  max-width: ${(props) =>
+    props.startup === 1 ? defaultSizes.lgCol : props.theme.sizes.mdCol};
   width: 100%;
   padding: 10px;
   font-size: ${staticSizes.font.xl};
   margin-top: 10px;
+  &:disabled {
+    color: ${(props) =>
+      props.startup === 1 && props.theme.colors.inactiveColor};
+    background-color: ${(props) =>
+      props.startup === 1 && props.theme.colors.secondary};
+  }
 `;
 
 const LeftBtn = styled.button`
@@ -98,6 +122,12 @@ const RightBtn = styled.button`
 const TitleField = styled(baseTypes.ModalField)`
   padding: 10px;
   border-radius: ${staticSizes.radius};
+  background: ${(props) => props.startup === 1 && props.theme.colors.secondary};
+  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
+  &:hover {
+    background-color: ${(props) =>
+      props.startup === 1 && props.theme.colors.fieldHover};
+  }
 `;
 
 const WeightButtons = ({ setFieldValue, currentValue }) => {
@@ -165,7 +195,7 @@ const validationSchema = Yup.object().shape({
   weight: Yup.number().min(-5).max(5),
 });
 
-function CategoryEntryForm({ token, callback, spaceID }) {
+function CategoryEntryForm({ token, startup, callback, spaceID }) {
   if (!token) {
     return;
   }
@@ -177,6 +207,7 @@ function CategoryEntryForm({ token, callback, spaceID }) {
           title: values.category,
           visibility: values.visibility,
           weight: values.weight,
+          topics: [],
         };
         const createdCategory = await createNewCategory(
           token,
@@ -193,21 +224,26 @@ function CategoryEntryForm({ token, callback, spaceID }) {
     >
       {({ values, touched, errors, setFieldValue, isSubmitting }) => (
         <CategoryForm>
-          <Label htmlFor="category">Title:</Label>
+          <Label htmlFor="category" startup={startup ? 1 : 0}>
+            Title:
+          </Label>
           <TitleField
             as={Field}
+            startup={startup ? 1 : 0}
             type="text"
             name="category"
-            placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" ...'
+            placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" or "Web Dev" or "Shortcuts"'
             maxLength="60"
             autoComplete="off"
             autoFocus
           />
-          <InfoAndErrorDiv error={1}>
+          <InfoAndErrorDiv error={1} startup={startup ? 1 : 0}>
             {touched.category && errors.category && errors.category}
           </InfoAndErrorDiv>
-          <Label htmlFor="visibility">Visibility:</Label>
-          <VisibilityButtons>
+          <Label htmlFor="visibility" startup={startup ? 1 : 0}>
+            Visibility:
+          </Label>
+          <VisibilityButtons startup={startup ? 1 : 0}>
             <LeftBtn
               type="button"
               disabled={values.visibility ? true : false}
@@ -223,7 +259,7 @@ function CategoryEntryForm({ token, callback, spaceID }) {
               Hidden
             </RightBtn>
           </VisibilityButtons>
-          <InfoAndErrorDiv>
+          <InfoAndErrorDiv startup={startup ? 1 : 0}>
             This controls visibility of headers to unauthenticated viewers.
             However,{" "}
             <b>
@@ -231,14 +267,16 @@ function CategoryEntryForm({ token, callback, spaceID }) {
               Contentful.
             </b>
           </InfoAndErrorDiv>
-          <Label htmlFor="weight">Weight:</Label>
-          <WeightWrapper>
+          <Label htmlFor="weight" startup={startup ? 1 : 0}>
+            Weight:
+          </Label>
+          <WeightWrapper startup={startup ? 1 : 0}>
             <WeightButtons
               setFieldValue={setFieldValue}
               currentValue={values.weight}
             />
           </WeightWrapper>
-          <InfoAndErrorDiv>
+          <InfoAndErrorDiv startup={startup ? 1 : 0}>
             The lower the weight, the farther left the Category header will sit.
           </InfoAndErrorDiv>
           <Submit
@@ -246,13 +284,20 @@ function CategoryEntryForm({ token, callback, spaceID }) {
             disabled={
               isSubmitting || values.category.length === 0 || errors.category
             }
+            startup={startup ? 1 : 0}
           >
             Submit
           </Submit>
           {errors.visibility && (
-            <InfoAndErrorDiv>{errors.visibility}</InfoAndErrorDiv>
+            <InfoAndErrorDiv startup={startup ? 1 : 0}>
+              {errors.visibility}
+            </InfoAndErrorDiv>
           )}
-          {errors.weight && <InfoAndErrorDiv>{errors.weight}</InfoAndErrorDiv>}
+          {errors.weight && (
+            <InfoAndErrorDiv startup={startup ? 1 : 0}>
+              {errors.weight}
+            </InfoAndErrorDiv>
+          )}
         </CategoryForm>
       )}
     </Formik>

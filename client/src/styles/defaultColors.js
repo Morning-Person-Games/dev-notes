@@ -7,7 +7,7 @@ const defaultColors = {
   text: "rgb(242, 242, 242)",
   gray: "rgb(136, 136, 142)",
   highlight: "rgb(73, 81, 219)",
-  highlightHover: "#757ae3",
+  highlightHover: "#747ae3",
   link: "#8b8fe8",
   linkHover: "#6066e0",
   error: "rgb(255, 90, 85)",

@@ -30,17 +30,12 @@ const Title = styled.h1`
   margin-bottom: 0;
   text-align: center;
 `;
-const SubtitleWrapper = styled.div`
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  h4 {
-    color: ${defaultColors.inactiveColor};
-    font-weight: 400;
-    margin-top: 0;
-    width: 60%;
-  }
+const Subtitle = styled.h4`
+  color: ${defaultColors.inactiveColor};
+  font-weight: 400;
+  margin-top: 0;
+  // rough header width
+  max-width: 380px;
 `;
 const P = styled.p`
   margin: 0.5em 0;
@@ -93,12 +88,10 @@ function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
   return (
     <Wrapper fade={fade ? 1 : 0}>
       <Title>Welcome to Dev Notes!</Title>
-      <SubtitleWrapper>
-        <h4>
-          A digital journal specifically streamlined to quickly jot down
-          important thoughts and quickly find them later.
-        </h4>
-      </SubtitleWrapper>
+      <Subtitle>
+        A digital journal specifically streamlined to quickly jot down important
+        thoughts and quickly find them later.
+      </Subtitle>
       {token ? (
         <div>
           <h2 style={{ margin: "0 0 10px 0" }}>
@@ -106,6 +99,7 @@ function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
           </h2>
           <CategoryEntryForm
             token={token}
+            startup={true}
             callback={() => {
               setStartupOn(true);
               setLoading(true);
@@ -140,7 +134,7 @@ function Startup({ token, fade, setFade, setLoading, setStartupOn }) {
       <DescriptionWrapper>
         <H3>Description and Tips:</H3>
         <P>
-          Every <B>Note</B> has a title or <B>Topic</B>, can have any number of{" "}
+          Every <B>Note</B> has a <B>Topic</B> (a title), can have any number of{" "}
           <B>Solutions</B> and/or <B>Tags</B>, and are categorized in...{" "}
           <B>Categories</B>.
         </P>

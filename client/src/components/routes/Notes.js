@@ -45,7 +45,6 @@ function Notes(props) {
     currentCategory,
     token,
     tags,
-    setTopics,
     addToContentList,
     spaceID,
     loading,
@@ -55,6 +54,7 @@ function Notes(props) {
     setLoadScreen,
     setTheme,
     setLoadingFade,
+    currentTopics,
   } = props;
 
   useEffect(() => {
@@ -108,7 +108,6 @@ function Notes(props) {
             currentCategory={currentCategory}
             tags={tags}
             solutions={solutions}
-            setTopics={setTopics}
             addToContentList={addToContentList}
             spaceID={spaceID}
             topicTitlesList={topicTitlesList}
@@ -122,7 +121,7 @@ function Notes(props) {
         )}
         <TopicSection>
           <Topics
-            currentTopics={currentCategory.topics}
+            currentTopics={currentTopics}
             tags={tags}
             spaceID={spaceID}
             token={token}

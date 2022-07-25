@@ -94,44 +94,45 @@ function getThemeSizes(newTextSize) {
   return sizes;
 }
 
-const colorIsEmpty = (color, fallback) => {
-  return color ? color : fallback;
-};
-
 function getColorsFromTheme(newTheme) {
   const newColors = JSON.parse(JSON.stringify(newTheme));
   newColors.text = newColors.white;
   newColors.inactiveColor = newColors.gray;
-  newColors.background = colorIsEmpty(
-    newColors.background,
-    darken("0.15", newColors.primary)
-  );
-  newColors.secondary = colorIsEmpty(
-    newColors.secondary,
-    darken("0.07", newColors.primary)
-  );
-  newColors.highlightHover = colorIsEmpty(
-    newColors.highlightHover,
-    lighten("0.1", newColors.highlight)
-  );
-  newColors.placeholder = colorIsEmpty(
-    newColors.placeholder,
-    lighten(0.15, newColors.gray)
-  );
-  newColors.link = colorIsEmpty(
-    newColors.link,
-    lighten(0.15, newColors.highlight)
-  );
-  newColors.linkHover = colorIsEmpty(
-    newColors.linkHover,
-    darken(0.1, newColors.link)
-  );
-  newColors.codeBlock = colorIsEmpty(newColors.codeBlock, newColors.background);
-  newColors.codeLine = colorIsEmpty(
-    newColors.codeLine,
-    transparentize(0.3, lighten(0.1, newColors.primary))
-  );
-  newColors.codeText = colorIsEmpty(newColors.codeText, newColors.white);
+  newColors.background = newColors.background
+    ? newColors.background
+    : darken("0.15", newColors.primary);
+
+  newColors.secondary = newColors.secondary
+    ? newColors.secondary
+    : darken("0.07", newColors.primary);
+
+  newColors.highlightHover = newColors.highlightHover
+    ? newColors.highlightHover
+    : lighten("0.1", newColors.highlight);
+
+  newColors.placeholder = newColors.placeholder
+    ? newColors.placeholder
+    : lighten(0.15, newColors.gray);
+
+  newColors.link = newColors.link
+    ? newColors.link
+    : lighten(0.15, newColors.highlight);
+
+  newColors.linkHover = newColors.linkHover
+    ? newColors.linkHover
+    : darken(0.1, newColors.link);
+
+  newColors.codeBlock = newColors.codeBlock
+    ? newColors.codeBlock
+    : newColors.background;
+
+  newColors.codeLine = newColors.codeLine
+    ? newColors.codeLine
+    : transparentize(0.3, lighten(0.1, newColors.primary));
+
+  newColors.codeText = newColors.codeText
+    ? newColors.codeText
+    : newColors.white;
 
   newColors.shadow = transparentize(0.4, "rgb(15,17,28)");
   newColors.fieldHover = lighten(0.025, newColors.secondary);

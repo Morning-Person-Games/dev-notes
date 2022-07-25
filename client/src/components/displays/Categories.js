@@ -139,7 +139,7 @@ function CategoriesHeader({
                       const notifID = toast.loading("Setting category up...");
                       setTimeout(() => {
                         toast.update(notifID, {
-                          render: "Have fun!",
+                          render: "Category created!",
                           type: "success",
                           isLoading: false,
                           autoClose: 3000,

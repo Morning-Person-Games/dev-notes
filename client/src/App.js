@@ -1,5 +1,5 @@
 ///** @jsxImportSource @emotion/react */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { css } from "@emotion/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useToken from "./components/tools/useToken";
@@ -58,13 +58,14 @@ const getSetTheme = async (
       }
     })
     .catch((err) => {
-      console.warn("No themes found, setting default theme");
+      console.warn("No themes found, setting default theme. Error: ", err);
       setTheme(defaultTheme);
       return;
     });
 };
 
 function App() {
+  // what is a useReducer lol
   const { token, setToken, resetToken } = useToken();
   const { settings, resetSettings, setSettings } = useSettings();
   //const { offlineStorage, setOfflineStorage } = useOfflineStorage();
@@ -73,11 +74,16 @@ function App() {
   const [spaceID, setSpaceID] = useState("");
   const [tags, setTags] = useState([]);
   const [solutions, setSolutions] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState({ topics: [] });
+  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentTopics, setCurrentTopics] = useState("");
   const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingFade, setLoadingFade] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
+
+  useEffect(() => {
+    setCurrentTopics(currentCategory.topics);
+  }, [currentCategory]);
 
   // TODO finish caching/local offline storage. Needs a limit of some sort
   useEffect(() => {
@@ -151,31 +157,30 @@ function App() {
       newTopic: topicToAdd{},
     }
   */
-  const addToContentList = ({ newTags, newSolutions, newTopic }) => {
-    // stop duplicates:
-    if (newTopic.id === topics[topics.length - 1].id) {
-      return;
-    }
-    if (newTags.length > 0) {
-      var newTagsList = [].concat(tags, newTags);
-      setTags(newTagsList);
-    }
-    if (newSolutions.length > 0) {
-      var newSolutionsList = [].concat(solutions, newSolutions);
-      setSolutions(newSolutionsList);
-    }
-    if (newTopic) {
-      for (let i = 0; i < topics.length; i++) {
-        if (topics[i].id === newTopic.category.id) {
-          var newTopicsList = topics;
-          newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
-          setTopics(newTopicsList);
-          setCurrentCategory(newTopicsList[i]);
-          break;
+  const addToContentList = useCallback(
+    ({ newTags, newSolutions, newTopic }) => {
+      if (newTags.length > 0) {
+        var newTagsList = [].concat(tags, newTags);
+        setTags(newTagsList);
+      }
+      if (newSolutions.length > 0) {
+        var newSolutionsList = [].concat(solutions, newSolutions);
+        setSolutions(newSolutionsList);
+      }
+      if (newTopic) {
+        for (let i = 0; i < topics.length; i++) {
+          if (topics[i].id === newTopic.category.id) {
+            var newTopicsList = topics;
+            newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
+            setTopics(newTopicsList);
+            setCurrentCategory(newTopicsList[i]);
+            break;
+          }
         }
       }
-    }
-  };
+    },
+    [topics, tags, solutions]
+  );
 
   /*
   topics,
@@ -323,7 +328,6 @@ function App() {
                 spaceID={spaceID}
                 token={token}
                 loading={loading}
-                setTopics={setTopics}
                 addToContentList={addToContentList}
                 setLoading={setLoading}
                 themesObject={themesObject}
@@ -331,6 +335,7 @@ function App() {
                 setLoadScreen={setLoadScreen}
                 setTheme={setTheme}
                 setLoadingFade={setLoadingFade}
+                currentTopics={currentTopics}
               />
             }
           />

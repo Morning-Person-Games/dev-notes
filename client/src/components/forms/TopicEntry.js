@@ -13,7 +13,7 @@ import { ReactComponent as Logo } from "../../logo.svg";
 
 // styling
 const Errors = styled.div`
-  color: ${(props) => props.colors.error};
+  color: ${(props) => props.theme.colors.error};
   margin: 5px 0;
   height: 1.4em;
   font-size: 0.8em;
@@ -275,7 +275,9 @@ const TopicForm = (props) => {
         <Submit
           type="submit"
           error={errors.title ? 1 : 0}
-          disabled={!isValid || isSubmitting || !hasValue}
+          disabled={
+            !isValid || isSubmitting || !hasValue || values.title.length === 0
+          }
         >
           {touched.title ? submitText : "Describe a topic to create a note"}
         </Submit>
@@ -294,6 +296,7 @@ const TopicEntry = withFormik({
     },
     solution: "",
     refSolutions: [],
+    tags: [],
   }),
   validationSchema: (props) =>
     Yup.object().shape({
@@ -334,7 +337,7 @@ const TopicEntry = withFormik({
     */
     // Workaround to not adjust the alter the content array for contentful submission
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
-    const { newSolutions, newTopic } = contentToAdd;
+    const { newSolutions, newTopic, newTags } = contentToAdd;
     // add details for immediate usage of new content that contentful will generate later:
     newTopic.id = generateTempID(contentToAdd.newTopic.title);
     newTopic.createdAt = new Date().toISOString();
@@ -344,15 +347,20 @@ const TopicEntry = withFormik({
       newSolutions[0].sysID = generateTempID(newSolutions[0].title);
       newSolutions[0].createdAt = new Date().toISOString();
       newTopic.solutions.unshift(newSolutions[0]);
-
+      newTopic.category = values.category.category;
       // add indexable solutions for js search
       let indexableSolutions = "";
       newTopic.solutions.forEach(
         (solution) => (indexableSolutions += " " + solution.title)
       );
       newTopic.indexableSolutions = indexableSolutions;
-      console.info("New (Local) Topic: ", newTopic);
     }
+    if (newTags && newTags.length > 0) {
+      newTags.forEach((tag) => {
+        newTopic.tags.push(tag);
+      });
+    }
+    console.info("New (Local) Topic: ", newTopic);
     props.addToContentList(contentToAdd);
     // Send content to contentful
     const createdTopic = await createNewTopic(
@@ -364,6 +372,11 @@ const TopicEntry = withFormik({
     resetForm({
       values: {
         title: "",
+        category: {
+          id: props.currentCategory.id,
+          category: props.currentCategory.category,
+          path: props.currentCategory.path,
+        },
         solution: "",
         tags: [],
         refSolutions: [],

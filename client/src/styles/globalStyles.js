@@ -30,11 +30,12 @@ const mixins = {
   },
   // prettier-ignore
   backgroundGradient: (primary, secondary) => {
-    return "background: -webkit-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);" +
-      "background: -o-linear-gradient(110deg, " + primary +" 65%, " + secondary + " 65%);" +
-      "background: -moz-linear-gradient(110deg, " + primary +" 65%, " + secondary + " 65% );" +
+    return (
+      "background: -webkit-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);" +
+      "background: -o-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);" +
+      "background: -moz-linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65% );" +
       "background: linear-gradient(110deg, " + primary + " 65%, " + secondary + " 65%);"
-    ;
+    );
   },
   fixedEm: (n) => n * 16 + "px",
 };
@@ -96,7 +97,7 @@ baseTypes.DefaultBtn = styled.button`
   }
   &:disabled {
     color: ${(props) => props.theme.colors.inactiveColor};
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) => props.theme.colors.secondary};
   }
   position: relative;
   svg {

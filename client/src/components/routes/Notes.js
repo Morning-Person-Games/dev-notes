@@ -38,14 +38,12 @@ function Notes(props) {
   const [fade, setFade] = useState(false);
   const [startupOn, setStartupOn] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  const [topicTitlesList, setTopicTitlesList] = useState([]);
   const {
     topics,
     setCurrentCategory,
     currentCategory,
     token,
     tags,
-    setTopics,
     addToContentList,
     spaceID,
     loading,
@@ -55,6 +53,8 @@ function Notes(props) {
     setLoadScreen,
     setTheme,
     setLoadingFade,
+    currentTopics,
+    topicTitlesList,
   } = props;
 
   useEffect(() => {
@@ -65,13 +65,6 @@ function Notes(props) {
       }, 2600);
     }
   }, [startupOn]);
-  useEffect(() => {
-    const topicTitles = [];
-    topics.forEach((category) =>
-      category.topics.forEach((topic) => topicTitles.push(topic.title))
-    );
-    setTopicTitlesList(topicTitles);
-  }, [topics]);
 
   const showStart = startupOn || !props.topics || props.topics.length === 0;
 
@@ -108,7 +101,6 @@ function Notes(props) {
             currentCategory={currentCategory}
             tags={tags}
             solutions={solutions}
-            setTopics={setTopics}
             addToContentList={addToContentList}
             spaceID={spaceID}
             topicTitlesList={topicTitlesList}
@@ -122,7 +114,7 @@ function Notes(props) {
         )}
         <TopicSection>
           <Topics
-            currentTopics={currentCategory.topics}
+            currentTopics={currentTopics}
             tags={tags}
             spaceID={spaceID}
             token={token}

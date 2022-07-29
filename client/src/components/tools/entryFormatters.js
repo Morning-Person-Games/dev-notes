@@ -1,11 +1,14 @@
 async function FormattedTopicEntry(values) {
   const newSolutions = [];
-  if (values.solution && values.solution.length > 0) {
-    const strippedDescription = await generateSolutionTitle(values.solution);
-    newSolutions.push({
-      title: strippedDescription,
-      description: values.solution,
-    });
+  if (values.solutions && values.solutions.length > 0) {
+    for (let i = 0; i < values.solutions.length; i++) {
+      let solution = values.solutions[i];
+      let strippedDescription = await generateSolutionTitle(solution);
+      newSolutions.push({
+        title: strippedDescription,
+        description: solution,
+      });
+    }
   }
   // sys: {
   //   type: "Link",
@@ -16,7 +19,7 @@ async function FormattedTopicEntry(values) {
   const newTags = formatTagsFromValues(values.tags, true);
   const topicToAdd = {
     title: values.title,
-    slug: encodeURIComponent(values.title.replace(/\s+/g, "-").toLowerCase()),
+    slug: encodeURIComponent(values.title.replace(/\W/g, "-").toLowerCase()),
     tags: tags,
     category: values.category,
     solutions: values.refSolutions,

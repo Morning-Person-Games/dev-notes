@@ -33,16 +33,16 @@ As long as that went well, your Contentful Space should be ready for hosting.
 
 There's a lot of options here, but I'm using Heroku. There's also a couple ways to set it up in Heroku but in generally its pretty simple. You'll need to connect a Heroku app to your personal git branch of Dev Notes and then set up your Environment Variables (Apps -> Settings: Config Vars section). You'll need to input the following into Config Vars:
 
-- CONTENTFUL_DELIVERY_SECRET: On Contentful go to your Space -> Settings -> API KEYS -> Add API Key. You can also find your SPACE ID here
-- CONTENTFUL_SPACE_ID: See above.
-- CONTENTFUL_OAUTH_ID: Set OAuth up [here](https://app.contentful.com/account/profile/developers/applications/new)
-- CONTENTFUL_OAUTH_REDIRECT_URI: WhateverYourDomainIs.com/oauth/redirect
+- `CONTENTFUL_DELIVERY_SECRET`: On Contentful go to your Space -> Settings -> API KEYS -> Add API Key. You can also find your SPACE ID here
+- `CONTENTFUL_SPACE_ID`: See above.
+- `CONTENTFUL_OAUTH_ID`: Set OAuth up [here](https://app.contentful.com/account/profile/developers/applications/new)
+- `CONTENTFUL_OAUTH_REDIRECT_URI`: WhateverYourDomainIs.com/oauth/redirect
 
 I'd love for this whole process to be way more accessible but that's a chunk of time I'm not willing to spend without interest.
 
 ## Description / Tips
 
-Every **Note** has a title or **Topic**, can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
+Every **Note** has a **Topic** (a title), can have any number of **Solutions** and/or **Tags**, and are categorized in... **Categories**.
 
 **Solutions** are the text body(s) of a Topic. I'd bet 75% of mine are stackoverflow links. Also! Pasting a url to an image will automatically render the image in the content list.
 

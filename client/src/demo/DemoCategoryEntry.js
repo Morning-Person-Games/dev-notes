@@ -211,6 +211,7 @@ function DemoCategoryEntryForm({ callback, startup, topics, setTopics }) {
             name="category"
             placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" or "Web Dev" or "Shortcuts"'
             maxLength="60"
+            tabIndex="0"
             autoComplete="off"
             autoFocus
           />

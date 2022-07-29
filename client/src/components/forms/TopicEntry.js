@@ -300,7 +300,6 @@ const TopicForm = (props) => {
                 resetForm();
               }
             }}
-            autoFocus
           />
         </FieldWrapper>
         <FieldArray

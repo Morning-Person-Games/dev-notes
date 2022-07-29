@@ -443,15 +443,29 @@ const TopicEntry = withFormik({
     */
     // Workaround to not adjust the alter the content array for contentful submission
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
+    props.addToContentList(contentToAdd);
+    // Send content to contentful
+    const createdTopic = await createNewTopic(
+      props.token,
+      contentToSend,
+      props.spaceID
+    );
+    console.info("Topic Created on Contentful: ", createdTopic);
     const { newSolutions, newTopic, newTags } = contentToAdd;
     // add details for immediate usage of new content that contentful will generate later:
-    newTopic.id = generateTempID(contentToAdd.newTopic.title);
+    newTopic.id =
+      createdTopic && createdTopic.sys
+        ? createdTopic.sys.id
+        : generateTempID(contentToAdd.newTopic.title);
     newTopic.createdAt = new Date().toISOString();
     newTopic.category = values.category.category;
 
     if (newSolutions && newSolutions.length > 0) {
       for (let i = newSolutions.length - 1; i >= 0; i--) {
-        newSolutions[i].sysID = generateTempID(newSolutions[i].title);
+        newSolutions[i].sysID =
+          createdTopic && createdTopic.fields?.solutions
+            ? createdTopic.fields?.solutions["en-US"][i].sys.id
+            : generateTempID(newSolutions[i].title);
         newSolutions[i].createdAt = new Date().toISOString();
         newTopic.solutions.unshift(newSolutions[i]);
       }
@@ -470,14 +484,6 @@ const TopicEntry = withFormik({
       });
     }
     console.info("New (Local) Topic: ", newTopic);
-    props.addToContentList(contentToAdd);
-    // Send content to contentful
-    const createdTopic = await createNewTopic(
-      props.token,
-      contentToSend,
-      props.spaceID
-    );
-    console.info("Topic Created on Contentful: ", createdTopic);
     resetForm({
       values: {
         title: "",

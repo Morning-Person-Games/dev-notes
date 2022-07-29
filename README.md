@@ -1,4 +1,4 @@
-[Setup](#setup) | [Description / Tips](#description--tips) | [Local Setup](#local-setup)
+[Setup](#setup) | [Description / Tips](#description--tips) | [Local Setup](#local-setup) | [Improvements](#improvements)
 
 Dev Notes is a digital journal streamlined to quickly save notes, and quickly find them. — like a searchable list of bookmarks, or a simple blog with much less time to post.
 

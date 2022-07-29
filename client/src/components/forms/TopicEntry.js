@@ -288,7 +288,7 @@ const TopicForm = (props) => {
               setHasValue(e.target.value.length > 0);
             }}
             maxLength="255"
-            tabIndex="1"
+            tabIndex="0"
             onBlur={(e) => {
               if (
                 !e.target.value &&
@@ -299,7 +299,6 @@ const TopicForm = (props) => {
                 resetForm();
               }
             }}
-            autoFocus
           />
         </FieldWrapper>
         <FieldArray
@@ -310,7 +309,7 @@ const TopicForm = (props) => {
                 <Field
                   name={`solutions.${index}`}
                   defaultTabEnable={true}
-                  tabIndex={index + 1}
+                  tabIndex={index}
                   as={SolutionMd}
                   type="textarea"
                   placeholder={
@@ -350,7 +349,7 @@ const TopicForm = (props) => {
               placeholder="Type to reference existing solutions..."
               options={solutionOptions}
               isSearchable={true}
-              tabIndex={values.solutions.length + 2}
+              tabIndex={values.solutions.length + 1}
               handleBlur={handleBlur}
               noOptionsMessage={() => "No solutions found."}
               onChange={(values) => {
@@ -372,7 +371,7 @@ const TopicForm = (props) => {
               "No tags found. Start typing to create one..."
             }
             options={tagOptions}
-            tabIndex={values.solutions.length + 3}
+            tabIndex={values.solutions.length + 2}
           />
           {errors.tags && touched.title && <TagErrors>{errors.tags}</TagErrors>}
         </FieldWrapper>

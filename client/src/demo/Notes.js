@@ -5,6 +5,25 @@ import CategoriesHeader from "./Categories";
 import Startup from "./Startup";
 import Modal from "../components/displays/Modal";
 import { baseTypes } from "../styles/globalStyles";
+import styled from "@emotion/styled";
+
+const DemoFooter = styled.div`
+  display: flex;
+  z-index: 4000;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: ${(props) => props.theme.colors.secondary};
+  box-shadow: 0 0 4px 4px ${(props) => props.theme.colors.shadow};
+  p {
+    width: 100%;
+    margin: 10px 0;
+  }
+`;
+const DemoContentWrapper = styled(baseTypes.MainContent)`
+  margin-bottom: 60px;
+`;
 
 function Notes(props) {
   const {
@@ -50,18 +69,18 @@ function Notes(props) {
   return (
     <>
       <Modal modalContent={modalContent} setModalContent={setModalContent} />
-      <baseTypes.MainContent>
-        {showStart && (
-          <Startup
-            token={props.token}
-            fade={fade}
-            setFade={setFade}
-            setLoading={setLoading}
-            setStartupOn={setStartupOn}
-            setTopics={setTopics}
-            topics={topics}
-          />
-        )}
+      {showStart && (
+        <Startup
+          token={props.token}
+          fade={fade}
+          setFade={setFade}
+          setLoading={setLoading}
+          setStartupOn={setStartupOn}
+          setTopics={setTopics}
+          topics={topics}
+        />
+      )}
+      <DemoContentWrapper>
         <CategoriesHeader
           topics={topics}
           setCurrentCategory={setCurrentCategory}
@@ -85,7 +104,21 @@ function Notes(props) {
         <div>
           <Topics currentTopics={currentTopics} tags={tags} loading={loading} />
         </div>
-      </baseTypes.MainContent>
+      </DemoContentWrapper>
+      <DemoFooter>
+        <p>
+          If you're interested in setting up your own instance of Dev Notes,
+          check out the setup instructions{" "}
+          <a
+            href="https://github.com/Morning-Person-Games/dev-notes#setup"
+            target="_blank"
+            rel="noreferrer"
+          >
+            here
+          </a>
+          !
+        </p>
+      </DemoFooter>
     </>
   );
 }

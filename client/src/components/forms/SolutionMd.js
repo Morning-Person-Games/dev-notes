@@ -102,9 +102,9 @@ const Editor = styled(EditorInit)`
       height: auto;
       line-height: inherit;
       background-color: transparent;
-      color: ${(props) => props.theme.colors.link};
+      color: ${(props) => props.theme.colors.highlight};
       &:hover {
-        color: ${(props) => props.theme.colors.linkHover};
+        color: ${(props) => props.theme.colors.highlightHover};
         background-color: transparent;
       }
     }
@@ -131,8 +131,8 @@ const Editor = styled(EditorInit)`
       }
       li {
         &.active button {
-          cursor: pointer;
-          color: ${(props) => props.theme.colors.highlight};
+          cursor: default;
+          color: ${(props) => props.theme.colors.link};
           background-color: transparent;
           &:hover {
             background-color: transparent;
@@ -178,7 +178,7 @@ const Editor = styled(EditorInit)`
 const ExpandInit = ({ ...props }) => <BsArrowsExpand {...props} />;
 const ExpandIcon = styled(ExpandInit)`
   position: absolute;
-  color: ${(props) => props.theme.colors.link};
+  color: ${(props) => props.theme.colors.highlight};
   font-size: 1.3em;
   right: 10px;
   bottom: -36px;

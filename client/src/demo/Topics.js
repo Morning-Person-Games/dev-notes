@@ -23,7 +23,7 @@ const Ul = styled.ul`
   justify-content: flex-start;
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 10px 0;
   transition: all 300ms ease-in-out;
 `;
 const Controls = styled.div`
@@ -120,7 +120,7 @@ function GetTopicsList(
     const filteredTopics = queryResult.slice();
     if (activeTagFilters.length > 0) {
       const taggedTopics = filteredTopics.filter((topic) =>
-        activeTagFilters.every((tagID) => {
+        activeTagFilters.some((tagID) => {
           for (let i = 0; i < topic.tags.length; i++) {
             if (topic.tags[i].id === tagID) {
               return true;

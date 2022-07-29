@@ -8,7 +8,7 @@ const tooBrightTheme = {
   gray: "#454545",
   highlight: "#e748ea",
   highlightHover: "",
-  link: "",
+  link: "#ac1eae",
   linkHover: "",
   error: "#ff5a55",
   codeLine: "#e1e1e1",

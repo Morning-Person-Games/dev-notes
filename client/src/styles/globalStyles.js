@@ -97,7 +97,7 @@ baseTypes.DefaultBtn = styled.button`
   }
   &:disabled {
     color: ${(props) => props.theme.colors.inactiveColor};
-    background-color: ${(props) => props.theme.colors.secondary};
+    background-color: ${(props) => props.theme.colors.primary};
   }
   position: relative;
   svg {

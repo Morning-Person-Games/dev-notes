@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Solution from "./Solution";
 import { TagString } from "../components/displays/Tag";
 import styled from "@emotion/styled";
-import { staticSizes, baseTypes, mixins } from "../styles/globalStyles";
+import { staticSizes, mixins } from "../styles/globalStyles";
 import {
   BsTagsFill,
   BsArrowsAngleExpand,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/bs";
 import { Link } from "react-scroll";
 import { useRef } from "react";
+import { ReactComponent as Logo } from "../logo.svg";
 
 // #region styling
 const Card = styled.li`
@@ -53,6 +54,7 @@ const Card = styled.li`
 const SolutionsList = styled.ul`
   margin: 0;
   padding: 0;
+  padding-bottom: ${(props) => props.fullscreen && "10px"};
   flex-grow: 1;
   background-color: ${(props) =>
     props.fullscreen
@@ -62,30 +64,27 @@ const SolutionsList = styled.ul`
   ${mixins.transition("padding", 300)};
 `;
 const Actions = styled.div`
+  display: flex;
   background-color: ${(props) => props.theme.colors.primary};
+  border-top: ${(props) =>
+    props.fullscreen && "3px solid " + props.theme.colors.secondary};
   flex-wrap: none;
-  height: ${staticSizes.minHeight};
   border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
-  ${mixins.transition("opacity", 300)};
-  opacity: ${(props) => (props.fullscreen ? 0 : 1)};
-  display: ${(props) =>
-    !props.fullscreen || (props.fullscreen && !props.delay) ? "flex" : "none"};
 `;
 const AlternateBtn = styled.button`
   color: ${(props) => props.theme.colors.highlight};
   margin: 0;
-  padding: 0;
+  padding: 5px;
   border-radius: 0;
   background-color: transparent;
   display: flex;
   justify-content: center;
-  align-items: stretch;
-  font-size: ${mixins.fixedEm(1.9)};
+  align-items: center;
   position: relative;
   cursor: pointer;
   svg {
     height: 100%;
-    position: absolute;
+    font-size: 2em;
   }
   &:hover {
     background-color: ${(props) => props.theme.colors.secondary};
@@ -107,20 +106,14 @@ const AlternateBtn = styled.button`
   }
 `;
 const Expand = styled(AlternateBtn)`
-  height: ${staticSizes.minHeight};
-  width: ${staticSizes.minHeight};
   border-radius: 0 0 ${staticSizes.radius} 0;
-  font-size: ${mixins.fixedEm(1.8)};
   svg {
     stroke-width: 0.6;
   }
 `;
 const Edit = styled(AlternateBtn)`
-  height: ${staticSizes.minHeight};
   text-decoration: none;
-  width: ${staticSizes.minHeight};
   border-radius: 0 0 0 ${staticSizes.radius};
-  font-size: ${mixins.fixedEm(1.9)};
   position: relative;
   svg {
     margin-left: 2px;
@@ -137,98 +130,78 @@ const EditHelperText = styled.div`
 `;
 
 const ReadMore = styled(AlternateBtn)`
-  height: ${staticSizes.minHeight};
   flex-grow: 1;
   border: solid ${(props) => props.theme.colors.secondary};
   border-width: 0 3px;
-  font-size: ${mixins.fixedEm(2.3)};
-  padding: 0;
+  padding: 2px 0;
   svg {
     stroke-width: 0.4;
+    font-size: 3.2em;
   }
 `;
 const TopicHeader = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
   ${mixins.transition("all", 300)}
   background-color: ${(props) =>
     props.fullscreen ? "transparent" : props.theme.colors.primary};
   position: relative;
-  padding-bottom: ${(props) => props.fullscreen && "10px"};
+  padding: ${(props) => props.fullscreen && "10px 20px"};
 `;
 const TopicTitle = styled.h2`
   overflow-wrap: break-word;
   flex-grow: 1;
   margin: 0;
-  padding: 10px 10px 10px 10px;
+  padding: ${(props) =>
+    props.fullscreen ? "0 10px 0 15px" : "10px 10px 10px 12px"};
   ${(props) => props.tagged && "padding-bottom: 0px"};
-  ${mixins.transition("font-size", 300)}
+  ${mixins.transition("all", 300)};
   font-size: ${(props) => props.fullscreen && staticSizes.font.xxl};
   position: relative;
 `;
 const TopicDate = styled.span`
   display: block;
   position: absolute;
-  bottom: 0;
-  bottom: ${(props) => props.fullscreen && "0.5rem"};
-  bottom: ${(props) => props.fullscreen && props.tagged && "2.4rem"};
-  right: ${(props) => !props.fullscreen && 0};
-  left: ${(props) => props.fullscreen && "12px"};
+  ${mixins.transition("all", 300)}
+  bottom: ${(props) => !props.fullscreen && 0};
+  top: ${(props) => props.fullscreen && "5px"};
+  right: ${(props) => (props.fullscreen ? "7px" : 0)};
   padding: 1px 2px 0 1px;
   border-radius: 0 0 0 ${staticSizes.radius};
   color: ${(props) => props.theme.colors.inactiveColor};
-  font-size: ${staticSizes.font.xs};
+  font-size: ${(props) =>
+    props.fullscreen ? staticSizes.font.sm : staticSizes.font.xs};
   font-weight: 600;
 `;
 
 const TagsDiv = styled.div`
   background-color: ${(props) => props.theme.colors.primary};
-  padding: 2px 10px 10px 10px;
-  padding: ${(props) => props.fullscreen && "1.2rem 10px 0 10px"};
+  padding: ${(props) =>
+    props.fullscreen ? "15px 10px 0 0" : "2px 10px 10px 12px"};
   margin: 0;
   display: flex;
+  align-items: center;
   flex-basis: 100%;
   list-style-type: none;
-  color: ${(props) => props.theme.colors.placeholder};
   ${mixins.transition("all", 300)}
-  font-size: ${(props) =>
-    props.fullscreen ? staticSizes.font.lg : staticSizes.font.md};
+  font-size: ${staticSizes.font.md};
   svg {
-    margin: 7px 6px 0 0;
-    font-size: ${staticSizes.font.sm};
+    color: ${(props) =>
+      props.fullscreen
+        ? props.theme.colors.white
+        : props.theme.colors.placeholder};
+    margin: ${(props) => (props.fullscreen ? "3px 12px 0 0" : "3px 6px 0 0")};
+    font-size: ${(props) =>
+      props.fullscreen ? staticSizes.font.lg : staticSizes.font.sm};
   }
 `;
-const ContractBtn = styled.button`
-  margin: 5px 10px 0 0;
-  float: right;
-  font-size: ${staticSizes.font.sm};
-  //display: block;
-  ${mixins.transition("opacity", 300)};
-  ${mixins.transition("color", 150)};
-  opacity: ${(props) => (props.fullscreen ? 1 : 0)};
-  background: none;
-  cursor: pointer;
-  &:hover {
-    background: none;
-  }
-  //font-size: ${staticSizes.font.xl};
-  color: ${(props) => props.theme.colors.white};
-  color: ${(props) => props.theme.colors.highlight};
-  ${baseTypes.hover} {
-    background: none;
-    color: ${(props) => props.theme.colors.highlightHover};
-  }
+const TitleIcon = styled(Logo)`
+  display: ${(props) => (props.fullscreen ? "block" : "none")};
+  font-size: ${staticSizes.font.lg};
+  margin-top: 3px;
 `;
-
-const Padding = styled.div`
-  display: block;
-  background-color: ${(props) => props.theme.colors.primary};
-  height: 5px;
-  border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
-`;
-
 // #endregion
 
 function Topic({
@@ -276,8 +249,11 @@ function Topic({
     );
   });
   const date = new Date(topic.createdAt);
-  const year = date.getFullYear().toString().substring(2);
-  const dateString = date.getMonth() + "/" + date.getDay() + "/" + year;
+  const dateString = date.toLocaleString("en-US", {
+    day: "numeric",
+    month: "numeric",
+    year: "2-digit",
+  });
   const fullscreenToggle = (toggle) => {
     setOffsetTop(ref.current.offsetTop);
     setFullscreen(toggle);
@@ -295,28 +271,21 @@ function Topic({
         ref={ref}
       >
         <TopicHeader fullscreen={fullscreen}>
+          <TitleIcon fullscreen={fullscreen ? 1 : 0} />
           <TopicTitle
             fullscreen={fullscreen}
             tagged={topic.tags.length > 0 ? 1 : 0}
           >
             {topic.title}
-            {fullscreen && (
-              <ContractBtn
-                as={Link}
-                to="NoteEntry"
-                smooth={true}
-                duration={500}
-                fullscreen={fullscreen ? 1 : 0}
-                onClick={() => fullscreenToggle(false)}
-              >
-                <BsArrowsAngleContract />
-              </ContractBtn>
-            )}
           </TopicTitle>
           {tags.length > 0 && topic.tags.length > 0 && (
             <TagsDiv fullscreen={fullscreen}>
               <BsTagsFill />
-              <TagString tagged={topic.tags} allTags={tags} />
+              <TagString
+                tagged={topic.tags}
+                allTags={tags}
+                fullscreen={fullscreen}
+              />
             </TagsDiv>
           )}
           <TopicDate
@@ -354,7 +323,7 @@ function Topic({
             </EditHelperText>
           </Edit>
           <ReadMore
-            disabled={canExpand ? 0 : 1}
+            disabled={fullscreen || !canExpand ? 1 : 0}
             onClick={() => setExpanded((prev) => !prev)}
           >
             {expanded ? <BsArrowBarUp /> : <BsArrowBarDown />}
@@ -364,12 +333,11 @@ function Topic({
             to="Notes"
             smooth={true}
             duration={500}
-            onClick={() => fullscreenToggle(true)}
+            onClick={() => fullscreenToggle(!fullscreen)}
           >
-            <BsArrowsAngleExpand />
+            {fullscreen ? <BsArrowsAngleContract /> : <BsArrowsAngleExpand />}
           </Expand>
         </Actions>
-        {fullscreen && <Padding />}
       </Card>
     </>
   );

@@ -38,7 +38,7 @@ const Button = styled.button`
   ${mixins.transition("border")};
   ${baseTypes.hover} {
     &:enabled {
-      border-bottom-color: ${(props) => props.theme.colors.highlightHover};
+      border-bottom-color: ${(props) => props.theme.colors.primary};
     }
   }
   &:disabled {
@@ -100,7 +100,7 @@ function CategoriesHeader({
 }) {
   const activeCategory = currentCategory.category
     ? currentCategory.category
-    : [];
+    : "";
   const links = [];
   if (topics && topics.length > 0) {
     const sorted = topics.sort((a, b) => a.weight - b.weight);

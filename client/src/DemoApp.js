@@ -118,11 +118,13 @@ function DemoApp() {
             a {
               ${mixins.transition()};
               color: ${theme.colors.link};
+              text-decoration: none;
               &:visited {
                 color: ${theme.colors.link};
               }
               ${baseTypes.hover} {
                 color: ${theme.colors.linkHover};
+                text-decoration: underline;
               }
               font-family: inherit;
             }

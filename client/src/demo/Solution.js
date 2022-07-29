@@ -6,27 +6,29 @@ import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import { useTheme } from "@emotion/react";
 import { transparentize } from "polished";
-import { BsFiles, BsCheckLg } from "react-icons/bs";
+import { BsCheck2Square, BsJournalText } from "react-icons/bs";
+import { IoCopy } from "react-icons/io5";
 
 // #region styling
-const minLines = 2;
+const minLines = 1;
 // line height + default padding:
 const defaultLineHeight = (baseSize) => baseSize * 1.5 + 10;
 const defaultMaxHeight = (baseSize) => defaultLineHeight(baseSize) * 6;
 const Li = styled.li`
-  margin: 0;
-  padding: ${(props) => (props.fullscreen ? "0 20px 14px 20px" : "0 0 14px 0")};
+  ${mixins.transition("all", 300)};
+  margin: ${(props) => (props.fullscreen ? "10px 0 0 0" : 0)};
+  padding: ${(props) => (props.fullscreen ? "0 20px 10px 20px" : "0 0 10px 0")};
   margin-bottom: 0;
   max-width: 100%;
-  display: -webkit-box;
+  display: ${(props) => (props.fullscreen ? "flex" : "-webkit-box")};
   position: relative;
   overflow-wrap: break-word;
   min-height: ${(props) =>
     props.overflow
-      ? "6.5em"
-      : defaultLineHeight(props.theme.baseFontSize) + "px"};
+      ? "5.5em"
+      : defaultLineHeight(props.theme.sizes.baseFontSize) + "px"};
   max-height: ${(props) =>
-    !props.expanded && !props.fullscreen ? "12em" : "max-content"};
+    !props.expanded && !props.fullscreen ? "8em" : "max-content"};
   ${(props) =>
     props.eliped &&
     !props.fullscreen &&
@@ -34,16 +36,21 @@ const Li = styled.li`
   text-overflow: ellipsis; 
   -webkit-box-orient: vertical;
   -webkit-line-clamp: ` +
-      Math.max(props.lines - props.solutionCount, minLines) +
+      Math.max(props.lines - props.solutionCount * 2, minLines) +
       ";"};
   word-wrap: break-word;
+  &:not(:last-child) {
+    padding-bottom: 10px;
+    border-bottom: 3px solid
+      ${(props) =>
+        !props.fullscreen
+          ? props.theme.colors.primary
+          : props.theme.colors.secondary};
+  }
+  // #region richtext
   p {
     margin: 0;
     ${staticSizes.rtPadding};
-  }
-  font-size: 0.9rem;
-  p {
-    font-size: 1.1em;
   }
   h1,
   h2 {
@@ -67,9 +74,6 @@ const Li = styled.li`
   li {
     padding-top: 10px;
   }
-  pre {
-    margin: 10px 0 0 0;
-  }
   hr {
     border: none;
     height: 3px;
@@ -82,23 +86,37 @@ const Li = styled.li`
   code {
     background-color: ${(props) => props.theme.colors.codeLine};
     border-radius: 6px;
-    margin: 0 10px 0 0;
-    padding: 0.2em 0.5em;
+    margin: 0 1px 0 0;
+    padding: 2px 6px;
     color: ${(props) => props.theme.colors.codeText};
     line-height: 2;
   }
   pre {
-    box-shadow: inset 0 1px 6px -1px ${(props) => transparentize(0.4, props.theme.colors.primary)};
+    padding: 3px;
+    box-shadow: inset 0 0 5px 1px
+      ${(props) => transparentize(0.4, props.theme.colors.primary)};
     background-color: ${(props) => props.theme.colors.codeBlock};
     line-height: 1.45;
-    margin-top: 10px;
+    margin: 10px 0 0 0;
     border-radius: 0;
     color: ${(props) => props.theme.colors.codeText};
-    white-space: inherit;
+    overflow-x: auto;
+    display: grid;
     position: relative;
-    ${baseTypes.hover} {
+    #ClipButton {
+      font-size: ${staticSizes.font.xl};
+      svg {
+        color: ${(props) => props.theme.colors.highlight};
+        &:hover {
+          color: ${(props) => props.theme.colors.highlightHover};
+        }
+      }
+    }
+    &:hover {
       #ClipButton {
-        opacity: 1;
+        svg {
+          opacity: 1;
+        }
       }
     }
     p {
@@ -108,7 +126,7 @@ const Li = styled.li`
       display: block;
       overflow: auto;
       line-height: inherit;
-      padding: 15px;
+      padding: 8px 12px;
       background-color: transparent;
       position: relative;
       margin: 0;
@@ -125,14 +143,18 @@ const Li = styled.li`
       color: ${(props) => props.theme.colors.linkHover};
     }
   }
-  &:not(:last-child) {
-    padding-bottom: 10px;
-    border-bottom: 2px solid
-      ${(props) =>
-        props.fullscreen
-          ? props.theme.colors.secondary
-          : props.theme.colors.primary};
-  }
+  // #endregion
+`;
+
+const SolutionIcon = styled(BsJournalText)`
+  margin-top: 12px;
+  font-size: ${staticSizes.font.lg};
+`;
+
+const SolutionWrapper = styled.div`
+  display: block;
+  width: 100%;
+  padding-left: ${(props) => props.fullscreen && "10px"};
 `;
 
 const Cover = styled.div`
@@ -140,7 +162,7 @@ const Cover = styled.div`
   position: absolute;
   background-color: ${(props) => props.theme.colors.secondary};
   width: 100%;
-  box-shadow: 0 0 1.4em 1.5em
+  box-shadow: 0 0 10px 10px
     ${(props) =>
       props.overflow && !props.expanded
         ? props.theme.colors.secondary
@@ -155,22 +177,31 @@ const ErrorP = styled.p`
 `;
 
 const ClipCodeBtn = styled.button`
-  transition: opacity 150 ease-in, color 100 ease-in;
-  opacity: 0;
   background: none;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  font-size: ${staticSizes.font.xl};
-  color: ${(props) => props.theme.colors.white};
-  &:hover {
-    color: ${(props) => props.theme.colors.highlight};
-  }
+  padding: 0;
+  position: ${(props) => (props.pre ? "absolute" : "relative")};
+  top: ${(props) => props.pre && "10px"};
+  right: ${(props) => props.pre && "8px"};
+  text-align: inherit;
+  font-size: ${staticSizes.font.sm};
   svg {
-    transition: opacity 150 ease-in, color 100 ease-in;
+    ${mixins.transition()};
+    position: absolute;
+    opacity: 0;
+    right: -4px;
+    top: -6px;
+    font-size: ${staticSizes.font.lg};
+  }
+  &:hover {
+    svg {
+      opacity: 1;
+    }
   }
 `;
-const SuccessIcon = styled(BsCheckLg)`
+const SuccessIcon = styled(BsCheck2Square)`
+  color: ${(props) => props.theme.colors.highlight};
+`;
+const CopyIcon = styled(IoCopy)`
   color: ${(props) => props.theme.colors.link};
 `;
 const ImageLinkText = styled.span`
@@ -214,23 +245,24 @@ function isImage(url) {
   return /\.(jpg|jpeg|png|gif)$/.test(url);
 }
 
-function CopyCodeButton({ children }) {
+function CopyCodeButton({ children, pre, copyText, ...props }) {
   const [copied, setCopied] = useState(false);
   return (
-    <>
-      <ClipCodeBtn
-        id="ClipButton"
-        onClick={() => {
-          navigator.clipboard.writeText(children);
-          setCopied(true);
-          setTimeout(() => {
-            setCopied(false);
-          }, 1000);
-        }}
-      >
-        {copied ? <SuccessIcon /> : <BsFiles />}
-      </ClipCodeBtn>
-    </>
+    <ClipCodeBtn
+      id="ClipButton"
+      onClick={() => {
+        navigator.clipboard.writeText(copyText);
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, 1000);
+      }}
+      pre={pre}
+      {...props}
+    >
+      {children}
+      {copied ? <SuccessIcon /> : <CopyIcon />}
+    </ClipCodeBtn>
   );
 }
 
@@ -265,19 +297,6 @@ function Solution({
   const eliped = expanded ? 0 : 1;
   // #endregion
 
-  if (!solution.description || solution.description.length === 0) {
-    return (
-      <Li fullscreen={fullscreen}>
-        <div style={{ width: "100%" }}>
-          <ErrorP>
-            This topic currently has no solutions. If this wasn't a demo, this
-            would link to the edit page here.
-          </ErrorP>
-        </div>
-      </Li>
-    );
-  }
-
   return (
     <Li
       ref={ref}
@@ -288,55 +307,62 @@ function Solution({
       solutionCount={solutionCount}
       fullscreen={fullscreen}
     >
-      <div style={{ width: "100%", display: "block" }}>
-        <ReactMarkdown
-          children={solution.description}
-          remarkPlugins={[gfm]}
-          fullscreen={fullscreen}
-          components={{
-            code({ node, inline, children, ...props }) {
-              return inline ? (
-                <p style={{ position: "relative" }}>
-                  <code {...props}>{children}</code>
-                  <CopyCodeButton children={children} />
-                </p>
-              ) : (
-                <>
-                  <code {...props}>{children}</code>
-                  <CopyCodeButton children={children} />
-                </>
-              );
-            },
-            a({ node, href, children, ...props }) {
-              if (isImage(href)) {
-                return (
-                  <SpanWrapper>
-                    <ImageA
-                      href={href}
-                      {...props}
-                      target="__blank"
-                      rel="noreferrer"
-                      fullscreen={fullscreen}
-                    >
-                      <ImageLinkText>{href}</ImageLinkText>
-                      <img
-                        src={href}
-                        alt="A URL thats automatically displayed, so no further visual description can be given unfortunately"
-                      />
-                    </ImageA>
-                  </SpanWrapper>
+      {fullscreen && <SolutionIcon />}
+      <SolutionWrapper fullscreen={fullscreen}>
+        {!solution.description || solution.description.length === 0 ? (
+          <ErrorP>
+            This topic currently has no solutions. If this wasn't a demo, this
+            would link to the edit page here.
+          </ErrorP>
+        ) : (
+          <ReactMarkdown
+            children={solution.description}
+            remarkPlugins={[gfm]}
+            fullscreen={fullscreen}
+            components={{
+              code({ node, inline, children, ...props }) {
+                return inline ? (
+                  <CopyCodeButton copyText={children} {...props}>
+                    <code>{children}</code>
+                  </CopyCodeButton>
+                ) : (
+                  <>
+                    <code {...props}>{children}</code>
+                    <CopyCodeButton pre={true} copyText={children} {...props} />
+                  </>
                 );
-              } else {
-                return (
-                  <a href={href} {...props} target="__blank" rel="noreferrer">
-                    {children}
-                  </a>
-                );
-              }
-            },
-          }}
-        />
-      </div>
+              },
+              a({ node, href, children, ...props }) {
+                if (isImage(href)) {
+                  return (
+                    <SpanWrapper>
+                      <ImageA
+                        href={href}
+                        {...props}
+                        target="__blank"
+                        rel="noreferrer"
+                        fullscreen={fullscreen}
+                      >
+                        <ImageLinkText>{href}</ImageLinkText>
+                        <img
+                          src={href}
+                          alt="A URL thats automatically displayed, so no further visual description can be given unfortunately"
+                        />
+                      </ImageA>
+                    </SpanWrapper>
+                  );
+                } else {
+                  return (
+                    <a href={href} {...props} target="__blank" rel="noreferrer">
+                      {children}
+                    </a>
+                  );
+                }
+              },
+            }}
+          />
+        )}
+      </SolutionWrapper>
       {!fullscreen && (
         <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
       )}

@@ -427,7 +427,6 @@ const DemoTopicEntry = withFormik({
     const refSolutions = values.refSolutions.map((ref) => {
       return props.solutions.find((solution) => ref.value === solution.sysID);
     });
-    console.log("values", values);
     const vals = values;
     vals.refSolutions = refSolutions;
     vals.category = props.currentCategory;
@@ -444,7 +443,6 @@ const DemoTopicEntry = withFormik({
     */
     // Workaround to not adjust the alter the content array for contentful submission
     const { newSolutions, newTopic, newTags } = contentToAdd;
-    console.log("newSolutions", newSolutions);
     // add details for immediate usage of new content that contentful will generate later:
     newTopic.id = generateTempID(contentToAdd.newTopic.title);
     newTopic.createdAt = new Date().toISOString();

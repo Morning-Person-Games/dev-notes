@@ -38,7 +38,7 @@ const Button = styled.button`
   ${mixins.transition("border")};
   ${baseTypes.hover} {
     &:enabled {
-      border-bottom-color: ${(props) => props.theme.colors.highlightHover};
+      border-bottom-color: ${(props) => props.theme.colors.primary};
     }
   }
   &:disabled {
@@ -100,19 +100,21 @@ function CategoriesHeader({
 }) {
   const activeCategory = currentCategory.category
     ? currentCategory.category
-    : [];
+    : "";
   const links = [];
   if (topics && topics.length > 0) {
-    const filtered = topics.filter((category) => category.public || token);
-    const sorted = filtered.sort((a, b) => a.weight - b.weight);
-    sorted.forEach((category) => {
+    const filteredTopics = topics.filter(
+      (category) => category.public || token
+    );
+    const sortedTopics = filteredTopics.sort((a, b) => a.weight - b.weight);
+    sortedTopics.forEach((category) => {
       if (category.public || token) {
         links.push(
           <Li key={category.id}>
             <Button
               type="button"
               disabled={activeCategory === category.category}
-              onClick={() => setCurrentCategory(category)}
+              onClick={() => setCurrentCategory(category.category)}
             >
               <H2>{category.category}</H2>
             </Button>

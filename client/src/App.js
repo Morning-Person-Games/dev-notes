@@ -64,6 +64,36 @@ const getSetTheme = async (
     });
 };
 
+const getTopicTitleList = (topics) => {
+  const topicTitles = [];
+  topics.forEach((category) =>
+    category.topics.forEach((topic) => topicTitles.push(topic.title))
+  );
+  return topicTitles;
+};
+
+const getSavedCategory = () => {
+  const categoryString = localStorage.getItem("category");
+  const userCategory = JSON.parse(categoryString);
+  return userCategory ? userCategory : "";
+};
+
+const getCurrentTopicsFromCategory = (topics) => {
+  const savedCategory = getSavedCategory();
+  if (savedCategory) {
+    const savedTopics = topics.find((c) => c.category === savedCategory);
+    if (savedTopics) {
+      return savedTopics;
+    } else {
+      console.warn(
+        "Somehow the locally stored category no longer exists. Setting it to default."
+      );
+      localStorage.removeItem("category");
+    }
+  }
+  return topics[0];
+};
+
 function App() {
   // what is a useReducer lol
   const { token, setToken, resetToken } = useToken();
@@ -75,15 +105,33 @@ function App() {
   const [tags, setTags] = useState([]);
   const [solutions, setSolutions] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("");
-  const [currentTopics, setCurrentTopics] = useState("");
+  const [currentTopics, setCurrentTopics] = useState([]);
   const [themesObject, setThemesObject] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingFade, setLoadingFade] = useState(true);
   const [loadScreen, setLoadScreen] = useState(true);
+  const [topicTitlesList, setTopicTitlesList] = useState([]);
 
-  useEffect(() => {
-    setCurrentTopics(currentCategory.topics);
-  }, [currentCategory]);
+  const _setCurrentCategory = useCallback(
+    (categoryName) => {
+      if (topics.length > 0) {
+        if (categoryName) {
+          const selectedCategory = topics.find(
+            (c) => c.category === categoryName
+          );
+          if (selectedCategory) {
+            setCurrentCategory({
+              id: selectedCategory.id,
+              category: selectedCategory.category,
+            });
+            setCurrentTopics(selectedCategory.topics);
+            localStorage.setItem("category", JSON.stringify(categoryName));
+          }
+        }
+      }
+    },
+    [topics]
+  );
 
   // TODO finish caching/local offline storage. Needs a limit of some sort
   useEffect(() => {
@@ -96,8 +144,16 @@ function App() {
         const timeoutId = setTimeout(() => controller.abort(), 2000);
         const setStates = (content) => {
           setTopics(content.topics);
+          setTopicTitlesList(getTopicTitleList(content.topics));
           if (content.topics.length > 0) {
-            setCurrentCategory(content.topics[0]);
+            const currentTopicList = getCurrentTopicsFromCategory(
+              content.topics
+            );
+            setCurrentCategory({
+              id: currentTopicList.id,
+              category: currentTopicList.category,
+            });
+            setCurrentTopics(currentTopicList.topics);
           }
           setTags(content.tags);
           setSolutions(content.solutions);
@@ -169,19 +225,19 @@ function App() {
       }
       if (newTopic) {
         for (let i = 0; i < topics.length; i++) {
-          if (topics[i].id === newTopic.category.id) {
+          if (topics[i].category === newTopic.category) {
             var newTopicsList = topics;
             newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
             setTopics(newTopicsList);
-            setCurrentCategory(newTopicsList[i]);
+            setTopicTitlesList(getTopicTitleList(newTopicsList));
+            _setCurrentCategory(newTopic.category);
             break;
           }
         }
       }
     },
-    [topics, tags, solutions]
+    [topics, tags, solutions, _setCurrentCategory]
   );
-
   /*
   topics,
     setCurrentCategory,
@@ -218,11 +274,13 @@ function App() {
             a {
               ${mixins.transition()};
               color: ${theme.colors.link};
+              text-decoration: none;
               &:visited {
                 color: ${theme.colors.link};
               }
               ${baseTypes.hover} {
                 color: ${theme.colors.linkHover};
+                text-decoration: underline;
               }
               font-family: inherit;
             }
@@ -322,7 +380,7 @@ function App() {
             element={
               <Notes
                 topics={topics}
-                setCurrentCategory={setCurrentCategory}
+                setCurrentCategory={_setCurrentCategory}
                 currentCategory={currentCategory}
                 tags={tags}
                 spaceID={spaceID}
@@ -336,6 +394,7 @@ function App() {
                 setTheme={setTheme}
                 setLoadingFade={setLoadingFade}
                 currentTopics={currentTopics}
+                topicTitlesList={topicTitlesList}
               />
             }
           />

@@ -6,29 +6,25 @@ import rehypeSanitize from "rehype-sanitize";
 import styled from "@emotion/styled";
 import { mixins, staticSizes } from "../../styles/globalStyles";
 import {
-  BsTypeH2,
   BsTypeH3,
   BsTypeBold,
   BsTypeItalic,
   BsTypeStrikethrough,
   BsCodeSlash,
   BsCodeSquare,
-  BsListUl,
-  BsListOl,
   BsArrowsExpand,
+  BsLink45Deg,
 } from "react-icons/bs";
 
 const commandList = [
   // Custom Toolbars
-  commands.title2,
   commands.title3,
   commands.bold,
   commands.italic,
   commands.strikethrough,
   commands.code,
   commands.codeBlock,
-  commands.unorderedListCommand,
-  commands.orderedListCommand,
+  commands.link,
 ];
 const extraCommands = [
   commands.codeEdit,
@@ -36,20 +32,16 @@ const extraCommands = [
   commands.codeLive,
   commands.divider,
   commands.codePreview,
-  // commands.divider,
-  // commands.fullscreen,
 ];
 
 //icons and size adjustments
-commands.title2.icon = <BsTypeH2 />;
 commands.title3.icon = <BsTypeH3 />;
 commands.bold.icon = <BsTypeBold />;
 commands.italic.icon = <BsTypeItalic />;
 commands.strikethrough.icon = <BsTypeStrikethrough />;
 commands.code.icon = <BsCodeSlash />;
+commands.link.icon = <BsLink45Deg />;
 commands.codeBlock.icon = <BsCodeSquare />;
-commands.unorderedListCommand.icon = <BsListUl />;
-commands.orderedListCommand.icon = <BsListOl />;
 commands.codeEdit.icon = "Edit";
 commands.codeLive.icon = "Compare";
 commands.codePreview.icon = "Preview";
@@ -63,7 +55,6 @@ const Editor = styled(EditorInit)`
   --color-fg-default: ${(props) => props.theme.colors.white};
   --color-accent-fg: ${(props) => props.theme.colors.link};
   --color-neutral-muted: ${(props) => props.theme.colors.secondary};
-  background-color: ${(props) => props.theme.colors.secondary};
   width: 100%;
   border-radius: 0;
   border: 0;
@@ -71,16 +62,13 @@ const Editor = styled(EditorInit)`
   font-family: inherit;
   padding-bottom: 10px;
   border-top: 2px solid ${(props) => props.theme.colors.primary};
-  ${mixins.transition("background-color", 200)};
   border-radius: 0;
-  &:hover {
-    background-color: ${(props) => props.theme.colors.fieldHover};
-  }
-  &:hover:focus-within {
-    background-color: ${(props) => props.theme.colors.secondary};
-  }
+  background: none;
   div {
     --color-border-default: ${(props) => props.theme.colors.primary};
+  }
+  .w-md-editor-content {
+    padding-right: 6px;
   }
   .wmde-markdown {
     --color-canvas-default: ${(props) => props.theme.colors.shadow};
@@ -113,7 +101,10 @@ const Editor = styled(EditorInit)`
       padding: 0 3px;
       height: auto;
       line-height: inherit;
+      background-color: transparent;
+      color: ${(props) => props.theme.colors.link};
       &:hover {
+        color: ${(props) => props.theme.colors.linkHover};
         background-color: transparent;
       }
     }
@@ -137,17 +128,11 @@ const Editor = styled(EditorInit)`
       button {
         padding: 0 3px;
         margin: 0;
-        background-color: transparent;
-        color: ${(props) => props.theme.colors.white};
-        &:hover {
-          background-color: transparent;
-          color: ${(props) => props.theme.colors.link};
-        }
       }
       li {
         &.active button {
           cursor: pointer;
-          color: ${(props) => props.theme.colors.linkHover};
+          color: ${(props) => props.theme.colors.highlight};
           background-color: transparent;
           &:hover {
             background-color: transparent;
@@ -181,7 +166,8 @@ const Editor = styled(EditorInit)`
     }
   }
   .w-md-editor-bar {
-    margin-top: -25px;
+    bottom: -37px;
+    right: 9px;
     width: 25px;
     height: 25px;
     svg {
@@ -192,10 +178,10 @@ const Editor = styled(EditorInit)`
 const ExpandInit = ({ ...props }) => <BsArrowsExpand {...props} />;
 const ExpandIcon = styled(ExpandInit)`
   position: absolute;
-  color: ${(props) => props.theme.colors.placeholder};
-  font-size: ${staticSizes.font.lg};
-  right: 3px;
-  bottom: 4px;
+  color: ${(props) => props.theme.colors.link};
+  font-size: 1.3em;
+  right: 10px;
+  bottom: -36px;
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -203,9 +189,17 @@ const Wrapper = styled.div`
 `;
 // #endregion
 
-function SolutionMd(props) {
-  const { type, name, handleChange, handleBlur, value, defaultTabEnable } =
-    props;
+function SolutionMd({
+  type,
+  name,
+  defaultTabEnable,
+  tabIndex,
+  onChange,
+  onBlur,
+  placeholder,
+  value,
+  ...props
+}) {
   const theme = useTheme();
   const mainHeight = theme.sizes.baseFontSize * 1.5 * 7;
   const toolbarHeight = theme.sizes.baseFontSize * 2;
@@ -216,16 +210,16 @@ function SolutionMd(props) {
         preview={"edit"}
         visibleDragbar={true}
         height={mainHeight}
-        onChange={handleChange}
+        onChange={onChange}
         toolbarHeight={toolbarHeight}
         textareaProps={{
           id: "SolutionEditor",
-          placeholder: "Describe a solution to the topic...",
-          onChange: handleChange,
-          onBlur: handleBlur,
+          placeholder: placeholder,
+          onChange: onChange,
+          onBlur: onBlur,
           type: type,
           name: name,
-          tabIndex: "3",
+          tabIndex: tabIndex,
         }}
         value={value}
         previewOptions={{
@@ -235,6 +229,7 @@ function SolutionMd(props) {
         commands={commandList}
         extraCommands={extraCommands}
         defaultTabEnable={defaultTabEnable}
+        {...props}
       />
       <ExpandIcon />
     </Wrapper>

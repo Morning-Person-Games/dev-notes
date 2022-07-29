@@ -38,7 +38,6 @@ function Notes(props) {
   const [fade, setFade] = useState(false);
   const [startupOn, setStartupOn] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  const [topicTitlesList, setTopicTitlesList] = useState([]);
   const {
     topics,
     setCurrentCategory,
@@ -55,6 +54,7 @@ function Notes(props) {
     setTheme,
     setLoadingFade,
     currentTopics,
+    topicTitlesList,
   } = props;
 
   useEffect(() => {
@@ -65,13 +65,6 @@ function Notes(props) {
       }, 2600);
     }
   }, [startupOn]);
-  useEffect(() => {
-    const topicTitles = [];
-    topics.forEach((category) =>
-      category.topics.forEach((topic) => topicTitles.push(topic.title))
-    );
-    setTopicTitlesList(topicTitles);
-  }, [topics]);
 
   const showStart = startupOn || !props.topics || props.topics.length === 0;
 

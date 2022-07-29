@@ -23,27 +23,35 @@ const Button = styled.button`
     color: ${(props) => !props.active && props.theme.colors.link};
   }
 `;
-const TagP = styled.p`
-  //font-size: ${staticSizes.font.sm};
-  padding: 0 5px 0 0;
-  margin: 0;
-  color: ${(props) => props.theme.colors.placeholder};
+
+const TagSpan = styled.span`
+  font-size: ${(props) =>
+    props.fullscreen ? staticSizes.font.md : staticSizes.font.sm};
+  color: ${(props) =>
+    props.fullscreen
+      ? props.theme.colors.placeholder
+      : props.theme.colors.placeholder};
   font-weight: 600;
+  padding: ${(props) => props.fullscreen && "4px 10px 5px 10px"};
+  margin: 0;
+  margin-right: ${(props) => props.fullscreen && "5px"};
+  border-radius: 3px;
+  background-color: ${(props) =>
+    props.fullscreen && props.theme.colors.secondary};
 `;
 
-function TagString({ tagged, allTags }) {
+function TagString({ tagged, allTags, fullscreen }) {
   if (!allTags) return;
-  let tagString = "";
-  for (let i = 0; i < tagged.length; i++) {
-    const tag = tagged[i];
-    const name = getTagNameFromID(tag.id, allTags);
-    if (i === 0) {
-      tagString += name;
-    } else {
-      tagString += ", " + name;
-    }
-  }
-  return <TagP>{tagString}</TagP>;
+  return (
+    <>
+      {tagged.map((tag, index) => (
+        <TagSpan key={index} fullscreen={fullscreen}>
+          {getTagNameFromID(tag.id, allTags)}
+          {!fullscreen && index < tagged.length - 1 && ","}
+        </TagSpan>
+      ))}
+    </>
+  );
 }
 
 function TagField({ tag, allTags, handleTags }) {

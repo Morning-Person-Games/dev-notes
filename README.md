@@ -80,3 +80,8 @@ If you plan on messing with the project locally there's a few things you'll need
 4. Hook up those new values into each of the follow OAuth environment variables: `CONTENTFUL_OAUTH_ID`, `CONTENTFUL_OAUTH_SECRET`, `CONTENTFUL_OAUTH_REDIRECT_URI`
 5. Now run `npm run local` instead of start for your node server.
 6. This parts a bit weird but its the best I could do with Contentful giving the access key through the URL: go to https://localhost:3080/login. This will not correctly log you, but you should see see your key in the URL. Adjust that URL so you keep the access_token but are back on your local React instance (should look something like: http://localhost:3000/oauth/redirect#access_token=TOKEN)
+
+## Improvements
+The primary improvements I might do at some point (probably on request) are:
+- In-app editing of Notes. This is the most likely for me to do without external pressure. It's just a lot of extra form work and I made the mistake of not doing this in TypeScript so I'm exhausted.
+- Improved Search with instructions to setup Algolia Search as well as a backup Global Search. I feel like Categories should be broad enough that needing a global search would not often be needed, but I can see having a backup search to go through all content being helpful. 

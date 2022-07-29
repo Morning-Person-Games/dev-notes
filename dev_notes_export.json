@@ -12,7 +12,7 @@
         "id": "topic",
         "type": "ContentType",
         "createdAt": "2022-05-16T13:20:18.500Z",
-        "updatedAt": "2022-07-02T17:15:10.126Z",
+        "updatedAt": "2022-07-26T00:11:53.275Z",
         "environment": {
           "sys": {
             "id": "master",
@@ -20,8 +20,8 @@
             "linkType": "Environment"
           }
         },
-        "publishedVersion": 25,
-        "publishedAt": "2022-07-02T17:15:10.126Z",
+        "publishedVersion": 29,
+        "publishedAt": "2022-07-26T00:11:53.275Z",
         "firstPublishedAt": "2022-05-16T13:20:18.897Z",
         "createdBy": {
           "sys": {
@@ -37,8 +37,8 @@
             "id": "1awYx90CAsZnbfg4aMRYqW"
           }
         },
-        "publishedCounter": 13,
-        "version": 26,
+        "publishedCounter": 15,
+        "version": 30,
         "publishedBy": {
           "sys": {
             "type": "Link",
@@ -346,7 +346,7 @@
         "id": "theme",
         "type": "ContentType",
         "createdAt": "2022-07-02T17:14:22.446Z",
-        "updatedAt": "2022-07-24T16:06:18.505Z",
+        "updatedAt": "2022-07-29T18:09:26.692Z",
         "environment": {
           "sys": {
             "id": "master",
@@ -354,8 +354,8 @@
             "linkType": "Environment"
           }
         },
-        "publishedVersion": 65,
-        "publishedAt": "2022-07-24T16:06:18.505Z",
+        "publishedVersion": 69,
+        "publishedAt": "2022-07-29T18:09:26.692Z",
         "firstPublishedAt": "2022-07-02T17:14:22.660Z",
         "createdBy": {
           "sys": {
@@ -371,8 +371,8 @@
             "id": "1awYx90CAsZnbfg4aMRYqW"
           }
         },
-        "publishedCounter": 33,
-        "version": 66,
+        "publishedCounter": 35,
+        "version": 70,
         "publishedBy": {
           "sys": {
             "type": "Link",
@@ -426,6 +426,42 @@
           "omitted": false
         },
         {
+          "id": "secondary",
+          "name": "Secondary",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                "flags": null
+              },
+              "message": "Must be a color hex code"
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "background",
+          "name": "Background",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                "flags": null
+              },
+              "message": "Must be a color hex code"
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
           "id": "highlight",
           "name": "Highlight",
           "type": "Symbol",
@@ -440,6 +476,63 @@
               "message": "Must be a color hex code"
             }
           ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "highlightHover",
+          "name": "Highlight Hover",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                "flags": null
+              },
+              "message": "Must be a color hex code"
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "link",
+          "name": "Link ",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                "flags": null
+              },
+              "message": "Must be a color hex code"
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "linkHover",
+          "name": "Link Hover",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                "flags": null
+              },
+              "message": "Must be a color hex code"
+            }
+          ],
+          "defaultValue": {
+            "en-US": "#000000"
+          },
           "disabled": false,
           "omitted": false
         },
@@ -461,24 +554,6 @@
           "defaultValue": {
             "en-US": "#f2f2f2"
           },
-          "disabled": false,
-          "omitted": false
-        },
-        {
-          "id": "secondary",
-          "name": "Secondary",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "regexp": {
-                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-                "flags": null
-              },
-              "message": "Must be a color hex code"
-            }
-          ],
           "disabled": false,
           "omitted": false
         },
@@ -525,42 +600,6 @@
           "omitted": false
         },
         {
-          "id": "background",
-          "name": "Background",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "regexp": {
-                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-                "flags": null
-              },
-              "message": "Must be a color hex code"
-            }
-          ],
-          "disabled": false,
-          "omitted": false
-        },
-        {
-          "id": "link",
-          "name": "Link ",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "regexp": {
-                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-                "flags": null
-              },
-              "message": "Must be a color hex code"
-            }
-          ],
-          "disabled": false,
-          "omitted": false
-        },
-        {
           "id": "codeLine",
           "name": "Code Line",
           "type": "Symbol",
@@ -581,45 +620,6 @@
         {
           "id": "codeBlock",
           "name": "Code Block",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "regexp": {
-                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-                "flags": null
-              },
-              "message": "Must be a color hex code"
-            }
-          ],
-          "disabled": false,
-          "omitted": false
-        },
-        {
-          "id": "linkHover",
-          "name": "Link Hover",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "regexp": {
-                "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-                "flags": null
-              },
-              "message": "Must be a color hex code"
-            }
-          ],
-          "defaultValue": {
-            "en-US": "#000000"
-          },
-          "disabled": false,
-          "omitted": false
-        },
-        {
-          "id": "highlightHover",
-          "name": "Highlight Hover",
           "type": "Symbol",
           "localized": false,
           "required": false,
@@ -675,6 +675,240 @@
     }
   ],
   "tags": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "vscode",
+        "type": "Tag",
+        "createdAt": "2022-07-25T04:28:53.315Z",
+        "updatedAt": "2022-07-25T04:28:53.315Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "vscode"
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "Csharp",
+        "type": "Tag",
+        "createdAt": "2022-07-25T13:50:36.795Z",
+        "updatedAt": "2022-07-25T13:50:36.795Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "C#"
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "Unity",
+        "type": "Tag",
+        "createdAt": "2022-07-25T22:14:03.373Z",
+        "updatedAt": "2022-07-25T22:14:03.373Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "Unity"
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "css",
+        "type": "Tag",
+        "createdAt": "2022-07-25T22:23:33.117Z",
+        "updatedAt": "2022-07-25T22:23:33.117Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "css"
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "JavaScript",
+        "type": "Tag",
+        "createdAt": "2022-07-26T14:28:59.186Z",
+        "updatedAt": "2022-07-26T14:28:59.186Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "JavaScript"
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "73ald6l92kz4"
+          }
+        },
+        "id": "Shortcuts",
+        "type": "Tag",
+        "createdAt": "2022-07-29T17:20:06.495Z",
+        "updatedAt": "2022-07-29T17:20:06.495Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1awYx90CAsZnbfg4aMRYqW"
+          }
+        },
+        "version": 1,
+        "visibility": "public"
+      },
+      "name": "Shortcuts"
+    }
   ],
   "editorInterfaces": [
     {
@@ -688,7 +922,7 @@
             "linkType": "Space"
           }
         },
-        "version": 26,
+        "version": 30,
         "createdAt": "2022-05-16T13:20:18.943Z",
         "createdBy": {
           "sys": {
@@ -697,7 +931,7 @@
             "linkType": "User"
           }
         },
-        "updatedAt": "2022-07-02T17:15:10.587Z",
+        "updatedAt": "2022-07-26T00:11:54.295Z",
         "updatedBy": {
           "sys": {
             "id": "1awYx90CAsZnbfg4aMRYqW",
@@ -891,7 +1125,7 @@
             "linkType": "Space"
           }
         },
-        "version": 67,
+        "version": 71,
         "createdAt": "2022-07-02T17:14:22.709Z",
         "createdBy": {
           "sys": {
@@ -900,7 +1134,7 @@
             "linkType": "User"
           }
         },
-        "updatedAt": "2022-07-24T16:06:19.060Z",
+        "updatedAt": "2022-07-29T18:09:27.337Z",
         "updatedBy": {
           "sys": {
             "id": "1awYx90CAsZnbfg4aMRYqW",
@@ -941,6 +1175,22 @@
           "widgetNamespace": "builtin"
         },
         {
+          "fieldId": "secondary",
+          "settings": {
+            "helpText": "Used in conjunction with Primary to separate sections. Will calculate 7% darker than Primary if no value entered."
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "background",
+          "settings": {
+            "helpText": "If left empty, will calculate a color 15% darker than Primary"
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
           "fieldId": "highlight",
           "settings": {
             "helpText": "Generally for buttons and some headers."
@@ -949,17 +1199,33 @@
           "widgetNamespace": "builtin"
         },
         {
-          "fieldId": "white",
+          "fieldId": "highlightHover",
           "settings": {
-            "helpText": "Pick a color that will be visibly clear to read against your Primary color"
+            "helpText": "This is 10% darker than Highlight color which will usually work great."
           },
           "widgetId": "singleLine",
           "widgetNamespace": "builtin"
         },
         {
-          "fieldId": "secondary",
+          "fieldId": "link",
           "settings": {
-            "helpText": "Used in conjunction with Primary to separate sections. Will calculate 7% darker than Primary if no value entered."
+            "helpText": "Used to give link text a bit more legibility separate from highlight if that's an issue."
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "linkHover",
+          "settings": {
+            "helpText": "!Rarely needed! This is 10% darker than Link color which will usually work."
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "white",
+          "settings": {
+            "helpText": "Pick a color that will be visibly clear to read against your Primary color"
           },
           "widgetId": "singleLine",
           "widgetNamespace": "builtin"
@@ -981,22 +1247,6 @@
           "widgetNamespace": "builtin"
         },
         {
-          "fieldId": "background",
-          "settings": {
-            "helpText": "If left empty, will calculate a color 15% darker than Primary"
-          },
-          "widgetId": "singleLine",
-          "widgetNamespace": "builtin"
-        },
-        {
-          "fieldId": "link",
-          "settings": {
-            "helpText": "Used to give link text a bit more legibility separate from highlight if that's an issue."
-          },
-          "widgetId": "singleLine",
-          "widgetNamespace": "builtin"
-        },
-        {
           "fieldId": "codeLine",
           "settings": {
             "helpText": "The background for single lines of <code />. You can probably leave this blank as its relative color will generally look good on its own."
@@ -1008,22 +1258,6 @@
           "fieldId": "codeBlock",
           "settings": {
             "helpText": "For multi-line blocks of <code />. You can probably leave this blank as its relative color will generally look good on its own."
-          },
-          "widgetId": "singleLine",
-          "widgetNamespace": "builtin"
-        },
-        {
-          "fieldId": "linkHover",
-          "settings": {
-            "helpText": "!Rarely needed! This is 10% darker than Link color which will usually work."
-          },
-          "widgetId": "singleLine",
-          "widgetNamespace": "builtin"
-        },
-        {
-          "fieldId": "highlightHover",
-          "settings": {
-            "helpText": "This is 10% lighter than Highlight color which will usually work great."
           },
           "widgetId": "singleLine",
           "widgetNamespace": "builtin"
@@ -1064,7 +1298,7 @@
         "id": "QKp4uDcvzH8v5AMut0ber",
         "type": "Entry",
         "createdAt": "2022-07-05T23:01:00.236Z",
-        "updatedAt": "2022-07-23T21:45:56.828Z",
+        "updatedAt": "2022-07-29T17:04:19.879Z",
         "environment": {
           "sys": {
             "id": "master",
@@ -1072,8 +1306,8 @@
             "linkType": "Environment"
           }
         },
-        "publishedVersion": 47,
-        "publishedAt": "2022-07-23T21:45:56.828Z",
+        "publishedVersion": 52,
+        "publishedAt": "2022-07-29T17:04:19.879Z",
         "firstPublishedAt": "2022-07-05T23:17:30.493Z",
         "createdBy": {
           "sys": {
@@ -1089,8 +1323,8 @@
             "id": "1awYx90CAsZnbfg4aMRYqW"
           }
         },
-        "publishedCounter": 10,
-        "version": 48,
+        "publishedCounter": 11,
+        "version": 53,
         "publishedBy": {
           "sys": {
             "type": "Link",
@@ -1114,7 +1348,7 @@
           "en-US": "#252954"
         },
         "highlight": {
-          "en-US": "#4951db"
+          "en-US": "#5158db"
         },
         "white": {
           "en-US": "#f2f2f2"
@@ -1143,7 +1377,7 @@
         "id": "3CKIvJOoU2LojwfgdDPwjR",
         "type": "Entry",
         "createdAt": "2022-07-05T23:18:27.607Z",
-        "updatedAt": "2022-07-23T21:47:59.188Z",
+        "updatedAt": "2022-07-29T17:07:02.429Z",
         "environment": {
           "sys": {
             "id": "master",
@@ -1151,8 +1385,8 @@
             "linkType": "Environment"
           }
         },
-        "publishedVersion": 89,
-        "publishedAt": "2022-07-23T21:47:59.188Z",
+        "publishedVersion": 91,
+        "publishedAt": "2022-07-29T17:07:02.429Z",
         "firstPublishedAt": "2022-07-06T00:21:03.963Z",
         "createdBy": {
           "sys": {
@@ -1168,8 +1402,8 @@
             "id": "1awYx90CAsZnbfg4aMRYqW"
           }
         },
-        "publishedCounter": 15,
-        "version": 90,
+        "publishedCounter": 16,
+        "version": 92,
         "publishedBy": {
           "sys": {
             "type": "Link",
@@ -1195,20 +1429,23 @@
         "highlight": {
           "en-US": "#e748ea"
         },
-        "white": {
-          "en-US": "#0a0a0a"
-        },
         "secondary": {
           "en-US": "#e1e1e1"
         },
         "background": {
           "en-US": "#ffffff"
         },
+        "white": {
+          "en-US": "#0a0a0a"
+        },
         "gray": {
           "en-US": "#454545"
         },
         "error": {
           "en-US": "#ff5a55"
+        },
+        "link": {
+          "en-US": "#ac1eae"
         },
         "codeLine": {
           "en-US": "#e1e1e1"

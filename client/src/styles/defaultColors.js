@@ -23,6 +23,3 @@ const defaultColors = {
 };
 
 export default defaultColors;
-
-// highlight: "rgb(73, 81, 219)",
-//   highlightHover: "rgb(59 43 212)",

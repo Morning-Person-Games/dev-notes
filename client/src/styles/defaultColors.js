@@ -6,8 +6,8 @@ const defaultColors = {
   background: "rgb(14, 15, 31)",
   text: "rgb(242, 242, 242)",
   gray: "rgb(136, 136, 142)",
-  highlight: "rgb(73, 81, 219)",
-  highlightHover: "rgb(59 43 212)",
+  highlight: "#5158db",
+  highlightHover: "#363ed3",
   link: "#8b8fe8",
   linkHover: "#6066e0",
   error: "rgb(255, 90, 85)",
@@ -23,3 +23,6 @@ const defaultColors = {
 };
 
 export default defaultColors;
+
+// highlight: "rgb(73, 81, 219)",
+//   highlightHover: "rgb(59 43 212)",

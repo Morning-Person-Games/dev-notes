@@ -225,12 +225,12 @@ function App() {
       }
       if (newTopic) {
         for (let i = 0; i < topics.length; i++) {
-          if (topics[i].category === newTopic.category) {
+          if (topics[i].category === newTopic.category.category) {
             var newTopicsList = topics;
             newTopicsList[i].topics = [].concat(newTopic, topics[i].topics);
             setTopics(newTopicsList);
             setTopicTitlesList(getTopicTitleList(newTopicsList));
-            _setCurrentCategory(newTopic.category);
+            _setCurrentCategory(newTopic.category.category);
             break;
           }
         }

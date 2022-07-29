@@ -31,6 +31,7 @@ const Submit = styled(baseTypes.DefaultBtn)`
   border-radius: 0 0 ${staticSizes.radius} ${staticSizes.radius};
   border-top: 3px solid ${(props) => props.theme.colors.highlight};
   &:disabled {
+    background-color: ${(props) => props.theme.colors.secondary};
     border-color: ${(props) => props.theme.colors.primary};
     color: ${(props) =>
       props.error
@@ -433,6 +434,9 @@ const TopicEntry = withFormik({
     const vals = values;
     vals.refSolutions = refSolutions;
     vals.category = props.currentCategory;
+    if (values.solutions.length === 1 && values.solutions[0].length === 0) {
+      vals.solutions = [];
+    }
     const contentToAdd = await FormattedTopicEntry(vals);
     /*
     const contentToAdd = {
@@ -443,7 +447,6 @@ const TopicEntry = withFormik({
     */
     // Workaround to not adjust the alter the content array for contentful submission
     const contentToSend = JSON.parse(JSON.stringify(contentToAdd));
-    props.addToContentList(contentToAdd);
     // Send content to contentful
     const createdTopic = await createNewTopic(
       props.token,
@@ -458,7 +461,7 @@ const TopicEntry = withFormik({
         ? createdTopic.sys.id
         : generateTempID(contentToAdd.newTopic.title);
     newTopic.createdAt = new Date().toISOString();
-    newTopic.category = values.category.category;
+    newTopic.category = vals.category;
 
     if (newSolutions && newSolutions.length > 0) {
       for (let i = newSolutions.length - 1; i >= 0; i--) {
@@ -469,8 +472,7 @@ const TopicEntry = withFormik({
         newSolutions[i].createdAt = new Date().toISOString();
         newTopic.solutions.unshift(newSolutions[i]);
       }
-    }
-    if (newTopic.solutions.length > 0) {
+
       // add indexable solutions for js search
       let indexableSolutions = "";
       newTopic.solutions.forEach(
@@ -483,6 +485,7 @@ const TopicEntry = withFormik({
         newTopic.tags.push(tag);
       });
     }
+    props.addToContentList(contentToAdd);
     console.info("New (Local) Topic: ", newTopic);
     resetForm({
       values: {

@@ -100,15 +100,15 @@ function getColorsFromTheme(newTheme) {
   newColors.inactiveColor = newColors.gray;
   newColors.background = newColors.background
     ? newColors.background
-    : darken("0.15", newColors.primary);
+    : darken(0.15, newColors.primary);
 
   newColors.secondary = newColors.secondary
     ? newColors.secondary
-    : darken("0.07", newColors.primary);
+    : darken(0.07, newColors.primary);
 
   newColors.highlightHover = newColors.highlightHover
     ? newColors.highlightHover
-    : lighten("0.1", newColors.highlight);
+    : darken(0.12, newColors.highlight);
 
   newColors.placeholder = newColors.placeholder
     ? newColors.placeholder
@@ -116,7 +116,7 @@ function getColorsFromTheme(newTheme) {
 
   newColors.link = newColors.link
     ? newColors.link
-    : lighten(0.15, newColors.highlight);
+    : lighten(0.1, newColors.highlight);
 
   newColors.linkHover = newColors.linkHover
     ? newColors.linkHover

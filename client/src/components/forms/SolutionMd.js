@@ -131,8 +131,8 @@ const Editor = styled(EditorInit)`
       }
       li {
         &.active button {
-          cursor: pointer;
-          color: ${(props) => props.theme.colors.highlight};
+          cursor: default;
+          color: ${(props) => props.theme.colors.inactiveColor};
           background-color: transparent;
           &:hover {
             background-color: transparent;

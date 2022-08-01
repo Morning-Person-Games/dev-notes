@@ -23,6 +23,7 @@ const LoginButton = styled(baseTypes.DefaultBtn)`
   color: ${(props) => props.theme.colors.white};
   ${baseTypes.hover} {
     color: ${(props) => props.theme.colors.white};
+    text-decoration: none;
   }
   &:link {
     color: ${(props) => props.theme.colors.white};

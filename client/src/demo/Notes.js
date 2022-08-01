@@ -105,20 +105,22 @@ function Notes(props) {
           <Topics currentTopics={currentTopics} tags={tags} loading={loading} />
         </div>
       </DemoContentWrapper>
-      <DemoFooter>
-        <p>
-          If you're interested in setting up your own instance of Dev Notes,
-          check out the setup instructions{" "}
-          <a
-            href="https://github.com/Morning-Person-Games/dev-notes#setup"
-            target="_blank"
-            rel="noreferrer"
-          >
-            here
-          </a>
-          !
-        </p>
-      </DemoFooter>
+      {!showStart && (
+        <DemoFooter>
+          <p>
+            If you're interested in setting up your own instance of Dev Notes,
+            check out the setup instructions{" "}
+            <a
+              href="https://github.com/Morning-Person-Games/dev-notes#setup"
+              target="_blank"
+              rel="noreferrer"
+            >
+              here
+            </a>
+            !
+          </p>
+        </DemoFooter>
+      )}
     </>
   );
 }

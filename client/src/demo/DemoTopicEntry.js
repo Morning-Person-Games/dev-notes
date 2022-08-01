@@ -50,6 +50,7 @@ const Submit = styled(baseTypes.DefaultBtn)`
 const ButtonsWrapper = styled.div`
   display: flex;
   flex-wrap: none;
+  width: 100%;
 `;
 
 const FieldInit = (props) => <Field {...props} />;
@@ -83,7 +84,7 @@ const TopicFieldsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${(props) => props.theme.colors.secondary};
-  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
+  border-radius: ${staticSizes.radius};
   input {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
@@ -163,14 +164,14 @@ const MoreSolutionBtn = styled.button`
   margin: 2px 4px 2px 0;
   text-align: left;
   position: relative;
-  color: ${(props) => props.theme.colors.highlight};
+  color: ${(props) => props.theme.colors.link};
   font-size: ${mixins.fixedEm(1.1)};
   ${mixins.transition()};
   bottom: 0;
   &:hover {
-    color: ${(props) => props.theme.colors.highlightHover};
+    color: ${(props) => props.theme.colors.linkHover};
     svg {
-      color: ${(props) => props.theme.colors.highlightHover};
+      color: ${(props) => props.theme.colors.linkHover};
     }
   }
   &:hover:focus-within {
@@ -372,18 +373,18 @@ const DemoTopicForm = (props) => {
           />
           {errors.tags && touched.title && <TagErrors>{errors.tags}</TagErrors>}
         </FieldWrapper>
+        <ButtonsWrapper>
+          <Submit
+            //type="submit"
+            error={errors.title ? 1 : 0}
+            disabled={
+              !isValid || isSubmitting || !hasValue || values.title.length === 0
+            }
+          >
+            {touched.title ? submitText : "Describe a topic to create a note"}
+          </Submit>
+        </ButtonsWrapper>
       </TopicFieldsWrapper>
-      <ButtonsWrapper>
-        <Submit
-          type="submit"
-          error={errors.title ? 1 : 0}
-          disabled={
-            !isValid || isSubmitting || !hasValue || values.title.length === 0
-          }
-        >
-          {touched.title ? submitText : "Describe a topic to create a note"}
-        </Submit>
-      </ButtonsWrapper>
     </FormWrapper>
   );
 };

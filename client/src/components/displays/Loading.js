@@ -12,8 +12,8 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vmax;
   background-color: ${defaultColors.background};
-  position: absolute;
-  z-index: 500;
+  position: fixed;
+  z-index: 5000;
   margin: -5px 0 0 0;
   opacity: ${(props) => (props.fade ? 0 : 1)};
   transition: opacity 600ms cubic-bezier(0.79, 0.06, 0.56, 0.86);
@@ -72,9 +72,9 @@ function SmallLoader({ ...props }) {
       <rect x="0" y="175" rx="5" ry="5" width="300" height="180" />
       <rect x="0" y="360" rx="5" ry="5" width="300" height="45" />
       <rect x="0" y="415" rx="5" ry="5" width="300" height="45" />
-      <rect x="0" y="470" rx="5" ry="5" width="170" height="45" />
-      <rect x="180" y="470" rx="5" ry="5" width="70" height="45" />
-      <rect x="260" y="470" rx="5" ry="5" width="70" height="45" />
+      <rect x="0" y="470" rx="5" ry="5" width="160" height="45" />
+      <rect x="170" y="470" rx="5" ry="5" width="60" height="45" />
+      <rect x="240" y="470" rx="5" ry="5" width="60" height="45" />
       <rect x="0" y="525" rx="5" ry="5" width="300" height="245" />
     </ContentLoader>
   );

@@ -290,7 +290,7 @@ function Topics(props) {
         smooth={true}
         duration={500}
       >
-        <UpArrow />
+        {topicsList.length > 0 && <UpArrow />}
       </ScrollToTop>
     </Wrapper>
   );

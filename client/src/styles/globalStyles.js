@@ -88,6 +88,7 @@ baseTypes.Label = styled.label`
 baseTypes.DefaultBtn = styled.button`
   background-color: ${(props) => props.theme.colors.highlight};
   font-size: ${staticSizes.font.md};
+  font-weight: 700;
   color: ${(props) => props.theme.colors.white};
   ${baseTypes.hover} {
     background-color: ${(props) => props.theme.colors.highlightHover};

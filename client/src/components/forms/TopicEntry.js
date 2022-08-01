@@ -49,6 +49,7 @@ const Submit = styled(baseTypes.DefaultBtn)`
 const ButtonsWrapper = styled.div`
   display: flex;
   flex-wrap: none;
+  width: 100%;
 `;
 
 const FieldInit = (props) => <Field {...props} />;
@@ -82,7 +83,7 @@ const TopicFieldsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${(props) => props.theme.colors.secondary};
-  border-radius: ${staticSizes.radius} ${staticSizes.radius} 0 0;
+  border-radius: ${staticSizes.radius};
   input {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
@@ -376,18 +377,18 @@ const TopicForm = (props) => {
           />
           {errors.tags && touched.title && <TagErrors>{errors.tags}</TagErrors>}
         </FieldWrapper>
+        <ButtonsWrapper>
+          <Submit
+            type="submit"
+            error={errors.title ? 1 : 0}
+            disabled={
+              !isValid || isSubmitting || !hasValue || values.title.length === 0
+            }
+          >
+            {touched.title ? submitText : "Describe a topic to create a note"}
+          </Submit>
+        </ButtonsWrapper>
       </TopicFieldsWrapper>
-      <ButtonsWrapper>
-        <Submit
-          type="submit"
-          error={errors.title ? 1 : 0}
-          disabled={
-            !isValid || isSubmitting || !hasValue || values.title.length === 0
-          }
-        >
-          {touched.title ? submitText : "Describe a topic to create a note"}
-        </Submit>
-      </ButtonsWrapper>
     </FormWrapper>
   );
 };

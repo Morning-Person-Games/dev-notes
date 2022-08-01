@@ -126,7 +126,6 @@ class PrimarySearch extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Wrapper>
           <Input
-            type="search"
             value={searchQuery}
             onChange={this.searchData}
             placeholder="Search through topics and solutions..."

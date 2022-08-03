@@ -50,6 +50,7 @@ const Li = styled.li`
   // #region richtext
   p {
     margin: 0;
+    overflow-wrap: anywhere;
     ${staticSizes.rtPadding};
   }
   h1,
@@ -62,6 +63,7 @@ const Li = styled.li`
   h4,
   h5,
   h6 {
+    overflow-wrap: anywhere;
     line-height: 1.2em;
     margin: 0;
     font-weight: 700;
@@ -133,7 +135,6 @@ const Li = styled.li`
     }
   }
   a {
-    overflow-wrap: anywhere;
     ${mixins.transition()};
     color: ${(props) => props.theme.colors.link};
     &:visited {

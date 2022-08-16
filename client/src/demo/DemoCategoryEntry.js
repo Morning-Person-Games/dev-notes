@@ -45,15 +45,9 @@ const WeightWrapper = styled.div`
     padding: 10px 0;
     justify-content: space-evenly;
     color: ${(props) => props.theme.colors.inactiveColor};
-    background-color: ${(props) =>
-      props.startup
-        ? props.theme.colors.secondary
-        : props.theme.colors.primary};
+    background-color: ${(props) => props.theme.colors.primary};
     ${baseTypes.hover} {
-      background-color: ${(props) =>
-        props.startup
-          ? props.theme.colors.reverseFieldHover
-          : props.theme.colors.fieldHover};
+      background-color: ${(props) => props.theme.colors.fieldHover};
     }
     &:disabled {
       background-color: ${(props) => props.theme.colors.highlight};
@@ -70,12 +64,6 @@ const Submit = styled(baseTypes.DefaultBtn)`
   padding: 10px;
   font-size: ${staticSizes.font.xl};
   margin-top: 10px;
-  &:disabled {
-    color: ${(props) =>
-      props.startup === 1 && props.theme.colors.inactiveColor};
-    background-color: ${(props) =>
-      props.startup === 1 && props.theme.colors.secondary};
-  }
 `;
 
 const LeftBtn = styled.button`
@@ -91,7 +79,6 @@ const RightBtn = styled.button`
 const TitleField = styled(baseTypes.ModalField)`
   padding: 10px;
   border-radius: ${staticSizes.radius};
-  background: ${(props) => props.startup === 1 && props.theme.colors.secondary};
   max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
   &:hover {
     background-color: ${(props) =>
@@ -213,9 +200,17 @@ function DemoCategoryEntryForm({ callback, startup, topics, setTopics }) {
             maxLength="60"
             autoComplete="off"
           />
-          <InfoAndErrorDiv error={1} startup={startup ? 1 : 0}>
-            {touched.category && errors.category && errors.category}
+
+          <InfoAndErrorDiv
+            errors
+            error={touched.category && errors.category ? 1 : 0}
+            startup={startup ? 1 : 0}
+          >
+            {touched.category && errors.category
+              ? errors.category
+              : "A category only requires a title."}
           </InfoAndErrorDiv>
+
           <Label htmlFor="weight" startup={startup ? 1 : 0}>
             Weight:
           </Label>
@@ -226,7 +221,8 @@ function DemoCategoryEntryForm({ callback, startup, topics, setTopics }) {
             />
           </WeightWrapper>
           <InfoAndErrorDiv startup={startup ? 1 : 0}>
-            The lower the weight, the farther left the Category header will sit.
+            The lower the weight, the farther left the Category will sit in the
+            header.
           </InfoAndErrorDiv>
           <Submit
             type="submit"

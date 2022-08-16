@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import defaultColors from "../styles/defaultColors";
-import { lighten } from "polished";
 import DemoCategoryEntryForm from "./DemoCategoryEntry";
-import { baseTypes } from "../styles/globalStyles";
+import { baseTypes, staticSizes } from "../styles/globalStyles";
 import { toast } from "react-toastify";
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 
-const boldHighlight = lighten(0.11, defaultColors.highlight);
+const boldHighlight = "#E6D17E";
 
 // init text
 const Wrapper = styled.div`
@@ -54,23 +54,59 @@ const P = styled.p`
 const B = styled.b`
   color: ${boldHighlight};
 `;
-const H3 = styled.h3`
-  padding: 10px 20px;
-  background-color: ${defaultColors.primary};
-  margin: 0 0 15px 0;
-  display: block;
-  text-align: left;
+const DescriptionToggle = styled.button`
+  border-radius: ${(props) =>
+    props.expanded ? "5px 5px 0 0" : "5px 5px 5px 5px"};
+  font-size: 1em;
   width: 100%;
-  border-radius: 5px 5px 0 0;
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box; /* Firefox, other Gecko */
-  box-sizing: border-box; /* Opera/IE 8+ */
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  color: ${defaultColors.white};
+  background-color: ${defaultColors.primary};
+  &:hover {
+    background-color: ${defaultColors.fieldHover};
+  }
+  svg {
+    font-size: ${staticSizes.font.xl};
+  }
+  span {
+    padding: 10px 0;
+    font-size: ${staticSizes.font.lg};
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: left;
+  }
 `;
 const DescriptionWrapper = styled.div`
   background-color: ${defaultColors.secondary};
-  padding: 0 0 10px 0;
-  margin: 10px 0 20px 0;
+  padding: 0;
+  margin: 20px 0;
   border-radius: 5px;
+`;
+const DescriptionBody = styled.div`
+  background-color: ${defaultColors.secondary};
+  padding: 0 0 10px 0;
+  padding-bottom: ${(props) => !props.expanded && "0"};
+  margin: 0;
+  border-radius: 0 0 5px 5px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in;
+  height: auto;
+  max-height: ${(props) => (props.expanded ? "290px" : "0")};
+`;
+const FormWrapper = styled.div`
+  max-width: 610px;
+  background-color: ${defaultColors.secondary};
+  border-radius: 5px;
+  padding: 20px 10px 0 10px;
+  margin-bottom: 20px;
+`;
+const StartupWrapper = styled(baseTypes.MainContent)`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 function Startup({
@@ -81,38 +117,16 @@ function Startup({
   topics,
   setTopics,
 }) {
+  const [expanded, setExpanded] = useState(false);
   return (
     <Wrapper fade={fade ? 1 : 0}>
-      <baseTypes.MainContent>
+      <StartupWrapper>
         <Title>Welcome to the Dev Notes Demo!</Title>
         <Subtitle>
           Dev Notes is a digital journal streamlined to quickly save notes, and
           quickly find them.
         </Subtitle>
-        <DemoText>
-          This is a demo, <b>so everything you make here will not be saved.</b>{" "}
-          If you decide you want to use Dev Notes for yourself, you'll set it up
-          with{" "}
-          <a
-            href="https://www.contentful.com/"
-            target="__blank"
-            rel="noreferrer"
-          >
-            Contentful
-          </a>
-          , and all your Notes will be saved in there! You can find the current
-          setup instructions{" "}
-          <a
-            href="https://github.com/Morning-Person-Games/dev-notes#setup"
-            target="__blank"
-            rel="noreferrer"
-          >
-            here
-          </a>
-          .
-        </DemoText>
-
-        <div style={{ width: "100%" }}>
+        <FormWrapper>
           <h2 style={{ margin: "0 0 10px 0" }}>
             Create your first Category to start:
           </h2>
@@ -135,38 +149,70 @@ function Startup({
             setTopics={setTopics}
             topics={topics}
           />
-        </div>
+          <DemoText>
+            This is a demo,{" "}
+            <b>so everything you make here will not be saved.</b> If you decide
+            you want to use Dev Notes for yourself, you'll set it up with{" "}
+            <a
+              href="https://www.contentful.com/"
+              target="__blank"
+              rel="noreferrer"
+            >
+              Contentful
+            </a>
+            , and all your Notes will be saved in there! You can find the
+            current setup instructions{" "}
+            <a
+              href="https://github.com/Morning-Person-Games/dev-notes#setup"
+              target="__blank"
+              rel="noreferrer"
+            >
+              here
+            </a>
+            .
+          </DemoText>
+        </FormWrapper>
         <DescriptionWrapper>
-          <H3>Description and Tips:</H3>
-          <P>
-            Every <B>Note</B> has a <B>Topic</B> (a title), can have any number
-            of <B>Solutions</B> and/or <B>Tags</B>, and are categorized in...{" "}
-            <B>Categories</B>.
-          </P>
-          <P>
-            A <B>Topic</B> is the title of a Note.
-          </P>
+          <DescriptionToggle
+            type="button"
+            expanded={expanded}
+            onClick={() => setExpanded(!expanded)}
+          >
+            <span>Description and Tips</span>
+            {expanded ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />}
+          </DescriptionToggle>
+          <DescriptionBody expanded={expanded}>
+            <P>
+              Every <B>Note</B> has a <B>Topic</B> (a title), can have any
+              number of <B>Solutions</B> and/or <B>Tags</B>, and are categorized
+              in... <B>Categories</B>.
+            </P>
+            <P>
+              A <B>Topic</B> is the title of a Note.
+            </P>
 
-          <P>
-            <B>Solutions</B> are the text body(s) of a Topic. I'd bet 75% of
-            mine are stackoverflow links. Also! Pasting a url to an image will
-            automatically render the image in the content list.
-          </P>
-          <P>
-            <B>Tags</B>... well everyone knows tags by now. I like to make
-            broader Topics and use less Tags, but Tags are still good in a
-            pinch.
-          </P>
-          <P>
-            <B>Categories</B> define which topics can be found when you start
-            typing in the search bar, so they are very impactful. If you find
-            that you're not sure what category a Topic would be found in, it is
-            likely you should make them more broad. I'm currently using Game
-            Dev, Web Dev, and Misc as my current categories (Misc will be used
-            sparingly and typically for keyboard shortcuts in various apps).
-          </P>
+            <P>
+              <B>Solutions</B> are the text body(s) of a Topic. I'd bet around
+              75% of mine are stackoverflow links. Also! Pasting a url to an
+              image will automatically render the image in the content list.
+            </P>
+            <P>
+              <B>Tags</B>... well everyone knows tags by now. I like to make
+              broader Topics for my Notes and use less Tags, but Tags are still
+              good in a pinch.
+            </P>
+            <P>
+              <B>Categories</B> define which topics can be found when you start
+              typing in the search bar, so they are very impactful. If you find
+              that you're not sure what category a Topic would be found in, it
+              is likely you should make them more broad. I'm currently using
+              Game Dev, Web Dev, and Misc as my current categories (Misc will be
+              used sparingly and typically for keyboard shortcuts in various
+              apps).
+            </P>
+          </DescriptionBody>
         </DescriptionWrapper>
-      </baseTypes.MainContent>
+      </StartupWrapper>
     </Wrapper>
   );
 }

@@ -36,7 +36,7 @@ const Subtitle = styled.h4`
   width: 100%;
 `;
 const DemoText = styled(Subtitle)`
-  color: ${defaultColors.white};
+  color: ${defaultColors.placeholder};
   width: 100%;
   max-width: initial;
 `;

@@ -1,19 +1,19 @@
-import React, { useRef, useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles";
-import { useIsOverflow } from "../tools/useIsOverflow";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
-import { useTheme } from "@emotion/react";
-import { transparentize } from "polished";
-import { BsCheck2Square, BsJournalText } from "react-icons/bs";
-import { IoCopy } from "react-icons/io5";
+import React, { useRef, useEffect, useState } from "react"
+import styled from "@emotion/styled"
+import { baseTypes, staticSizes, mixins } from "../../styles/globalStyles"
+import { useIsOverflow } from "../tools/useIsOverflow"
+import ReactMarkdown from "react-markdown"
+import gfm from "remark-gfm"
+import { useTheme } from "@emotion/react"
+import { transparentize } from "polished"
+import { BsCheck2Square, BsJournalText } from "react-icons/bs"
+import { IoCopy } from "react-icons/io5"
 
 // #region styling
-const minLines = 1;
+const minLines = 1
 // line height + default padding:
-const defaultLineHeight = (baseSize) => baseSize * 1.5 + 10;
-const defaultMaxHeight = (baseSize) => defaultLineHeight(baseSize) * 6;
+const defaultLineHeight = (baseSize) => baseSize * 1.5 + 10
+const defaultMaxHeight = (baseSize) => defaultLineHeight(baseSize) * 6
 const Li = styled.li`
   ${mixins.transition("all", 300)};
   margin: ${(props) => (props.fullscreen ? "10px 0 0 0" : 0)};
@@ -79,7 +79,7 @@ const Li = styled.li`
   hr {
     border: none;
     height: 3px;
-    margin: 1em 0;
+    margin: 1em 0 5px 0;
     background-color: ${(props) =>
       props.fullscreen
         ? props.theme.colors.secondary
@@ -145,18 +145,18 @@ const Li = styled.li`
     }
   }
   // #endregion
-`;
+`
 
 const SolutionIcon = styled(BsJournalText)`
   margin-top: 12px;
   font-size: ${staticSizes.font.lg};
-`;
+`
 
 const SolutionWrapper = styled.div`
   display: block;
   width: 100%;
   padding-left: ${(props) => props.fullscreen && "10px"};
-`;
+`
 
 const Cover = styled.div`
   display: ${(props) => props.fullscreen};
@@ -171,11 +171,11 @@ const Cover = styled.div`
   height: 0;
   content: "";
   bottom: 0;
-`;
+`
 
 const ErrorP = styled.p`
   color: ${(props) => props.theme.colors.inactiveColor};
-`;
+`
 
 const ClipCodeBtn = styled.button`
   background: none;
@@ -198,13 +198,13 @@ const ClipCodeBtn = styled.button`
       opacity: 1;
     }
   }
-`;
+`
 const SuccessIcon = styled(BsCheck2Square)`
   color: ${(props) => props.theme.colors.highlight};
-`;
+`
 const CopyIcon = styled(IoCopy)`
   color: ${(props) => props.theme.colors.link};
-`;
+`
 const ImageLinkText = styled.span`
   position: absolute;
   display: block;
@@ -216,12 +216,12 @@ const ImageLinkText = styled.span`
   box-shadow: 0px 7px 7px -2px rgba(0, 0, 0, 0.8);
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
-`;
+`
 const SpanWrapper = styled.span`
   display: flex;
   width: 100%;
   justify-content: center;
-`;
+`
 const ImageA = styled.a`
   margin: 10px -10px 0 -10px;
   display: block;
@@ -238,25 +238,25 @@ const ImageA = styled.a`
       opacity: 1;
     }
   }
-`;
+`
 
 // #endregion
 
 function isImage(url) {
-  return /\.(jpg|jpeg|png|gif)$/.test(url);
+  return /\.(jpg|jpeg|png|gif)$/.test(url)
 }
 
 function CopyCodeButton({ children, pre, copyText, ...props }) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false)
   return (
     <ClipCodeBtn
       id="ClipButton"
       onClick={() => {
-        navigator.clipboard.writeText(copyText);
-        setCopied(true);
+        navigator.clipboard.writeText(copyText)
+        setCopied(true)
         setTimeout(() => {
-          setCopied(false);
-        }, 1000);
+          setCopied(false)
+        }, 1000)
       }}
       pre={pre}
       {...props}
@@ -264,7 +264,7 @@ function CopyCodeButton({ children, pre, copyText, ...props }) {
       {children}
       {copied ? <SuccessIcon /> : <CopyIcon />}
     </ClipCodeBtn>
-  );
+  )
 }
 
 function Solution({
@@ -276,17 +276,17 @@ function Solution({
   fullscreen,
 }) {
   // #region vars
-  const ref = useRef();
-  const overflow = useIsOverflow(ref);
-  const theme = useTheme();
+  const ref = useRef()
+  const overflow = useIsOverflow(ref)
+  const theme = useTheme()
   useEffect(() => {
     setCanExpand((prev) => {
       if (prev || (!prev && overflow)) {
-        return true;
+        return true
       }
-      return false;
-    });
-  }, [overflow, setCanExpand]);
+      return false
+    })
+  }, [overflow, setCanExpand])
   const pickyTooTall =
     overflow &&
     ref.current &&
@@ -294,9 +294,9 @@ function Solution({
       defaultMaxHeight(theme.baseFontSize) +
         defaultLineHeight(theme.baseFontSize)
       ? true
-      : false;
-  const lines = pickyTooTall ? 5 : 6;
-  const eliped = expanded ? 0 : 1;
+      : false
+  const lines = pickyTooTall ? 5 : 6
+  const eliped = expanded ? 0 : 1
   // #endregion
 
   return (
@@ -335,7 +335,7 @@ function Solution({
                     <code {...props}>{children}</code>
                     <CopyCodeButton pre={true} copyText={children} {...props} />
                   </>
-                );
+                )
               },
               a({ node, href, children, ...props }) {
                 if (isImage(href)) {
@@ -355,13 +355,13 @@ function Solution({
                         />
                       </ImageA>
                     </SpanWrapper>
-                  );
+                  )
                 } else {
                   return (
                     <a href={href} {...props} target="__blank" rel="noreferrer">
                       {children}
                     </a>
-                  );
+                  )
                 }
               },
             }}
@@ -372,7 +372,7 @@ function Solution({
         <Cover overflow={overflow ? 1 : 0} expanded={expanded ? 1 : 0} />
       )}
     </Li>
-  );
+  )
 }
 
-export default Solution;
+export default Solution

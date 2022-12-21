@@ -14,26 +14,26 @@ const CategoryForm = styled(CategoryFormInit)`
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  margin-bottom: 10px;
 `;
 
 const Label = styled(baseTypes.Label)`
   text-align: left;
-  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
+  max-width: ${(props) => props.startup === 1 && defaultSizes.xlCol};
 `;
 const InfoAndErrorDiv = styled(baseTypes.FieldHelperText)`
   margin: 5px 0 10px 0;
   color: ${(props) =>
     props.error ? props.theme.colors.error : props.theme.colors.placeholder};
-  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
+  max-width: ${(props) => props.startup === 1 && defaultSizes.xlCol};
 `;
 
 const WeightWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
   max-width: ${(props) =>
-    props.startup ? defaultSizes.lgCol : props.theme.sizes.mdCol};
+    props.startup ? defaultSizes.xlCol : props.theme.sizes.mdCol};
   width: 100%;
   button {
     min-height: ${staticSizes.font.lg};
@@ -59,7 +59,7 @@ const WeightWrapper = styled.div`
 
 const Submit = styled(baseTypes.DefaultBtn)`
   max-width: ${(props) =>
-    props.startup ? defaultSizes.lgCol : props.theme.sizes.mdCol};
+    props.startup ? defaultSizes.xlCol : props.theme.sizes.mdCol};
   width: 100%;
   padding: 10px;
   font-size: ${staticSizes.font.xl};
@@ -79,7 +79,7 @@ const RightBtn = styled.button`
 const TitleField = styled(baseTypes.ModalField)`
   padding: 10px;
   border-radius: ${staticSizes.radius};
-  max-width: ${(props) => props.startup === 1 && defaultSizes.lgCol};
+  max-width: ${(props) => props.startup === 1 && defaultSizes.xlCol};
   &:hover {
     background-color: ${(props) =>
       props.startup === 1 && props.theme.colors.fieldHover};
@@ -196,7 +196,7 @@ function DemoCategoryEntryForm({ callback, startup, topics, setTopics }) {
             startup={startup ? 1 : 0}
             type="text"
             name="category"
-            placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" or "Web Dev" or "Shortcuts"'
+            placeholder='Try "Video Editing" or "Game Dev" or "5e Builds" or "Web Dev" or "Shortcuts" or "Words That Sound Smart"'
             maxLength="60"
             autoComplete="off"
           />

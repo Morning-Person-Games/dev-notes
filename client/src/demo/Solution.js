@@ -337,13 +337,7 @@ function Solution({
                 if (isImage(href)) {
                   return (
                     <SpanWrapper>
-                      <ImageA
-                        href={href}
-                        {...props}
-                        target="__blank"
-                        rel="noreferrer"
-                        fullscreen={fullscreen}
-                      >
+                      <ImageA href={href} {...props} fullscreen={fullscreen}>
                         <ImageLinkText>{href}</ImageLinkText>
                         <img
                           src={href}
@@ -354,7 +348,7 @@ function Solution({
                   );
                 } else {
                   return (
-                    <a href={href} {...props} target="__blank" rel="noreferrer">
+                    <a href={href} {...props}>
                       {children}
                     </a>
                   );

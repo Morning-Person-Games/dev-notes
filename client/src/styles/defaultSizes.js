@@ -7,6 +7,7 @@ const defaultSizes = {
   smCol: "300px",
   mdCol: "450px",
   lgCol: "600px",
+  xlCol: "750px",
   maxWidth: "910px",
 };
 

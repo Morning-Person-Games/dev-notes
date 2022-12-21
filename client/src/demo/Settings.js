@@ -29,6 +29,35 @@ const FormWrapper = styled(SettingsFormInit)`
   align-items: center;
   display: block;
   width: 100%;
+  input[type="range"] {
+    &::-moz-range-track {
+      width: 100%;
+      height: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      border: 0;
+      background: ${(props) => props.theme.colors.primary};
+      ${mixins.transition()};
+      &:hover {
+        background-color: ${(props) => props.theme.colors.reverseFieldHover};
+      }
+    }
+    &::-moz-range-thumb {
+      height: 28px;
+      width: 28px;
+      border-radius: 30px;
+      border: 0;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -9.5px;
+      background-color: ${(props) => props.theme.colors.highlight};
+      ${mixins.transition()};
+      &:hover {
+        box-shadow: 0px 0px 1px 3px ${(props) => props.theme.colors.background};
+        background-color: ${(props) => props.theme.colors.highlightHover};
+      }
+    }
+  }
 `;
 
 const Submit = styled(baseTypes.DefaultBtn)`
@@ -108,7 +137,7 @@ const Range = styled(FieldInit)`
         margin-top: -9.5px;
         background-color: ${(props) => props.theme.colors.highlight};
         ${mixins.transition()};
-        ${baseTypes.hover} {
+        &:hover {
           box-shadow: 0px 0px 1px 3px
             ${(props) => props.theme.colors.background};
           background-color: ${(props) => props.theme.colors.highlightHover};

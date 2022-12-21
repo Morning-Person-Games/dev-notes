@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import defaultColors from "../styles/defaultColors";
+import defaultSizes from "../styles/defaultSizes";
 import DemoCategoryEntryForm from "./DemoCategoryEntry";
 import { baseTypes, staticSizes } from "../styles/globalStyles";
 import { toast } from "react-toastify";
@@ -14,7 +15,6 @@ const Wrapper = styled.div`
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  text-align: center;
   margin-bottom: 20px;
   background-color: ${defaultColors.background};
   position: absolute;
@@ -27,18 +27,19 @@ const Wrapper = styled.div`
 
 const Title = styled.h1`
   margin-bottom: 0;
-  text-align: center;
 `;
-const Subtitle = styled.h4`
-  color: ${defaultColors.inactiveColor};
+const Subtitle = styled.p`
+  color: ${defaultColors.placeholder};
   font-weight: 400;
-  margin-top: 0;
+  margin: 0 0 10px 0;
   width: 100%;
+  max-width: ${defaultSizes.xlCol};
 `;
 const DemoText = styled(Subtitle)`
   color: ${defaultColors.placeholder};
   width: 100%;
   max-width: initial;
+  margin-bottom: 0;
 `;
 const P = styled.p`
   margin: 0.5em 0;
@@ -79,13 +80,13 @@ const DescriptionToggle = styled.button`
   }
 `;
 const DescriptionWrapper = styled.div`
+  max-width: ${defaultSizes.xlCol};
   background-color: ${defaultColors.secondary};
   padding: 0;
   margin: 20px 0;
   border-radius: 5px;
 `;
 const DescriptionBody = styled.div`
-  background-color: ${defaultColors.secondary};
   padding: 0 0 10px 0;
   padding-bottom: ${(props) => !props.expanded && "0"};
   margin: 0;
@@ -93,20 +94,22 @@ const DescriptionBody = styled.div`
   overflow: hidden;
   transition: max-height 0.2s ease-in;
   height: auto;
-  max-height: ${(props) => (props.expanded ? "290px" : "0")};
+  max-height: ${(props) => (props.expanded ? "initial" : "0")};
 `;
 const FormWrapper = styled.div`
-  max-width: 610px;
-  background-color: ${defaultColors.secondary};
+  max-width: ${defaultSizes.xlCol};
   border-radius: 5px;
-  padding: 20px 10px 0 10px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 `;
 const StartupWrapper = styled(baseTypes.MainContent)`
   display: flex;
   flex-flow: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+`;
+const H2 = styled.h2`
+  //color: ${defaultColors.placeholder};
+  margin: 0 0 5px 0;
 `;
 
 function Startup({
@@ -123,13 +126,11 @@ function Startup({
       <StartupWrapper>
         <Title>Welcome to the Dev Notes Demo!</Title>
         <Subtitle>
-          Dev Notes is a digital journal streamlined to quickly save notes, and
-          quickly find them.
+          Dev Notes is a digital journal streamlined to save and keep track of
+          useful links, code, or whatever useful notes you might have.
         </Subtitle>
         <FormWrapper>
-          <h2 style={{ margin: "0 0 10px 0" }}>
-            Create your first Category to start:
-          </h2>
+          <H2>Create your first Category to start:</H2>
           <DemoCategoryEntryForm
             callback={() => {
               setStartupOn(true);
@@ -153,21 +154,10 @@ function Startup({
             This is a demo,{" "}
             <b>so everything you make here will not be saved.</b> If you decide
             you want to use Dev Notes for yourself, you'll set it up with{" "}
-            <a
-              href="https://www.contentful.com/"
-              target="__blank"
-              rel="noreferrer"
-            >
-              Contentful
-            </a>
-            , and all your Notes will be saved in there! You can find the
-            current setup instructions{" "}
-            <a
-              href="https://github.com/Morning-Person-Games/dev-notes#setup"
-              target="__blank"
-              rel="noreferrer"
-            >
-              here
+            <a href="https://www.contentful.com/">Contentful</a>, and all your
+            Notes will be saved in there! You can find the current{" "}
+            <a href="https://github.com/Morning-Person-Games/dev-notes#setup">
+              setup instructions here
             </a>
             .
           </DemoText>
